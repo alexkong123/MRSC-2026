@@ -472,7 +472,7 @@ const CRITERIA=[{id:'smile',name:'笑容',icon:'☺',ref:171,desc:'員工是否�
 const RATING_LABELS={1:'非常不滿意',2:'不滿意',3:'一般',4:'滿意',5:'非常滿意'};
 const MRSC_MAP={smile:{1:60,2:100,3:140,4:175,5:200},proactive:{1:60,2:100,3:140,4:176,5:200},patience:{1:30,2:60,3:90,4:115,5:140}};
 const MRSC_MAX={smile:200,proactive:200,patience:140};const MRSC_REF={smile:171,proactive:172,patience:103};
-const TIER_OPTIONS=[{v:'low',l:'低紅（≤ MOP 500）'},{v:'mid',l:'中紅（MOP 501–2,000）'},{v:'high',l:'高紅（MOP 2,001–10,000）'},{v:'vip',l:'貴賓（> MOP 10,000）'}];
+const TIER_OPTIONS=[{v:'low',l:'低紅（≤ HKD 500）'},{v:'mid',l:'中紅（HKD 501–2,000）'},{v:'high',l:'高紅（HKD 2,001–10,000）'},{v:'vip',l:'貴賓（> HKD 10,000）'}];
 const TIER_SHORT={low:'低紅',mid:'中紅',high:'高紅',vip:'貴賓'};
 const TIME_SLOTS=[{id:'morning',label:'早班',range:'08:00–13:59'},{id:'afternoon',label:'午班',range:'14:00–17:59'},{id:'evening',label:'晚班',range:'18:00–21:59'},{id:'night',label:'夜班',range:'22:00–07:59'}];
 function getTimeSlot(t){if(!t)return null;const[h]=t.split(':').map(Number);if(isNaN(h))return null;if(h>=8&&h<14)return'morning';if(h>=14&&h<18)return'afternoon';if(h>=18&&h<22)return'evening';return'night';}
