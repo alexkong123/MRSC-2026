@@ -1048,42 +1048,11 @@
             <div class="fld"><label>考察休企 <span class="req">*</span></label>
               <select id="fCompany"><option value="">請選擇</option></select>
             </div>
-           <div class="fld">
-  <label>場館名稱 <span class="req">*</span></label>
-  <select id="fVenueName">
-    <option value="">請選擇場館</option>
-    <optgroup label="銀河娛樂">
-      <option value="澳門銀河">澳門銀河</option>
-      <option value="百老匯">百老匯</option>
-    </optgroup>
-    <optgroup label="金沙中國">
-      <option value="威尼斯人">威尼斯人</option>
-      <option value="倫敦人">倫敦人</option>
-      <option value="巴黎人">巴黎人</option>
-      <option value="金沙">金沙</option>
-    </optgroup>
-    <optgroup label="永利澳門">
-      <option value="永利澳門">永利澳門</option>
-      <option value="永利皇宮">永利皇宮</option>
-    </optgroup>
-    <optgroup label="新濠博亞">
-      <option value="新濠天地">新濠天地</option>
-      <option value="新濠影匯">新濠影匯</option>
-    </optgroup>
-    <optgroup label="美高梅中國">
-      <option value="美獅美高梅">美獅美高梅</option>
-      <option value="澳門美高梅">澳門美高梅</option>
-    </optgroup>
-    <optgroup label="澳娛綜合">
-      <option value="新葡京">新葡京</option>
-      <option value="葡京">葡京</option>
-      <option value="上葡京">上葡京</option>
-      <option value="回力海立方">回力海立方</option>
-      <option value="凱旋門">凱旋門</option>
-    </optgroup>
-    <option value="其他">其他</option>
-  </select>
-</div>
+            <div class="fld"><label>場館名稱 <span class="req">*</span></label>
+              <select id="fVenueName">
+                <option value="">請先選擇考察地點</option>
+              </select>
+            </div>
             <div class="fld"><label>考察部門 <span class="req">*</span></label>
               <select id="fDepartment"><option value="">請選擇部門</option></select>
             </div>
@@ -1243,6 +1212,28 @@ const COMPANIES = [
   { id: 'sjm',    name: '澳娛綜合',   color: '#2ea87a' },
 ];
 
+/* 場館與地點對應表 */
+const VENUE_BY_LOCATION = {
+  '澳門半島': [
+    { group: '銀河娛樂',   venues: ['星際'] },
+    { group: '金沙中國',   venues: ['金沙'] },
+    { group: '永利澳門',   venues: ['永利澳門'] },
+    { group: '美高梅中國', venues: ['澳門美高梅'] },
+    { group: '澳娛綜合',   venues: ['新葡京', '葡京', '回力海立方', '凱旋門'] },
+  ],
+  '氹仔': [
+    { group: '新濠博亞',   venues: ['新濠鋒'] },
+  ],
+  '路氹城': [
+    { group: '銀河娛樂',   venues: ['澳門銀河', '百老匯'] },
+    { group: '金沙中國',   venues: ['威尼斯人', '倫敦人', '巴黎人', '百利宮'] },
+    { group: '永利澳門',   venues: ['永利皇宮'] },
+    { group: '新濠博亞',   venues: ['新濠天地', '新濠影匯'] },
+    { group: '美高梅中國', venues: ['美獅美高梅'] },
+    { group: '澳娛綜合',   venues: ['上葡京'] },
+  ],
+};
+
 const CRITERIA = [
   { id: 'smile',     name: '笑容',   icon: '☺', ref: 171, desc: '員工是否面帶真誠笑容、主動以眼神交流，展現親切的服務態度。' },
   { id: 'proactive', name: '主動性', icon: '↗', ref: 172, desc: '員工是否主動提供協助、詢問客人需求，而非被動等待指示。' },
@@ -1343,7 +1334,7 @@ const YES_NO_OPTIONS = [ { v: 'yes', l: '有' }, { v: 'no', l: '冇' } ];
    部門配置
    ============================================================ */
 const DEPT_CONFIG = {
-'賭檯運作（莊荷）': {
+  '賭檯運作（莊荷）': {
     icon: '🎲', itemLabel: '遊戲記錄',
     summary: '記錄各遊戲種類的開檯數、關檯數與最低投注',
     fields: [
@@ -1351,18 +1342,17 @@ const DEPT_CONFIG = {
         placeholder: '請選擇遊戲',
         options: [
           { v: '百家樂',       l: '百家樂' },
-          { v: '免佣百家樂',       l: '免佣百家樂' },
           { v: '輪盤',         l: '輪盤' },
           { v: '廿一點',       l: '廿一點' },
           { v: '骰寶',         l: '骰寶' },
           { v: '牌九',         l: '牌九' },
-          { v: '富貴三寶',       l: '富貴三寶' },
+          { v: '魚蝦蟹',       l: '魚蝦蟹' },
           { v: '番攤',         l: '番攤' },
+          { v: '角子機',       l: '角子機' },
           { v: '德州撲克',     l: '德州撲克' },
           { v: '加勒比海撲克', l: '加勒比海撲克' },
-          { v: '三公百家樂',         l: '三公百家樂' },
-          { v: '富貴三公',         l: '富貴三公' },
-          { v: '麻雀牌九',         l: '麻雀牌九' },
+          { v: '三公',         l: '三公' },
+          { v: '麻雀',         l: '麻雀' },
           { v: '其他',         l: '其他' },
         ] },
       { key: 'open',   label: '開檯數',        type: 'number', min: 0, max: 500, placeholder: '0' },
@@ -1660,7 +1650,7 @@ function openPasswordChange() {
 }
 
 /* ============================================================
-   venue 正規化（支援舊版結構）
+   venue 正規化
    ============================================================ */
 function normalizeVenue(venue) {
   const out = emptyVenue();
@@ -1729,7 +1719,7 @@ async function migrateLocalDataToCloud() {
   for (const rec of localRecords) {
     try {
       const { id, ...data } = rec;
-      await addDoc(window.recordsCol, { ...data, serverTimestamp: serverTimestamp() });
+      await addDoc(window.recordsCol, { ...data, serverTime: serverTimestamp() });
       successCount++;
     } catch (e) { console.error('遷移失敗：', e); }
   }
@@ -1907,6 +1897,39 @@ function fillDepartmentOptions() {
 }
 
 /* ============================================================
+   根據地點渲染場館下拉
+   ============================================================ */
+function renderVenueOptions(selectedVenue) {
+  const loc = state.form.location || '';
+  const sel = $('#fVenueName');
+  if (!sel) return;
+
+  if (!loc) {
+    sel.innerHTML = '<option value="">請先選擇考察地點</option>';
+    return;
+  }
+
+  const groups = VENUE_BY_LOCATION[loc] || [];
+  let html = '<option value="">請選擇場館</option>';
+
+  if (groups.length === 0) {
+    html += '<option value="其他">其他</option>';
+  } else {
+    groups.forEach(g => {
+      html += `<optgroup label="${escapeHTML(g.group)}">`;
+      g.venues.forEach(v => {
+        const isSel = (selectedVenue && selectedVenue === v) ? 'selected' : '';
+        html += `<option value="${escapeHTML(v)}" ${isSel}>${escapeHTML(v)}</option>`;
+      });
+      html += '</optgroup>';
+    });
+    html += '<option value="其他">其他</option>';
+  }
+
+  sel.innerHTML = html;
+}
+
+/* ============================================================
    表單預設值
    ============================================================ */
 function renderFormDefaults() {
@@ -1916,7 +1939,7 @@ function renderFormDefaults() {
   setVal('#fDate', state.form.date); setVal('#fTime', state.form.time);
   setVal('#fLocation', safeStr(state.form.location));
   setVal('#fCompany', safeStr(state.form.company));
-  setVal('#fVenueName', safeStr(state.form.venueName));
+  renderVenueOptions(state.form.venueName);
   setVal('#fDepartment', safeStr(state.form.department));
   setVal('#fNotes', safeStr(state.form.notes));
 }
@@ -2474,7 +2497,7 @@ function importJSON(file) {
       for (const rec of incoming) {
         try {
           const { id, ...recordData } = rec;
-          await addDoc(window.recordsCol, { ...recordData, serverTimestamp: serverTimestamp() });
+          await addDoc(window.recordsCol, { ...recordData, serverTime: serverTimestamp() });
           successCount++;
         } catch (err) { console.error('匯入失敗：', err); }
       }
@@ -2751,9 +2774,16 @@ function bindAppEvents() {
   const on = (sel, evt, fn) => { const el = $(sel); if (el) el.addEventListener(evt, fn); };
   on('#fDate', 'change', e => { state.form.date = e.target.value; validateForm(); });
   on('#fTime', 'change', e => { state.form.time = e.target.value; validateForm(); });
-  on('#fLocation', 'change', e => { state.form.location = e.target.value; validateForm(); });
+
+  on('#fLocation', 'change', e => {
+    state.form.location = e.target.value;
+    state.form.venueName = '';
+    renderVenueOptions('');
+    validateForm();
+  });
+
   on('#fCompany', 'change', e => { state.form.company = e.target.value; validateForm(); });
-  on('#fVenueName', 'input', e => { state.form.venueName = e.target.value.trim(); validateForm(); });
+  on('#fVenueName', 'change', e => { state.form.venueName = e.target.value.trim(); validateForm(); });
   on('#fNotes', 'input', e => { state.form.notes = e.target.value; });
 
   on('#fDepartment', 'change', e => {
