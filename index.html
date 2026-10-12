@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="zh-Hant" data-theme="dark">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=5">
-<meta name="theme-color" content="#0b0e14">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<title>澳門六大休企服務評核系統 · MRSC 2026</title>
-<style>
+<!DOCTYPE html><html lang="zh-Hant" data-theme="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=5"><meta name="theme-color" content="#0b0e14"><title>澳門六大休企服務評核系統 · MRSC 2026</title><style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root,[data-theme="dark"]{--bg:#0b0e14;--g1:rgba(212,175,55,.09);--g2:rgba(74,144,217,.07);--panel:#141922;--panel2:#1a2029;--pt:rgba(26,32,41,.55);--pb:rgba(20,25,34,.9);--line:#262d3a;--lineS:#1e242f;--text:#e8ecf3;--muted:#8b95a7;--muted2:#6b7a8f;--ph:#4d5666;--gold:#d4af37;--goldS:rgba(212,175,55,.14);--goldD:rgba(212,175,55,.06);--goldB:rgba(212,175,55,.3);--goldB2:rgba(212,175,55,.12);--goldB3:rgba(212,175,55,.25);--danger:#e05252;--green:#2ea87a;--blue:#4a90d9;--purple:#8b5cf6;--dev:#a78bfa;--devBg:rgba(139,92,246,.08);--devB:rgba(139,92,246,.35);--top:rgba(11,14,20,.92);--tabs:rgba(11,14,20,.6);--ph2:rgba(255,255,255,.012);--mo:rgba(0,0,0,.72);--mcT:rgba(26,32,41,.98);--mcB:rgba(20,25,34,.98);--in:#1a2029;--ro:#131820;--row:#141a23;--th:#10151d;--bar:#0e131a;--rk:#1f2733;--st:#2f3846;--str:#10151d;--mct:rgba(26,32,41,.7);--mcb:rgba(20,25,34,.9);--trh:rgba(255,255,255,.014)}
 [data-theme="light"]{--bg:#eef1f6;--g1:rgba(212,175,55,.08);--g2:rgba(74,144,217,.06);--panel:#fff;--panel2:#f4f6fa;--pt:rgba(255,255,255,.95);--pb:#fff;--line:#d5dae2;--lineS:#e6e9ef;--text:#1a1f2e;--muted:#5d6878;--muted2:#7d8897;--ph:#9aa4b3;--gold:#a37800;--goldS:rgba(163,120,0,.14);--goldD:rgba(163,120,0,.07);--goldB:rgba(163,120,0,.3);--goldB2:rgba(163,120,0,.15);--goldB3:rgba(163,120,0,.25);--danger:#c93636;--green:#158052;--blue:#2f6db8;--purple:#7c5ce0;--dev:#7c5ce0;--devBg:rgba(124,92,224,.08);--devB:rgba(124,92,224,.4);--top:rgba(255,255,255,.94);--tabs:rgba(255,255,255,.6);--ph2:rgba(0,0,0,.014);--mo:rgba(0,0,0,.45);--mcT:#fff;--mcB:#fff;--in:#f4f6fa;--ro:#e8ebf1;--row:#f7f9fc;--th:#f0f3f8;--bar:#e6e9ef;--rk:#e6e9ef;--st:#c1c7d1;--str:#eef1f6;--mct:#fff;--mcb:#f4f6fa;--trh:rgba(0,0,0,.02)}
@@ -20,10 +12,10 @@ body{font-family:"PingFang TC","Microsoft JhengHei","Noto Sans TC",-apple-system
 .lf{display:flex;flex-direction:column;gap:14px;text-align:left}
 .lf label{display:flex;flex-direction:column;gap:8px}
 .lf label span{font-size:12px;color:var(--muted);font-weight:600}
-.lf input{background:var(--in);border:1px solid var(--line);color:var(--text);padding:14px 16px;border-radius:10px;font-family:inherit;font-size:16px;outline:none;transition:.18s;min-height:48px}
+.lf input{background:var(--in);border:1px solid var(--line);color:var(--text);padding:14px 16px;border-radius:10px;font-family:inherit;font-size:16px;outline:none;min-height:48px}
 .lf input:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--goldS)}
 .lf input::placeholder{color:var(--ph)}
-.bl{margin-top:10px;padding:15px;background:linear-gradient(135deg,#e0be4d,#b8860b);color:#17120a;border:none;border-radius:10px;font-family:inherit;font-size:15px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:.18s;box-shadow:0 6px 22px rgba(212,175,55,.28);min-height:52px}
+.bl{margin-top:10px;padding:15px;background:linear-gradient(135deg,#e0be4d,#b8860b);color:#17120a;border:none;border-radius:10px;font-family:inherit;font-size:15px;font-weight:700;letter-spacing:1px;cursor:pointer;box-shadow:0 6px 22px rgba(212,175,55,.28);min-height:52px}
 .bl:hover{filter:brightness(1.1)}.bl:active{transform:scale(.98)}
 .bl:disabled{opacity:.4;cursor:not-allowed;filter:none;box-shadow:none}
 .ln{font-size:11px;color:var(--ph);margin-top:22px;line-height:1.7}
@@ -42,7 +34,7 @@ body{font-family:"PingFang TC","Microsoft JhengHei","Noto Sans TC",-apple-system
 .db.show{display:inline-flex}
 .tabs{display:flex;gap:2px;padding:0 24px;background:var(--tabs);border-bottom:1px solid var(--lineS);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .tabs::-webkit-scrollbar{display:none}
-.tab{background:transparent;border:none;color:var(--muted);font-family:inherit;font-size:13.5px;font-weight:600;padding:15px 18px;cursor:pointer;position:relative;white-space:nowrap;transition:.15s;min-height:48px;display:inline-flex;align-items:center}
+.tab{background:transparent;border:none;color:var(--muted);font-family:inherit;font-size:13.5px;font-weight:600;padding:15px 18px;cursor:pointer;position:relative;white-space:nowrap;min-height:48px;display:inline-flex;align-items:center}
 .tab:hover{color:var(--text)}.tab.on{color:var(--gold)}
 .tab.on::after{content:'';position:absolute;bottom:-1px;left:14px;right:14px;height:2px;background:var(--gold);border-radius:2px 2px 0 0;box-shadow:0 0 12px var(--gold)}
 .tab.locked{opacity:.55}.tab.locked::before{content:'🔒';margin-right:5px;font-size:10px}
@@ -60,7 +52,7 @@ main{max-width:1500px;margin:0 auto;padding:20px 24px 60px}
 .dover .lk{width:64px;height:64px;margin:0 auto 18px;border-radius:18px;display:grid;place-items:center;background:var(--devBg);border:1px solid var(--devB);font-size:28px;color:var(--dev)}
 .dover h3{font-size:17px;font-weight:700;margin-bottom:8px}
 .dover p{font-size:13px;color:var(--muted);line-height:1.7;max-width:460px;margin:0 auto 22px}
-.welcome{background:linear-gradient(135deg,var(--goldS),transparent 50%),linear-gradient(180deg,rgba(26,32,41,.7),rgba(20,25,34,.9));border:1px solid var(--goldB2);border-radius:18px;padding:28px;margin-bottom:20px;position:relative;overflow:hidden}
+.welcome{background:linear-gradient(135deg,var(--goldS),transparent 50%),linear-gradient(180deg,rgba(26,32,41,.7),rgba(20,25,34,.9));border:1px solid var(--goldB2);border-radius:18px;padding:28px;margin-bottom:20px}
 [data-theme="light"] .welcome{background:linear-gradient(135deg,var(--goldS),transparent 50%),linear-gradient(180deg,rgba(255,255,255,.95),#fff)}
 .welcome h2{font-size:22px;font-weight:800;margin-bottom:8px}
 .welcome h2 .name{color:var(--gold)}
@@ -70,17 +62,17 @@ main{max-width:1500px;margin:0 auto;padding:20px 24px 60px}
 .wmeta-i .lbl{font-size:10.5px;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;font-weight:600}
 .wmeta-i .val{font-size:15px;color:var(--text);font-weight:700}
 .sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:20px}
-.sc{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:18px 20px;transition:.2s}
+.sc{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
 .sc:hover{border-color:var(--goldB)}
-.sc .sl{font-size:11px;color:var(--muted);letter-spacing:.9px;font-weight:600;margin-bottom:10px}
+.sc .sl{font-size:11px;color:var(--muted);font-weight:600;margin-bottom:10px}
 .sc .sv{font-size:28px;font-weight:800;color:var(--gold);line-height:1.1;margin-bottom:4px}
 .sc .sv small{font-size:13px;color:var(--muted);font-weight:500;margin-left:4px}
 .sc .ss{font-size:11.5px;color:var(--muted)}
 .sc.ab{border-left:3px solid var(--blue)}.sc.ag{border-left:3px solid var(--green)}
 .sc.aa{border-left:3px solid var(--gold)}.sc.ap{border-left:3px solid var(--purple)}
 .mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
-.mcard{background:var(--panel2);border:1px solid var(--line);border-radius:16px;padding:24px 22px;cursor:pointer;transition:.2s;text-align:left;display:flex;flex-direction:column;gap:10px;font-family:inherit;color:var(--text);min-height:140px}
-.mcard:hover{border-color:var(--goldB);transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.mcard{background:var(--panel2);border:1px solid var(--line);border-radius:16px;padding:24px 22px;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:10px;font-family:inherit;color:var(--text);min-height:140px}
+.mcard:hover{border-color:var(--goldB);transform:translateY(-2px)}
 .mcard .mi{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:var(--goldS);color:var(--gold);border:1px solid var(--goldB3);flex-shrink:0}
 .mcard.blue .mi{background:rgba(74,144,217,.14);color:#6aaeff;border-color:rgba(74,144,217,.3)}
 .mcard.green .mi{background:rgba(46,168,122,.14);color:#5ed9a8;border-color:rgba(46,168,122,.3)}
@@ -88,7 +80,6 @@ main{max-width:1500px;margin:0 auto;padding:20px 24px 60px}
 .mcard .mt{font-size:16px;font-weight:700}
 .mcard .md{font-size:12.5px;color:var(--muted);line-height:1.55}
 .mcard .mc{margin-top:auto;font-size:12px;color:var(--gold);font-weight:600}
-.rlist{display:flex;flex-direction:column;gap:8px}
 .recent-item{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;font-size:13px}
 .recent-item .rec-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .recent-item .rec-main{flex:1;min-width:0}
@@ -99,9 +90,9 @@ main{max-width:1500px;margin:0 auto;padding:20px 24px 60px}
 .eb.on{display:flex}.eb strong{color:#6aaeff}.eb button{margin-left:auto}
 .fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
 .fld{display:flex;flex-direction:column;gap:7px;min-width:0}
-.fld label{font-size:11.5px;color:var(--muted);letter-spacing:.8px;font-weight:600;display:flex;align-items:center;gap:5px}
+.fld label{font-size:11.5px;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:5px}
 .fld label .req{color:var(--gold);font-size:13px;line-height:1}
-.fld input,.fld select,.fld textarea{background:var(--in);border:1px solid var(--line);color:var(--text);padding:12px 14px;border-radius:9px;font-family:inherit;font-size:16px;outline:none;transition:.18s;width:100%;min-height:46px}
+.fld input,.fld select,.fld textarea{background:var(--in);border:1px solid var(--line);color:var(--text);padding:12px 14px;border-radius:9px;font-family:inherit;font-size:16px;outline:none;width:100%;min-height:46px}
 .fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--goldS)}
 .fld input::placeholder,.fld textarea::placeholder{color:var(--ph)}
 .fld textarea{resize:vertical;min-height:90px;line-height:1.6}
@@ -113,24 +104,24 @@ main{max-width:1500px;margin:0 auto;padding:20px 24px 60px}
 .errbox h4{font-size:12.5px;font-weight:700;color:var(--danger);margin-bottom:8px}
 .errbox ul{margin:0;padding-left:18px}
 .errbox li{font-size:12.5px;color:var(--danger);line-height:1.7}
-.slabel{font-size:11.5px;color:var(--muted);font-weight:600;letter-spacing:.8px;display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.slabel{font-size:11.5px;color:var(--muted);font-weight:600;display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
 .slabel .sn{font-size:11px;color:var(--muted2);font-weight:500;margin-left:8px}
 .glist{display:flex;flex-direction:column;gap:10px}
-.grow{display:grid;gap:10px;align-items:end;padding:14px;background:var(--row);border:1px solid var(--line);border-radius:10px;transition:.15s;position:relative}
+.grow{display:grid;gap:10px;align-items:end;padding:14px;background:var(--row);border:1px solid var(--line);border-radius:10px;position:relative}
 .grow .fld{gap:5px}
 .grow .fld label{font-size:10.5px;color:var(--muted2)}
 .grow .fld input,.grow .fld select{padding:9px 12px;font-size:14px;min-height:42px}
-.gdel{width:36px;height:36px;border-radius:8px;background:transparent;border:1px solid var(--line);color:var(--muted2);cursor:pointer;font-size:13px;transition:.15s;display:grid;place-items:center;align-self:end;flex-shrink:0}
+.gdel{width:36px;height:36px;border-radius:8px;background:transparent;border:1px solid var(--line);color:var(--muted2);cursor:pointer;font-size:13px;display:grid;place-items:center;align-self:end;flex-shrink:0}
 .gdel:hover{color:var(--danger);border-color:rgba(224,82,82,.4);background:rgba(224,82,82,.06)}
 .gempty{text-align:center;padding:22px 20px;color:var(--ph);font-size:12.5px;background:var(--row);border:1px dashed var(--line);border-radius:10px;line-height:1.6}
 .envs{margin-top:22px;padding-top:22px;border-top:1px solid var(--lineS)}
 .envg{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.envf{display:flex;flex-direction:column;gap:7px;padding:12px 14px;background:var(--goldD);border:1px solid var(--goldB2);border-radius:10px;transition:.15s}
+.envf{display:flex;flex-direction:column;gap:7px;padding:12px 14px;background:var(--goldD);border:1px solid var(--goldB2);border-radius:10px}
 .envf.filled{background:var(--goldD);border-color:var(--goldB)}
 .envf label{font-size:11px;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:6px}
 .envf select{background:var(--in);border:1px solid var(--line);color:var(--text);padding:10px 12px;border-radius:8px;font-family:inherit;font-size:15px;outline:none;width:100%;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='%238b95a7' d='M0 0h12L6 8z'/></svg>");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;min-height:44px}
 .clist{display:flex;flex-direction:column;gap:14px}
-.cr{background:var(--panel2);border:1px solid var(--line);border-radius:13px;padding:16px 18px;transition:.2s}
+.cr{background:var(--panel2);border:1px solid var(--line);border-radius:13px;padding:16px 18px}
 .cr.scored{border-color:var(--goldB)}
 .chead{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
 .cicon{width:38px;height:38px;border-radius:10px;flex-shrink:0;display:grid;place-items:center;font-size:18px;font-weight:800;background:var(--goldS);color:var(--gold);border:1px solid var(--goldB3)}
@@ -139,7 +130,7 @@ main{max-width:1500px;margin:0 auto;padding:20px 24px 60px}
 .cdesc{font-size:12px;color:var(--muted);line-height:1.55}
 .rr{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .rbtns{display:flex;gap:6px;flex-wrap:nowrap;flex:1;min-width:0}
-.rbtn{flex:1;min-width:44px;height:48px;border-radius:10px;background:var(--row);border:1px solid var(--line);color:var(--muted);font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;transition:.15s}
+.rbtn{flex:1;min-width:44px;height:48px;border-radius:10px;background:var(--row);border:1px solid var(--line);color:var(--muted);font-family:inherit;font-size:16px;font-weight:700;cursor:pointer}
 .rbtn:hover{color:var(--text);border-color:var(--st)}.rbtn:active{transform:scale(.95)}
 .rbtn.on{color:#fff;border-color:transparent;box-shadow:0 4px 14px rgba(0,0,0,.3)}
 .rbtn[data-score="1"].on{background:#c94141}.rbtn[data-score="2"].on{background:#d97c28}
@@ -148,7 +139,7 @@ main{max-width:1500px;margin:0 auto;padding:20px 24px 60px}
 .rlbl{font-size:12.5px;color:var(--muted);min-width:120px;text-align:right;font-weight:600}
 .rlbl.on{color:var(--gold)}
 .rlbl .eq{display:block;font-size:10.5px;color:var(--muted);font-weight:500;margin-top:2px}
-.btn{padding:11px 18px;border-radius:10px;border:1px solid transparent;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:.15s;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px}
+.btn{padding:11px 18px;border-radius:10px;border:1px solid transparent;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px}
 .btn:active:not(:disabled){transform:scale(.97)}
 .bp{background:linear-gradient(135deg,#e0be4d,#b8860b);color:#17120a;box-shadow:0 4px 16px rgba(212,175,55,.22)}
 .bp:hover:not(:disabled){filter:brightness(1.1)}
@@ -170,7 +161,7 @@ main{max-width:1500px;margin:0 auto;padding:20px 24px 60px}
 .tw::-webkit-scrollbar-thumb{background:var(--st);border-radius:6px}
 table{border-collapse:collapse;width:100%}
 #rt{min-width:1240px}
-th{background:var(--th);color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.7px;padding:12px;text-align:left;white-space:nowrap;border-bottom:1px solid var(--line)}
+th{background:var(--th);color:var(--muted);font-size:11px;font-weight:700;padding:12px;text-align:left;white-space:nowrap;border-bottom:1px solid var(--line)}
 td{padding:12px;border-bottom:1px solid var(--lineS);font-size:13px;vertical-align:top}
 tbody tr:hover td{background:var(--trh)}
 tbody tr.editing td{background:rgba(74,144,217,.08)}
@@ -192,13 +183,13 @@ tbody tr.editing td{background:rgba(74,144,217,.08)}
 .es .ei{font-size:42px;opacity:.25;margin-bottom:14px}
 .es p{font-size:13.5px;line-height:1.7}
 .mbg{display:flex;gap:8px;flex-wrap:wrap}
-.mbtn{padding:11px 18px;border-radius:10px;background:var(--panel2);border:1px solid var(--line);color:var(--muted);font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;transition:.15s;min-height:44px}
+.mbtn{padding:11px 18px;border-radius:10px;background:var(--panel2);border:1px solid var(--line);color:var(--muted);font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;min-height:44px}
 .mbtn:hover{color:var(--text);border-color:var(--st)}
 .mbtn.on{background:var(--goldS);border-color:var(--gold);color:var(--gold)}
 .fr{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;padding:14px 16px;background:rgba(74,144,217,.05);border:1px solid rgba(74,144,217,.2);border-radius:12px;margin-top:16px}
 .fr .fld label{color:#6aaeff}
 .cp{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin-top:6px}
-.pc{display:flex;align-items:center;gap:8px;padding:12px 14px;border-radius:10px;background:var(--panel2);border:1px solid var(--line);color:var(--text);font-size:13.5px;font-family:inherit;font-weight:500;cursor:pointer;transition:.15s;text-align:left;min-height:48px}
+.pc{display:flex;align-items:center;gap:8px;padding:12px 14px;border-radius:10px;background:var(--panel2);border:1px solid var(--line);color:var(--text);font-size:13.5px;font-family:inherit;font-weight:500;cursor:pointer;text-align:left;min-height:48px}
 .pc:hover:not(:disabled){border-color:var(--st)}
 .pc.on{background:var(--goldS);border-color:var(--gold)}
 .pc:disabled{opacity:.4;cursor:not-allowed}
@@ -213,7 +204,7 @@ tbody tr.editing td{background:rgba(74,144,217,.08)}
 .rlist2{display:flex;flex-direction:column;gap:10px}
 .rrow{display:flex;align-items:center;gap:14px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
 .rb{width:32px;height:32px;flex-shrink:0;border-radius:9px;display:grid;place-items:center;background:var(--rk);color:var(--muted);font-size:13px;font-weight:800}
-.rb.top{background:linear-gradient(135deg,#e0be4d,#b8860b);color:#17120a;box-shadow:0 3px 14px rgba(212,175,55,.3)}
+.rb.top{background:linear-gradient(135deg,#e0be4d,#b8860b);color:#17120a}
 .rm{flex:1;min-width:0}
 .rt2{display:flex;align-items:center;gap:9px;margin-bottom:8px;flex-wrap:wrap}
 .rd{width:9px;height:9px;border-radius:50%;flex-shrink:0}
@@ -223,7 +214,7 @@ tbody tr.editing td{background:rgba(74,144,217,.08)}
 .rs{margin-left:auto;font-size:17px;font-weight:800;color:var(--gold)}
 .rs small{font-size:11px;color:var(--muted);font-weight:500;margin-left:2px}
 .rbar{height:7px;background:var(--bar);border-radius:20px;overflow:hidden}
-.rfill{height:100%;border-radius:20px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.rfill{height:100%;border-radius:20px;transition:width .6s}
 .dw{margin-top:22px}
 .dt{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:1.2px;margin-bottom:12px;display:flex;align-items:center;gap:9px}
 .dt::before{content:'';width:3px;height:13px;background:var(--gold);border-radius:2px}
@@ -233,15 +224,13 @@ tbody tr.editing td{background:rgba(74,144,217,.08)}
 .dref{color:var(--muted);font-size:11px}
 .dc{font-weight:600}.dc.win{color:var(--gold)}
 .draw{font-size:10px;color:var(--muted);display:block;font-weight:500}
-.toast{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(80px);background:#1a2029;border:1px solid #262d3a;color:#e8ecf3;padding:14px 22px;border-radius:12px;font-size:13.5px;font-weight:500;box-shadow:0 10px 40px rgba(0,0,0,.5);z-index:9998;opacity:0;transition:.35s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;gap:10px;pointer-events:none;max-width:calc(100vw - 32px)}
+.toast{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(80px);background:#1a2029;border:1px solid #262d3a;color:#e8ecf3;padding:14px 22px;border-radius:12px;font-size:13.5px;font-weight:500;box-shadow:0 10px 40px rgba(0,0,0,.5);z-index:9998;opacity:0;transition:.35s;display:flex;align-items:center;gap:10px;pointer-events:none;max-width:calc(100vw - 32px)}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast.success{border-color:rgba(46,168,122,.5)}.toast.error{border-color:rgba(224,82,82,.5)}
-.toast .ti{font-size:16px;flex-shrink:0}
-.mo{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;background:var(--mo);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:20px;padding-top:calc(20px + env(safe-area-inset-top));padding-bottom:calc(20px + env(safe-area-inset-bottom));overflow-y:auto}
+.mo{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;background:var(--mo);backdrop-filter:blur(8px);padding:20px;overflow-y:auto}
 .mo.on{display:flex;animation:mfi .2s ease}
 @keyframes mfi{from{opacity:0}to{opacity:1}}
-.mcard-modal{width:100%;max-width:400px;background:linear-gradient(180deg,var(--mcT),var(--mcB));border:1px solid var(--line);border-radius:18px;padding:28px 24px 22px;box-shadow:0 30px 80px rgba(0,0,0,.6);animation:msi .25s cubic-bezier(.4,0,.2,1);margin:auto}
-@keyframes msi{from{transform:scale(.94) translateY(10px);opacity:0}to{transform:none;opacity:1}}
+.mcard-modal{width:100%;max-width:400px;background:linear-gradient(180deg,var(--mcT),var(--mcB));border:1px solid var(--line);border-radius:18px;padding:28px 24px 22px;box-shadow:0 30px 80px rgba(0,0,0,.6);margin:auto}
 .mi2{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--goldS);color:var(--gold);font-size:22px;margin-bottom:16px;border:1px solid var(--goldB)}
 .mi2.dev{background:var(--devBg);color:var(--dev);border-color:var(--devB)}
 .mcard-modal h3{font-size:17px;font-weight:700;margin-bottom:6px}
@@ -250,8 +239,7 @@ tbody tr.editing td{background:rgba(74,144,217,.08)}
 .mf .fld{gap:6px}.mf .fld label{font-size:11.5px}
 .mf .fld input{min-height:48px;font-size:16px;padding:12px 14px}
 .me{display:none;padding:10px 14px;border-radius:9px;background:rgba(224,82,82,.1);border:1px solid rgba(224,82,82,.35);color:#ff9090;font-size:12.5px;font-weight:500;margin-top:12px}
-.me.on{display:block;animation:shake .35s ease}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.me.on{display:block}
 .ma{display:flex;gap:10px;margin-top:22px;padding-top:18px;border-top:1px solid var(--lineS)}
 .ma .btn{flex:1;min-height:48px;font-size:14px}
 @media (max-width:900px){
@@ -262,10 +250,9 @@ tbody tr.editing td{background:rgba(74,144,217,.08)}
 .ua{padding-left:10px;margin-left:auto}.ui{display:none}
 .db{order:4;width:100%;justify-content:center;margin-top:4px}
 .tabs{padding:0 16px}.tab{padding:15px 14px;font-size:14.5px}
-main{padding:14px 16px 50px}
-.panel{border-radius:14px;margin-bottom:12px}
+main{padding:14px 16px 50px}.panel{border-radius:14px;margin-bottom:12px}
 .ph{padding:13px 16px;gap:8px}.ph h2{font-size:15px}.pbody{padding:16px}
-.welcome{padding:22px 20px 20px}.welcome h2{font-size:19px}
+.welcome{padding:22px 20px}.welcome h2{font-size:19px}
 .sg{grid-template-columns:1fr 1fr;gap:10px}.sc{padding:14px 16px}.sc .sv{font-size:24px}
 .mg{grid-template-columns:1fr;gap:10px}.mcard{padding:18px;min-height:auto}
 .fg{grid-template-columns:1fr;gap:12px}
@@ -301,10 +288,9 @@ main{padding:14px 16px 50px}
 .mbtn{padding:12px 16px;font-size:14.5px;flex:1;min-width:calc(33.33% - 6px)}
 .fr{grid-template-columns:1fr}.dtab{min-width:560px}
 .fa{gap:8px}.fa .btn{flex:1;min-width:0;padding:14px 12px;font-size:15px;min-height:50px}
-.btn{font-size:14px}
-.lc{padding:36px 28px 30px}.lf input{font-size:17px;min-height:52px}.bl{font-size:16px;min-height:56px}
-.mcard-modal{padding:26px 22px 20px}.mf .fld input{font-size:17px;min-height:52px}
-.toast{font-size:15px;padding:16px 24px}
+.btn{font-size:14px}.lc{padding:36px 28px 30px}.lf input{font-size:17px;min-height:52px}
+.bl{font-size:16px;min-height:56px}.mcard-modal{padding:26px 22px 20px}
+.mf .fld input{font-size:17px;min-height:52px}.toast{font-size:15px;padding:16px 24px}
 }
 @media (max-width:400px){
 .br h1{font-size:13px}.tb .btn{padding:9px 6px;font-size:12.5px}
@@ -317,7 +303,7 @@ main{padding:12px 12px 50px}.pbody{padding:14px}
 }
 @media print{
 body{background:#fff;color:#111}
-.top,.tabs,.tb,.fa,.ra,.btn,#fr,.mbg,#ap,#ab,.eb,.errbox,#btnAddItem,.gdel,.mg,.welcome,.sg,.db{display:none!important}
+.top,.tabs,.tb,.fa,.ra,.btn,#fr,.mbg,.eb,.errbox,#btnAddItem,.gdel,.mg,.welcome,.sg,.db{display:none!important}
 .tc{display:block!important}
 .tc[data-tab="inspection"],.tc[data-tab="dashboard"]{display:none!important}
 .tw{overflow:visible!important}
@@ -328,1425 +314,303 @@ body{background:#fff;color:#111}
 .panel{border-color:#ccc;background:#fff}.ph{background:#f5f5f5}
 th{background:#f0f0f0;color:#333}td{color:#111;border-color:#ddd}
 }
-</style>
-</head>
-<body>
-
-<div class="lo" id="lo">
-  <div class="lc">
-    <div class="ll">澳</div>
-    <h1>澳門六大休企服務評核系統</h1>
-    <p class="ls">MRSC 神秘顧客評核平台 · 2026</p>
-    <div class="lf">
-      <label><span>考察人員姓名 <span style="color:var(--gold)">*</span></span><input type="text" id="ln" placeholder="請輸入您的真實姓名（至少 2 個字）" autocomplete="off"></label>
-      <label><span>考察人員編號（選填）</span><input type="text" id="lid" placeholder="例：MRSC-A-015" autocomplete="off" maxlength="30"></label>
-      <button class="bl" id="btnLogin" type="button" disabled>進入系統</button>
-    </div>
-    <p class="ln">本系統僅供授權考察人員使用。<br>所有考察記錄一經提交，將自動存檔並標註提交時間與人員身份。</p>
-  </div>
-</div>
-
+</style></head><body>
+<div class="lo" id="lo"><div class="lc"><div class="ll">澳</div><h1>澳門六大休企服務評核系統</h1><p class="ls">MRSC 神秘顧客評核平台 · 2026</p>
+<div class="lf">
+<label><span>考察人員姓名 <span style="color:var(--gold)">*</span></span><input type="text" id="ln" placeholder="請輸入您的真實姓名（至少 2 個字）" autocomplete="off"></label>
+<label><span>考察人員編號（選填）</span><input type="text" id="lid" placeholder="例：MRSC-A-015" autocomplete="off" maxlength="30"></label>
+<button class="bl" id="btnLogin" type="button" disabled>進入系統</button>
+</div><p class="ln">本系統僅供授權考察人員使用。<br>所有考察記錄一經提交，將自動存檔並標註提交時間與人員身份。</p></div></div>
 <div id="app" style="display:none">
-  <header class="top">
-    <div class="br">
-      <div class="lg">澳</div>
-      <div><h1>澳門六大休企服務評核</h1><p>MRSC 2026</p></div>
-    </div>
-    <div class="tb">
-      <button class="btn bg bs" id="btnTheme" type="button" title="切換日間/夜間"><span id="themeIcon">🌙</span></button>
-      <button class="btn bg bs" id="btnHome">首頁</button>
-      <button class="btn bg bs" id="btnImport">匯入</button>
-      <button class="btn bg bs" id="btnExportJSON">匯出 JSON</button>
-      <button class="btn bg bs" id="btnExportCSV">匯出 CSV</button>
-      <button class="btn bg bs" id="btnPrint">列印</button>
-      <button class="btn bdev bs" id="btnDev">開發者</button>
-      <input type="file" id="fileImport" accept=".json" style="display:none">
-    </div>
-    <div class="ua">
-      <div class="db" id="devBadge">🔓 開發者模式</div>
-      <div class="ui"><strong id="topName">—</strong><span id="topId">考察人員</span></div>
-      <div class="av" id="topAvatar">考</div>
-      <button class="btn bg bs" id="btnLogout">登出</button>
-    </div>
-  </header>
-  <nav class="tabs">
-    <button class="tab on" data-tab="dashboard">首頁</button>
-    <button class="tab" data-tab="inspection">新考察記錄</button>
-    <button class="tab" data-tab="records">考察記錄 <span class="badge" id="recBadge">0</span></button>
-    <button class="tab" data-tab="analysis">對比分析</button>
-  </nav>
-  <main>
-    <section class="tc on" data-tab="dashboard">
-      <div class="welcome">
-        <h2>歡迎，<span class="name" id="dashName">考察人員</span></h2>
-        <p>感謝您參與澳門六大休企服務評核。請於下方選擇要進行的操作。</p>
-        <div class="wmeta">
-          <div class="wmeta-i"><div class="lbl">人員編號</div><div class="val" id="dashId">—</div></div>
-          <div class="wmeta-i"><div class="lbl">今日日期</div><div class="val" id="dashToday">—</div></div>
-          <div class="wmeta-i"><div class="lbl">系統版本</div><div class="val">MRSC 2026</div></div>
-        </div>
-      </div>
-      <div class="sg">
-        <div class="sc ab"><div class="sl">📋 總考察記錄</div><div class="sv" id="statTotal">0<small>筆</small></div><div class="ss" id="statTotalSub">尚未提交記錄</div></div>
-        <div class="sc ag"><div class="sl">📅 本週考察</div><div class="sv" id="statWeek">0<small>筆</small></div><div class="ss">最近 7 天</div></div>
-        <div class="sc aa"><div class="sl">🏢 已考察休企</div><div class="sv" id="statCompanies">0<small>/ 6</small></div><div class="ss" id="statCompaniesSub">尚未涵蓋</div></div>
-        <div class="sc ap"><div class="sl">⭐ 平均 MRSC</div><div class="sv" id="statAvg">—</div><div class="ss" id="statAvgSub">尚無資料</div></div>
-      </div>
-      <div class="panel"><div class="ph"><h2><span class="dot"></span>快速操作</h2></div>
-        <div class="pbody"><div class="mg">
-          <button class="mcard" data-goto="inspection"><div class="mi">＋</div><div class="mt">新增考察記錄</div><div class="md">填寫新的神秘顧客考察表單。</div><div class="mc">開始填寫 →</div></button>
-          <button class="mcard blue" data-goto="records"><div class="mi">📋</div><div class="mt">查看考察記錄</div><div class="md">瀏覽所有已提交的考察記錄。</div><div class="mc">查看記錄 →</div></button>
-          <button class="mcard green" data-goto="analysis"><div class="mi">📊</div><div class="mt">對比分析</div><div class="md">依 1:1 至 1:6 模式比較各休企表現。</div><div class="mc">開始分析 →</div></button>
-        </div></div>
-      </div>
-      <div class="panel"><div class="ph"><h2><span class="dot"></span>最近考察記錄</h2><span class="hint" id="recentHint">最新 5 筆</span></div>
-        <div class="pbody"><div class="rlist" id="recentList"></div></div>
-      </div>
-    </section>
-    <section class="tc" data-tab="inspection">
-      <div class="eb" id="editBanner"><span>✎</span><span>正在編輯記錄 <strong id="editRecordId">—</strong></span><button class="btn bg bs" id="btnCancelEdit">取消編輯</button></div>
-      <div class="errbox" id="errorsBox"><h4>請修正以下問題：</h4><ul id="errorsList"></ul></div>
-      <div class="panel"><div class="ph"><h2><span class="dot"></span>考察資訊</h2><span class="hint">必填欄位標示 *</span></div>
-        <div class="pbody"><div class="fg">
-          <div class="fld"><label>考察人員姓名 <span class="req">*</span></label><input type="text" id="fInspector" readonly></div>
-          <div class="fld"><label>考察日期 <span class="req">*</span></label><input type="date" id="fDate"></div>
-          <div class="fld"><label>考察時間 <span class="req">*</span></label><input type="time" id="fTime"></div>
-          <div class="fld"><label>考察地點 <span class="req">*</span></label><select id="fLocation"><option value="">請選擇</option><option>澳門半島</option><option>氹仔</option><option>路氹城</option></select></div>
-          <div class="fld"><label>考察休企 <span class="req">*</span></label><select id="fCompany"><option value="">請選擇</option></select></div>
-          <div class="fld"><label>場館名稱 <span class="req">*</span></label><select id="fVenueName"><option value="">請先選擇地點與休企</option></select></div>
-          <div class="fld"><label>考察部門 <span class="req">*</span></label><select id="fDepartment"><option value="">請選擇部門</option></select></div>
-        </div></div>
-      </div>
-      <div class="panel"><div class="ph"><h2><span class="dot"></span>MRSC 服務評分</h2><span class="hint">三大核心維度</span></div>
-        <div class="pbody"><div class="clist" id="criteriaList"></div></div>
-      </div>
-      <div class="panel"><div class="ph"><h2><span class="dot"></span>現場觀察記錄</h2><span class="hint" id="venueHint">部門專屬項目（選填）</span></div>
-        <div class="pbody" id="venueBody"></div>
-      </div>
-      <div class="panel"><div class="ph"><h2><span class="dot"></span>考察備註</h2></div>
-        <div class="pbody">
-          <div class="fld"><textarea id="fNotes" placeholder="記錄特殊觀察或補充資訊..." maxlength="500"></textarea></div>
-          <div class="fa">
-            <button class="btn bg" id="btnResetForm">清除表單</button>
-            <button class="btn bp" id="btnSaveRecord" disabled>提交考察記錄</button>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="tc" data-tab="records">
-      <div class="panel">
-        <div class="ph"><h2><span class="dot"></span>考察記錄總表</h2>
-          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-            <span class="hint" id="recSummary">共 0 筆紀錄</span>
-            <button class="btn bg bs" id="btnRefresh">重新載入</button>
-            <button class="btn bd bs" id="btnClearAll" style="display:none">清除全部</button>
-          </div>
-        </div>
-        <div class="pbody" style="padding:0">
-          <div class="tw"><table id="rt"><thead><tr>
-            <th>記錄編號</th><th>日期 / 時間</th><th>考察人員</th><th>地點</th>
-            <th>休企 / 場館 / 部門</th><th>現場數據</th>
-            <th style="text-align:center">笑容</th><th style="text-align:center">主動性</th>
-            <th style="text-align:center">耐心</th><th style="text-align:center">綜合 MRSC</th>
-            <th>操作</th>
-          </tr></thead><tbody></tbody></table></div>
-        </div>
-      </div>
-    </section>
-    <section class="tc" data-tab="analysis">
-      <div class="dover" id="analysisLocked">
-        <div class="lk">🔒</div>
-        <h3>開發者專屬功能</h3>
-        <p>「對比分析」僅限開發者使用。請點擊下方按鈕輸入開發者密碼驗證。</p>
-        <button class="btn bdev" id="btnUnlockAnalysis">🔓 輸入開發者密碼</button>
-      </div>
-      <div id="analysisContent" style="display:none">
-        <div class="panel">
-          <div class="ph"><h2><span class="dot"></span>對比設定</h2></div>
-          <div class="pbody">
-            <div class="fld" style="margin-bottom:16px">
-              <label>對比模式</label>
-              <div class="mbg" id="modeGroup">
-                <button class="mbtn on" data-ratio="1">1 : 1</button>
-                <button class="mbtn" data-ratio="2">1 : 2</button>
-                <button class="mbtn" data-ratio="3">1 : 3</button>
-                <button class="mbtn" data-ratio="4">1 : 4</button>
-                <button class="mbtn" data-ratio="5">1 : 5</button>
-                <button class="mbtn" data-ratio="6">1 : 6</button>
-              </div>
-            </div>
-            <div class="fld" style="margin-bottom:16px"><label>基準休企（A 方）</label><select id="anBase"></select></div>
-            <div class="fld">
-              <label>對比休企（B 方）<span class="hint" id="anPickCount" style="margin-left:6px">0 / 1</span></label>
-              <div class="cp" id="anPicker"></div>
-            </div>
-            <div class="fr">
-              <div class="fld"><label>部門篩選</label><select id="filterDept"><option value="">全部部門</option></select></div>
-              <div class="fld"><label>日期起</label><input type="date" id="filterFrom"></div>
-              <div class="fld"><label>日期訖</label><input type="date" id="filterTo"></div>
-            </div>
-            <div class="fa">
-              <button class="btn bg" id="btnResetFilter">清除篩選</button>
-              <button class="btn bp" id="btnRunAnalysis">生成對比分析</button>
-            </div>
-          </div>
-        </div>
-        <div id="analysisResult"></div>
-      </div>
-    </section>
-  </main>
+<header class="top">
+<div class="br"><div class="lg">澳</div><div><h1>澳門六大休企服務評核</h1><p>MRSC 2026</p></div></div>
+<div class="tb">
+<button class="btn bg bs" id="btnTheme" type="button" title="切換日間/夜間"><span id="themeIcon">🌙</span></button>
+<button class="btn bg bs" id="btnHome">首頁</button>
+<button class="btn bg bs" id="btnImport">匯入</button>
+<button class="btn bg bs" id="btnExportJSON">匯出 JSON</button>
+<button class="btn bg bs" id="btnExportCSV">匯出 CSV</button>
+<button class="btn bg bs" id="btnPrint">列印</button>
+<button class="btn bdev bs" id="btnDev">開發者</button>
+<input type="file" id="fileImport" accept=".json" style="display:none">
 </div>
-
-<div class="mo" id="mo">
-  <div class="mcard-modal">
-    <div class="mi2" id="mi">🔒</div>
-    <h3 id="mt">標題</h3>
-    <p class="md2" id="md">說明</p>
-    <div class="mf" id="mf"></div>
-    <div class="me" id="me"></div>
-    <div class="ma">
-      <button class="btn bg" id="mcBtn" type="button">取消</button>
-      <button class="btn bp" id="moBtn" type="button">確定</button>
-    </div>
-  </div>
+<div class="ua">
+<div class="db" id="devBadge">🔓 開發者模式</div>
+<div class="ui"><strong id="topName">—</strong><span id="topId">考察人員</span></div>
+<div class="av" id="topAvatar">考</div>
+<button class="btn bg bs" id="btnLogout">登出</button>
+</div></header>
+<nav class="tabs">
+<button class="tab on" data-tab="dashboard">首頁</button>
+<button class="tab" data-tab="inspection">新考察記錄</button>
+<button class="tab" data-tab="records">考察記錄 <span class="badge" id="recBadge">0</span></button>
+<button class="tab" data-tab="analysis">對比分析</button>
+</nav>
+<main>
+<section class="tc on" data-tab="dashboard">
+<div class="welcome">
+<h2>歡迎，<span class="name" id="dashName">考察人員</span></h2>
+<p>感謝您參與澳門六大休企服務評核。請於下方選擇要進行的操作。</p>
+<div class="wmeta">
+<div class="wmeta-i"><div class="lbl">人員編號</div><div class="val" id="dashId">—</div></div>
+<div class="wmeta-i"><div class="lbl">今日日期</div><div class="val" id="dashToday">—</div></div>
+<div class="wmeta-i"><div class="lbl">系統版本</div><div class="val">MRSC 2026</div></div>
+</div></div>
+<div class="sg">
+<div class="sc ab"><div class="sl">📋 總考察記錄</div><div class="sv" id="statTotal">0<small>筆</small></div><div class="ss" id="statTotalSub">尚未提交記錄</div></div>
+<div class="sc ag"><div class="sl">📅 本週考察</div><div class="sv" id="statWeek">0<small>筆</small></div><div class="ss">最近 7 天</div></div>
+<div class="sc aa"><div class="sl">🏢 已考察休企</div><div class="sv" id="statCompanies">0<small>/ 6</small></div><div class="ss" id="statCompaniesSub">尚未涵蓋</div></div>
+<div class="sc ap"><div class="sl">⭐ 平均 MRSC</div><div class="sv" id="statAvg">—</div><div class="ss" id="statAvgSub">尚無資料</div></div>
 </div>
+<div class="panel"><div class="ph"><h2><span class="dot"></span>快速操作</h2></div>
+<div class="pbody"><div class="mg">
+<button class="mcard" data-goto="inspection"><div class="mi">＋</div><div class="mt">新增考察記錄</div><div class="md">填寫新的神秘顧客考察表單。</div><div class="mc">開始填寫 →</div></button>
+<button class="mcard blue" data-goto="records"><div class="mi">📋</div><div class="mt">查看考察記錄</div><div class="md">瀏覽所有已提交的考察記錄。</div><div class="mc">查看記錄 →</div></button>
+<button class="mcard green" data-goto="analysis"><div class="mi">📊</div><div class="mt">對比分析</div><div class="md">依 1:1 至 1:6 模式比較各休企表現。</div><div class="mc">開始分析 →</div></button>
+</div></div></div>
+<div class="panel"><div class="ph"><h2><span class="dot"></span>最近考察記錄</h2><span class="hint" id="recentHint">最新 5 筆</span></div>
+<div class="pbody"><div class="rlist" id="recentList"></div></div></div>
+</section>
+<section class="tc" data-tab="inspection">
+<div class="eb" id="editBanner"><span>✎</span><span>正在編輯記錄 <strong id="editRecordId">—</strong></span><button class="btn bg bs" id="btnCancelEdit">取消編輯</button></div>
+<div class="errbox" id="errorsBox"><h4>請修正以下問題：</h4><ul id="errorsList"></ul></div>
+<div class="panel"><div class="ph"><h2><span class="dot"></span>考察資訊</h2><span class="hint">必填欄位標示 *</span></div>
+<div class="pbody"><div class="fg">
+<div class="fld"><label>考察人員姓名 <span class="req">*</span></label><input type="text" id="fInspector" readonly></div>
+<div class="fld"><label>考察日期 <span class="req">*</span></label><input type="date" id="fDate"></div>
+<div class="fld"><label>考察時間 <span class="req">*</span></label><input type="time" id="fTime"></div>
+<div class="fld"><label>考察地點 <span class="req">*</span></label><select id="fLocation"><option value="">請選擇</option><option>澳門半島</option><option>氹仔</option><option>路氹城</option></select></div>
+<div class="fld"><label>考察休企 <span class="req">*</span></label><select id="fCompany"><option value="">請選擇</option></select></div>
+<div class="fld"><label>場館名稱 <span class="req">*</span></label><select id="fVenueName"><option value="">請先選擇地點與休企</option></select></div>
+<div class="fld"><label>考察部門 <span class="req">*</span></label><select id="fDepartment"><option value="">請選擇部門</option></select></div>
+</div></div></div>
+<div class="panel"><div class="ph"><h2><span class="dot"></span>MRSC 服務評分</h2><span class="hint">三大核心維度</span></div>
+<div class="pbody"><div class="clist" id="criteriaList"></div></div></div>
+<div class="panel"><div class="ph"><h2><span class="dot"></span>現場觀察記錄</h2><span class="hint" id="venueHint">部門專屬項目（選填）</span></div>
+<div class="pbody" id="venueBody"></div></div>
+<div class="panel"><div class="ph"><h2><span class="dot"></span>考察備註</h2></div>
+<div class="pbody">
+<div class="fld"><textarea id="fNotes" placeholder="記錄特殊觀察或補充資訊..." maxlength="500"></textarea></div>
+<div class="fa"><button class="btn bg" id="btnResetForm">清除表單</button><button class="btn bp" id="btnSaveRecord" disabled>提交考察記錄</button></div>
+</div></div>
+</section>
+<section class="tc" data-tab="records">
+<div class="panel">
+<div class="ph"><h2><span class="dot"></span>考察記錄總表</h2>
+<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+<span class="hint" id="recSummary">共 0 筆紀錄</span>
+<button class="btn bg bs" id="btnRefresh">重新載入</button>
+<button class="btn bd bs" id="btnClearAll" style="display:none">清除全部</button>
+</div></div>
+<div class="pbody" style="padding:0"><div class="tw"><table id="rt"><thead><tr>
+<th>記錄編號</th><th>日期 / 時間</th><th>考察人員</th><th>地點</th>
+<th>休企 / 場館 / 部門</th><th>現場數據</th>
+<th style="text-align:center">笑容</th><th style="text-align:center">主動性</th>
+<th style="text-align:center">耐心</th><th style="text-align:center">綜合 MRSC</th>
+<th>操作</th></tr></thead><tbody></tbody></table></div></div>
+</div>
+</section>
+<section class="tc" data-tab="analysis">
+<div class="dover" id="analysisLocked">
+<div class="lk">🔒</div><h3>開發者專屬功能</h3>
+<p>「對比分析」僅限開發者使用。請點擊下方按鈕輸入開發者密碼驗證。</p>
+<button class="btn bdev" id="btnUnlockAnalysis">🔓 輸入開發者密碼</button>
+</div>
+<div id="analysisContent" style="display:none">
+<div class="panel"><div class="ph"><h2><span class="dot"></span>對比設定</h2></div>
+<div class="pbody">
+<div class="fld" style="margin-bottom:16px"><label>對比模式</label>
+<div class="mbg" id="modeGroup">
+<button class="mbtn on" data-ratio="1">1 : 1</button>
+<button class="mbtn" data-ratio="2">1 : 2</button>
+<button class="mbtn" data-ratio="3">1 : 3</button>
+<button class="mbtn" data-ratio="4">1 : 4</button>
+<button class="mbtn" data-ratio="5">1 : 5</button>
+<button class="mbtn" data-ratio="6">1 : 6</button>
+</div></div>
+<div class="fld" style="margin-bottom:16px"><label>基準休企（A 方）</label><select id="anBase"></select></div>
+<div class="fld"><label>對比休企（B 方）<span class="hint" id="anPickCount" style="margin-left:6px">0 / 1</span></label><div class="cp" id="anPicker"></div></div>
+<div class="fr">
+<div class="fld"><label>部門篩選</label><select id="filterDept"><option value="">全部部門</option></select></div>
+<div class="fld"><label>日期起</label><input type="date" id="filterFrom"></div>
+<div class="fld"><label>日期訖</label><input type="date" id="filterTo"></div>
+</div>
+<div class="fa"><button class="btn bg" id="btnResetFilter">清除篩選</button><button class="btn bp" id="btnRunAnalysis">生成對比分析</button></div>
+</div></div>
+<div id="analysisResult"></div>
+</div>
+</section>
+</main></div>
+<div class="mo" id="mo"><div class="mcard-modal">
+<div class="mi2" id="mi">🔒</div><h3 id="mt">標題</h3><p class="md2" id="md">說明</p>
+<div class="mf" id="mf"></div><div class="me" id="me"></div>
+<div class="ma"><button class="btn bg" id="mcBtn" type="button">取消</button><button class="btn bp" id="moBtn" type="button">確定</button></div>
+</div></div>
 <div class="toast" id="toast"></div>
-
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
-import { getFirestore, collection, setDoc, getDocs, deleteDoc, doc, updateDoc, serverTimestamp, writeBatch } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCej6Mw-8rwuBPaX1QZ_6PtRq49gLp5GBQ",
-  authDomain: "mrsc-2026.firebaseapp.com",
-  projectId: "mrsc-2026",
-  storageBucket: "mrsc-2026.firebasestorage.app",
-  messagingSenderId: "631056702311",
-  appId: "1:631056702311:web:a39ec349380937099d6dc2"
+import{initializeApp}from"https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+import{getFirestore,collection,setDoc,getDocs,deleteDoc,doc,updateDoc,serverTimestamp,writeBatch}from"https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyCej6Mw-8rwuBPaX1QZ_6PtRq49gLp5GBQ",authDomain:"mrsc-2026.firebaseapp.com",projectId:"mrsc-2026",storageBucket:"mrsc-2026.firebasestorage.app",messagingSenderId:"631056702311",appId:"1:631056702311:web:a39ec349380937099d6dc2"};
+const fbApp=initializeApp(firebaseConfig);const db=getFirestore(fbApp);const recordsCol=collection(db,'records');
+const COMPANIES=[{id:'galaxy',name:'銀河娛樂',color:'#d4af37'},{id:'sands',name:'金沙中國',color:'#e05252'},{id:'wynn',name:'永利澳門',color:'#e08a2e'},{id:'melco',name:'新濠博亞',color:'#4a90d9'},{id:'mgm',name:'美高梅中國',color:'#8b5cf6'},{id:'sjm',name:'澳娛綜合',color:'#2ea87a'}];
+const VENUE_BY_LOCATION={
+'澳門半島':[{group:'銀河娛樂',venues:['星際']},{group:'金沙中國',venues:['金沙']},{group:'永利澳門',venues:['永利澳門']},{group:'美高梅中國',venues:['澳門美高梅']},{group:'澳娛綜合',venues:['新葡京','葡京','回力海立方','凱旋門']}],
+'氹仔':[{group:'新濠博亞',venues:['新濠鋒']}],
+'路氹城':[{group:'銀河娛樂',venues:['澳門銀河','百老匯']},{group:'金沙中國',venues:['威尼斯人','倫敦人','巴黎人','百利宮']},{group:'永利澳門',venues:['永利皇宮']},{group:'新濠博亞',venues:['新濠天地','新濠影匯']},{group:'美高梅中國',venues:['美獅美高梅']},{group:'澳娛綜合',venues:['上葡京']}]
 };
-const fbApp = initializeApp(firebaseConfig);
-const db = getFirestore(fbApp);
-const recordsCol = collection(db, 'records');
-
-const COMPANIES = [
-  { id:'galaxy',name:'銀河娛樂',color:'#d4af37'},{id:'sands',name:'金沙中國',color:'#e05252'},
-  { id:'wynn',name:'永利澳門',color:'#e08a2e'},{id:'melco',name:'新濠博亞',color:'#4a90d9'},
-  { id:'mgm',name:'美高梅中國',color:'#8b5cf6'},{id:'sjm',name:'澳娛綜合',color:'#2ea87a'}
-];
-const VENUE_BY_LOCATION = {
-  '澳門半島':[
-    {group:'銀河娛樂',venues:['星際']},{group:'金沙中國',venues:['金沙']},
-    {group:'永利澳門',venues:['永利澳門']},{group:'美高梅中國',venues:['澳門美高梅']},
-    {group:'澳娛綜合',venues:['新葡京','葡京','回力海立方','凱旋門']}
-  ],
-  '氹仔':[{group:'新濠博亞',venues:['新濠鋒']}],
-  '路氹城':[
-    {group:'銀河娛樂',venues:['澳門銀河','百老匯']},
-    {group:'金沙中國',venues:['威尼斯人','倫敦人','巴黎人','百利宮']},
-    {group:'永利澳門',venues:['永利皇宮']},
-    {group:'新濠博亞',venues:['新濠天地','新濠影匯']},
-    {group:'美高梅中國',venues:['美獅美高梅']},
-    {group:'澳娛綜合',venues:['上葡京']}
-  ]
-};
-const CRITERIA = [
-  {id:'smile',name:'笑容',icon:'☺',ref:171,desc:'員工是否面帶真誠笑容、主動以眼神交流，展現親切的服務態度。'},
-  {id:'proactive',name:'主動性',icon:'↗',ref:172,desc:'員工是否主動提供協助、詢問客人需求，而非被動等待指示。'},
-  {id:'patience',name:'耐心',icon:'⏱',ref:103,desc:'員工面對查詢、特殊要求或語言障礙時，是否保持耐心與穩定情緒。'}
-];
-const RATING_LABELS = {1:'非常不滿意',2:'不滿意',3:'一般',4:'滿意',5:'非常滿意'};
-const MRSC_MAP = {
-  smile:{1:60,2:100,3:140,4:175,5:200},
-  proactive:{1:60,2:100,3:140,4:176,5:200},
-  patience:{1:30,2:60,3:90,4:115,5:140}
-};
-const MRSC_MAX = {smile:200,proactive:200,patience:140};
-const MRSC_REF = {smile:171,proactive:172,patience:103};
-const toMRSC = (id,r) => r ? (MRSC_MAP[id]?.[r] ?? 0) : 0;
-const normMRSC = (id,v) => Math.max(0,Math.min((v/(MRSC_MAX[id]||200))*100,100));
-
-const ENV_FIELDS = {
-  traffic:{label:'客流量',icon:'👥',options:[{v:'very-low',l:'很低（稀少）'},{v:'low',l:'低（冷清）'},{v:'medium',l:'中等（一般）'},{v:'high',l:'高（熱鬧）'},{v:'very-high',l:'很高（擁擠）'}]},
-  atmosphere:{label:'場內氛圍',icon:'🎭',options:[{v:'quiet',l:'安靜冷清'},{v:'calm',l:'平和'},{v:'lively',l:'熱鬧'},{v:'exciting',l:'非常熱鬧'},{v:'crowded',l:'擁擠喧鬧'}]},
-  ageGroup:{label:'顧客年齡層',icon:'🧑',options:[{v:'senior',l:'以長者為主'},{v:'middle',l:'以中年為主'},{v:'young',l:'以年輕為主'},{v:'mixed',l:'各年齡層均勻'},{v:'family',l:'家庭客居多'}]},
-  mood:{label:'顧客情緒',icon:'😊',options:[{v:'negative',l:'多數不滿'},{v:'neutral',l:'平淡'},{v:'positive',l:'多數愉悅'},{v:'excited',l:'興致高昂'}]},
-  air:{label:'空氣質量',icon:'🌬',options:[{v:'very-poor',l:'很差（悶熱／異味）'},{v:'poor',l:'較差'},{v:'fair',l:'一般'},{v:'good',l:'良好'},{v:'excellent',l:'優良（清新）'}]},
-  overall:{label:'整體受歡迎程度',icon:'⭐',options:[{v:'unpopular',l:'不受歡迎'},{v:'normal',l:'一般'},{v:'popular',l:'受歡迎'},{v:'very-popular',l:'非常受歡迎'}]}
-};
-const ENV_KEYS = ['traffic','atmosphere','ageGroup','mood','air','overall'];
-const RATING_OPTIONS = [{v:'1',l:'1 差'},{v:'2',l:'2 較差'},{v:'3',l:'3 一般'},{v:'4',l:'4 良好'},{v:'5',l:'5 優良'}];
-const YES_NO_OPTIONS = [{v:'yes',l:'有'},{v:'no',l:'冇'}];
-const GAME_OPTIONS = [
-  {v:'百家樂',l:'百家樂'},{v:'免佣百家樂',l:'免佣百家樂'},{v:'輪盤',l:'輪盤'},
-  {v:'廿一點',l:'廿一點'},{v:'骰寶',l:'骰寶'},{v:'富貴三寶',l:'富貴三寶'},
-  {v:'花旗骰',l:'花旗骰'},{v:'牌九',l:'牌九'},{v:'番攤',l:'番攤'},
-  {v:'德州撲克',l:'德州撲克'},{v:'加勒比海撲克',l:'加勒比海撲克'},
-  {v:'三公百家樂',l:'三公百家樂'},{v:'麻雀牌九',l:'麻雀牌九'},{v:'其他',l:'其他'}
-];
-const DEPT_CONFIG = {
-  '賭檯運作（中場）':{icon:'🎲',itemLabel:'遊戲記錄',summary:'中場',fields:[
-    {key:'name',label:'遊戲種類',type:'select',span:2,placeholder:'請選擇遊戲',options:GAME_OPTIONS},
-    {key:'open',label:'開檯數',type:'number',min:0,max:500,placeholder:'0'},
-    {key:'closed',label:'關檯數',type:'number',min:0,max:500,placeholder:'0'},
-    {key:'minBet',label:'最低投注(MOP)',type:'number',min:0,max:1000000,step:10,placeholder:'300'}
-  ]},
-  '賭檯運作（高投）':{icon:'💎',itemLabel:'遊戲記錄',summary:'高投',fields:[
-    {key:'name',label:'遊戲種類',type:'select',span:2,placeholder:'請選擇遊戲',options:GAME_OPTIONS},
-    {key:'open',label:'開檯數',type:'number',min:0,max:200,placeholder:'0'},
-    {key:'closed',label:'關檯數',type:'number',min:0,max:200,placeholder:'0'},
-    {key:'minBet',label:'最低投注(MOP)',type:'number',min:0,max:10000000,step:100,placeholder:'1000'}
-  ]},
-  '角子機':{icon:'🎰',itemLabel:'機台記錄',summary:'角子機',fields:[
-    {key:'name',label:'機台類型',type:'text',span:2,placeholder:'例：標準角子機'},
-    {key:'open',label:'開啟機數',type:'number',min:0,max:5000,placeholder:'0'},
-    {key:'closed',label:'關閉機數',type:'number',min:0,max:5000,placeholder:'0'},
-    {key:'minBet',label:'最低投注(MOP)',type:'number',min:0,max:100000,step:1,placeholder:'1'}
-  ]},
-  '籌碼兌換':{icon:'💱',itemLabel:'櫃檯記錄',summary:'兌換',fields:[
-    {key:'name',label:'櫃檯位置',type:'text',span:2,placeholder:'例：主廳兌換櫃檯'},
-    {key:'open',label:'開啟櫃檯數',type:'number',min:0,max:200,placeholder:'0'},
-    {key:'queue',label:'排隊人數',type:'number',min:0,max:500,placeholder:'0'},
-    {key:'waitTime',label:'等候(分鐘)',type:'number',min:0,max:120,placeholder:'0'}
-  ]},
-  '保安':{icon:'🛡',itemLabel:'崗位記錄',summary:'保安',fields:[
-    {key:'position',label:'崗位位置',type:'select',span:2,placeholder:'請選擇崗位',options:[{v:'inside',l:'場內'},{v:'entrance',l:'門口'}]},
-    {key:'uniform',label:'制服整潔',type:'select',placeholder:'請評分',options:RATING_OPTIONS},
-    {key:'politeness',label:'禮貌',type:'select',placeholder:'請評分',options:RATING_OPTIONS},
-    {key:'posture',label:'站姿',type:'select',showIf:{key:'position',value:'inside'},placeholder:'請評分',options:RATING_OPTIONS},
-    {key:'entryTime',label:'進場用時(分)',type:'number',showIf:{key:'position',value:'entrance'},min:0,max:60,placeholder:'0'}
-  ]},
-  '會籍服務':{icon:'💳',itemLabel:'服務記錄',summary:'會籍',fields:[
-    {key:'name',label:'服務項目',type:'text',span:2,placeholder:'例：開卡 / 積分查詢'},
-    {key:'open',label:'開啟櫃檯數',type:'number',min:0,max:100,placeholder:'0'},
-    {key:'queue',label:'排隊人數',type:'number',min:0,max:500,placeholder:'0'},
-    {key:'waitTime',label:'等候(分鐘)',type:'number',min:0,max:120,placeholder:'0'}
-  ]},
-  '穿梭巴士':{icon:'🚌',itemLabel:'班次記錄',summary:'巴士',fields:[
-    {key:'name',label:'路線',type:'text',span:2,placeholder:'例：關閘線 / 港珠澳大橋線'},
-    {key:'open',label:'本時段班次',type:'number',min:0,max:200,placeholder:'0'},
-    {key:'queue',label:'候車人數',type:'number',min:0,max:1000,placeholder:'0'},
-    {key:'waitTime',label:'等候(分鐘)',type:'number',min:0,max:120,placeholder:'0'},
-    {key:'wifi',label:'車內提供 WiFi',type:'select',placeholder:'請選擇',options:YES_NO_OPTIONS},
-    {key:'water',label:'車內提供樽裝水',type:'select',placeholder:'請選擇',options:YES_NO_OPTIONS}
-  ]},
-  '衣帽間':{icon:'🧥',itemLabel:'寄存記錄',summary:'衣帽間',fields:[
-    {key:'name',label:'服務項目',type:'text',span:2,placeholder:'例：寄存行李 / 取件'},
-    {key:'open',label:'開啟窗口數',type:'number',min:0,max:50,placeholder:'0'},
-    {key:'queue',label:'排隊人數',type:'number',min:0,max:500,placeholder:'0'},
-    {key:'waitTime',label:'等候(分鐘)',type:'number',min:0,max:120,placeholder:'0'}
-  ]}
-};
-const DEPARTMENT_NAMES = Object.keys(DEPT_CONFIG);
-const DEFAULT_DEPT_CONFIG = {icon:'📝',itemLabel:'觀察記錄',summary:'其他',fields:[
-  {key:'name',label:'項目',type:'text',span:2,placeholder:'例：項目名稱'},
-  {key:'open',label:'數量',type:'number',min:0,max:10000,placeholder:'0'},
-  {key:'closed',label:'備註數值',type:'number',min:0,max:10000,placeholder:'0'},
-  {key:'minBet',label:'金額(MOP)',type:'number',min:0,max:1000000,step:10,placeholder:'0'}
-]};
-const getDeptConfig = d => DEPT_CONFIG[(d||'').trim()] || DEFAULT_DEPT_CONFIG;
-const isFieldVisible = (f,it) => !f.showIf || ((it ? it[f.showIf.key] : '') === f.showIf.value);
-
-const PWD_KEY = 'mrsc_export_password';
-const DEV_KEY = 'mrsc_dev_verified';
-const THEME_KEY = 'mrsc_theme';
-const DEFAULT_PWD = '123456';
-const SESSION_KEY = 'mrsc_session';
-const getStoredPassword = () => { try { const s = localStorage.getItem(PWD_KEY); return s === null ? DEFAULT_PWD : s; } catch(e) { return DEFAULT_PWD; } };
-const setStoredPassword = p => { try { localStorage.setItem(PWD_KEY, p); return true; } catch(e) { return false; } };
-const getTheme = () => { try { return localStorage.getItem(THEME_KEY) === 'light' ? 'light' : 'dark'; } catch(e) { return 'dark'; } };
-function applyTheme(t) {
-  document.documentElement.setAttribute('data-theme', t);
-  const ti = document.getElementById('themeIcon'); if (ti) ti.textContent = t === 'dark' ? '🌙' : '☀️';
-  const m = document.querySelector('meta[name="theme-color"]');
-  if (m) m.setAttribute('content', t === 'dark' ? '#0b0e14' : '#eef1f6');
-  if (state.records.length > 0) renderAnalysisResult();
-}
-function setTheme(t) { try { localStorage.setItem(THEME_KEY, t); } catch(e){} applyTheme(t); }
-function toggleTheme() { const n = getTheme() === 'dark' ? 'light' : 'dark'; setTheme(n); showToast(n === 'dark' ? '已切換至夜間模式' : '已切換至日間模式', 'success'); }
-
-const safeSessionGet = k => { try { return sessionStorage.getItem(k); } catch(e) { return null; } };
-const safeSessionSet = (k,v) => { try { sessionStorage.setItem(k,v); } catch(e){} };
-const safeSessionRemove = k => { try { sessionStorage.removeItem(k); } catch(e){} };
-const isDeveloper = () => safeSessionGet(DEV_KEY) === '1';
-function setDeveloper(v) {
-  if (v) safeSessionSet(DEV_KEY, '1'); else safeSessionRemove(DEV_KEY);
-  updateDevBadge();
-}
-function updateDevBadge() {
-  const b = document.getElementById('devBadge'); if (b) b.classList.toggle('show', isDeveloper());
-  const c = document.getElementById('btnClearAll'); if (c) c.style.display = isDeveloper() ? '' : 'none';
-  const t = document.querySelector('.tab-btn[data-tab="analysis"]'); if (t) t.classList.toggle('locked', !isDeveloper());
-  if (document.getElementById('rt')) renderRecordTable();
-}
-
-const $ = (s,r=document) => r.querySelector(s);
-const $$ = (s,r=document) => Array.from(r.querySelectorAll(s));
-const todayISO = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
-const nowTime = () => { const d = new Date(); return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`; };
-const escapeHTML = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const getCompany = id => COMPANIES.find(c => c.id === id);
-const safeStr = v => (v === null || v === undefined) ? '' : String(v);
-const emptyVenue = () => ({items:[],env:{}});
-
-const state = {
-  inspector:{name:'',id:''}, records:[], editingId:null, _lastDept:'',
-  form:{date:'',time:'',location:'',company:'',venueName:'',department:'',ratings:{smile:null,proactive:null,patience:null},venue:emptyVenue(),notes:''},
-  comparison:{ratio:1,base:'galaxy',picks:[],departmentFilter:'',dateFrom:'',dateTo:''}
-};
-
-function showToast(msg, type='') {
-  const el = document.getElementById('toast'); if (!el) return;
-  const icons = {success:'✓',error:'✕','':'ℹ'};
-  el.className = 'toast ' + type;
-  el.innerHTML = `<span class="ti">${icons[type]||'ℹ'}</span><span>${escapeHTML(msg)}</span>`;
-  el.classList.add('on');
-  clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove('on'), 2800);
-}
-
-let _modalCtx = null;
-function openModal(cfg) {
-  const o = document.getElementById('mo'); if (!o) return;
-  const icon = document.getElementById('mi');
-  icon.className = 'mi2' + (cfg.iconType === 'dev' ? ' dev' : '');
-  icon.textContent = cfg.icon || '🔒';
-  document.getElementById('mt').textContent = cfg.title || '';
-  const d = document.getElementById('md'); d.textContent = cfg.desc || '';
-  d.style.display = cfg.desc ? 'block' : 'none';
-  const fields = cfg.fields || [];
-  document.getElementById('mf').innerHTML = fields.map(f => `
-    <div class="fld"><label>${escapeHTML(f.label)}</label>
-    <input type="${f.type||'password'}" id="${f.id}" placeholder="${escapeHTML(f.placeholder||'')}"
-      value="${escapeHTML(f.value||'')}" autocomplete="off" spellcheck="false"
-      ${f.maxlength?`maxlength="${f.maxlength}"`:''}></div>`).join('');
-  const e = document.getElementById('me'); e.classList.remove('on'); e.textContent = '';
-  document.getElementById('moBtn').textContent = cfg.confirmText || '確定';
-  document.getElementById('mcBtn').textContent = cfg.cancelText || '取消';
-  _modalCtx = {fields, onSubmit: cfg.onSubmit};
-  o.classList.add('on');
-  setTimeout(() => { const f = document.querySelector('#mf input'); if (f) try { f.focus(); } catch(e){} }, 200);
-}
-function closeModal() { const o = document.getElementById('mo'); if (o) o.classList.remove('on'); _modalCtx = null; }
-function modalErr(msg) {
-  const e = document.getElementById('me'); if (!e) return;
-  e.textContent = msg; e.classList.add('on');
-  e.style.animation = 'none'; void e.offsetWidth; e.style.animation = '';
-}
-function submitModal() {
-  if (!_modalCtx) return;
-  const vals = {};
-  _modalCtx.fields.forEach(f => { const el = document.getElementById(f.id); vals[f.id] = el ? el.value : ''; });
-  const r = _modalCtx.onSubmit(vals);
-  if (r && typeof r === 'object' && r.error) { modalErr(r.error); return; }
-  if (r === false) return;
-  closeModal();
-}
-function requirePasswordThen(fn, label) {
-  openModal({
-    icon:'🔒', title:'匯出需要密碼',
-    desc:`為保護考察資料，${label||'匯出'}前請先輸入密碼。`,
-    fields:[{id:'pwd',label:'匯出密碼',type:'password',placeholder:'請輸入密碼',maxlength:50}],
-    confirmText:'確認匯出',
-    onSubmit:v => {
-      const p = (v.pwd||'').trim();
-      if (!p) return {error:'請輸入密碼'};
-      if (p !== getStoredPassword()) return {error:'密碼錯誤，請重試'};
-      setTimeout(() => { try { fn(); } catch(e) { showToast('匯出失敗：' + (e.message||'未知錯誤'), 'error'); } }, 150);
-      return true;
-    }
-  });
-}
-function requireDeveloperThen(fn, descText) {
-  if (isDeveloper()) { fn(); return; }
-  openModal({
-    icon:'🔓', iconType:'dev', title:'開發者驗證',
-    desc: descText || '此功能僅限開發者使用，請輸入開發者密碼。',
-    fields:[{id:'pwd',label:'開發者密碼',type:'password',placeholder:'請輸入密碼',maxlength:50}],
-    confirmText:'驗證',
-    onSubmit:v => {
-      const p = (v.pwd||'').trim();
-      if (!p) return {error:'請輸入密碼'};
-      if (p !== getStoredPassword()) return {error:'密碼錯誤'};
-      setDeveloper(true);
-      setTimeout(() => { showToast('已進入開發者模式', 'success'); try { fn(); } catch(e){} }, 150);
-      return true;
-    }
-  });
-}
-function openDevPanel() {
-  if (isDeveloper()) { openPasswordChange(); return; }
-  openModal({
-    icon:'⚙', iconType:'dev', title:'開發者模式',
-    desc:'請輸入開發者密碼以進入設定。預設密碼為 123456。',
-    fields:[{id:'pwd',label:'開發者密碼',type:'password',placeholder:'請輸入密碼',maxlength:50}],
-    confirmText:'進入設定',
-    onSubmit:v => {
-      const p = (v.pwd||'').trim();
-      if (!p) return {error:'請輸入密碼'};
-      if (p !== getStoredPassword()) return {error:'密碼錯誤'};
-      setDeveloper(true);
-      setTimeout(() => { showToast('已進入開發者模式', 'success'); openPasswordChange(); }, 150);
-      return true;
-    }
-  });
-}
-function openPasswordChange() {
-  openModal({
-    icon:'🔑', iconType:'dev', title:'開發者設定',
-    desc:'修改匯出密碼（至少 4 字元）。若兩個欄位留空，則登出開發者模式。',
-    fields:[
-      {id:'newPwd',label:'新密碼',type:'password',placeholder:'至少 4 個字元（留空可登出）',maxlength:50},
-      {id:'confirmPwd',label:'確認新密碼',type:'password',placeholder:'再次輸入',maxlength:50}
-    ],
-    confirmText:'儲存 / 登出',
-    onSubmit:v => {
-      const a = (v.newPwd||'').trim();
-      const b = (v.confirmPwd||'').trim();
-      if (!a && !b) { setDeveloper(false); setTimeout(() => showToast('已登出開發者模式', 'success'), 150); return true; }
-      if (a.length < 4) return {error:'密碼至少 4 個字元'};
-      if (a !== b) return {error:'兩次輸入不一致'};
-      if (a === DEFAULT_PWD) return {error:'不可使用預設密碼'};
-      if (setStoredPassword(a)) { setTimeout(() => showToast('匯出密碼已更新', 'success'), 150); return true; }
-      return {error:'儲存失敗'};
-    }
-  });
-}
-function normalizeVenue(venue) {
-  const out = emptyVenue();
-  if (!venue || typeof venue !== 'object') return out;
-  if (Array.isArray(venue.items)) out.items = venue.items.filter(it => it && typeof it === 'object').map(it => ({...it}));
-  else if (Array.isArray(venue.games)) out.items = venue.games.filter(g => g && typeof g === 'object').map(g => ({name:safeStr(g.name),open:safeStr(g.tablesOpen),closed:safeStr(g.tablesClosed),minBet:safeStr(g.minBet)}));
-  else if (typeof venue.games === 'string' && venue.games) out.items = [{name:safeStr(venue.games),open:safeStr(venue.tablesOpen),closed:safeStr(venue.tablesClosed),minBet:safeStr(venue.minBet)}];
-  if (venue.env && typeof venue.env === 'object') out.env = {...venue.env};
-  else out.env = {traffic:safeStr(venue.traffic),air:safeStr(venue.air)};
-  return out;
-}
-async function fetchRecordsFromCloud() {
-  try {
-    showToast('正在從雲端載入資料...', '');
-    const snapshot = await getDocs(recordsCol);
-    state.records = snapshot.docs.map(d => ({id:d.id, ...d.data()}));
-    state.records.sort((a,b) => {
-      const ta = a.updatedAt || a.submittedAt || '';
-      const tb = b.updatedAt || b.submittedAt || '';
-      return tb.localeCompare(ta);
-    });
-    renderRecordTable(); renderDashboard(); renderAnalysisSection();
-    showToast(`已載入 ${state.records.length} 筆雲端記錄`, 'success');
-  } catch(e) {
-    console.error('載入失敗：', e);
-    showToast('載入失敗：' + e.message + '（請檢查 Firestore 規則）', 'error');
-    throw e;
-  }
-}
-async function migrateLocalDataToCloud() {
-  const LEGACY = ['mrsc_records_v6','mrsc_records_v5','mrsc_records_v4','mrsc_records_v3','mrsc_records_v2','mrsc_records_v1','gsi_records_v3','gsi_records_v2'];
-  let localRecords = null;
-  for (const key of LEGACY) {
-    const raw = localStorage.getItem(key);
-    if (raw) { try { const d = JSON.parse(raw); if (d && Array.isArray(d.records)) { localRecords = d.records; break; } } catch(e){} }
-  }
-  if (!localRecords || localRecords.length === 0) return;
-  if (!confirm(`偵測到本機有 ${localRecords.length} 筆舊記錄，是否要上傳到雲端？`)) return;
-  let n = 0;
-  for (const rec of localRecords) {
-    try {
-      const {id, ...data} = rec;
-      const docId = id || ('MRSC-LEGACY-' + Date.now() + '-' + Math.random().toString(36).slice(2,8));
-      await setDoc(doc(db, 'records', docId), {...data, _legacyId:id, serverTime:serverTimestamp()});
-      n++;
-    } catch(e) { console.error('遷移失敗：', e); }
-  }
-  showToast(`已成功上傳 ${n} 筆記錄`, 'success');
-  LEGACY.forEach(k => localStorage.removeItem(k));
-  await fetchRecordsFromCloud();
-}
-function renderDashboard() {
-  const nEl = document.getElementById('dashName'); const iEl = document.getElementById('dashId'); const tEl = document.getElementById('dashToday');
-  if (nEl) nEl.textContent = state.inspector.name || '考察人員';
-  if (iEl) iEl.textContent = state.inspector.id || '—';
-  if (tEl) { const d = new Date(); const w = ['日','一','二','三','四','五','六'][d.getDay()]; tEl.textContent = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}（週${w}）`; }
-  const total = state.records.length;
-  const totEl = document.getElementById('statTotal'); if (totEl) totEl.innerHTML = `${total}<small>筆</small>`;
-  const totSub = document.getElementById('statTotalSub'); if (totSub) totSub.textContent = total === 0 ? '尚未提交記錄' : `最後更新：${getLastUpdatedLabel()}`;
-  const now = new Date(); const weekAgo = new Date(now.getTime() - 7*24*3600*1000);
-  const wc = state.records.filter(r => { if (!r.date) return false; const d = new Date(r.date + 'T00:00:00'); return d >= weekAgo && d <= now; }).length;
-  const wEl = document.getElementById('statWeek'); if (wEl) wEl.innerHTML = `${wc}<small>筆</small>`;
-  const cc = new Set(state.records.map(r => r.companyId)).size;
-  const cEl = document.getElementById('statCompanies'); if (cEl) cEl.innerHTML = `${cc}<small>/ ${COMPANIES.length}</small>`;
-  const cSub = document.getElementById('statCompaniesSub');
-  if (cSub) { if (cc === 0) cSub.textContent = '尚未涵蓋任何休企'; else if (cc === COMPANIES.length) cSub.textContent = '已涵蓋全部休企'; else cSub.textContent = `尚餘 ${COMPANIES.length - cc} 間未考察`; }
-  const aEl = document.getElementById('statAvg'); const aSub = document.getElementById('statAvgSub');
-  if (total === 0) { if (aEl) aEl.textContent = '—'; if (aSub) aSub.textContent = '尚無資料'; }
-  else {
-    const avg = state.records.reduce((s,r) => {
-      const nS = normMRSC('smile', toMRSC('smile', r.ratings.smile));
-      const nP = normMRSC('proactive', toMRSC('proactive', r.ratings.proactive));
-      const nT = normMRSC('patience', toMRSC('patience', r.ratings.patience));
-      return s + ((nS+nP+nT)/3)*2;
-    }, 0) / total;
-    if (aEl) aEl.innerHTML = `${avg.toFixed(1)}<small>/ 200</small>`;
-    if (aSub) aSub.textContent = `基於 ${total} 筆記錄`;
-  }
-  renderRecentList();
-}
-function getLastUpdatedLabel() {
-  if (state.records.length === 0) return '—';
-  const sorted = [...state.records].sort((a,b) => (b.updatedAt||b.submittedAt||'').localeCompare(a.updatedAt||a.submittedAt||''));
-  const ts = sorted[0].updatedAt || sorted[0].submittedAt;
-  if (!ts) return '—';
-  const d = new Date(ts); const diff = Date.now() - d.getTime();
-  const min = Math.floor(diff/60000);
-  if (min < 1) return '剛剛';
-  if (min < 60) return `${min} 分鐘前`;
-  const hr = Math.floor(min/60);
-  if (hr < 24) return `${hr} 小時前`;
-  const day = Math.floor(hr/24);
-  if (day < 7) return `${day} 天前`;
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-}
-function renderRecentList() {
-  const w = document.getElementById('recentList'); const h = document.getElementById('recentHint');
-  if (!w) return;
-  if (state.records.length === 0) {
-    w.innerHTML = `<div class="es" style="padding:30px 20px"><div class="ei">📋</div><p>尚無考察記錄。<br>點擊上方「新增考察記錄」開始填寫。</p></div>`;
-    if (h) h.textContent = '最新 5 筆'; return;
-  }
-  const sorted = [...state.records].sort((a,b) => (b.updatedAt||b.submittedAt||'').localeCompare(a.updatedAt||a.submittedAt||'')).slice(0,5);
-  if (h) h.textContent = `最新 ${sorted.length} 筆`;
-  w.innerHTML = sorted.map(r => {
-    const c = getCompany(r.companyId);
-    const nS = normMRSC('smile', toMRSC('smile', r.ratings.smile));
-    const nP = normMRSC('proactive', toMRSC('proactive', r.ratings.proactive));
-    const nT = normMRSC('patience', toMRSC('patience', r.ratings.patience));
-    const ov = Math.round(((nS+nP+nT)/3)*2);
-    return `<div class="recent-item">
-      <span class="rec-dot" style="background:${c?.color||'#888'}"></span>
-      <div class="rec-main"><strong>${escapeHTML(c?.name||'—')} · ${escapeHTML(r.venueName||'—')}</strong>
-      <span>${escapeHTML(r.date)} ${escapeHTML(r.time)} · ${escapeHTML(r.department||'—')} · ${escapeHTML(r.inspectorName||'')}</span></div>
-      <span class="rec-score">${ov}</span></div>`;
-  }).join('');
-}
-function initLogin() {
-  const n = document.getElementById('ln'); const i = document.getElementById('lid'); const b = document.getElementById('btnLogin');
-  if (!n || !i || !b) return;
-  n.value = ''; i.value = '';
-  const upd = () => { b.disabled = (n.value||'').trim().length < 2; };
-  ['input','keyup','change','compositionend','paste','blur'].forEach(evt => n.addEventListener(evt, () => setTimeout(upd, 0)));
-  upd();
-  const enter = e => { if (e.key === 'Enter' && !b.disabled) { e.preventDefault(); b.click(); } };
-  n.addEventListener('keydown', enter); i.addEventListener('keydown', enter);
-  b.addEventListener('click', () => {
-    const name = (n.value||'').trim();
-    if (name.length < 2) { showToast('請輸入至少 2 個字的姓名', 'error'); return; }
-    state.inspector.name = name;
-    state.inspector.id = (i.value||'').trim() || ('MRSC-' + Date.now().toString(36).toUpperCase().slice(-6));
-    safeSessionSet(SESSION_KEY, '1');
-    try { enterApp(); } catch(err) { showToast('進入系統失敗：' + (err?.message||'未知錯誤'), 'error'); }
-  });
-  setTimeout(() => { try { n.focus(); } catch(e){} }, 100);
-}
-async function enterApp() {
-  const o = document.getElementById('lo'); const a = document.getElementById('app');
-  if (o) o.style.display = 'none'; if (a) a.style.display = 'block';
-  const tn = document.getElementById('topName'); const ti = document.getElementById('topId');
-  const ta = document.getElementById('topAvatar'); const fi = document.getElementById('fInspector');
-  if (tn) tn.textContent = state.inspector.name;
-  if (ti) ti.textContent = state.inspector.id;
-  if (ta) ta.textContent = (state.inspector.name||'考').charAt(0);
-  if (fi) fi.value = state.inspector.name;
-  fillCompanyOptions(); fillDepartmentOptions(); renderCriteria(); renderFormDefaults();
-  renderVenueSection(); renderRecordTable(); renderDashboard(); bindAppEvents(); renderAnalysisSection();
-  updateDevBadge(); switchTab('dashboard');
-  try { await fetchRecordsFromCloud(); } catch(e) { console.error('[MRSC] 雲端載入失敗：', e); }
-  setTimeout(migrateLocalDataToCloud, 1500);
-}
-function logout() {
-  if (!confirm('確定登出？未提交的表單內容將遺失。')) return;
-  safeSessionRemove(SESSION_KEY); safeSessionRemove(DEV_KEY); location.reload();
-}
-function fillCompanyOptions() {
-  const s = document.getElementById('fCompany'); if (!s) return;
-  s.innerHTML = '<option value="">請選擇</option>' + COMPANIES.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
-}
-function fillDepartmentOptions() {
-  const s = document.getElementById('fDepartment'); if (!s) return;
-  s.innerHTML = '<option value="">請選擇部門</option>' + DEPARTMENT_NAMES.map(d => `<option value="${escapeHTML(d)}">${escapeHTML(d)}</option>`).join('');
-}
-function renderVenueOptions(sel) {
-  const loc = state.form.location || ''; const cid = state.form.company || '';
-  const s = document.getElementById('fVenueName'); if (!s) return;
-  if (!loc && !cid) { s.innerHTML = '<option value="">請先選擇考察地點與休企</option>'; return; }
-  if (!loc) { s.innerHTML = '<option value="">請先選擇考察地點</option>'; return; }
-  if (!cid) { s.innerHTML = '<option value="">請先選擇考察休企</option>'; return; }
-  const c = getCompany(cid); if (!c) { s.innerHTML = '<option value="">請先選擇考察休企</option>'; return; }
-  const groups = VENUE_BY_LOCATION[loc] || [];
-  const targets = groups.filter(g => g.group === c.name);
-  let html = '<option value="">請選擇場館</option>';
-  if (targets.length === 0 || targets.every(g => g.venues.length === 0)) html = '<option value="">此休企在此地點沒有場館</option>';
-  else {
-    targets.forEach(g => g.venues.forEach(v => { html += `<option value="${escapeHTML(v)}" ${sel && sel === v ? 'selected' : ''}>${escapeHTML(v)}</option>`; }));
-    html += '<option value="其他">其他</option>';
-  }
-  s.innerHTML = html;
-}
-function renderFormDefaults() {
-  if (!state.form.date) state.form.date = todayISO();
-  if (!state.form.time) state.form.time = nowTime();
-  const sv = (id,v) => { const el = document.getElementById(id); if (el) el.value = v; };
-  sv('fDate', state.form.date); sv('fTime', state.form.time);
-  sv('fLocation', safeStr(state.form.location)); sv('fCompany', safeStr(state.form.company));
-  renderVenueOptions(state.form.venueName);
-  sv('fDepartment', safeStr(state.form.department)); sv('fNotes', safeStr(state.form.notes));
-}
-function renderVenueSection() {
-  const w = document.getElementById('venueBody'); const h = document.getElementById('venueHint');
-  if (!w) return;
-  const dept = state.form.department || '';
-  const cfg = getDeptConfig(dept);
-  const items = state.form.venue.items || [];
-  const env = state.form.venue.env || {};
-  if (h) h.textContent = dept ? `${cfg.icon||'📝'} 部門專屬項目（${dept}）　·　環境觀察為固定項目` : '請先選擇「考察部門」顯示專屬項目';
-  let html = '';
-  if (!dept) html += `<div class="gempty">請先於上方「考察資訊」選擇「考察部門」，本區塊將顯示該部門專屬的觀察項目。</div>`;
-  else {
-    html += `<div class="slabel"><span>${escapeHTML(cfg.itemLabel)}（可新增多筆）</span><button class="btn bg bs" id="btnAddItem" type="button">＋ 新增一筆</button></div>`;
-    if (items.length === 0) html += `<div class="gempty">尚未新增記錄。可點擊右上角「＋ 新增一筆」開始填寫。<br>若此場考察無需記錄，可略過此區塊。</div>`;
-    else { html += '<div class="glist" id="itemRows">'; items.forEach((it,i) => { html += renderItemRow(it,i,cfg); }); html += '</div>'; }
-  }
-  html += `<div class="envs"><div class="slabel"><span>環境觀察（固定項目）<span class="sn">反映場館是否受客人喜愛</span></span></div><div class="envg">`;
-  ENV_KEYS.forEach(k => {
-    const ed = ENV_FIELDS[k]; if (!ed) return;
-    const cur = env[k] || '';
-    html += `<div class="envf ${cur?'filled':''}"><label><span>${ed.icon}</span>${escapeHTML(ed.label)}</label>
-      <select class="env-select" data-env-key="${k}"><option value="">請選擇</option>
-      ${ed.options.map(o => `<option value="${o.v}" ${cur===o.v?'selected':''}>${o.l}</option>`).join('')}</select></div>`;
-  });
-  html += `</div></div>`;
-  w.innerHTML = html;
-}
-function renderItemRow(it, i, cfg) {
-  const fs = (cfg.fields || []).filter(f => isFieldVisible(f, it));
-  const cols = (fs.length ? fs.map(f => f.span === 2 ? '2fr' : '1fr').join(' ') : '1fr') + ' auto';
-  let inputs = '';
-  fs.forEach(f => {
-    const val = safeStr(it[f.key]);
-    if (f.type === 'number') inputs += `<div class="fld"><label>${escapeHTML(f.label)}</label><input type="number" class="item-input" data-field="${f.key}" min="${f.min??0}" max="${f.max??999999}" step="${f.step??1}" inputmode="numeric" placeholder="${escapeHTML(f.placeholder||'')}" value="${escapeHTML(val)}"></div>`;
-    else if (f.type === 'select') inputs += `<div class="fld"><label>${escapeHTML(f.label)}</label><select class="item-input item-select" data-field="${f.key}"><option value="">${escapeHTML(f.placeholder||'請選擇')}</option>${(f.options||[]).map(o => `<option value="${o.v}" ${val===o.v?'selected':''}>${escapeHTML(o.l)}</option>`).join('')}</select></div>`;
-    else inputs += `<div class="fld"><label>${escapeHTML(f.label)}</label><input type="text" class="item-input" data-field="${f.key}" placeholder="${escapeHTML(f.placeholder||'')}" value="${escapeHTML(val)}" maxlength="40" autocomplete="off"></div>`;
-  });
-  return `<div class="grow" data-idx="${i}" style="grid-template-columns:${cols}">${inputs}<button class="gdel" data-idx="${i}" type="button" title="刪除">✕</button></div>`;
-}
-function renderCriteria() {
-  const w = document.getElementById('criteriaList'); if (!w) return;
-  w.innerHTML = CRITERIA.map(c => `
-    <div class="cr" data-crit="${c.id}">
-      <div class="chead"><div class="cicon">${c.icon}</div>
-        <div><div class="cname">${c.name}<span class="ref">MRSC 2026 全澳 ${c.ref}</span></div>
-        <div class="cdesc">${c.desc}</div></div></div>
-      <div class="rr"><div class="rbtns">
-        ${[1,2,3,4,5].map(n => `<button class="rbtn" data-crit="${c.id}" data-score="${n}" title="${RATING_LABELS[n]}">${n}</button>`).join('')}
-      </div><div class="rlbl" data-crit-label="${c.id}">尚未評分</div></div>
-    </div>`).join('');
-  w.addEventListener('click', e => {
-    const b = e.target.closest('.rbtn'); if (!b) return;
-    const critId = b.dataset.crit;
-    state.form.ratings[critId] = parseInt(b.dataset.score, 10);
-    updateRatingUI(critId); validateForm();
-  });
-}
-function updateRatingUI(cid) {
-  $$(`.rbtn[data-crit="${cid}"]`).forEach(b => b.classList.toggle('on', parseInt(b.dataset.score,10) === state.form.ratings[cid]));
-  const l = document.querySelector(`[data-crit-label="${cid}"]`);
-  const s = state.form.ratings[cid];
-  if (l) {
-    if (s) { l.innerHTML = `${RATING_LABELS[s]}<span class="eq">MRSC ≈ ${toMRSC(cid,s)}</span>`; l.classList.add('on'); }
-    else { l.textContent = '尚未評分'; l.classList.remove('on'); }
-  }
-  const c = document.querySelector(`.cr[data-crit="${cid}"]`);
-  if (c) c.classList.toggle('scored', !!s);
-}
-function validateForm() { const b = document.getElementById('btnSaveRecord'); if (b) b.disabled = validateFormData().length > 0; }
-function validateFormData() {
-  const e = []; const f = state.form;
-  if (!f.date) e.push('考察日期為必填'); else if (f.date > todayISO()) e.push('考察日期不可晚於今天');
-  if (!f.time) e.push('考察時間為必填');
-  if (!f.location) e.push('考察地點為必填');
-  if (!f.company) e.push('考察休企為必填');
-  if (!f.venueName) e.push('場館名稱為必填');
-  if (!f.department) e.push('考察部門為必填');
-  CRITERIA.forEach(c => { if (!f.ratings[c.id]) e.push(`${c.name}評分為必填`); });
-  const cfg = getDeptConfig(f.department);
-  (f.venue.items || []).forEach((it, i) => {
-    cfg.fields.forEach(fd => {
-      if (!isFieldVisible(fd, it) || fd.type !== 'number') return;
-      const v = it[fd.key]; if (v === '' || v === null || v === undefined) return;
-      const n = Number(v);
-      const lbl = it.name ? `「${it.name}」${fd.label}` : `第 ${i+1} 筆 ${fd.label}`;
-      if (isNaN(n)) e.push(`${lbl}必須為數字`);
-      else if (n < (fd.min??0) || n > (fd.max??999999)) e.push(`${lbl}應在 ${fd.min??0}–${fd.max??999999} 之間`);
-    });
-  });
-  return e;
-}
-function showErrors(errs) {
-  const b = document.getElementById('errorsBox'); const l = document.getElementById('errorsList');
-  if (!b || !l) return;
-  if (!errs.length) { b.classList.remove('on'); return; }
-  l.innerHTML = errs.map(e => `<li>${escapeHTML(e)}</li>`).join('');
-  b.classList.add('on'); b.scrollIntoView({behavior:'smooth', block:'center'});
-}
-function buildCleanVenue() {
-  const cfg = getDeptConfig(state.form.department);
-  const items = (state.form.venue.items || []).map(it => {
-    const o = {}; cfg.fields.forEach(f => { const v = it[f.key]; o[f.key] = (v==null)?'':v; }); return o;
-  }).filter(it => Object.values(it).some(v => v !== '' && v != null));
-  const env = {};
-  ENV_KEYS.forEach(k => { if (state.form.venue.env[k]) env[k] = state.form.venue.env[k]; });
-  return {items, env};
-}
-async function submitRecord() {
-  const errs = validateFormData();
-  if (errs.length) { showErrors(errs); showToast(`表單有 ${errs.length} 項問題`, 'error'); return; }
-  showErrors([]);
-  const v = buildCleanVenue();
-  const editing = !!state.editingId;
-  try {
-    if (editing) {
-      const upd = {
-        date: state.form.date, time: state.form.time, location: state.form.location,
-        companyId: state.form.company, venueName: state.form.venueName.trim(),
-        department: state.form.department.trim(), ratings: {...state.form.ratings},
-        venue: v, notes: state.form.notes.trim(), updatedAt: new Date().toISOString()
-      };
-      await updateDoc(doc(db, 'records', state.editingId), upd);
-      const idx = state.records.findIndex(r => r.id === state.editingId);
-      if (idx !== -1) state.records[idx] = {...state.records[idx], ...upd};
-      showToast('記錄已更新', 'success'); exitEditMode();
-    } else {
-      const ds = state.form.date.replace(/-/g, '');
-      const prefix = `MRSC-${ds}-`;
-      const nums = state.records.filter(r => r.id && r.id.startsWith(prefix)).map(r => parseInt(r.id.slice(prefix.length), 10)).filter(n => !isNaN(n));
-      const maxN = nums.length ? Math.max(...nums) : 0;
-      const customId = `${prefix}${String(maxN + 1).padStart(3, '0')}`;
-      const rec = {
-        inspectorName: state.inspector.name, inspectorId: state.inspector.id,
-        date: state.form.date, time: state.form.time, location: state.form.location,
-        companyId: state.form.company, venueName: state.form.venueName.trim(),
-        department: state.form.department.trim(), ratings: {...state.form.ratings},
-        venue: v, notes: state.form.notes.trim(),
-        submittedAt: new Date().toISOString(), serverTime: serverTimestamp()
-      };
-      await setDoc(doc(db, 'records', customId), rec);
-      state.records.unshift({id: customId, ...rec});
-      showToast(`已提交至雲端：${customId}`, 'success');
-    }
-    resetForm(); renderRecordTable(); renderAnalysisSection(); renderDashboard();
-  } catch (e) {
-    console.error('提交失敗：', e);
-    showToast('提交失敗：' + e.message, 'error');
-  }
-}
-function editRecord(id) {
-  requireDeveloperThen(() => {
-    const r = state.records.find(x => x.id === id); if (!r) return;
-    state.editingId = id;
-    state.form = {
-      date: r.date, time: r.time, location: r.location, company: r.companyId,
-      venueName: r.venueName||'', department: r.department||'',
-      ratings: {...r.ratings}, venue: normalizeVenue(r.venue), notes: r.notes||''
-    };
-    state._lastDept = r.department || '';
-    renderFormDefaults(); renderVenueSection();
-    CRITERIA.forEach(c => updateRatingUI(c.id));
-    const b = document.getElementById('editBanner'); if (b) b.classList.add('on');
-    const rid = document.getElementById('editRecordId'); if (rid) rid.textContent = id;
-    const btn = document.getElementById('btnSaveRecord'); if (btn) btn.textContent = '更新記錄';
-    validateForm(); switchTab('inspection');
-    window.scrollTo({top:0, behavior:'smooth'});
-    showToast(`正在編輯 ${id}`, '');
-  }, '編輯記錄僅限開發者使用，請輸入開發者密碼。');
-}
-function deleteRecord(id) {
-  requireDeveloperThen(async () => {
-    if (!confirm(`確定刪除記錄 ${id}？此操作無法復原。`)) return;
-    try {
-      await deleteDoc(doc(db, 'records', id));
-      state.records = state.records.filter(r => r.id !== id);
-      if (state.editingId === id) { exitEditMode(); resetForm(); }
-      renderRecordTable(); renderAnalysisSection(); renderDashboard();
-      showToast('記錄已刪除', 'success');
-    } catch(e) { showToast('刪除失敗：' + e.message, 'error'); }
-  }, '刪除記錄僅限開發者使用，請輸入開發者密碼。');
-}
-function exitEditMode() {
-  state.editingId = null;
-  const b = document.getElementById('editBanner'); if (b) b.classList.remove('on');
-  const btn = document.getElementById('btnSaveRecord'); if (btn) btn.textContent = '提交考察記錄';
-}
-function resetForm() {
-  state.form.date = todayISO(); state.form.time = nowTime();
-  state.form.location = ''; state.form.company = ''; state.form.venueName = ''; state.form.department = '';
-  state.form.ratings = {smile:null, proactive:null, patience:null};
-  state.form.venue = emptyVenue(); state.form.notes = ''; state._lastDept = '';
-  renderFormDefaults(); renderVenueSection();
-  CRITERIA.forEach(c => updateRatingUI(c.id));
-  showErrors([]); validateForm();
-}
-function buildVenueCellHtml(record) {
-  const cfg = getDeptConfig((record.department||'').trim());
-  const v = record.venue || {}; const items = Array.isArray(v.items) ? v.items : []; const env = v.env || {};
-  let html = '';
-  if (items.length) {
-    html += items.map(it => {
-      const lines = [];
-      cfg.fields.forEach(f => {
-        if (!isFieldVisible(f, it)) return;
-        const val = it[f.key]; if (val === '' || val === null || val === undefined) return;
-        if (f.type === 'select') {
-          const o = (f.options||[]).find(o => o.v === val); const dv = o ? o.l : val;
-          if (f.key === 'position') lines.push(`<span class="vg">${escapeHTML(f.label)}：${escapeHTML(dv)}</span>`);
-          else lines.push(`<span class="vd">${escapeHTML(f.label)} ${escapeHTML(dv)}</span>`);
-        } else if (f.key === 'name') lines.push(`<span class="vg">${escapeHTML(val)}</span>`);
-        else lines.push(`<span class="vd">${escapeHTML(f.label)} ${escapeHTML(String(val))}</span>`);
-      });
-      return lines.length ? `<div class="gi">${lines.join('')}</div>` : '';
-    }).filter(Boolean).join('');
-  }
-  const chips = [];
-  ENV_KEYS.forEach(k => {
-    const ed = ENV_FIELDS[k]; if (!ed || !env[k]) return;
-    const o = ed.options.find(o => o.v === env[k]);
-    chips.push(`<span class="ec">${ed.icon} ${ed.label} ${o?o.l:env[k]}</span>`);
-  });
-  if (chips.length) html += `<span class="el">${chips.join('')}</span>`;
-  return html || '<span style="color:var(--ph)">—</span>';
-}
-function renderRecordTable() {
-  const tb = document.querySelector('#rt tbody'); if (!tb) return;
-  const n = state.records.length;
-  const b = document.getElementById('recBadge'); if (b) b.textContent = n;
-  const s = document.getElementById('recSummary'); if (s) s.textContent = `共 ${n} 筆紀錄`;
-  if (n === 0) { tb.innerHTML = `<tr><td colspan="11"><div class="es"><div class="ei">📋</div><p>尚無考察記錄。<br>請切換至「新考察記錄」標籤開始填寫。</p></div></td></tr>`; return; }
-  const dev = isDeveloper();
-  const sorted = [...state.records].sort((a,b) => (b.updatedAt||b.submittedAt||'').localeCompare(a.updatedAt||a.submittedAt||''));
-  tb.innerHTML = sorted.map(r => {
-    const c = getCompany(r.companyId);
-    const isEd = r.id === state.editingId;
-    const nS = normMRSC('smile', toMRSC('smile', r.ratings.smile));
-    const nP = normMRSC('proactive', toMRSC('proactive', r.ratings.proactive));
-    const nT = normMRSC('patience', toMRSC('patience', r.ratings.patience));
-    const ov = Math.round(((nS+nP+nT)/3)*2);
-    const actions = dev ? `<div class="ra"><button class="btn bb bxs" data-edit="${escapeHTML(r.id)}">編輯</button><button class="btn bd bxs" data-del="${escapeHTML(r.id)}">刪除</button></div>` : `<span style="color:var(--ph);font-size:11.5px;">🔒 唯讀</span>`;
-    return `<tr class="${isEd?'editing':''}">
-      <td data-label="記錄編號"><span class="rid">${escapeHTML(r.id)}</span></td>
-      <td data-label="日期 / 時間"><div style="font-weight:600">${escapeHTML(r.date)}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${escapeHTML(r.time)}</div></td>
-      <td data-label="考察人員"><div style="font-weight:600">${escapeHTML(r.inspectorName)}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${escapeHTML(r.inspectorId)}</div></td>
-      <td data-label="地點">${escapeHTML(r.location)}</td>
-      <td data-label="休企 / 場館"><span class="rc"><span class="cdot" style="background:${c?.color||'#888'}"></span>${escapeHTML(c?.name||'—')}</span>
-        ${r.venueName ? `<div class="vn">📍 ${escapeHTML(r.venueName)}</div>` : ''}
-        <div style="font-size:11.5px;color:var(--muted);margin-top:3px">${escapeHTML(r.department||'—')}</div></td>
-      <td data-label="現場數據"><div class="vc">${buildVenueCellHtml(r)}</div></td>
-      <td data-label="笑容" style="text-align:center">${scorePill(r.ratings.smile)}</td>
-      <td data-label="主動性" style="text-align:center">${scorePill(r.ratings.proactive)}</td>
-      <td data-label="耐心" style="text-align:center">${scorePill(r.ratings.patience)}</td>
-      <td data-label="綜合 MRSC" style="text-align:center"><span class="mp">${ov}</span></td>
-      <td class="actions-cell">${actions}</td>
-    </tr>`;
-  }).join('');
-  if (dev) {
-    tb.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', () => editRecord(b.dataset.edit)));
-    tb.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', () => deleteRecord(b.dataset.del)));
-  }
-}
-function scorePill(s) {
-  if (!s) return '<span style="color:var(--ph)">—</span>';
-  const c = {1:'#c94141',2:'#d97c28',3:'#c9a527',4:'#4a9e4a',5:'#2ea87a'};
-  return `<span class="sp" style="background:${c[s]}22;color:${c[s]}">${s}</span>`;
-}
-function downloadBlob(blob, name) {
-  const u = URL.createObjectURL(blob); const a = document.createElement('a');
-  a.href = u; a.download = name;
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  setTimeout(() => URL.revokeObjectURL(u), 100);
-}
-function doExportJSON() {
-  if (!state.records.length) { showToast('沒有記錄可匯出', 'error'); return; }
-  const d = {version:6, exportedAt:new Date().toISOString(), inspector:state.inspector, records:state.records};
-  dlBlob(new Blob([JSON.stringify(d, null, 2)], {type:'application/json'}), `mrsc-backup-${todayISO()}.json`);
-  showToast(`已匯出 ${state.records.length} 筆記錄（JSON）`, 'success');
-}
-function dlBlob(b, name) {
-  const u = URL.createObjectURL(b); const a = document.createElement('a');
-  a.href = u; a.download = name;
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  setTimeout(() => URL.revokeObjectURL(u), 100);
-}
-function serializeItems(dept, items) {
-  const cfg = getDeptConfig(dept);
-  if (!Array.isArray(items) || !items.length) return '';
-  return items.map(it => {
-    const p = [];
-    cfg.fields.forEach(f => {
-      if (!isFieldVisible(f, it)) return;
-      const v = it[f.key]; if (v === '' || v === null || v === undefined) return;
-      const sl = String(f.label).replace(/（.*?）|\(.*?\)/g, '');
-      if (f.type === 'select') { const o = (f.options||[]).find(o => o.v === v); p.push(`${sl}${o?o.l:v}`); }
-      else if (f.key === 'name') p.push(v);
-      else p.push(`${sl}${v}`);
-    });
-    return p.length ? p.join('/') : '';
-  }).filter(Boolean).join('；');
-}
-function serializeEnv(env) {
-  const p = [];
-  ENV_KEYS.forEach(k => {
-    const ed = ENV_FIELDS[k]; if (!ed || !env || !env[k]) return;
-    const o = ed.options.find(o => o.v === env[k]); p.push(`${ed.label}${o?o.l:env[k]}`);
-  });
-  return p.join('；');
-}
-function doExportCSV() {
-  if (!state.records.length) { showToast('沒有記錄可匯出', 'error'); return; }
-  const hs = ['記錄編號','考察人員','人員編號','日期','時間','地點','休企','場館名稱','部門','笑容(1-5)','主動性(1-5)','耐心(1-5)','綜合MRSC','部門專屬觀察','環境觀察','備註','提交時間','更新時間'];
-  const rows = state.records.map(r => {
-    const c = getCompany(r.companyId);
-    const nS = normMRSC('smile', toMRSC('smile', r.ratings.smile));
-    const nP = normMRSC('proactive', toMRSC('proactive', r.ratings.proactive));
-    const nT = normMRSC('patience', toMRSC('patience', r.ratings.patience));
-    const ov = Math.round(((nS+nP+nT)/3)*2);
-    const v = r.venue || {};
-    return [r.id, r.inspectorName, r.inspectorId, r.date, r.time, r.location, c?.name||'', r.venueName||'', r.department||'',
-      r.ratings.smile, r.ratings.proactive, r.ratings.patience, ov,
-      serializeItems(r.department, v.items), serializeEnv(v.env),
-      r.notes||'', r.submittedAt||'', r.updatedAt||''];
-  });
-  const csv = [hs, ...rows].map(row => row.map(v => {
-    const s = String(v ?? ''); return /[",\n\r]/.test(s) ? `"${s.replace(/"/g,'""')}"` : s;
-  }).join(',')).join('\r\n');
-  dlBlob(new Blob(['\uFEFF' + csv], {type:'text/csv;charset=utf-8'}), `mrsc-records-${todayISO()}.csv`);
-  showToast(`已匯出 ${state.records.length} 筆記錄（CSV）`, 'success');
-}
-function importJSON(file) {
-  const rd = new FileReader();
-  rd.onload = async (e) => {
-    try {
-      const d = JSON.parse(e.target.result);
-      if (!Array.isArray(d.records)) throw new Error('檔案格式錯誤');
-      if (!confirm(`來源：${d.inspector?.name||'未知'}\n記錄筆數：${d.records.length}\n\n確定合併至雲端？`)) return;
-      const ids = new Set(state.records.map(r => r.id));
-      const inc = d.records.filter(r => r && r.id && !ids.has(r.id));
-      let n = 0;
-      for (const rec of inc) {
-        try {
-          const {id, ...data} = rec;
-          const docId = id || ('MRSC-IMPORT-' + Date.now() + '-' + Math.random().toString(36).slice(2,8));
-          await setDoc(doc(db, 'records', docId), {...data, venue:normalizeVenue(data.venue), serverTime:serverTimestamp()});
-          n++;
-        } catch(err) {}
-      }
-      showToast(`已匯入 ${n} 筆記錄`, 'success');
-      await fetchRecordsFromCloud();
-    } catch(err) { showToast('匯入失敗：' + err.message, 'error'); }
-  };
-  rd.onerror = () => showToast('讀取檔案失敗', 'error');
-  rd.readAsText(file);
-}
-function renderAnalysisSection() {
-  const s = document.getElementById('anBase'); if (!s) return;
-  const cb = s.value || state.comparison.base;
-  s.innerHTML = COMPANIES.map(c => `<option value="${c.id}" ${c.id===cb?'selected':''}>${c.name}</option>`).join('');
-  state.comparison.base = s.value || cb;
-  renderDeptFilter();
-  if (!state.comparison.picks.length) autoFillPicks();
-  renderPicker(); renderAnalysisResult();
-}
-function renderDeptFilter() {
-  const s = document.getElementById('filterDept'); if (!s) return;
-  const cur = s.value;
-  const ds = [...new Set(state.records.map(r => (r.department||'').trim()).filter(Boolean))].sort();
-  s.innerHTML = '<option value="">全部部門</option>' + ds.map(d => `<option value="${escapeHTML(d)}">${escapeHTML(d)}</option>`).join('');
-  if (cur && ds.includes(cur)) s.value = cur;
-  else state.comparison.departmentFilter = '';
-}
-const maxPick = () => Math.min(state.comparison.ratio, COMPANIES.length - 1);
-function renderPicker() {
-  const w = document.getElementById('anPicker'); if (!w) return;
-  const base = state.comparison.base; const picks = state.comparison.picks;
-  w.innerHTML = COMPANIES.map(c => {
-    const isB = c.id === base; const isP = picks.includes(c.id);
-    const cnt = filterRecs(state.records.filter(r => r.companyId === c.id)).length;
-    return `<button class="pc ${isP?'on':''}" data-id="${c.id}" ${isB?'disabled':''}>
-      <span class="cdot" style="background:${c.color}"></span><span>${c.name}</span>
-      <span class="cnt">${isB?'基準':cnt+' 筆'}</span></button>`;
-  }).join('');
-  const cnt = document.getElementById('anPickCount'); if (cnt) cnt.textContent = `${picks.length} / ${maxPick()}`;
-  w.querySelectorAll('.pc:not([disabled])').forEach(b => b.addEventListener('click', () => togglePick(b.dataset.id)));
-}
-function togglePick(id) {
-  if (id === state.comparison.base) return;
-  const a = state.comparison.picks; const i = a.indexOf(id);
-  if (i >= 0) a.splice(i, 1);
-  else if (a.length < maxPick()) a.push(id);
-  else { showToast(`對比模式 1:${state.comparison.ratio} 最多選 ${maxPick()} 間`, 'error'); return; }
-  renderPicker(); renderAnalysisResult();
-}
-function autoFillPicks() {
-  const b = state.comparison.base; const need = maxPick();
-  state.comparison.picks = state.comparison.picks.filter(id => id !== b).slice(0, need);
-  for (const c of COMPANIES) {
-    if (state.comparison.picks.length >= need) break;
-    if (c.id !== b && !state.comparison.picks.includes(c.id)) state.comparison.picks.push(c.id);
-  }
-}
-function filterRecs(rs) {
-  const f = state.comparison;
-  return rs.filter(r => {
-    if (f.departmentFilter && (r.department||'').trim() !== f.departmentFilter) return false;
-    if (f.dateFrom && r.date < f.dateFrom) return false;
-    if (f.dateTo && r.date > f.dateTo) return false;
-    return true;
-  });
-}
-function aggCo(id) {
-  const rs = filterRecs(state.records.filter(r => r.companyId === id));
-  if (!rs.length) return null;
-  const avg = k => rs.reduce((s,r) => s + r.ratings[k], 0) / rs.length;
-  const rS = avg('smile'); const rP = avg('proactive'); const rT = avg('patience');
-  const smile = toMRSC('smile', Math.round(rS));
-  const proactive = toMRSC('proactive', Math.round(rP));
-  const patience = toMRSC('patience', Math.round(rT));
-  const nS = rs.reduce((s,r) => s + normMRSC('smile', toMRSC('smile', r.ratings.smile)), 0) / rs.length;
-  const nP = rs.reduce((s,r) => s + normMRSC('proactive', toMRSC('proactive', r.ratings.proactive)), 0) / rs.length;
-  const nT = rs.reduce((s,r) => s + normMRSC('patience', toMRSC('patience', r.ratings.patience)), 0) / rs.length;
-  return {count:rs.length, rawSmile:rS, rawPro:rP, rawPat:rT, smile, proactive, patience, normSmile:nS, normPro:nP, normPat:nT, overall: Math.round(((nS+nP+nT)/3)*2)};
-}
-function renderRadarChart(rows) {
-  const size = 380; const cx = size/2; const cy = size/2 + 10; const R = size/2 - 60;
-  const axes = CRITERIA.map((c,i) => ({...c, angle: -Math.PI/2 + i * (2*Math.PI/3)}));
-  const pt = (a, r) => ({x: cx + Math.cos(a.angle) * R * r, y: cy + Math.sin(a.angle) * R * r});
-  const lc = getTheme() === 'light' ? '#c8cfd9' : '#262d3a';
-  const tc = getTheme() === 'light' ? '#5d6878' : '#8b95a7';
-  let svg = `<svg viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">`;
-  for (let l = 1; l <= 4; l++) {
-    const pts = axes.map(a => pt(a, l/4)).map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
-    svg += `<polygon points="${pts}" fill="none" stroke="${lc}" stroke-width="1"/>`;
-  }
-  axes.forEach(a => {
-    const e = pt(a, 1);
-    svg += `<line x1="${cx}" y1="${cy}" x2="${e.x.toFixed(1)}" y2="${e.y.toFixed(1)}" stroke="${lc}" stroke-width="1"/>`;
-    const lb = pt(a, 1.22);
-    svg += `<text x="${lb.x.toFixed(1)}" y="${lb.y.toFixed(1)}" text-anchor="middle" dominant-baseline="middle" fill="${tc}" font-size="12" font-family="sans-serif" font-weight="600">${a.name}</text>`;
-  });
-  rows.forEach(row => {
-    const c = getCompany(row.id); if (!c) return;
-    const nm = {smile: row.normSmile, proactive: row.normPro, patience: row.normPat};
-    const pts = axes.map(a => pt(a, Math.max(0.02, (nm[a.id]||0)/100)));
-    const ps = pts.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
-    svg += `<polygon points="${ps}" fill="${c.color}22" stroke="${c.color}" stroke-width="2" stroke-linejoin="round"/>`;
-    pts.forEach(p => { svg += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.5" fill="${c.color}"/>`; });
-  });
-  svg += '</svg>';
-  return svg;
-}
-function renderDeptBarCharts(sorted) {
-  const df = (state.comparison.departmentFilter||'').trim();
-  let depts = [];
-  if (df) depts = [df];
-  else {
-    const set = new Set();
-    sorted.forEach(r => { state.records.filter(rec => rec.companyId === r.id).forEach(rec => { const d = (rec.department||'').trim(); if (d) set.add(d); }); });
-    depts = [...set].sort();
-  }
-  if (!depts.length) return `<div class="es" style="padding:30px 20px"><div class="ei">📊</div><p>尚無部門專屬數據可對比。</p></div>`;
-  let html = '';
-  if (!df && depts.length > 1) html += `<div style="font-size:11.5px;color:var(--muted2);margin-bottom:16px;padding:10px 14px;background:rgba(74,144,217,.06);border:1px solid rgba(74,144,217,.2);border-radius:8px;line-height:1.55">ℹ️ 顯示所有部門數據（依部門分組）。如要聚焦單一部門，可於上方「部門篩選」選擇。</div>`;
-  let anyR = false;
-  depts.forEach(dept => {
-    const cfg = getDeptConfig(dept);
-    const numFs = (cfg.fields||[]).filter(f => f.type === 'number');
-    const selFs = (cfg.fields||[]).filter(f => f.type === 'select');
-    const txtFs = (cfg.fields||[]).filter(f => f.type === 'text' && f.key !== 'name');
-    const coRecs = sorted.map(r => ({
-      id: r.id, company: getCompany(r.id),
-      recs: state.records.filter(rec => rec.companyId === r.id && (rec.department||'').trim() === dept)
-    }));
-    if (!coRecs.some(cr => cr.recs.length > 0)) return;
-    anyR = true;
-    let dHtml = `<div style="margin-bottom:24px"><div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px;padding-bottom:10px;border-bottom:1px solid var(--lineS)"><span>${cfg.icon||'📝'}</span><span>${escapeHTML(dept)}</span><span style="font-size:11.5px;color:var(--muted);font-weight:500;margin-left:auto">共 ${coRecs.reduce((s,cr)=>s+cr.recs.length,0)} 筆記錄</span></div>`;
-    numFs.forEach(field => {
-      const rows = coRecs.map(cr => {
-        const nums = [];
-        cr.recs.forEach(rec => { const items = (rec.venue && rec.venue.items) || []; items.forEach(it => { const n = parseFloat(it[field.key]); if (!isNaN(n)) nums.push(n); }); });
-        if (!nums.length) return {company: cr.company, value: null, count: 0};
-        return {company: cr.company, value: nums.reduce((a,b)=>a+b,0)/nums.length, count: nums.length};
-      });
-      if (!rows.some(r => r.value !== null)) return;
-      const maxV = Math.max(...rows.map(r => r.value||0), 1);
-      dHtml += `<div style="margin-bottom:14px;padding:14px 16px;background:var(--goldD);border:1px solid var(--goldB2);border-radius:10px"><div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:12px">${escapeHTML(field.label)}（平均）</div>`;
-      rows.forEach(r => {
-        if (r.value === null) {
-          dHtml += `<div style="display:grid;grid-template-columns:130px 1fr 100px;gap:12px;align-items:center;margin-bottom:8px"><span style="font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:${r.company.color};flex-shrink:0"></span>${escapeHTML(r.company.name)}</span><span style="height:22px;background:var(--bar);border-radius:6px"></span><span style="font-size:12px;color:var(--ph);text-align:right">無資料</span></div>`;
-        } else {
-          const pct = Math.max((r.value/maxV)*100, 2);
-          dHtml += `<div style="display:grid;grid-template-columns:130px 1fr 100px;gap:12px;align-items:center;margin-bottom:8px"><span style="font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:${r.company.color};flex-shrink:0"></span>${escapeHTML(r.company.name)}</span><span style="height:22px;background:var(--bar);border-radius:6px;overflow:hidden"><span style="display:block;height:100%;width:${pct}%;background:linear-gradient(90deg,${r.company.color}55,${r.company.color});border-radius:6px"></span></span><span style="font-size:13px;font-weight:700;color:var(--gold);text-align:right">${r.value.toFixed(1)}<small style="font-size:10px;color:var(--muted);margin-left:2px">(${r.count})</small></span></div>`;
-        }
-      });
-      dHtml += `</div>`;
-    });
-    selFs.forEach(field => {
-      const options = field.options || [];
-      const rows = coRecs.map(cr => {
-        const counts = {}; let total = 0;
-        cr.recs.forEach(rec => { const items = (rec.venue && rec.venue.items) || []; items.forEach(it => { const v = it[field.key]; if (v) { counts[v] = (counts[v]||0) + 1; total++; } }); });
-        return {company: cr.company, counts, total};
-      });
-      if (!rows.some(r => r.total > 0)) return;
-      dHtml += `<div style="margin-bottom:14px;padding:14px 16px;background:var(--goldD);border:1px solid var(--goldB2);border-radius:10px"><div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:12px">${escapeHTML(field.label)}（選項分佈）</div>`;
-      rows.forEach(r => {
-        if (!r.total) { dHtml += `<div style="display:grid;grid-template-columns:130px 1fr 100px;gap:12px;align-items:center;margin-bottom:8px"><span style="font-size:12.5px;font-weight:600"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${r.company.color};margin-right:6px"></span>${escapeHTML(r.company.name)}</span><span style="height:22px;background:var(--bar);border-radius:6px"></span><span style="font-size:12px;color:var(--ph);text-align:right">無資料</span></div>`; return; }
-        let segs = '';
-        options.forEach(o => { const cnt = r.counts[o.v]||0; if (!cnt) return; const pct = (cnt/r.total)*100; const alpha = 0.4 + (cnt/r.total)*0.6; segs += `<span style="display:inline-block;height:100%;width:${pct}%;background:${r.company.color};opacity:${alpha}" title="${escapeHTML(o.l)} ×${cnt}"></span>`; });
-        const summary = options.map(o => ({o, cnt: r.counts[o.v]||0})).filter(x => x.cnt > 0).map(x => `${x.o.l}×${x.cnt}`).join('、');
-        dHtml += `<div style="display:grid;grid-template-columns:130px 1fr 160px;gap:12px;align-items:center;margin-bottom:8px"><span style="font-size:12.5px;font-weight:600"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${r.company.color};margin-right:6px"></span>${escapeHTML(r.company.name)}</span><span style="height:22px;background:var(--bar);border-radius:6px;overflow:hidden;display:flex">${segs}</span><span style="font-size:11.5px;color:var(--text);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${escapeHTML(summary)}</span></div>`;
-      });
-      dHtml += `</div>`;
-    });
-    txtFs.forEach(field => {
-      const rows = coRecs.map(cr => {
-        const set = new Set();
-        cr.recs.forEach(rec => { const items = (rec.venue && rec.venue.items) || []; items.forEach(it => { const v = it[field.key]; if (v && String(v).trim()) set.add(String(v).trim()); }); });
-        return {company: cr.company, values: [...set]};
-      });
-      if (!rows.some(r => r.values.length)) return;
-      dHtml += `<div style="margin-bottom:14px;padding:14px 16px;background:var(--goldD);border:1px solid var(--goldB2);border-radius:10px"><div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:12px">${escapeHTML(field.label)}（出現類別）</div>`;
-      rows.forEach(r => {
-        if (!r.values.length) dHtml += `<div style="display:grid;grid-template-columns:130px 1fr;gap:12px;align-items:center;margin-bottom:8px"><span style="font-size:12.5px;font-weight:600"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${r.company.color};margin-right:6px"></span>${escapeHTML(r.company.name)}</span><span style="font-size:12px;color:var(--ph)">無資料</span></div>`;
-        else dHtml += `<div style="display:grid;grid-template-columns:130px 1fr;gap:12px;align-items:center;margin-bottom:8px"><span style="font-size:12.5px;font-weight:600"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${r.company.color};margin-right:6px"></span>${escapeHTML(r.company.name)}</span><span style="font-size:11.5px;color:var(--text);line-height:1.55">${escapeHTML(r.values.join('、'))}</span></div>`;
-      });
-      dHtml += `</div>`;
-    });
-    dHtml += `</div>`;
-    html += dHtml;
-  });
-  if (!anyR) return `<div class="es" style="padding:30px 20px"><div class="ei">📊</div><p>目前選中的休企在該部門尚無觀察記錄。</p></div>`;
-  return html;
-}
-function renderAnalysisResult() {
-  const w = document.getElementById('analysisResult'); if (!w) return;
-  const ids = [state.comparison.base, ...state.comparison.picks].filter((v,i,a) => a.indexOf(v) === i);
-  const rows = ids.map(id => { const a = aggCo(id); return a ? {id, ...a} : null; }).filter(Boolean);
-  if (rows.length < 2) { w.innerHTML = `<div class="panel"><div class="pbody"><div class="es"><div class="ei">📊</div><p>尚無足夠的考察記錄可進行對比分析。<br>請先為至少 2 間休企提交考察記錄。</p></div></div></div>`; return; }
-  const sorted = [...rows].sort((a,b) => b.overall - a.overall);
-  const maxS = Math.max(...sorted.map(r => r.overall), 180);
-  const f = state.comparison;
-  const fc = [];
-  if (f.departmentFilter) fc.push(`部門：${f.departmentFilter}`);
-  if (f.dateFrom) fc.push(`起：${f.dateFrom}`);
-  if (f.dateTo) fc.push(`訖：${f.dateTo}`);
-  const fd = fc.length ? '　·　' + fc.join('　·　') : '';
-  let html = '<div class="panel"><div class="ph"><h2><span class="dot"></span>綜合評分排名</h2>';
-  html += `<span class="hint">對比模式 1:${f.ratio}　·　共 ${sorted.length} 間休企　·　有效樣本 ${sorted.reduce((s,r)=>s+r.count,0)} 筆${fd}</span></div><div class="pbody"><div class="rlist2">`;
-  sorted.forEach((r, i) => {
-    const c = getCompany(r.id); const isB = r.id === state.comparison.base;
-    const width = Math.min((r.overall/maxS)*100, 100);
-    html += `<div class="rrow"><div class="rb ${i===0?'top':''}">${i+1}</div><div class="rm"><div class="rt2"><span class="rd" style="background:${c.color}"></span><span class="rn">${c.name}</span>${isB?'<span class="tb2">基準</span>':''}<span class="rcnt">${r.count} 筆</span><span class="rs">${r.overall}<small>/200</small></span></div><div class="rbar"><div class="rfill" style="width:${width}%;background:linear-gradient(90deg,${c.color}55,${c.color})"></div></div></div></div>`;
-  });
-  html += '</div>';
-  html += '<div class="dw"><div class="dt">三維度雷達圖</div><div class="rw">' + renderRadarChart(sorted) + '</div><div class="rl">';
-  sorted.forEach(r => { const c = getCompany(r.id); html += `<span class="l"><span class="ld" style="background:${c.color}"></span>${c.name}</span>`; });
-  html += '</div></div>';
-  html += '<div class="dw"><div class="dt">部門專屬數據對比</div>' + renderDeptBarCharts(sorted) + '</div>';
-  html += '<div class="dw"><div class="dt">三大維度明細</div><div class="tw"><table class="dtab"><thead><tr><th>休企</th>';
-  CRITERIA.forEach(c => { html += `<th>${c.name}</th>`; });
-  html += '<th>綜合 MRSC</th></tr></thead><tbody>';
-  const mx = {};
-  CRITERIA.forEach(c => { mx[c.id] = Math.max(...sorted.map(r => r[c.id])); });
-  sorted.forEach(r => {
-    const c = getCompany(r.id);
-    html += `<tr><td><span class="rc"><span class="cdot" style="background:${c.color}"></span>${c.name}</span></td>`;
-    CRITERIA.forEach(cr => {
-      const v = r[cr.id]; const rk = cr.id === 'smile' ? 'rawSmile' : cr.id === 'proactive' ? 'rawPro' : 'rawPat'; const raw = r[rk];
-      const isMax = v === mx[cr.id] && sorted.length > 1;
-      html += `<td class="dc ${isMax?'win':''}">${v}<span class="draw">原始平均 ${raw.toFixed(2)}</span>${isMax?'<span style="font-size:10px;color:var(--gold)">▲</span>':''}</td>`;
-    });
-    html += `<td class="dc" style="color:var(--gold);font-size:14px">${r.overall}</td></tr>`;
-  });
-  html += `<tr style="border-top:1px solid var(--line)"><td class="dref">全澳平均（MRSC 2026）</td><td class="dc dref">${MRSC_REF.smile}</td><td class="dc dref">${MRSC_REF.proactive}</td><td class="dc dref">${MRSC_REF.patience}</td><td class="dc dref">—</td></tr>`;
-  html += '</tbody></table></div></div></div></div>';
-  w.innerHTML = html;
-}
-function switchTab(name) {
-  if (name === 'analysis' && !isDeveloper()) {
-    requireDeveloperThen(() => {
-      document.getElementById('analysisLocked').classList.remove('on');
-      document.getElementById('analysisContent').style.display = 'block';
-      doSwitchTab('analysis');
-    }, '對比分析僅限開發者使用，請輸入開發者密碼。');
-    return;
-  }
-  doSwitchTab(name);
-}
-function doSwitchTab(name) {
-  $$('.tab').forEach(b => b.classList.toggle('on', b.dataset.tab === name));
-  $$('.tc').forEach(s => s.classList.toggle('on', s.dataset.tab === name));
-  if (name === 'dashboard') renderDashboard();
-  if (name === 'analysis') {
-    if (isDeveloper()) { document.getElementById('analysisLocked').classList.remove('on'); document.getElementById('analysisContent').style.display = 'block'; renderAnalysisSection(); }
-    else { document.getElementById('analysisLocked').classList.add('on'); document.getElementById('analysisContent').style.display = 'none'; }
-  }
-}
-let _bound = false;
-function bindAppEvents() {
-  if (_bound) return; _bound = true;
-  $$('.tab').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
-  $$('.mcard[data-goto]').forEach(c => c.addEventListener('click', () => switchTab(c.dataset.goto)));
-  const on = (id, evt, fn) => { const el = document.getElementById(id); if (el) el.addEventListener(evt, fn); };
-  on('btnTheme', 'click', toggleTheme);
-  on('btnHome', 'click', () => { switchTab('dashboard'); window.scrollTo({top:0, behavior:'smooth'}); });
-  on('btnDev', 'click', openDevPanel);
-  on('btnLogout', 'click', logout);
-  on('fDate', 'change', e => { state.form.date = e.target.value; validateForm(); });
-  on('fTime', 'change', e => { state.form.time = e.target.value; validateForm(); });
-  on('fLocation', 'change', e => { state.form.location = e.target.value; state.form.venueName = ''; renderVenueOptions(''); validateForm(); });
-  on('fCompany', 'change', e => { state.form.company = e.target.value; state.form.venueName = ''; renderVenueOptions(''); validateForm(); });
-  on('fVenueName', 'change', e => { state.form.venueName = e.target.value.trim(); validateForm(); });
-  on('fNotes', 'input', e => { state.form.notes = e.target.value; });
-  on('fDepartment', 'change', e => {
-    const nd = e.target.value; const od = state._lastDept || '';
-    if (nd !== od) {
-      if (state.form.venue.items.length > 0) {
-        if (confirm(`切換部門後，現有「${getDeptConfig(od).itemLabel}」資料將被清空。\n\n確定切換嗎？`)) state.form.venue.items = [];
-        else { e.target.value = od; return; }
-      }
-      state._lastDept = nd;
-    }
-    state.form.department = nd;
-    renderVenueSection(); validateForm();
-  });
-  const vb = document.getElementById('venueBody');
-  if (vb) {
-    vb.addEventListener('click', e => {
-      if (e.target.closest('#btnAddItem')) {
-        const dept = state.form.department || ''; if (!dept) { showToast('請先選擇考察部門', 'error'); return; }
-        const cfg = getDeptConfig(dept); const ni = {}; cfg.fields.forEach(f => { ni[f.key] = ''; });
-        state.form.venue.items.push(ni); renderVenueSection();
-        const rows = $$('#itemRows .grow'); const last = rows[rows.length - 1];
-        if (last) { last.scrollIntoView({behavior:'smooth', block:'center'}); const fi = last.querySelector('.item-input'); if (fi) setTimeout(() => { try { fi.focus({preventScroll:true}); } catch(e){} }, 300); }
-        return;
-      }
-      const db = e.target.closest('.gdel');
-      if (db) { state.form.venue.items.splice(parseInt(db.dataset.idx, 10), 1); renderVenueSection(); validateForm(); }
-    });
-    vb.addEventListener('input', e => {
-      const el = e.target;
-      if (el.classList.contains('item-input') && !el.classList.contains('item-select')) {
-        const row = el.closest('.grow'); if (!row) return;
-        const it = state.form.venue.items[parseInt(row.dataset.idx, 10)]; if (!it) return;
-        const f = el.dataset.field; if (f) { it[f] = el.value; validateForm(); }
-      }
-    });
-    vb.addEventListener('change', e => {
-      const el = e.target;
-      if (el.classList.contains('env-select')) {
-        const k = el.dataset.envKey; if (!k) return;
-        state.form.venue.env[k] = el.value;
-        const w = el.closest('.envf'); if (w) w.classList.toggle('filled', !!el.value);
-        return;
-      }
-      if (el.classList.contains('item-select')) {
-        const row = el.closest('.grow'); if (!row) return;
-        const idx = parseInt(row.dataset.idx, 10);
-        const it = state.form.venue.items[idx]; if (!it) return;
-        const f = el.dataset.field; if (!f) return;
-        it[f] = el.value;
-        const cfg = getDeptConfig(state.form.department);
-        if (cfg.fields.some(fd => fd.showIf && fd.showIf.key === f)) {
-          const nh = renderItemRow(it, idx, cfg); const t = document.createElement('div'); t.innerHTML = nh;
-          const nr = t.firstElementChild; if (nr) row.replaceWith(nr);
-        }
-        validateForm();
-      }
-    });
-  }
-  on('btnSaveRecord', 'click', submitRecord);
-  on('btnResetForm', 'click', () => { if (!confirm('確定清除表單內容？')) return; exitEditMode(); resetForm(); });
-  on('btnCancelEdit', 'click', () => { if (!confirm('取消編輯？表單內容將清空。')) return; exitEditMode(); resetForm(); });
-  on('btnExportJSON', 'click', () => { if (!state.records.length) { showToast('沒有記錄可匯出', 'error'); return; } requirePasswordThen(doExportJSON, '匯出 JSON'); });
-  on('btnExportCSV', 'click', () => { if (!state.records.length) { showToast('沒有記錄可匯出', 'error'); return; } requirePasswordThen(doExportCSV, '匯出 CSV'); });
-  on('btnImport', 'click', () => { const fi = document.getElementById('fileImport'); if (fi) fi.click(); });
-  on('fileImport', 'change', e => { const f = e.target.files[0]; if (f) importJSON(f); e.target.value = ''; });
-  on('btnPrint', 'click', () => window.print());
-  on('btnRefresh', 'click', () => fetchRecordsFromCloud());
-  on('mcBtn', 'click', closeModal);
-  on('moBtn', 'click', submitModal);
-  const moEl = document.getElementById('mo');
-  if (moEl) moEl.addEventListener('click', e => { if (e.target === moEl) closeModal(); });
-  document.addEventListener('keydown', e => {
-    const o = document.getElementById('mo'); if (!o || !o.classList.contains('on')) return;
-    if (e.key === 'Escape') { e.preventDefault(); closeModal(); return; }
-    if (e.key === 'Enter') { const a = document.activeElement; if (a && a.tagName === 'INPUT' && a.closest('#mo')) { e.preventDefault(); submitModal(); } }
-  });
-  on('btnClearAll', 'click', () => {
-    requireDeveloperThen(async () => {
-      if (!state.records.length) { showToast('沒有記錄', ''); return; }
-      if (!confirm(`確定清除全部 ${state.records.length} 筆記錄？`)) return;
-      try {
-        const batch = writeBatch(db);
-        state.records.forEach(r => { batch.delete(doc(db, 'records', r.id)); });
-        await batch.commit();
-        state.records = []; exitEditMode(); resetForm();
-        renderRecordTable(); renderAnalysisSection(); renderDashboard();
-        showToast('所有記錄已清除', 'success');
-      } catch(e) { showToast('清除失敗：' + e.message, 'error'); }
-    }, '清除全部記錄僅限開發者使用，請輸入開發者密碼。');
-  });
-  const bu = document.getElementById('btnUnlockAnalysis');
-  if (bu) bu.addEventListener('click', () => {
-    requireDeveloperThen(() => {
-      document.getElementById('analysisLocked').classList.remove('on');
-      document.getElementById('analysisContent').style.display = 'block';
-      renderAnalysisSection();
-    }, '對比分析僅限開發者使用，請輸入開發者密碼。');
-  });
-  const mg = document.getElementById('modeGroup');
-  if (mg) mg.addEventListener('click', e => {
-    const btn = e.target.closest('.mbtn'); if (!btn) return;
-    $$('.mbtn').forEach(b => b.classList.remove('on'));
-    btn.classList.add('on');
-    state.comparison.ratio = parseInt(btn.dataset.ratio, 10);
-    autoFillPicks(); renderPicker(); renderAnalysisResult();
-  });
-  on('anBase', 'change', e => {
-    state.comparison.base = e.target.value;
-    state.comparison.picks = state.comparison.picks.filter(id => id !== state.comparison.base);
-    autoFillPicks(); renderPicker(); renderAnalysisResult();
-  });
-  on('filterDept', 'change', e => { state.comparison.departmentFilter = e.target.value; renderPicker(); renderAnalysisResult(); });
-  on('filterFrom', 'change', e => { state.comparison.dateFrom = e.target.value; renderPicker(); renderAnalysisResult(); });
-  on('filterTo', 'change', e => { state.comparison.dateTo = e.target.value; renderPicker(); renderAnalysisResult(); });
-  on('btnResetFilter', 'click', () => {
-    state.comparison.departmentFilter = ''; state.comparison.dateFrom = ''; state.comparison.dateTo = '';
-    const fd = document.getElementById('filterDept'); if (fd) fd.value = '';
-    const ff = document.getElementById('filterFrom'); if (ff) ff.value = '';
-    const ft = document.getElementById('filterTo'); if (ft) ft.value = '';
-    renderPicker(); renderAnalysisResult();
-    showToast('已清除篩選', 'success');
-  });
-  on('btnRunAnalysis', 'click', renderAnalysisResult);
-}
-function boot() {
-  try {
-    applyTheme(getTheme());
-    const sa = safeSessionGet(SESSION_KEY) === '1';
-    if (sa && state.inspector.name) enterApp();
-    else initLogin();
-  } catch(err) {
-    console.error('[MRSC] boot 失敗：', err);
-    try { initLogin(); } catch(e) { alert('系統初始化失敗，請重新整理頁面。\n\n錯誤：' + (err?.message || '未知')); }
-  }
-}
-if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
-else boot();
-</script>
-</body>
-</html>
+const CRITERIA=[{id:'smile',name:'笑容',icon:'☺',ref:171,desc:'員工是否面帶真誠笑容、主動以眼神交流，展現親切的服務態度。'},{id:'proactive',name:'主動性',icon:'↗',ref:172,desc:'員工是否主動提供協助、詢問客人需求，而非被動等待指示。'},{id:'patience',name:'耐心',icon:'⏱',ref:103,desc:'員工面對查詢、特殊要求或語言障礙時，是否保持耐心與穩定情緒。'}];
+const RATING_LABELS={1:'非常不滿意',2:'不滿意',3:'一般',4:'滿意',5:'非常滿意'};
+const MRSC_MAP={smile:{1:60,2:100,3:140,4:175,5:200},proactive:{1:60,2:100,3:140,4:176,5:200},patience:{1:30,2:60,3:90,4:115,5:140}};
+const MRSC_MAX={smile:200,proactive:200,patience:140};const MRSC_REF={smile:171,proactive:172,patience:103};
+const TIER_OPTIONS=[{v:'low',l:'低紅（≤ MOP 500）'},{v:'mid',l:'中紅（MOP 501–2,000）'},{v:'high',l:'高紅（MOP 2,001–10,000）'},{v:'vip',l:'貴賓（> MOP 10,000）'}];
+const TIER_SHORT={low:'低紅',mid:'中紅',high:'高紅',vip:'貴賓'};
+const TIME_SLOTS=[{id:'morning',label:'早班',range:'08:00–13:59'},{id:'afternoon',label:'午班',range:'14:00–17:59'},{id:'evening',label:'晚班',range:'18:00–21:59'},{id:'night',label:'夜班',range:'22:00–07:59'}];
+function getTimeSlot(t){if(!t)return null;const[h]=t.split(':').map(Number);if(isNaN(h))return null;if(h>=8&&h<14)return'morning';if(h>=14&&h<18)return'afternoon';if(h>=18&&h<22)return'evening';return'night';}
+const toMRSC=(id,r)=>r?(MRSC_MAP[id]?.[r]??0):0;
+const normMRSC=(id,v)=>Math.max(0,Math.min((v/(MRSC_MAX[id]||200))*100,100));
+const ENV_FIELDS={traffic:{label:'客流量',icon:'👥',options:[{v:'very-low',l:'很低（稀少）'},{v:'low',l:'低（冷清）'},{v:'medium',l:'中等（一般）'},{v:'high',l:'高（熱鬧）'},{v:'very-high',l:'很高（擁擠）'}]},atmosphere:{label:'場內氛圍',icon:'🎭',options:[{v:'quiet',l:'安靜冷清'},{v:'calm',l:'平和'},{v:'lively',l:'熱鬧'},{v:'exciting',l:'非常熱鬧'},{v:'crowded',l:'擁擠喧鬧'}]},ageGroup:{label:'顧客年齡層',icon:'🧑',options:[{v:'senior',l:'以長者為主'},{v:'middle',l:'以中年為主'},{v:'young',l:'以年輕為主'},{v:'mixed',l:'各年齡層均勻'},{v:'family',l:'家庭客居多'}]},mood:{label:'顧客情緒',icon:'😊',options:[{v:'negative',l:'多數不滿'},{v:'neutral',l:'平淡'},{v:'positive',l:'多數愉悅'},{v:'excited',l:'興致高昂'}]},air:{label:'空氣質量',icon:'🌬',options:[{v:'very-poor',l:'很差（悶熱／異味）'},{v:'poor',l:'較差'},{v:'fair',l:'一般'},{v:'good',l:'良好'},{v:'excellent',l:'優良（清新）'}]},overall:{label:'整體受歡迎程度',icon:'⭐',options:[{v:'unpopular',l:'不受歡迎'},{v:'normal',l:'一般'},{v:'popular',l:'受歡迎'},{v:'very-popular',l:'非常受歡迎'}]}};
+const ENV_KEYS=['traffic','atmosphere','ageGroup','mood','air','overall'];
+const RATING_OPTIONS=[{v:'1',l:'1 差'},{v:'2',l:'2 較差'},{v:'3',l:'3 一般'},{v:'4',l:'4 良好'},{v:'5',l:'5 優良'}];
+const YES_NO_OPTIONS=[{v:'yes',l:'有'},{v:'no',l:'冇'}];
+const GAME_OPTIONS=[{v:'百家樂',l:'百家樂'},{v:'免佣百家樂',l:'免佣百家樂'},{v:'輪盤',l:'輪盤'},{v:'廿一點',l:'廿一點'},{v:'骰寶',l:'骰寶'},{v:'富貴三寶',l:'富貴三寶'},{v:'花旗骰',l:'花旗骰'},{v:'牌九',l:'牌九'},{v:'番攤',l:'番攤'},{v:'德州撲克',l:'德州撲克'},{v:'加勒比海撲克',l:'加勒比海撲克'},{v:'三公百家樂',l:'三公百家樂'},{v:'麻雀牌九',l:'麻雀牌九'},{v:'其他',l:'其他'}];
+const DEPT_CONFIG={
+'賭檯運作（中場）':{icon:'🎲',itemLabel:'遊戲記錄',summary:'中場',fields:[
+{key:'name',label:'遊戲種類',type:'select',span:2,placeholder:'請選擇遊戲',options:GAME_OPTIONS},
+{key:'tier',label:'檯種',type:'select',span:2,placeholder:'請選擇檯種',options:TIER_OPTIONS},
+{key:'open',label:'開檯數',type:'number',min:0,max:500,placeholder:'0'},
+{key:'closed',label:'關檯數',type:'number',min:0,max:500,placeholder:'0'},
+{key:'minBet',label:'最低投注(MOP)',type:'number',min:0,max:1000000,step:10,placeholder:'300'}]},
+'賭檯運作（高投）':{icon:'💎',itemLabel:'遊戲記錄',summary:'高投',fields:[
+{key:'name',label:'遊戲種類',type:'select',span:2,placeholder:'請選擇遊戲',options:GAME_OPTIONS},
+{key:'tier',label:'檯種',type:'select',span:2,placeholder:'請選擇檯種',options:TIER_OPTIONS},
+{key:'open',label:'開檯數',type:'number',min:0,max:200,placeholder:'0'},
+{key:'closed',label:'關檯數',type:'number',min:0,max:200,placeholder:'0'},
+{key:'minBet',label:'最低投注(MOP)',type:'number',min:0,max:10000000,step:100,placeholder:'1000'}]},
+'角子機':{icon:'🎰',itemLabel:'機台記錄',summary:'角子機',fields:[
+{key:'name',label:'機台類型',type:'text',span:2,placeholder:'例：標準角子機'},
+{key:'open',label:'開啟機數',type:'number',min:0,max:5000,placeholder:'0'},
+{key:'closed',label:'關閉機數',type:'number',min:0,max:5000,placeholder:'0'},
+{key:'minBet',label:'最低投注(MOP)',type:'number',min:0,max:100000,step:1,placeholder:'1'}]},
+'籌碼兌換':{icon:'💱',itemLabel:'櫃檯記錄',summary:'兌換',fields:[
+{key:'name',label:'櫃檯位置',type:'text',span:2,placeholder:'例：主廳兌換櫃檯'},
+{key:'open',label:'開啟櫃檯數',type:'number',min:0,max:200,placeholder:'0'},
+{key:'queue',label:'排隊人數',type:'number',min:0,max:500,placeholder:'0'},
+{key:'waitTime',label:'等候(分鐘)',type:'number',min:0,max:120,placeholder:'0'}]},
+'保安':{icon:'🛡',itemLabel:'崗位記錄',summary:'保安',fields:[
+{key:'position',label:'崗位位置',type:'select',span:2,placeholder:'請選擇崗位',options:[{v:'inside',l:'場內'},{v:'entrance',l:'門口'}]},
+{key:'uniform',label:'制服整潔',type:'select',placeholder:'請評分',options:RATING_OPTIONS},
+{key:'politeness',label:'禮貌',type:'select',placeholder:'請評分',options:RATING_OPTIONS},
+{key:'posture',label:'站姿',type:'select',showIf:{key:'position',value:'inside'},placeholder:'請評分',options:RATING_OPTIONS},
+{key:'entryTime',label:'進場用時(分)',type:'number',showIf:{key:'position',value:'entrance'},min:0,max:60,placeholder:'0'}]},
+'會籍服務':{icon:'💳',itemLabel:'服務記錄',summary:'會籍',fields:[
+{key:'name',label:'服務項目',type:'text',span:2,placeholder:'例：開卡 / 積分查詢'},
+{key:'open',label:'開啟櫃檯數',type:'number',min:0,max:100,placeholder:'0'},
+{key:'queue',label:'排隊人數',type:'number',min:0,max:500,placeholder:'0'},
+{key:'waitTime',label:'等候(分鐘)',type:'number',min:0,max:120,placeholder:'0'}]},
+'穿梭巴士':{icon:'🚌',itemLabel:'班次記錄',summary:'巴士',fields:[
+{key:'name',label:'路線',type:'text',span:2,placeholder:'例：關閘線 / 港珠澳大橋線'},
+{key:'open',label:'本時段班次',type:'number',min:0,max:200,placeholder:'0'},
+{key:'queue',label:'候車人數',type:'number',min:0,max:1000,placeholder:'0'},
+{key:'waitTime',label:'等候(分鐘)',type:'number',min:0,max:120,placeholder:'0'},
+{key:'wifi',label:'車內提供 WiFi',type:'select',placeholder:'請選擇',options:YES_NO_OPTIONS},
+{key:'water',label:'車內提供樽裝水',type:'select',placeholder:'請選擇',options:YES_NO_OPTIONS}]},
+'衣帽間':{icon:'🧥',itemLabel:'寄存記錄',summary:'衣帽間',fields:[
+{key:'name',label:'服務項目',type:'text',span:2,placeholder:'例：寄存行李 / 取件'},
+{key:'open',label:'開啟窗口數',type:'number',min:0,max:50,placeholder:'0'},
+{key:'queue',label:'排隊人數',type:'number',min:0,max:500,placeholder:'0'},
+{key:'waitTime',label:'等候(分鐘)',type:'number',min:0,max:120,placeholder:'0'}]}};
+const DEPARTMENT_NAMES=Object.keys(DEPT_CONFIG);
+const DEFAULT_DEPT_CONFIG={icon:'📝',itemLabel:'觀察記錄',summary:'其他',fields:[
+{key:'name',label:'項目',type:'text',span:2,placeholder:'例：項目名稱'},
+{key:'open',label:'數量',type:'number',min:0,max:10000,placeholder:'0'},
+{key:'closed',label:'備註數值',type:'number',min:0,max:10000,placeholder:'0'},
+{key:'minBet',label:'金額(MOP)',type:'number',min:0,max:1000000,step:10,placeholder:'0'}]};
+const getDeptConfig=d=>DEPT_CONFIG[(d||'').trim()]||DEFAULT_DEPT_CONFIG;
+const isFieldVisible=(f,it)=>!f.showIf||((it?it[f.showIf.key]:'')===f.showIf.value);
+const PWD_KEY='mrsc_export_password';const DEV_KEY='mrsc_dev_verified';const THEME_KEY='mrsc_theme';const DEFAULT_PWD='123456';const SESSION_KEY='mrsc_session';
+const getStoredPassword=()=>{try{const s=localStorage.getItem(PWD_KEY);return s===null?DEFAULT_PWD:s;}catch(e){return DEFAULT_PWD;}};
+const setStoredPassword=p=>{try{localStorage.setItem(PWD_KEY,p);return true;}catch(e){return false;}};
+const getTheme=()=>{try{return localStorage.getItem(THEME_KEY)==='light'?'light':'dark';}catch(e){return'dark';}};
+function applyTheme(t){document.documentElement.setAttribute('data-theme',t);const ti=document.getElementById('themeIcon');if(ti)ti.textContent=t==='dark'?'🌙':'☀️';const m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',t==='dark'?'#0b0e14':'#eef1f6');if(state.records.length>0)renderAnalysisResult();}
+function setTheme(t){try{localStorage.setItem(THEME_KEY,t);}catch(e){}applyTheme(t);}
+function toggleTheme(){const n=getTheme()==='dark'?'light':'dark';setTheme(n);showToast(n==='dark'?'已切換至夜間模式':'已切換至日間模式','success');}
+const safeSessionGet=k=>{try{return sessionStorage.getItem(k);}catch(e){return null;}};
+const safeSessionSet=(k,v)=>{try{sessionStorage.setItem(k,v);}catch(e){}};
+const safeSessionRemove=k=>{try{sessionStorage.removeItem(k);}catch(e){}};
+const isDeveloper=()=>safeSessionGet(DEV_KEY)==='1';
+function setDeveloper(v){if(v)safeSessionSet(DEV_KEY,'1');else safeSessionRemove(DEV_KEY);updateDevBadge();}
+function updateDevBadge(){const b=document.getElementById('devBadge');if(b)b.classList.toggle('show',isDeveloper());const c=document.getElementById('btnClearAll');if(c)c.style.display=isDeveloper()?'':'none';const t=document.querySelector('.tab-btn[data-tab="analysis"]');if(t)t.classList.toggle('locked',!isDeveloper());if(document.getElementById('rt'))renderRecordTable();}
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const todayISO=()=>{const d=new Date();return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
+const nowTime=()=>{const d=new Date();return`${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;};
+const escapeHTML=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const getCompany=id=>COMPANIES.find(c=>c.id===id);
+const safeStr=v=>(v===null||v===undefined)?'':String(v);
+const emptyVenue=()=>({items:[],env:{}});
+const state={inspector:{name:'',id:''},records:[],editingId:null,_lastDept:'',form:{date:'',time:'',location:'',company:'',venueName:'',department:'',ratings:{smile:null,proactive:null,patience:null},venue:emptyVenue(),notes:''},comparison:{ratio:1,base:'galaxy',picks:[],departmentFilter:'',dateFrom:'',dateTo:'',timeFilter:'all'}};
+function showToast(msg,type=''){const el=document.getElementById('toast');if(!el)return;const icons={success:'✓',error:'✕','':'ℹ'};el.className='toast '+type;el.innerHTML=`<span class="ti">${icons[type]||'ℹ'}</span><span>${escapeHTML(msg)}</span>`;el.classList.add('on');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('on'),2800);}
+let _modalCtx=null;
+function openModal(cfg){const o=document.getElementById('mo');if(!o)return;const icon=document.getElementById('mi');icon.className='mi2'+(cfg.iconType==='dev'?' dev':'');icon.textContent=cfg.icon||'🔒';document.getElementById('mt').textContent=cfg.title||'';const d=document.getElementById('md');d.textContent=cfg.desc||'';d.style.display=cfg.desc?'block':'none';const fields=cfg.fields||[];document.getElementById('mf').innerHTML=fields.map(f=>`<div class="fld"><label>${escapeHTML(f.label)}</label><input type="${f.type||'password'}" id="${f.id}" placeholder="${escapeHTML(f.placeholder||'')}" value="${escapeHTML(f.value||'')}" autocomplete="off" spellcheck="false" ${f.maxlength?`maxlength="${f.maxlength}"`:''}></div>`).join('');const e=document.getElementById('me');e.classList.remove('on');e.textContent='';document.getElementById('moBtn').textContent=cfg.confirmText||'確定';document.getElementById('mcBtn').textContent=cfg.cancelText||'取消';_modalCtx={fields,onSubmit:cfg.onSubmit};o.classList.add('on');setTimeout(()=>{const f=document.querySelector('#mf input');if(f)try{f.focus();}catch(e){}},200);}
+function closeModal(){const o=document.getElementById('mo');if(o)o.classList.remove('on');_modalCtx=null;}
+function modalErr(msg){const e=document.getElementById('me');if(!e)return;e.textContent=msg;e.classList.add('on');e.style.animation='none';void e.offsetWidth;e.style.animation='';}
+function submitModal(){if(!_modalCtx)return;const vals={};_modalCtx.fields.forEach(f=>{const el=document.getElementById(f.id);vals[f.id]=el?el.value:'';});const r=_modalCtx.onSubmit(vals);if(r&&typeof r==='object'&&r.error){modalErr(r.error);return;}if(r===false)return;closeModal();}
+function requirePasswordThen(fn,label){openModal({icon:'🔒',title:'匯出需要密碼',desc:`為保護考察資料，${label||'匯出'}前請先輸入密碼。`,fields:[{id:'pwd',label:'匯出密碼',type:'password',placeholder:'請輸入密碼',maxlength:50}],confirmText:'確認匯出',onSubmit:v=>{const p=(v.pwd||'').trim();if(!p)return{error:'請輸入密碼'};if(p!==getStoredPassword())return{error:'密碼錯誤，請重試'};setTimeout(()=>{try{fn();}catch(e){showToast('匯出失敗：'+(e.message||'未知錯誤'),'error');}},150);return true;}});}
+function requireDeveloperThen(fn,descText){if(isDeveloper()){fn();return;}openModal({icon:'🔓',iconType:'dev',title:'開發者驗證',desc:descText||'此功能僅限開發者使用，請輸入開發者密碼。',fields:[{id:'pwd',label:'開發者密碼',type:'password',placeholder:'請輸入密碼',maxlength:50}],confirmText:'驗證',onSubmit:v=>{const p=(v.pwd||'').trim();if(!p)return{error:'請輸入密碼'};if(p!==getStoredPassword())return{error:'密碼錯誤'};setDeveloper(true);setTimeout(()=>{showToast('已進入開發者模式','success');try{fn();}catch(e){}},150);return true;}});}
+function openDevPanel(){if(isDeveloper()){openPasswordChange();return;}openModal({icon:'⚙',iconType:'dev',title:'開發者模式',desc:'請輸入開發者密碼以進入設定。預設密碼為 123456。',fields:[{id:'pwd',label:'開發者密碼',type:'password',placeholder:'請輸入密碼',maxlength:50}],confirmText:'進入設定',onSubmit:v=>{const p=(v.pwd||'').trim();if(!p)return{error:'請輸入密碼'};if(p!==getStoredPassword())return{error:'密碼錯誤'};setDeveloper(true);setTimeout(()=>{showToast('已進入開發者模式','success');openPasswordChange();},150);return true;}});}
+function openPasswordChange(){openModal({icon:'🔑',iconType:'dev',title:'開發者設定',desc:'修改匯出密碼（至少 4 字元）。若兩個欄位留空，則登出開發者模式。',fields:[{id:'newPwd',label:'新密碼',type:'password',placeholder:'至少 4 個字元（留空可登出）',maxlength:50},{id:'confirmPwd',label:'確認新密碼',type:'password',placeholder:'再次輸入',maxlength:50}],confirmText:'儲存 / 登出',onSubmit:v=>{const a=(v.newPwd||'').trim();const b=(v.confirmPwd||'').trim();if(!a&&!b){setDeveloper(false);setTimeout(()=>showToast('已登出開發者模式','success'),150);return true;}if(a.length<4)return{error:'密碼至少 4 個字元'};if(a!==b)return{error:'兩次輸入不一致'};if(a===DEFAULT_PWD)return{error:'不可使用預設密碼'};if(setStoredPassword(a)){setTimeout(()=>showToast('匯出密碼已更新','success'),150);return true;}return{error:'儲存失敗'};}});}
+function normalizeVenue(venue){const out=emptyVenue();if(!venue||typeof venue!=='object')return out;if(Array.isArray(venue.items))out.items=venue.items.filter(it=>it&&typeof it==='object').map(it=>({...it}));else if(Array.isArray(venue.games))out.items=venue.games.filter(g=>g&&typeof g==='object').map(g=>({name:safeStr(g.name),open:safeStr(g.tablesOpen),closed:safeStr(g.tablesClosed),minBet:safeStr(g.minBet)}));else if(typeof venue.games==='string'&&venue.games)out.items=[{name:safeStr(venue.games),open:safeStr(venue.tablesOpen),closed:safeStr(venue.tablesClosed),minBet:safeStr(venue.minBet)}];if(venue.env&&typeof venue.env==='object')out.env={...venue.env};else out.env={traffic:safeStr(venue.traffic),air:safeStr(venue.air)};return out;}
+async function fetchRecordsFromCloud(){try{showToast('正在從雲端載入資料...','');const snapshot=await getDocs(recordsCol);state.records=snapshot.docs.map(d=>({id:d.id,...d.data()}));state.records.sort((a,b)=>{const ta=a.updatedAt||a.submittedAt||'';const tb=b.updatedAt||b.submittedAt||'';return tb.localeCompare(ta);});renderRecordTable();renderDashboard();renderAnalysisSection();showToast(`已載入 ${state.records.length} 筆雲端記錄`,'success');}catch(e){console.error('載入失敗：',e);showToast('載入失敗：'+e.message+'（請檢查 Firestore 規則）','error');throw e;}}
+async function migrateLocalDataToCloud(){const LEGACY=['mrsc_records_v6','mrsc_records_v5','mrsc_records_v4','mrsc_records_v3','mrsc_records_v2','mrsc_records_v1','gsi_records_v3','gsi_records_v2'];let localRecords=null;for(const key of LEGACY){const raw=localStorage.getItem(key);if(raw){try{const d=JSON.parse(raw);if(d&&Array.isArray(d.records)){localRecords=d.records;break;}}catch(e){}}}if(!localRecords||localRecords.length===0)return;if(!confirm(`偵測到本機有 ${localRecords.length} 筆舊記錄，是否要上傳到雲端？`))return;let n=0;for(const rec of localRecords){try{const{id,...data}=rec;const docId=id||('MRSC-LEGACY-'+Date.now()+'-'+Math.random().toString(36).slice(2,8));await setDoc(doc(db,'records',docId),{...data,_legacyId:id,serverTime:serverTimestamp()});n++;}catch(e){}}showToast(`已成功上傳 ${n} 筆記錄`,'success');LEGACY.forEach(k=>localStorage.removeItem(k));await fetchRecordsFromCloud();}
+function renderDashboard(){const nEl=document.getElementById('dashName');const iEl=document.getElementById('dashId');const tEl=document.getElementById('dashToday');if(nEl)nEl.textContent=state.inspector.name||'考察人員';if(iEl)iEl.textContent=state.inspector.id||'—';if(tEl){const d=new Date();const w=['日','一','二','三','四','五','六'][d.getDay()];tEl.textContent=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}（週${w}）`;}const total=state.records.length;const totEl=document.getElementById('statTotal');if(totEl)totEl.innerHTML=`${total}<small>筆</small>`;const totSub=document.getElementById('statTotalSub');if(totSub)totSub.textContent=total===0?'尚未提交記錄':`最後更新：${getLastUpdatedLabel()}`;const now=new Date();const weekAgo=new Date(now.getTime()-7*24*3600*1000);const wc=state.records.filter(r=>{if(!r.date)return false;const d=new Date(r.date+'T00:00:00');return d>=weekAgo&&d<=now;}).length;const wEl=document.getElementById('statWeek');if(wEl)wEl.innerHTML=`${wc}<small>筆</small>`;const cc=new Set(state.records.map(r=>r.companyId)).size;const cEl=document.getElementById('statCompanies');if(cEl)cEl.innerHTML=`${cc}<small>/ ${COMPANIES.length}</small>`;const cSub=document.getElementById('statCompaniesSub');if(cSub){if(cc===0)cSub.textContent='尚未涵蓋任何休企';else if(cc===COMPANIES.length)cSub.textContent='已涵蓋全部休企';else cSub.textContent=`尚餘 ${COMPANIES.length-cc} 間未考察`;}const aEl=document.getElementById('statAvg');const aSub=document.getElementById('statAvgSub');if(total===0){if(aEl)aEl.textContent='—';if(aSub)aSub.textContent='尚無資料';}else{const avg=state.records.reduce((s,r)=>{const nS=normMRSC('smile',toMRSC('smile',r.ratings.smile));const nP=normMRSC('proactive',toMRSC('proactive',r.ratings.proactive));const nT=normMRSC('patience',toMRSC('patience',r.ratings.patience));return s+((nS+nP+nT)/3)*2;},0)/total;if(aEl)aEl.innerHTML=`${avg.toFixed(1)}<small>/ 200</small>`;if(aSub)aSub.textContent=`基於 ${total} 筆記錄`;}renderRecentList();}
+function getLastUpdatedLabel(){if(state.records.length===0)return'—';const sorted=[...state.records].sort((a,b)=>(b.updatedAt||b.submittedAt||'').localeCompare(a.updatedAt||a.submittedAt||''));const ts=sorted[0].updatedAt||sorted[0].submittedAt;if(!ts)return'—';const d=new Date(ts);const diff=Date.now()-d.getTime();const min=Math.floor(diff/60000);if(min<1)return'剛剛';if(min<60)return`${min} 分鐘前`;const hr=Math.floor(min/60);if(hr<24)return`${hr} 小時前`;const day=Math.floor(hr/24);if(day<7)return`${day} 天前`;return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function renderRecentList(){const w=document.getElementById('recentList');const h=document.getElementById('recentHint');if(!w)return;if(state.records.length===0){w.innerHTML=`<div class="es" style="padding:30px 20px"><div class="ei">📋</div><p>尚無考察記錄。<br>點擊上方「新增考察記錄」開始填寫。</p></div>`;if(h)h.textContent='最新 5 筆';return;}const sorted=[...state.records].sort((a,b)=>(b.updatedAt||b.submittedAt||'').localeCompare(a.updatedAt||a.submittedAt||'')).slice(0,5);if(h)h.textContent=`最新 ${sorted.length} 筆`;w.innerHTML=sorted.map(r=>{const c=getCompany(r.companyId);const nS=normMRSC('smile',toMRSC('smile',r.ratings.smile));const nP=normMRSC('proactive',toMRSC('proactive',r.ratings.proactive));const nT=normMRSC('patience',toMRSC('patience',r.ratings.patience));const ov=Math.round(((nS+nP+nT)/3)*2);return`<div class="recent-item"><span class="rec-dot" style="background:${c?.color||'#888'}"></span><div class="rec-main"><strong>${escapeHTML(c?.name||'—')} · ${escapeHTML(r.venueName||'—')}</strong><span>${escapeHTML(r.date)} ${escapeHTML(r.time)} · ${escapeHTML(r.department||'—')} · ${escapeHTML(r.inspectorName||'')}</span></div><span class="rec-score">${ov}</span></div>`;}).join('');}
+function initLogin(){const n=document.getElementById('ln');const i=document.getElementById('lid');const b=document.getElementById('btnLogin');if(!n||!i||!b)return;n.value='';i.value='';const upd=()=>{b.disabled=(n.value||'').trim().length<2;};['input','keyup','change','compositionend','paste','blur'].forEach(evt=>n.addEventListener(evt,()=>setTimeout(upd,0)));upd();const enter=e=>{if(e.key==='Enter'&&!b.disabled){e.preventDefault();b.click();}};n.addEventListener('keydown',enter);i.addEventListener('keydown',enter);b.addEventListener('click',()=>{const name=(n.value||'').trim();if(name.length<2){showToast('請輸入至少 2 個字的姓名','error');return;}state.inspector.name=name;state.inspector.id=(i.value||'').trim()||('MRSC-'+Date.now().toString(36).toUpperCase().slice(-6));safeSessionSet(SESSION_KEY,'1');try{enterApp();}catch(err){showToast('進入系統失敗：'+(err?.message||'未知錯誤'),'error');}});setTimeout(()=>{try{n.focus();}catch(e){}},100);}
+async function enterApp(){const o=document.getElementById('lo');const a=document.getElementById('app');if(o)o.style.display='none';if(a)a.style.display='block';const tn=document.getElementById('topName');const ti=document.getElementById('topId');const ta=document.getElementById('topAvatar');const fi=document.getElementById('fInspector');if(tn)tn.textContent=state.inspector.name;if(ti)ti.textContent=state.inspector.id;if(ta)ta.textContent=(state.inspector.name||'考').charAt(0);if(fi)fi.value=state.inspector.name;fillCompanyOptions();fillDepartmentOptions();renderCriteria();renderFormDefaults();renderVenueSection();renderRecordTable();renderDashboard();bindAppEvents();renderAnalysisSection();updateDevBadge();switchTab('dashboard');try{await fetchRecordsFromCloud();}catch(e){console.error('[MRSC] 雲端載入失敗：',e);}setTimeout(migrateLocalDataToCloud,1500);}
+function logout(){if(!confirm('確定登出？未提交的表單內容將遺失。'))return;safeSessionRemove(SESSION_KEY);safeSessionRemove(DEV_KEY);location.reload();}
+function fillCompanyOptions(){const s=document.getElementById('fCompany');if(!s)return;s.innerHTML='<option value="">請選擇</option>'+COMPANIES.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');}
+function fillDepartmentOptions(){const s=document.getElementById('fDepartment');if(!s)return;s.innerHTML='<option value="">請選擇部門</option>'+DEPARTMENT_NAMES.map(d=>`<option value="${escapeHTML(d)}">${escapeHTML(d)}</option>`).join('');}
+function renderVenueOptions(sel){const loc=state.form.location||'';const cid=state.form.company||'';const s=document.getElementById('fVenueName');if(!s)return;if(!loc&&!cid){s.innerHTML='<option value="">請先選擇考察地點與休企</option>';return;}if(!loc){s.innerHTML='<option value="">請先選擇考察地點</option>';return;}if(!cid){s.innerHTML='<option value="">請先選擇考察休企</option>';return;}const c=getCompany(cid);if(!c){s.innerHTML='<option value="">請先選擇考察休企</option>';return;}const groups=VENUE_BY_LOCATION[loc]||[];const targets=groups.filter(g=>g.group===c.name);let html='<option value="">請選擇場館</option>';if(targets.length===0||targets.every(g=>g.venues.length===0))html='<option value="">此休企在此地點沒有場館</option>';else{targets.forEach(g=>g.venues.forEach(v=>{html+=`<option value="${escapeHTML(v)}" ${sel&&sel===v?'selected':''}>${escapeHTML(v)}</option>`;}));html+='<option value="其他">其他</option>';}s.innerHTML=html;}
+function renderFormDefaults(){if(!state.form.date)state.form.date=todayISO();if(!state.form.time)state.form.time=nowTime();const sv=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v;};sv('fDate',state.form.date);sv('fTime',state.form.time);sv('fLocation',safeStr(state.form.location));sv('fCompany',safeStr(state.form.company));renderVenueOptions(state.form.venueName);sv('fDepartment',safeStr(state.form.department));sv('fNotes',safeStr(state.form.notes));}
+function renderVenueSection(){const w=document.getElementById('venueBody');const h=document.getElementById('venueHint');if(!w)return;const dept=state.form.department||'';const cfg=getDeptConfig(dept);const items=state.form.venue.items||[];const env=state.form.venue.env||{};if(h)h.textContent=dept?`${cfg.icon||'📝'} 部門專屬項目（${dept}）　·　環境觀察為固定項目`:'請先選擇「考察部門」顯示專屬項目';let html='';if(!dept)html+=`<div class="gempty">請先於上方「考察資訊」選擇「考察部門」，本區塊將顯示該部門專屬的觀察項目。</div>`;else{html+=`<div class="slabel"><span>${escapeHTML(cfg.itemLabel)}（可新增多筆）</span><button class="btn bg bs" id="btnAddItem" type="button">＋ 新增一筆</button></div>`;if(items.length===0)html+=`<div class="gempty">尚未新增記錄。可點擊右上角「＋ 新增一筆」開始填寫。<br>若此場考察無需記錄，可略過此區塊。</div>`;else{html+='<div class="glist" id="itemRows">';items.forEach((it,i)=>{html+=renderItemRow(it,i,cfg);});html+='</div>';}}html+=`<div class="envs"><div class="slabel"><span>環境觀察（固定項目）<span class="sn">反映場館是否受客人喜愛</span></span></div><div class="envg">`;ENV_KEYS.forEach(k=>{const ed=ENV_FIELDS[k];if(!ed)return;const cur=env[k]||'';html+=`<div class="envf ${cur?'filled':''}"><label><span>${ed.icon}</span>${escapeHTML(ed.label)}</label><select class="env-select" data-env-key="${k}"><option value="">請選擇</option>${ed.options.map(o=>`<option value="${o.v}" ${cur===o.v?'selected':''}>${o.l}</option>`).join('')}</select></div>`;});html+=`</div></div>`;w.innerHTML=html;}
+function renderItemRow(it,i,cfg){const fs=(cfg.fields||[]).filter(f=>isFieldVisible(f,it));const cols=(fs.length?fs.map(f=>f.span===2?'2fr':'1fr').join(' '):'1fr')+' auto';let inputs='';fs.forEach(f=>{const val=safeStr(it[f.key]);if(f.type==='number')inputs+=`<div class="fld"><label>${escapeHTML(f.label)}</label><input type="number" class="item-input" data-field="${f.key}" min="${f.min??0}" max="${f.max??999999}" step="${f.step??1}" inputmode="numeric" placeholder="${escapeHTML(f.placeholder||'')}" value="${escapeHTML(val)}"></div>`;else if(f.type==='select')inputs+=`<div class="fld"><label>${escapeHTML(f.label)}</label><select class="item-input item-select" data-field="${f.key}"><option value="">${escapeHTML(f.placeholder||'請選擇')}</option>${(f.options||[]).map(o=>`<option value="${o.v}" ${val===o.v?'selected':''}>${escapeHTML(o.l)}</option>`).join('')}</select></div>`;else inputs+=`<div class="fld"><label>${escapeHTML(f.label)}</label><input type="text" class="item-input" data-field="${f.key}" placeholder="${escapeHTML(f.placeholder||'')}" value="${escapeHTML(val)}" maxlength="40" autocomplete="off"></div>`;});return`<div class="grow" data-idx="${i}" style="grid-template-columns:${cols}">${inputs}<button class="gdel" data-idx="${i}" type="button" title="刪除">✕</button></div>`;}
+function renderCriteria(){const w=document.getElementById('criteriaList');if(!w)return;w.innerHTML=CRITERIA.map(c=>`<div class="cr" data-crit="${c.id}"><div class="chead"><div class="cicon">${c.icon}</div><div><div class="cname">${c.name}<span class="ref">MRSC 2026 全澳 ${c.ref}</span></div><div class="cdesc">${c.desc}</div></div></div><div class="rr"><div class="rbtns">${[1,2,3,4,5].map(n=>`<button class="rbtn" data-crit="${c.id}" data-score="${n}" title="${RATING_LABELS[n]}">${n}</button>`).join('')}</div><div class="rlbl" data-crit-label="${c.id}">尚未評分</div></div></div>`).join('');w.addEventListener('click',e=>{const b=e.target.closest('.rbtn');if(!b)return;const critId=b.dataset.crit;state.form.ratings[critId]=parseInt(b.dataset.score,10);updateRatingUI(critId);validateForm();});}
+function updateRatingUI(cid){$$(`.rbtn[data-crit="${cid}"]`).forEach(b=>b.classList.toggle('on',parseInt(b.dataset.score,10)===state.form.ratings[cid]));const l=document.querySelector(`[data-crit-label="${cid}"]`);const s=state.form.ratings[cid];if(l){if(s){l.innerHTML=`${RATING_LABELS[s]}<span class="eq">MRSC ≈ ${toMRSC(cid,s)}</span>`;l.classList.add('on');}else{l.textContent='尚未評分';l.classList.remove('on');}}const c=document.querySelector(`.cr[data-crit="${cid}"]`);if(c)c.classList.toggle('scored',!!s);}
+function validateForm(){const b=document.getElementById('btnSaveRecord');if(b)b.disabled=validateFormData().length>0;}
+function validateFormData(){const e=[];const f=state.form;if(!f.date)e.push('考察日期為必填');else if(f.date>todayISO())e.push('考察日期不可晚於今天');if(!f.time)e.push('考察時間為必填');if(!f.location)e.push('考察地點為必填');if(!f.company)e.push('考察休企為必填');if(!f.venueName)e.push('場館名稱為必填');if(!f.department)e.push('考察部門為必填');CRITERIA.forEach(c=>{if(!f.ratings[c.id])e.push(`${c.name}評分為必填`);});const cfg=getDeptConfig(f.department);(f.venue.items||[]).forEach((it,i)=>{cfg.fields.forEach(fd=>{if(!isFieldVisible(fd,it)||fd.type!=='number')return;const v=it[fd.key];if(v===''||v===null||v===undefined)return;const n=Number(v);const lbl=it.name?`「${it.name}」${fd.label}`:`第 ${i+1} 筆 ${fd.label}`;if(isNaN(n))e.push(`${lbl}必須為數字`);else if(n<(fd.min??0)||n>(fd.max??999999))e.push(`${lbl}應在 ${fd.min??0}–${fd.max??999999} 之間`);});});return e;}
+function showErrors(errs){const b=document.getElementById('errorsBox');const l=document.getElementById('errorsList');if(!b||!l)return;if(!errs.length){b.classList.remove('on');return;}l.innerHTML=errs.map(e=>`<li>${escapeHTML(e)}</li>`).join('');b.classList.add('on');b.scrollIntoView({behavior:'smooth',block:'center'});}
+function buildCleanVenue(){const cfg=getDeptConfig(state.form.department);const items=(state.form.venue.items||[]).map(it=>{const o={};cfg.fields.forEach(f=>{const v=it[f.key];o[f.key]=(v==null)?'':v;});return o;}).filter(it=>Object.values(it).some(v=>v!==''&&v!=null));const env={};ENV_KEYS.forEach(k=>{if(state.form.venue.env[k])env[k]=state.form.venue.env[k];});return{items,env};}
+async function submitRecord(){const errs=validateFormData();if(errs.length){showErrors(errs);showToast(`表單有 ${errs.length} 項問題`,'error');return;}showErrors([]);const v=buildCleanVenue();const editing=!!state.editingId;try{if(editing){const upd={date:state.form.date,time:state.form.time,location:state.form.location,companyId:state.form.company,venueName:state.form.venueName.trim(),department:state.form.department.trim(),ratings:{...state.form.ratings},venue:v,notes:state.form.notes.trim(),updatedAt:new Date().toISOString()};await updateDoc(doc(db,'records',state.editingId),upd);const idx=state.records.findIndex(r=>r.id===state.editingId);if(idx!==-1)state.records[idx]={...state.records[idx],...upd};showToast('記錄已更新','success');exitEditMode();}else{const ds=state.form.date.replace(/-/g,'');const prefix=`MRSC-${ds}-`;const nums=state.records.filter(r=>r.id&&r.id.startsWith(prefix)).map(r=>parseInt(r.id.slice(prefix.length),10)).filter(n=>!isNaN(n));const maxN=nums.length?Math.max(...nums):0;const customId=`${prefix}${String(maxN+1).padStart(3,'0')}`;const rec={inspectorName:state.inspector.name,inspectorId:state.inspector.id,date:state.form.date,time:state.form.time,location:state.form.location,companyId:state.form.company,venueName:state.form.venueName.trim(),department:state.form.department.trim(),ratings:{...state.form.ratings},venue:v,notes:state.form.notes.trim(),submittedAt:new Date().toISOString(),serverTime:serverTimestamp()};await setDoc(doc(db,'records',customId),rec);state.records.unshift({id:customId,...rec});showToast(`已提交至雲端：${customId}`,'success');}resetForm();renderRecordTable();renderAnalysisSection();renderDashboard();}catch(e){console.error('提交失敗：',e);showToast('提交失敗：'+e.message,'error');}}
+function editRecord(id){requireDeveloperThen(()=>{const r=state.records.find(x=>x.id===id);if(!r)return;state.editingId=id;state.form={date:r.date,time:r.time,location:r.location,company:r.companyId,venueName:r.venueName||'',department:r.department||'',ratings:{...r.ratings},venue:normalizeVenue(r.venue),notes:r.notes||''};state._lastDept=r.department||'';renderFormDefaults();renderVenueSection();CRITERIA.forEach(c=>updateRatingUI(c.id));const b=document.getElementById('editBanner');if(b)b.classList.add('on');const rid=document.getElementById('editRecordId');if(rid)rid.textContent=id;const btn=document.getElementById('btnSaveRecord');if(btn)btn.textContent='更新記錄';validateForm();switchTab('inspection');window.scrollTo({top:0,behavior:'smooth'});showToast(`正在編輯 ${id}`,'');},'編輯記錄僅限開發者使用，請輸入開發者密碼。');}
+function deleteRecord(id){requireDeveloperThen(async()=>{if(!confirm(`確定刪除記錄 ${id}？此操作無法復原。`))return;try{await deleteDoc(doc(db,'records',id));state.records=state.records.filter(r=>r.id!==id);if(state.editingId===id){exitEditMode();resetForm();}renderRecordTable();renderAnalysisSection();renderDashboard();showToast('記錄已刪除','success');}catch(e){showToast('刪除失敗：'+e.message,'error');}},'刪除記錄僅限開發者使用，請輸入開發者密碼。');}
+function exitEditMode(){state.editingId=null;const b=document.getElementById('editBanner');if(b)b.classList.remove('on');const btn=document.getElementById('btnSaveRecord');if(btn)btn.textContent='提交考察記錄';}
+function resetForm(){state.form.date=todayISO();state.form.time=nowTime();state.form.location='';state.form.company='';state.form.venueName='';state.form.department='';state.form.ratings={smile:null,proactive:null,patience:null};state.form.venue=emptyVenue();state.form.notes='';state._lastDept='';renderFormDefaults();renderVenueSection();CRITERIA.forEach(c=>updateRatingUI(c.id));showErrors([]);validateForm();}
+function buildVenueCellHtml(record){const cfg=getDeptConfig((record.department||'').trim());const v=record.venue||{};const items=Array.isArray(v.items)?v.items:[];const env=v.env||{};let html='';if(items.length){html+=items.map(it=>{const lines=[];cfg.fields.forEach(f=>{if(!isFieldVisible(f,it))return;const val=it[f.key];if(val===''||val===null||val===undefined)return;if(f.type==='select'){const o=(f.options||[]).find(o=>o.v===val);const dv=o?o.l:val;if(f.key==='position')lines.push(`<span class="vg">${escapeHTML(f.label)}：${escapeHTML(dv)}</span>`);else if(f.key==='tier')lines.push(`<span class="vd" style="color:var(--gold);font-weight:600">${escapeHTML(TIER_SHORT[val]||val)}檯</span>`);else lines.push(`<span class="vd">${escapeHTML(f.label)} ${escapeHTML(dv)}</span>`);}else if(f.key==='name')lines.push(`<span class="vg">${escapeHTML(val)}</span>`);else lines.push(`<span class="vd">${escapeHTML(f.label)} ${escapeHTML(String(val))}</span>`);});return lines.length?`<div class="gi">${lines.join('')}</div>`:'';}).filter(Boolean).join('');}const chips=[];ENV_KEYS.forEach(k=>{const ed=ENV_FIELDS[k];if(!ed||!env[k])return;const o=ed.options.find(o=>o.v===env[k]);chips.push(`<span class="ec">${ed.icon} ${ed.label} ${o?o.l:env[k]}</span>`);});if(chips.length)html+=`<span class="el">${chips.join('')}</span>`;return html||'<span style="color:var(--ph)">—</span>';}
+function renderRecordTable(){const tb=document.querySelector('#rt tbody');if(!tb)return;const n=state.records.length;const b=document.getElementById('recBadge');if(b)b.textContent=n;const s=document.getElementById('recSummary');if(s)s.textContent=`共 ${n} 筆紀錄`;if(n===0){tb.innerHTML=`<tr><td colspan="11"><div class="es"><div class="ei">📋</div><p>尚無考察記錄。<br>請切換至「新考察記錄」標籤開始填寫。</p></div></td></tr>`;return;}const dev=isDeveloper();const sorted=[...state.records].sort((a,b)=>(b.updatedAt||b.submittedAt||'').localeCompare(a.updatedAt||a.submittedAt||''));tb.innerHTML=sorted.map(r=>{const c=getCompany(r.companyId);const isEd=r.id===state.editingId;const nS=normMRSC('smile',toMRSC('smile',r.ratings.smile));const nP=normMRSC('proactive',toMRSC('proactive',r.ratings.proactive));const nT=normMRSC('patience',toMRSC('patience',r.ratings.patience));const ov=Math.round(((nS+nP+nT)/3)*2);const actions=dev?`<div class="ra"><button class="btn bb bxs" data-edit="${escapeHTML(r.id)}">編輯</button><button class="btn bd bxs" data-del="${escapeHTML(r.id)}">刪除</button></div>`:`<span style="color:var(--ph);font-size:11.5px;">🔒 唯讀</span>`;return`<tr class="${isEd?'editing':''}"><td data-label="記錄編號"><span class="rid">${escapeHTML(r.id)}</span></td><td data-label="日期 / 時間"><div style="font-weight:600">${escapeHTML(r.date)}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${escapeHTML(r.time)}</div></td><td data-label="考察人員"><div style="font-weight:600">${escapeHTML(r.inspectorName)}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${escapeHTML(r.inspectorId)}</div></td><td data-label="地點">${escapeHTML(r.location)}</td><td data-label="休企 / 場館"><span class="rc"><span class="cdot" style="background:${c?.color||'#888'}"></span>${escapeHTML(c?.name||'—')}</span>${r.venueName?`<div class="vn">📍 ${escapeHTML(r.venueName)}</div>`:''}<div style="font-size:11.5px;color:var(--muted);margin-top:3px">${escapeHTML(r.department||'—')}</div></td><td data-label="現場數據"><div class="vc">${buildVenueCellHtml(r)}</div></td><td data-label="笑容" style="text-align:center">${scorePill(r.ratings.smile)}</td><td data-label="主動性" style="text-align:center">${scorePill(r.ratings.proactive)}</td><td data-label="耐心" style="text-align:center">${scorePill(r.ratings.patience)}</td><td data-label="綜合 MRSC" style="text-align:center"><span class="mp">${ov}</span></td><td class="actions-cell">${actions}</td></tr>`;}).join('');if(dev){tb.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>editRecord(b.dataset.edit)));tb.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>deleteRecord(b.dataset.del)));}}
+function scorePill(s){if(!s)return'<span style="color:var(--ph)">—</span>';const c={1:'#c94141',2:'#d97c28',3:'#c9a527',4:'#4a9e4a',5:'#2ea87a'};return`<span class="sp" style="background:${c[s]}22;color:${c[s]}">${s}</span>`;}
+function dlBlob(b,name){const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(()=>URL.revokeObjectURL(u),100);}
+function doExportJSON(){if(!state.records.length){showToast('沒有記錄可匯出','error');return;}const d={version:6,exportedAt:new Date().toISOString(),inspector:state.inspector,records:state.records};dlBlob(new Blob([JSON.stringify(d,null,2)],{type:'application/json'}),`mrsc-backup-${todayISO()}.json`);showToast(`已匯出 ${state.records.length} 筆記錄（JSON）`,'success');}
+function serializeItems(dept,items){const cfg=getDeptConfig(dept);if(!Array.isArray(items)||!items.length)return'';return items.map(it=>{const p=[];cfg.fields.forEach(f=>{if(!isFieldVisible(f,it))return;const v=it[f.key];if(v===''||v===null||v===undefined)return;const sl=String(f.label).replace(/（.*?）|\(.*?\)/g,'');if(f.type==='select'){const o=(f.options||[]).find(o=>o.v===v);p.push(`${sl}${o?o.l:v}`);}else if(f.key==='name')p.push(v);else p.push(`${sl}${v}`);});return p.length?p.join('/'):'';}).filter(Boolean).join('；');}
+function serializeEnv(env){const p=[];ENV_KEYS.forEach(k=>{const ed=ENV_FIELDS[k];if(!ed||!env||!env[k])return;const o=ed.options.find(o=>o.v===env[k]);p.push(`${ed.label}${o?o.l:env[k]}`);});return p.join('；');}
+function doExportCSV(){if(!state.records.length){showToast('沒有記錄可匯出','error');return;}const hs=['記錄編號','考察人員','人員編號','日期','時間','地點','休企','場館名稱','部門','笑容(1-5)','主動性(1-5)','耐心(1-5)','綜合MRSC','部門專屬觀察','環境觀察','備註','提交時間','更新時間'];const rows=state.records.map(r=>{const c=getCompany(r.companyId);const nS=normMRSC('smile',toMRSC('smile',r.ratings.smile));const nP=normMRSC('proactive',toMRSC('proactive',r.ratings.proactive));const nT=normMRSC('patience',toMRSC('patience',r.ratings.patience));const ov=Math.round(((nS+nP+nT)/3)*2);const v=r.venue||{};return[r.id,r.inspectorName,r.inspectorId,r.date,r.time,r.location,c?.name||'',r.venueName||'',r.department||'',r.ratings.smile,r.ratings.proactive,r.ratings.patience,ov,serializeItems(r.department,v.items),serializeEnv(v.env),r.notes||'',r.submittedAt||'',r.updatedAt||''];});const csv=[hs,...rows].map(row=>row.map(v=>{const s=String(v??'');return/[",\n\r]/.test(s)?`"${s.replace(/"/g,'""')}"`:s;}).join(',')).join('\r\n');dlBlob(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}),`mrsc-records-${todayISO()}.csv`);showToast(`已匯出 ${state.records.length} 筆記錄（CSV）`,'success');}
+function importJSON(file){const rd=new FileReader();rd.onload=async(e)=>{try{const d=JSON.parse(e.target.result);if(!Array.isArray(d.records))throw new Error('檔案格式錯誤');if(!confirm(`來源：${d.inspector?.name||'未知'}\n記錄筆數：${d.records.length}\n\n確定合併至雲端？`))return;const ids=new Set(state.records.map(r=>r.id));const inc=d.records.filter(r=>r&&r.id&&!ids.has(r.id));let n=0;for(const rec of inc){try{const{id,...data}=rec;const docId=id||('MRSC-IMPORT-'+Date.now()+'-'+Math.random().toString(36).slice(2,8));await setDoc(doc(db,'records',docId),{...data,venue:normalizeVenue(data.venue),serverTime:serverTimestamp()});n++;}catch(err){}}showToast(`已匯入 ${n} 筆記錄`,'success');await fetchRecordsFromCloud();}catch(err){showToast('匯入失敗：'+err.message,'error');}};rd.onerror=()=>showToast('讀取檔案失敗','error');rd.readAsText(file);}
+function renderAnalysisSection(){const s=document.getElementById('anBase');if(!s)return;const cb=s.value||state.comparison.base;s.innerHTML=COMPANIES.map(c=>`<option value="${c.id}" ${c.id===cb?'selected':''}>${c.name}</option>`).join('');state.comparison.base=s.value||cb;renderDeptFilter();if(!state.comparison.picks.length)autoFillPicks();renderPicker();renderAnalysisResult();}
+function renderDeptFilter(){const s=document.getElementById('filterDept');if(!s)return;const cur=s.value;const ds=[...new Set(state.records.map(r=>(r.department||'').trim()).filter(Boolean))].sort();s.innerHTML='<option value="">全部部門</option>'+ds.map(d=>`<option value="${escapeHTML(d)}">${escapeHTML(d)}</option>`).join('');if(cur&&ds.includes(cur))s.value=cur;else state.comparison.departmentFilter='';}
+const maxPick=()=>Math.min(state.comparison.ratio,COMPANIES.length-1);
+function renderPicker(){const w=document.getElementById('anPicker');if(!w)return;const base=state.comparison.base;const picks=state.comparison.picks;w.innerHTML=COMPANIES.map(c=>{const isB=c.id===base;const isP=picks.includes(c.id);const cnt=filterRecs(state.records.filter(r=>r.companyId===c.id)).length;return`<button class="pc ${isP?'on':''}" data-id="${c.id}" ${isB?'disabled':''}><span class="cdot" style="background:${c.color}"></span><span>${c.name}</span><span class="cnt">${isB?'基準':cnt+' 筆'}</span></button>`;}).join('');const cnt=document.getElementById('anPickCount');if(cnt)cnt.textContent=`${picks.length} / ${maxPick()}`;w.querySelectorAll('.pc:not([disabled])').forEach(b=>b.addEventListener('click',()=>togglePick(b.dataset.id)));}
+function togglePick(id){if(id===state.comparison.base)return;const a=state.comparison.picks;const i=a.indexOf(id);if(i>=0)a.splice(i,1);else if(a.length<maxPick())a.push(id);else{showToast(`對比模式 1:${state.comparison.ratio} 最多選 ${maxPick()} 間`,'error');return;}renderPicker();renderAnalysisResult();}
+function autoFillPicks(){const b=state.comparison.base;const need=maxPick();state.comparison.picks=state.comparison.picks.filter(id=>id!==b).slice(0,need);for(const c of COMPANIES){if(state.comparison.picks.length>=need)break;if(c.id!==b&&!state.comparison.picks.includes(c.id))state.comparison.picks.push(c.id);}}
+function filterRecs(rs){const f=state.comparison;return rs.filter(r=>{if(f.departmentFilter&&(r.department||'').trim()!==f.departmentFilter)return false;if(f.dateFrom&&r.date<f.dateFrom)return false;if(f.dateTo&&r.date>f.dateTo)return false;return true;});}
+function aggCo(id){const rs=filterRecs(state.records.filter(r=>r.companyId===id));if(!rs.length)return null;const avg=k=>rs.reduce((s,r)=>s+r.ratings[k],0)/rs.length;const rS=avg('smile');const rP=avg('proactive');const rT=avg('patience');const smile=toMRSC('smile',Math.round(rS));const proactive=toMRSC('proactive',Math.round(rP));const patience=toMRSC('patience',Math.round(rT));const nS=rs.reduce((s,r)=>s+normMRSC('smile',toMRSC('smile',r.ratings.smile)),0)/rs.length;const nP=rs.reduce((s,r)=>s+normMRSC('proactive',toMRSC('proactive',r.ratings.proactive)),0)/rs.length;const nT=rs.reduce((s,r)=>s+normMRSC('patience',toMRSC('patience',r.ratings.patience)),0)/rs.length;return{count:rs.length,rawSmile:rS,rawPro:rP,rawPat:rT,smile,proactive,patience,normSmile:nS,normPro:nP,normPat:nT,overall:Math.round(((nS+nP+nT)/3)*2)};}
+function renderRadarChart(rows){const size=380;const cx=size/2;const cy=size/2+10;const R=size/2-60;const axes=CRITERIA.map((c,i)=>({...c,angle:-Math.PI/2+i*(2*Math.PI/3)}));const pt=(a,r)=>({x:cx+Math.cos(a.angle)*R*r,y:cy+Math.sin(a.angle)*R*r});const lc=getTheme()==='light'?'#c8cfd9':'#262d3a';const tc=getTheme()==='light'?'#5d6878':'#8b95a7';let svg=`<svg viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">`;for(let l=1;l<=4;l++){const pts=axes.map(a=>pt(a,l/4)).map(p=>`${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');svg+=`<polygon points="${pts}" fill="none" stroke="${lc}" stroke-width="1"/>`;}axes.forEach(a=>{const e=pt(a,1);svg+=`<line x1="${cx}" y1="${cy}" x2="${e.x.toFixed(1)}" y2="${e.y.toFixed(1)}" stroke="${lc}" stroke-width="1"/>`;const lb=pt(a,1.22);svg+=`<text x="${lb.x.toFixed(1)}" y="${lb.y.toFixed(1)}" text-anchor="middle" dominant-baseline="middle" fill="${tc}" font-size="12" font-family="sans-serif" font-weight="600">${a.name}</text>`;});rows.forEach(row=>{const c=getCompany(row.id);if(!c)return;const nm={smile:row.normSmile,proactive:row.normPro,patience:row.normPat};const pts=axes.map(a=>pt(a,Math.max(0.02,(nm[a.id]||0)/100)));const ps=pts.map(p=>`${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');svg+=`<polygon points="${ps}" fill="${c.color}22" stroke="${c.color}" stroke-width="2" stroke-linejoin="round"/>`;pts.forEach(p=>{svg+=`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.5" fill="${c.color}"/>`;});});svg+='</svg>';return svg;}
+function calcTierStats(companyIds,timeFilter){const result={};companyIds.forEach(id=>result[id]={low:0,mid:0,high:0,vip:0,total:0});state.records.forEach(rec=>{if(!companyIds.includes(rec.companyId))return;const dept=(rec.department||'').trim();if(!dept.includes('賭檯運作'))return;if(timeFilter&&timeFilter!=='all'){const slot=getTimeSlot(rec.time);if(slot!==timeFilter)return;}const items=(rec.venue&&rec.venue.items)||[];items.forEach(it=>{const tier=it.tier;const open=parseInt(it.open)||0;if(tier&&result[rec.companyId]){result[rec.companyId][tier]=(result[rec.companyId][tier]||0)+open;result[rec.companyId].total+=open;}});});return result;}
+function renderTierStats(sorted){const ids=sorted.map(r=>r.id);const tf=state.comparison.timeFilter||'all';const stats=calcTierStats(ids,tf);const hasAny=ids.some(id=>stats[id].total>0);let html='<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">';html+=`<button class="mbtn ${tf==='all'?'on':''}" data-time="all">全部時段</button>`;TIME_SLOTS.forEach(s=>{html+=`<button class="mbtn ${tf===s.id?'on':''}" data-time="${s.id}">${s.label} ${s.range}</button>`;});html+='</div>';if(!hasAny){html+=`<div class="es" style="padding:30px 20px"><div class="ei">🎲</div><p>目前選中的休企${tf==='all'?'':'在該時段'}尚無檯種記錄。<br>請於「賭檯運作」的遊戲記錄中選擇「檯種」。</p></div>`;return html;}html+='<div class="tw"><table class="dtab" style="min-width:640px"><thead><tr><th>休企</th><th style="text-align:center">低紅檯</th><th style="text-align:center">中紅檯</th><th style="text-align:center">高紅檯</th><th style="text-align:center">貴賓檯</th><th style="text-align:center">合計</th></tr></thead><tbody>';const totals={low:0,mid:0,high:0,vip:0,total:0};sorted.forEach(r=>{const c=getCompany(r.id);const s=stats[r.id];totals.low+=s.low;totals.mid+=s.mid;totals.high+=s.high;totals.vip+=s.vip;totals.total+=s.total;html+=`<tr><td><span class="rc"><span class="cdot" style="background:${c.color}"></span>${c.name}</span></td><td class="dc">${s.low||'—'}</td><td class="dc">${s.mid||'—'}</td><td class="dc">${s.high||'—'}</td><td class="dc">${s.vip||'—'}</td><td class="dc" style="color:var(--gold);font-size:14px">${s.total||'—'}</td></tr>`;});html+=`<tr style="border-top:1px solid var(--line);font-weight:700"><td class="dref">合計</td><td class="dc dref">${totals.low}</td><td class="dc dref">${totals.mid}</td><td class="dc dref">${totals.high}</td><td class="dc dref">${totals.vip}</td><td class="dc dref" style="color:var(--gold)">${totals.total}</td></tr>`;html+='</tbody></table></div>';return html;}
+function renderDeptBarCharts(sorted){const df=(state.comparison.departmentFilter||'').trim();let depts=[];if(df)depts=[df];else{const set=new Set();sorted.forEach(r=>{state.records.filter(rec=>rec.companyId===r.id).forEach(rec=>{const d=(rec.department||'').trim();if(d)set.add(d);});});depts=[...set].sort();}if(!depts.length)return`<div class="es" style="padding:30px 20px"><div class="ei">📊</div><p>尚無部門專屬數據可對比。</p></div>`;let html='';if(!df&&depts.length>1)html+=`<div style="font-size:11.5px;color:var(--muted2);margin-bottom:16px;padding:10px 14px;background:rgba(74,144,217,.06);border:1px solid rgba(74,144,217,.2);border-radius:8px;line-height:1.55">ℹ️ 顯示所有部門數據（依部門分組）。如要聚焦單一部門，可於上方「部門篩選」選擇。</div>`;let anyR=false;depts.forEach(dept=>{const cfg=getDeptConfig(dept);const numFs=(cfg.fields||[]).filter(f=>f.type==='number');const selFs=(cfg.fields||[]).filter(f=>f.type==='select');const txtFs=(cfg.fields||[]).filter(f=>f.type==='text'&&f.key!=='name');const coRecs=sorted.map(r=>({id:r.id,company:getCompany(r.id),recs:state.records.filter(rec=>rec.companyId===r.id&&(rec.department||'').trim()===dept)}));if(!coRecs.some(cr=>cr.recs.length>0))return;anyR=true;let dHtml=`<div style="margin-bottom:24px"><div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px;padding-bottom:10px;border-bottom:1px solid var(--lineS)"><span>${cfg.icon||'📝'}</span><span>${escapeHTML(dept)}</span><span style="font-size:11.5px;color:var(--muted);font-weight:500;margin-left:auto">共 ${coRecs.reduce((s,cr)=>s+cr.recs.length,0)} 筆記錄</span></div>`;numFs.forEach(field=>{const rows=coRecs.map(cr=>{const nums=[];cr.recs.forEach(rec=>{const items=(rec.venue&&rec.venue.items)||[];items.forEach(it=>{const n=parseFloat(it[field.key]);if(!isNaN(n))nums.push(n);});});if(!nums.length)return{company:cr.company,value:null,count:0};return{company:cr.company,value:nums.reduce((a,b)=>a+b,0)/nums.length,count:nums.length};});if(!rows.some(r=>r.value!==null))return;const maxV=Math.max(...rows.map(r=>r.value||0),1);dHtml+=`<div style="margin-bottom:14px;padding:14px 16px;background:var(--goldD);border:1px solid var(--goldB2);border-radius:10px"><div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:12px">${escapeHTML(field.label)}（平均）</div>`;rows.forEach(r=>{if(r.value===null){dHtml+=`<div style="display:grid;grid-template-columns:130px 1fr 100px;gap:12px;align-items:center;margin-bottom:8px"><span style="font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:${r.company.color};flex-shrink:0"></span>${escapeHTML(r.company.name)}</span><span style="height:22px;background:var(--bar);border-radius:6px"></span><span style="font-size:12px;color:var(--ph);text-align:right">無資料</span></div>`;}else{const pct=Math.max((r.value/maxV)*100,2);dHtml+=`<div style="display:grid;grid-template-columns:130px 1fr 100px;gap:12px;align-items:center;margin-bottom:8px"><span style="font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:${r.company.color};flex-shrink:0"></span>${escapeHTML(r.company.name)}</span><span style="height:22px;background:var(--bar);border-radius:6px;overflow:hidden"><span style="display:block;height:100%;width:${pct}%;background:linear-gradient(90deg,${r.company.color}55,${r.company.color});border-radius:6px"></span></span><span style="font-size:13px;font-weight:700;color:var(--gold);text-align:right">${r.value.toFixed(1)}<small style="font-size:10px;color:var(--muted);margin-left:2px">(${r.count})</small></span></div>`;}});dHtml+=`</div>`;});selFs.forEach(field=>{const options=field.options||[];const rows=coRecs.map(cr=>{const counts={};let total=0;cr.recs.forEach(rec=>{const items=(rec.venue&&rec.venue.items)||[];items.forEach(it=>{const v=it[field.key];if(v){counts[v]=(counts[v]||0)+1;total++;}});});return{company:cr.company,counts,total};});if(!rows.some(r=>r.total>0))return;dHtml+=`<div style="margin-bottom:14px;padding:14px 16px;background:var(--goldD);border:1px solid var(--goldB2);border-radius:10px"><div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:12px">${escapeHTML(field.label)}（選項分佈）</div>`;rows.forEach(r=>{if(!r.total){dHtml+=`<div style="display:grid;grid-template-columns:130px 1fr 100px;gap:12px;align-items:center;margin-bottom:8px"><span style="font-size:12.5px;font-weight:600"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${r.company.color};margin-right:6px"></span>${escapeHTML(r.company.name)}</span><span style="height:22px;background:var(--bar);border-radius:6px"></span><span style="font-size:12px;color:var(--ph);text-align:right">無資料</span></div>`;return;}let segs='';options.forEach(o=>{const cnt=r.counts[o.v]||0;if(!cnt)return;const pct=(cnt/r.total)*100;const alpha=0.4+(cnt/r.total)*0.6;segs+=`<span style="display:inline-block;height:100%;width:${pct}%;background:${r.company.color};opacity:${alpha}" title="${escapeHTML(o.l)} ×${cnt}"></span>`;});const summary=options.map(o=>({o,cnt:r.counts[o.v]||0})).filter(x=>x.cnt>0).map(x=>`${x.o.l}×${x.cnt}`).join('、');dHtml+=`<div style="display:grid;grid-template-columns:130px 1fr 160px;gap:12px;align-items:center;margin-bottom:8px"><span style="font-size:12.5px;font-weight:600"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${r.company.color};margin-right:6px"></span>${escapeHTML(r.company.name)}</span><span style="height:22px;background:var(--bar);border-radius:6px;overflow:hidden;display:flex">${segs}</span><span style="font-size:11.5px;color:var(--text);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${escapeHTML(summary)}</span></div>`;});dHtml+=`</div>`;});txtFs.forEach(field=>{const rows=coRecs.map(cr=>{const set=new Set();cr.recs.forEach(rec=>{const items=(rec.venue&&rec.venue.items)||[];items.forEach(it=>{const v=it[field.key];if(v&&String(v).trim())set.add(String(v).trim());});});return{company:cr.company,values:[...set]};});if(!rows.some(r=>r.values.length))return;dHtml+=`<div style="margin-bottom:14px;padding:14px 16px;background:var(--goldD);border:1px solid var(--goldB2);border-radius:10px"><div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:12px">${escapeHTML(field.label)}（出現類別）</div>`;rows.forEach(r=>{if(!r.values.length)dHtml+=`<div style="display:grid;grid-template-columns:130px 1fr;gap:12px;align-items:center;margin-bottom:8px"><span style="font-size:12.5px;font-weight:600"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${r.company.color};margin-right:6px"></span>${escapeHTML(r.company.name)}</span><span style="font-size:12px;color:var(--ph)">無資料</span></div>`;else dHtml+=`<div style="display:grid;grid-template-columns:130px 1fr;gap:12px;align-items:center;margin-bottom:8px"><span style="font-size:12.5px;font-weight:600"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${r.company.color};margin-right:6px"></span>${escapeHTML(r.company.name)}</span><span style="font-size:11.5px;color:var(--text);line-height:1.55">${escapeHTML(r.values.join('、'))}</span></div>`;});dHtml+=`</div>`;});dHtml+=`</div>`;html+=dHtml;});if(!anyR)return`<div class="es" style="padding:30px 20px"><div class="ei">📊</div><p>目前選中的休企在該部門尚無觀察記錄。</p></div>`;return html;}
+function renderAnalysisResult(){const w=document.getElementById('analysisResult');if(!w)return;const ids=[state.comparison.base,...state.comparison.picks].filter((v,i,a)=>a.indexOf(v)===i);const rows=ids.map(id=>{const a=aggCo(id);return a?{id,...a}:null;}).filter(Boolean);if(rows.length<2){w.innerHTML=`<div class="panel"><div class="pbody"><div class="es"><div class="ei">📊</div><p>尚無足夠的考察記錄可進行對比分析。<br>請先為至少 2 間休企提交考察記錄。</p></div></div></div>`;return;}const sorted=[...rows].sort((a,b)=>b.overall-a.overall);const maxS=Math.max(...sorted.map(r=>r.overall),180);const f=state.comparison;const fc=[];if(f.departmentFilter)fc.push(`部門：${f.departmentFilter}`);if(f.dateFrom)fc.push(`起：${f.dateFrom}`);if(f.dateTo)fc.push(`訖：${f.dateTo}`);const fd=fc.length?'　·　'+fc.join('　·　'):'';let html='<div class="panel"><div class="ph"><h2><span class="dot"></span>綜合評分排名</h2>';html+=`<span class="hint">對比模式 1:${f.ratio}　·　共 ${sorted.length} 間休企　·　有效樣本 ${sorted.reduce((s,r)=>s+r.count,0)} 筆${fd}</span></div><div class="pbody"><div class="rlist2">`;sorted.forEach((r,i)=>{const c=getCompany(r.id);const isB=r.id===state.comparison.base;const width=Math.min((r.overall/maxS)*100,100);html+=`<div class="rrow"><div class="rb ${i===0?'top':''}">${i+1}</div><div class="rm"><div class="rt2"><span class="rd" style="background:${c.color}"></span><span class="rn">${c.name}</span>${isB?'<span class="tb2">基準</span>':''}<span class="rcnt">${r.count} 筆</span><span class="rs">${r.overall}<small>/200</small></span></div><div class="rbar"><div class="rfill" style="width:${width}%;background:linear-gradient(90deg,${c.color}55,${c.color})"></div></div></div></div>`;});html+='</div>';html+='<div class="dw"><div class="dt">三維度雷達圖</div><div class="rw">'+renderRadarChart(sorted)+'</div><div class="rl">';sorted.forEach(r=>{const c=getCompany(r.id);html+=`<span class="l"><span class="ld" style="background:${c.color}"></span>${c.name}</span>`;});html+='</div></div>';html+='<div class="dw"><div class="dt">檯種 × 時段分佈</div>'+renderTierStats(sorted)+'</div>';html+='<div class="dw"><div class="dt">部門專屬數據對比</div>'+renderDeptBarCharts(sorted)+'</div>';html+='<div class="dw"><div class="dt">三大維度明細</div><div class="tw"><table class="dtab"><thead><tr><th>休企</th>';CRITERIA.forEach(c=>{html+=`<th>${c.name}</th>`;});html+='<th>綜合 MRSC</th></tr></thead><tbody>';const mx={};CRITERIA.forEach(c=>{mx[c.id]=Math.max(...sorted.map(r=>r[c.id]));});sorted.forEach(r=>{const c=getCompany(r.id);html+=`<tr><td><span class="rc"><span class="cdot" style="background:${c.color}"></span>${c.name}</span></td>`;CRITERIA.forEach(cr=>{const v=r[cr.id];const rk=cr.id==='smile'?'rawSmile':cr.id==='proactive'?'rawPro':'rawPat';const raw=r[rk];const isMax=v===mx[cr.id]&&sorted.length>1;html+=`<td class="dc ${isMax?'win':''}">${v}<span class="draw">原始平均 ${raw.toFixed(2)}</span>${isMax?'<span style="font-size:10px;color:var(--gold)">▲</span>':''}</td>`;});html+=`<td class="dc" style="color:var(--gold);font-size:14px">${r.overall}</td></tr>`;});html+=`<tr style="border-top:1px solid var(--line)"><td class="dref">全澳平均（MRSC 2026）</td><td class="dc dref">${MRSC_REF.smile}</td><td class="dc dref">${MRSC_REF.proactive}</td><td class="dc dref">${MRSC_REF.patience}</td><td class="dc dref">—</td></tr>`;html+='</tbody></table></div></div></div></div>';w.innerHTML=html;}
+function switchTab(name){if(name==='analysis'&&!isDeveloper()){requireDeveloperThen(()=>{document.getElementById('analysisLocked').classList.remove('on');document.getElementById('analysisContent').style.display='block';doSwitchTab('analysis');},'對比分析僅限開發者使用，請輸入開發者密碼。');return;}doSwitchTab(name);}
+function doSwitchTab(name){$$('.tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===name));$$('.tc').forEach(s=>s.classList.toggle('on',s.dataset.tab===name));if(name==='dashboard')renderDashboard();if(name==='analysis'){if(isDeveloper()){document.getElementById('analysisLocked').classList.remove('on');document.getElementById('analysisContent').style.display='block';renderAnalysisSection();}else{document.getElementById('analysisLocked').classList.add('on');document.getElementById('analysisContent').style.display='none';}}}
+let _bound=false;
+function bindAppEvents(){if(_bound)return;_bound=true;$$('.tab').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));$$('.mcard[data-goto]').forEach(c=>c.addEventListener('click',()=>switchTab(c.dataset.goto)));const on=(id,evt,fn)=>{const el=document.getElementById(id);if(el)el.addEventListener(evt,fn);};on('btnTheme','click',toggleTheme);on('btnHome','click',()=>{switchTab('dashboard');window.scrollTo({top:0,behavior:'smooth'});});on('btnDev','click',openDevPanel);on('btnLogout','click',logout);on('fDate','change',e=>{state.form.date=e.target.value;validateForm();});on('fTime','change',e=>{state.form.time=e.target.value;validateForm();});on('fLocation','change',e=>{state.form.location=e.target.value;state.form.venueName='';renderVenueOptions('');validateForm();});on('fCompany','change',e=>{state.form.company=e.target.value;state.form.venueName='';renderVenueOptions('');validateForm();});on('fVenueName','change',e=>{state.form.venueName=e.target.value.trim();validateForm();});on('fNotes','input',e=>{state.form.notes=e.target.value;});on('fDepartment','change',e=>{const nd=e.target.value;const od=state._lastDept||'';if(nd!==od){if(state.form.venue.items.length>0){if(confirm(`切換部門後，現有「${getDeptConfig(od).itemLabel}」資料將被清空。\n\n確定切換嗎？`))state.form.venue.items=[];else{e.target.value=od;return;}}state._lastDept=nd;}state.form.department=nd;renderVenueSection();validateForm();});const vb=document.getElementById('venueBody');if(vb){vb.addEventListener('click',e=>{if(e.target.closest('#btnAddItem')){const dept=state.form.department||'';if(!dept){showToast('請先選擇考察部門','error');return;}const cfg=getDeptConfig(dept);const ni={};cfg.fields.forEach(f=>{ni[f.key]='';});state.form.venue.items.push(ni);renderVenueSection();const rows=$$('#itemRows .grow');const last=rows[rows.length-1];if(last){last.scrollIntoView({behavior:'smooth',block:'center'});const fi=last.querySelector('.item-input');if(fi)setTimeout(()=>{try{fi.focus({preventScroll:true});}catch(e){}},300);}return;}const db=e.target.closest('.gdel');if(db){state.form.venue.items.splice(parseInt(db.dataset.idx,10),1);renderVenueSection();validateForm();}});vb.addEventListener('input',e=>{const el=e.target;if(el.classList.contains('item-input')&&!el.classList.contains('item-select')){const row=el.closest('.grow');if(!row)return;const it=state.form.venue.items[parseInt(row.dataset.idx,10)];if(!it)return;const f=el.dataset.field;if(f){it[f]=el.value;validateForm();}}});vb.addEventListener('change',e=>{const el=e.target;if(el.classList.contains('env-select')){const k=el.dataset.envKey;if(!k)return;state.form.venue.env[k]=el.value;const w=el.closest('.envf');if(w)w.classList.toggle('filled',!!el.value);return;}if(el.classList.contains('item-select')){const row=el.closest('.grow');if(!row)return;const idx=parseInt(row.dataset.idx,10);const it=state.form.venue.items[idx];if(!it)return;const f=el.dataset.field;if(!f)return;it[f]=el.value;const cfg=getDeptConfig(state.form.department);if(cfg.fields.some(fd=>fd.showIf&&fd.showIf.key===f)){const nh=renderItemRow(it,idx,cfg);const t=document.createElement('div');t.innerHTML=nh;const nr=t.firstElementChild;if(nr)row.replaceWith(nr);}validateForm();}});}on('btnSaveRecord','click',submitRecord);on('btnResetForm','click',()=>{if(!confirm('確定清除表單內容？'))return;exitEditMode();resetForm();});on('btnCancelEdit','click',()=>{if(!confirm('取消編輯？表單內容將清空。'))return;exitEditMode();resetForm();});on('btnExportJSON','click',()=>{if(!state.records.length){showToast('沒有記錄可匯出','error');return;}requirePasswordThen(doExportJSON,'匯出 JSON');});on('btnExportCSV','click',()=>{if(!state.records.length){showToast('沒有記錄可匯出','error');return;}requirePasswordThen(doExportCSV,'匯出 CSV');});on('btnImport','click',()=>{const fi=document.getElementById('fileImport');if(fi)fi.click();});on('fileImport','change',e=>{const f=e.target.files[0];if(f)importJSON(f);e.target.value='';});on('btnPrint','click',()=>window.print());on('btnRefresh','click',()=>fetchRecordsFromCloud());on('mcBtn','click',closeModal);on('moBtn','click',submitModal);const moEl=document.getElementById('mo');if(moEl)moEl.addEventListener('click',e=>{if(e.target===moEl)closeModal();});document.addEventListener('keydown',e=>{const o=document.getElementById('mo');if(!o||!o.classList.contains('on'))return;if(e.key==='Escape'){e.preventDefault();closeModal();return;}if(e.key==='Enter'){const a=document.activeElement;if(a&&a.tagName==='INPUT'&&a.closest('#mo')){e.preventDefault();submitModal();}}});on('btnClearAll','click',()=>{requireDeveloperThen(async()=>{if(!state.records.length){showToast('沒有記錄','');return;}if(!confirm(`確定清除全部 ${state.records.length} 筆記錄？`))return;try{const batch=writeBatch(db);state.records.forEach(r=>{batch.delete(doc(db,'records',r.id));});await batch.commit();state.records=[];exitEditMode();resetForm();renderRecordTable();renderAnalysisSection();renderDashboard();showToast('所有記錄已清除','success');}catch(e){showToast('清除失敗：'+e.message,'error');}},'清除全部記錄僅限開發者使用，請輸入開發者密碼。');});const bu=document.getElementById('btnUnlockAnalysis');if(bu)bu.addEventListener('click',()=>{requireDeveloperThen(()=>{document.getElementById('analysisLocked').classList.remove('on');document.getElementById('analysisContent').style.display='block';renderAnalysisSection();},'對比分析僅限開發者使用，請輸入開發者密碼。');});const mg=document.getElementById('modeGroup');if(mg)mg.addEventListener('click',e=>{const btn=e.target.closest('.mbtn');if(!btn)return;$$('.mbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');state.comparison.ratio=parseInt(btn.dataset.ratio,10);autoFillPicks();renderPicker();renderAnalysisResult();});on('anBase','change',e=>{state.comparison.base=e.target.value;state.comparison.picks=state.comparison.picks.filter(id=>id!==state.comparison.base);autoFillPicks();renderPicker();renderAnalysisResult();});on('filterDept','change',e=>{state.comparison.departmentFilter=e.target.value;renderPicker();renderAnalysisResult();});on('filterFrom','change',e=>{state.comparison.dateFrom=e.target.value;renderPicker();renderAnalysisResult();});on('filterTo','change',e=>{state.comparison.dateTo=e.target.value;renderPicker();renderAnalysisResult();});on('btnResetFilter','click',()=>{state.comparison.departmentFilter='';state.comparison.dateFrom='';state.comparison.dateTo='';const fd=document.getElementById('filterDept');if(fd)fd.value='';const ff=document.getElementById('filterFrom');if(ff)ff.value='';const ft=document.getElementById('filterTo');if(ft)ft.value='';renderPicker();renderAnalysisResult();showToast('已清除篩選','success');});on('btnRunAnalysis','click',renderAnalysisResult);const arEl=document.getElementById('analysisResult');if(arEl)arEl.addEventListener('click',e=>{const btn=e.target.closest('[data-time]');if(!btn)return;state.comparison.timeFilter=btn.dataset.time;renderAnalysisResult();});}
+function boot(){try{applyTheme(getTheme());const sa=safeSessionGet(SESSION_KEY)==='1';if(sa&&state.inspector.name)enterApp();else initLogin();}catch(err){console.error('[MRSC] boot 失敗：',err);try{initLogin();}catch(e){alert('系統初始化失敗，請重新整理頁面。\n\n錯誤：'+(err?.message||'未知'));}}}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+</script></body></html>
