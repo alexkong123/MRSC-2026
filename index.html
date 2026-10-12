@@ -27,7 +27,6 @@
     overflow-x: hidden; padding-bottom: env(safe-area-inset-bottom);
   }
 
-  /* ============ 登入 ============ */
   .login-overlay {
     position: fixed; inset: 0; z-index: 999;
     display: grid; place-items: center;
@@ -81,7 +80,6 @@
   .btn-login:not(:disabled) { opacity: 1; cursor: pointer; }
   .login-note { font-size: 11px; color: #4d5666; margin-top: 22px; line-height: 1.7; }
 
-  /* ============ 頂欄 ============ */
   .topbar {
     position: sticky; top: 0; z-index: 50;
     display: flex; align-items: center; justify-content: space-between;
@@ -117,7 +115,6 @@
     flex-shrink: 0;
   }
 
-  /* ============ 標籤 ============ */
   .tabs {
     display: flex; gap: 2px; padding: 0 24px;
     background: rgba(11,14,20,.6);
@@ -149,7 +146,6 @@
     font-size: 10.5px; padding: 1px 7px; border-radius: 10px; font-weight: 700;
   }
 
-  /* ============ 主區 ============ */
   main { max-width: 1500px; margin: 0 auto; padding: 20px 24px 60px; }
   .tab-content { display: none; }
   .tab-content.active { display: block; animation: fadeIn .25s ease; }
@@ -177,7 +173,6 @@
   .hint { font-size: 12px; color: var(--muted); }
   .panel-body { padding: 20px; }
 
-  /* ============ 首頁 ============ */
   .welcome {
     background:
       linear-gradient(135deg, rgba(212,175,55,.12), rgba(212,175,55,.02) 50%, transparent 100%),
@@ -313,7 +308,6 @@
     color: var(--gold); font-variant-numeric: tabular-nums; flex-shrink: 0;
   }
 
-  /* ============ 表單 ============ */
   .edit-banner {
     display: none;
     align-items: center; gap: 12px;
@@ -455,7 +449,6 @@
   }
   .env-fld select:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212,175,55,.1); }
 
-  /* ============ 評分卡 ============ */
   .criteria-list { display: flex; flex-direction: column; gap: 14px; }
   .criterion {
     background: var(--panel-2); border: 1px solid var(--line);
@@ -496,7 +489,6 @@
   .rating-label.set { color: var(--gold); }
   .rating-label .mrsc-equiv { display: block; font-size: 10.5px; color: var(--muted); font-weight: 500; margin-top: 2px; letter-spacing: .5px; }
 
-  /* ============ 按鈕 ============ */
   .btn {
     padding: 11px 18px; border-radius: 10px; border: 1px solid transparent;
     font-family: inherit; font-size: 13px; font-weight: 600;
@@ -529,7 +521,6 @@
     flex-wrap: wrap;
   }
 
-  /* ============ 表格 ============ */
   .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--line); }
   .table-wrap::-webkit-scrollbar { height: 9px; }
   .table-wrap::-webkit-scrollbar-track { background: #10151d; }
@@ -578,7 +569,6 @@
   .empty-state .empty-icon { font-size: 42px; opacity: .25; margin-bottom: 14px; }
   .empty-state p { font-size: 13.5px; line-height: 1.7; }
 
-  /* ============ 對比分析 ============ */
   .mode-group { display: flex; gap: 8px; flex-wrap: wrap; }
   .mode-btn {
     padding: 11px 18px; border-radius: 10px;
@@ -666,7 +656,6 @@
   .d-cell.win { color: var(--gold); }
   .d-raw { font-size: 10px; color: var(--muted); display: block; font-weight: 500; }
 
-  /* ============ Toast ============ */
   .toast {
     position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
     bottom: calc(24px + env(safe-area-inset-bottom));
@@ -683,7 +672,6 @@
   .toast.error { border-color: rgba(224,82,82,.5); }
   .toast .t-icon { font-size: 16px; flex-shrink: 0; }
 
-  /* ============ Modal ============ */
   .modal-overlay {
     position: fixed; inset: 0; z-index: 9999;
     display: none; align-items: center; justify-content: center;
@@ -738,7 +726,6 @@
   }
   .modal-actions .btn { flex: 1; min-height: 48px; font-size: 14px; }
 
-  /* ============ 響應式 ============ */
   @media (max-width: 900px) {
     .topbar { padding: 10px 16px; padding-top: calc(10px + env(safe-area-inset-top)); gap: 10px; }
     .brand p { display: none; }
@@ -903,9 +890,6 @@
 </head>
 <body>
 
-<!-- ============================================================
-     登入畫面
-     ============================================================ -->
 <div class="login-overlay" id="loginOverlay">
   <div class="login-card">
     <div class="login-logo">澳</div>
@@ -929,9 +913,6 @@
   </div>
 </div>
 
-<!-- ============================================================
-     主程式
-     ============================================================ -->
 <div id="app" style="display:none">
   <header class="topbar">
     <div class="brand">
@@ -968,7 +949,6 @@
   </nav>
 
   <main>
-    <!-- ============ 首頁 ============ -->
     <section class="tab-content active" data-tab="dashboard">
       <div class="welcome">
         <h2>歡迎，<span class="name" id="dashName">考察人員</span></h2>
@@ -1022,7 +1002,6 @@
       </div>
     </section>
 
-    <!-- ============ 新考察記錄 ============ -->
     <section class="tab-content" data-tab="inspection">
       <div class="edit-banner" id="editBanner">
         <span class="eb-icon">✎</span>
@@ -1050,7 +1029,7 @@
             </div>
             <div class="fld"><label>場館名稱 <span class="req">*</span></label>
               <select id="fVenueName">
-                <option value="">請先選擇考察地點</option>
+                <option value="">請先選擇考察地點與休企</option>
               </select>
             </div>
             <div class="fld"><label>考察部門 <span class="req">*</span></label>
@@ -1079,7 +1058,6 @@
       </div>
     </section>
 
-    <!-- ============ 考察記錄 ============ -->
     <section class="tab-content" data-tab="records">
       <div class="panel">
         <div class="panel-head">
@@ -1114,7 +1092,6 @@
       </div>
     </section>
 
-    <!-- ============ 對比分析 ============ -->
     <section class="tab-content" data-tab="analysis">
       <div class="panel">
         <div class="panel-head"><h2><span class="dot"></span>對比設定</h2><span class="hint">依據已提交之考察記錄進行聚合分析</span></div>
@@ -1156,7 +1133,6 @@
   </main>
 </div>
 
-<!-- Modal -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal-card" role="dialog" aria-modal="true">
     <div class="modal-icon" id="modalIcon">🔒</div>
@@ -1175,7 +1151,7 @@
 
 <script type="module">
 /* ============================================================
-   Firebase 初始化（ES 模組 CDN）
+   Firebase 初始化
    ============================================================ */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
 import {
@@ -1212,7 +1188,10 @@ const COMPANIES = [
   { id: 'sjm',    name: '澳娛綜合',   color: '#2ea87a' },
 ];
 
-/* 場館與地點對應表 */
+/* 場館與地點對應表
+   - group：休企中文名稱（需與 COMPANIES.name 一致）
+   - venues：該休企在該地點的所有場館
+*/
 const VENUE_BY_LOCATION = {
   '澳門半島': [
     { group: '銀河娛樂',   venues: ['星際'] },
@@ -1334,30 +1313,53 @@ const YES_NO_OPTIONS = [ { v: 'yes', l: '有' }, { v: 'no', l: '冇' } ];
    部門配置
    ============================================================ */
 const DEPT_CONFIG = {
-  '賭檯運作（莊荷）': {
+  '賭檯運作（中場）': {
     icon: '🎲', itemLabel: '遊戲記錄',
-    summary: '記錄各遊戲種類的開檯數、關檯數與最低投注',
+    summary: '記錄中場各遊戲種類的開檯數、關檯數與最低投注',
     fields: [
       { key: 'name', label: '遊戲種類', type: 'select', span: 2,
         placeholder: '請選擇遊戲',
         options: [
           { v: '百家樂',       l: '百家樂' },
+          { v: '免佣百家樂',   l: '免佣百家樂' },
           { v: '輪盤',         l: '輪盤' },
           { v: '廿一點',       l: '廿一點' },
           { v: '骰寶',         l: '骰寶' },
+          { v: '富貴三寶',     l: '富貴三寶' },
+          { v: '花旗骰',       l: '花旗骰' },
           { v: '牌九',         l: '牌九' },
-          { v: '魚蝦蟹',       l: '魚蝦蟹' },
           { v: '番攤',         l: '番攤' },
-          { v: '角子機',       l: '角子機' },
           { v: '德州撲克',     l: '德州撲克' },
           { v: '加勒比海撲克', l: '加勒比海撲克' },
-          { v: '三公',         l: '三公' },
-          { v: '麻雀',         l: '麻雀' },
+          { v: '三公百家樂',   l: '三公百家樂' },
+          { v: '麻雀牌九',     l: '麻雀牌九' },
           { v: '其他',         l: '其他' },
         ] },
       { key: 'open',   label: '開檯數',        type: 'number', min: 0, max: 500, placeholder: '0' },
       { key: 'closed', label: '關檯數',        type: 'number', min: 0, max: 500, placeholder: '0' },
       { key: 'minBet', label: '最低投注(MOP)', type: 'number', min: 0, max: 1000000, step: 10, placeholder: '300' },
+    ],
+  },
+  '賭檯運作（高投）': {
+    icon: '💎', itemLabel: '遊戲記錄',
+    summary: '記錄高投區各遊戲種類的開檯數、關檯數與最低投注',
+    fields: [
+      { key: 'name', label: '遊戲種類', type: 'select', span: 2,
+        placeholder: '請選擇遊戲',
+        options: [
+          { v: '百家樂',       l: '百家樂' },
+          { v: '免佣百家樂',   l: '免佣百家樂' },
+          { v: '輪盤',         l: '輪盤' },
+          { v: '廿一點',       l: '廿一點' },
+          { v: '骰寶',         l: '骰寶' },
+          { v: '富貴三寶',     l: '富貴三寶' },
+          { v: '花旗骰',       l: '花旗骰' },
+          { v: '德州撲克',     l: '德州撲克' },
+          { v: '其他',         l: '其他' },
+        ] },
+      { key: 'open',   label: '開檯數',        type: 'number', min: 0, max: 200, placeholder: '0' },
+      { key: 'closed', label: '關檯數',        type: 'number', min: 0, max: 200, placeholder: '0' },
+      { key: 'minBet', label: '最低投注(MOP)', type: 'number', min: 0, max: 10000000, step: 100, placeholder: '1000' },
     ],
   },
   '角子機': {
@@ -1457,7 +1459,7 @@ function isFieldVisible(field, item) {
 }
 
 /* ============================================================
-   密碼（本機）
+   密碼
    ============================================================ */
 const PWD_KEY = 'mrsc_export_password';
 const DEFAULT_PWD = '123456';
@@ -1581,9 +1583,6 @@ function submitModal() {
   closeModal();
 }
 
-/* ============================================================
-   匯出密碼驗證
-   ============================================================ */
 function requirePasswordThen(actionFn, actionLabel) {
   openModal({
     icon: '🔒', title: '匯出需要密碼',
@@ -1605,9 +1604,6 @@ function requirePasswordThen(actionFn, actionLabel) {
   });
 }
 
-/* ============================================================
-   開發者
-   ============================================================ */
 function openDevPanel() {
   openModal({
     icon: '⚙', iconType: 'dev',
@@ -1649,9 +1645,6 @@ function openPasswordChange() {
   });
 }
 
-/* ============================================================
-   venue 正規化
-   ============================================================ */
 function normalizeVenue(venue) {
   const out = emptyVenue();
   if (!venue || typeof venue !== 'object') return out;
@@ -1681,7 +1674,7 @@ function normalizeVenue(venue) {
 }
 
 /* ============================================================
-   雲端資料操作
+   雲端資料
    ============================================================ */
 async function fetchRecordsFromCloud() {
   try {
@@ -1897,31 +1890,51 @@ function fillDepartmentOptions() {
 }
 
 /* ============================================================
-   根據地點渲染場館下拉
+   依「考察地點 + 考察休企」渲染場館下拉
    ============================================================ */
 function renderVenueOptions(selectedVenue) {
   const loc = state.form.location || '';
+  const companyId = state.form.company || '';
   const sel = $('#fVenueName');
   if (!sel) return;
 
+  // 尚未選地點或休企
+  if (!loc && !companyId) {
+    sel.innerHTML = '<option value="">請先選擇考察地點與休企</option>';
+    return;
+  }
   if (!loc) {
     sel.innerHTML = '<option value="">請先選擇考察地點</option>';
     return;
   }
+  if (!companyId) {
+    sel.innerHTML = '<option value="">請先選擇考察休企</option>';
+    return;
+  }
 
+  // 取得休企中文名稱
+  const company = getCompany(companyId);
+  if (!company) {
+    sel.innerHTML = '<option value="">請先選擇考察休企</option>';
+    return;
+  }
+
+  // 取得該地點所有休企群組
   const groups = VENUE_BY_LOCATION[loc] || [];
+  // 只留下該休企的群組
+  const targetGroups = groups.filter(g => g.group === company.name);
+
   let html = '<option value="">請選擇場館</option>';
 
-  if (groups.length === 0) {
-    html += '<option value="其他">其他</option>';
+  if (targetGroups.length === 0 || targetGroups.every(g => g.venues.length === 0)) {
+    // 該休企在此地點沒有場館
+    html = `<option value="">此休企在此地點沒有場館</option>`;
   } else {
-    groups.forEach(g => {
-      html += `<optgroup label="${escapeHTML(g.group)}">`;
+    targetGroups.forEach(g => {
       g.venues.forEach(v => {
         const isSel = (selectedVenue && selectedVenue === v) ? 'selected' : '';
         html += `<option value="${escapeHTML(v)}" ${isSel}>${escapeHTML(v)}</option>`;
       });
-      html += '</optgroup>';
     });
     html += '<option value="其他">其他</option>';
   }
@@ -2131,9 +2144,6 @@ function showErrors(errors) {
   box.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-/* ============================================================
-   記錄編號 / 重複偵測
-   ============================================================ */
 function nextRecordId(dateStr) {
   const prefix = `MRSC-${dateStr}-`;
   const nums = state.records
@@ -2775,6 +2785,7 @@ function bindAppEvents() {
   on('#fDate', 'change', e => { state.form.date = e.target.value; validateForm(); });
   on('#fTime', 'change', e => { state.form.time = e.target.value; validateForm(); });
 
+  // 考察地點：改變 → 清空場館 → 重新渲染
   on('#fLocation', 'change', e => {
     state.form.location = e.target.value;
     state.form.venueName = '';
@@ -2782,7 +2793,14 @@ function bindAppEvents() {
     validateForm();
   });
 
-  on('#fCompany', 'change', e => { state.form.company = e.target.value; validateForm(); });
+  // 考察休企：改變 → 清空場館 → 重新渲染
+  on('#fCompany', 'change', e => {
+    state.form.company = e.target.value;
+    state.form.venueName = '';
+    renderVenueOptions('');
+    validateForm();
+  });
+
   on('#fVenueName', 'change', e => { state.form.venueName = e.target.value.trim(); validateForm(); });
   on('#fNotes', 'input', e => { state.form.notes = e.target.value; });
 
