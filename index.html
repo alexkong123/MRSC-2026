@@ -1048,28 +1048,42 @@
             <div class="fld"><label>考察休企 <span class="req">*</span></label>
               <select id="fCompany"><option value="">請選擇</option></select>
             </div>
-            <div class="fld"><label>場館名稱 <span class="req">*</span></label>
-              <input type="text" id="fVenueName" list="venueList" placeholder="例：澳門銀河、威尼斯人" autocomplete="off" maxlength="40">
-              <datalist id="venueList">
-                <option>澳門銀河</option>
-                <option>百老匯</option>
-                <option>威尼斯人</option>
-                <option>倫敦人</option>
-                <option>巴黎人</option>
-                <option>金沙</option>
-                <option>永利澳門</option>
-                <option>永利皇宮</option>
-                <option>新濠天地</option>
-                <option>新濠影匯</option>
-                <option>美獅美高梅</option>
-                <option>澳門美高梅</option>
-                <option>新葡京</option>
-                <option>葡京</option>
-                <option>上葡京</option>
-                <option>回力海立方</option>
-                <option>凱旋門</option>
-              </datalist>
-            </div>
+           <div class="fld">
+  <label>場館名稱 <span class="req">*</span></label>
+  <select id="fVenueName">
+    <option value="">請選擇場館</option>
+    <optgroup label="銀河娛樂">
+      <option value="澳門銀河">澳門銀河</option>
+      <option value="百老匯">百老匯</option>
+    </optgroup>
+    <optgroup label="金沙中國">
+      <option value="威尼斯人">威尼斯人</option>
+      <option value="倫敦人">倫敦人</option>
+      <option value="巴黎人">巴黎人</option>
+      <option value="金沙">金沙</option>
+    </optgroup>
+    <optgroup label="永利澳門">
+      <option value="永利澳門">永利澳門</option>
+      <option value="永利皇宮">永利皇宮</option>
+    </optgroup>
+    <optgroup label="新濠博亞">
+      <option value="新濠天地">新濠天地</option>
+      <option value="新濠影匯">新濠影匯</option>
+    </optgroup>
+    <optgroup label="美高梅中國">
+      <option value="美獅美高梅">美獅美高梅</option>
+      <option value="澳門美高梅">澳門美高梅</option>
+    </optgroup>
+    <optgroup label="澳娛綜合">
+      <option value="新葡京">新葡京</option>
+      <option value="葡京">葡京</option>
+      <option value="上葡京">上葡京</option>
+      <option value="回力海立方">回力海立方</option>
+      <option value="凱旋門">凱旋門</option>
+    </optgroup>
+    <option value="其他">其他</option>
+  </select>
+</div>
             <div class="fld"><label>考察部門 <span class="req">*</span></label>
               <select id="fDepartment"><option value="">請選擇部門</option></select>
             </div>
