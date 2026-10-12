@@ -27,6 +27,7 @@
     overflow-x: hidden; padding-bottom: env(safe-area-inset-bottom);
   }
 
+  /* ============ 登入 ============ */
   .login-overlay {
     position: fixed; inset: 0; z-index: 999;
     display: grid; place-items: center;
@@ -80,6 +81,7 @@
   .btn-login:not(:disabled) { opacity: 1; cursor: pointer; }
   .login-note { font-size: 11px; color: #4d5666; margin-top: 22px; line-height: 1.7; }
 
+  /* ============ 頂欄 ============ */
   .topbar {
     position: sticky; top: 0; z-index: 50;
     display: flex; align-items: center; justify-content: space-between;
@@ -115,6 +117,30 @@
     flex-shrink: 0;
   }
 
+  /* 開發者模式徽章 */
+  .dev-badge {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: rgba(139,92,246,.18);
+    border: 1px solid rgba(139,92,246,.45);
+    border-radius: 20px;
+    font-size: 11px;
+    color: #a78bfa;
+    font-weight: 700;
+    letter-spacing: .5px;
+  }
+  .dev-badge.show { display: inline-flex; }
+  .dev-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #a78bfa;
+    box-shadow: 0 0 8px #a78bfa;
+  }
+
+  /* ============ 標籤 ============ */
   .tabs {
     display: flex; gap: 2px; padding: 0 24px;
     background: rgba(11,14,20,.6);
@@ -140,12 +166,20 @@
     height: 2px; background: var(--gold); border-radius: 2px 2px 0 0;
     box-shadow: 0 0 12px var(--gold);
   }
+  .tab-btn.locked { opacity: .55; }
+  .tab-btn.locked::before {
+    content: '🔒';
+    margin-right: 5px;
+    font-size: 10px;
+    opacity: .8;
+  }
   .tab-badge {
     display: inline-block; margin-left: 7px;
     background: var(--gold-soft); color: var(--gold);
     font-size: 10.5px; padding: 1px 7px; border-radius: 10px; font-weight: 700;
   }
 
+  /* ============ 主區 ============ */
   main { max-width: 1500px; margin: 0 auto; padding: 20px 24px 60px; }
   .tab-content { display: none; }
   .tab-content.active { display: block; animation: fadeIn .25s ease; }
@@ -173,6 +207,38 @@
   .hint { font-size: 12px; color: var(--muted); }
   .panel-body { padding: 20px; }
 
+  /* 開發者限定遮罩 */
+  .dev-overlay {
+    display: none;
+    text-align: center;
+    padding: 50px 30px;
+  }
+  .dev-overlay.show { display: block; }
+  .dev-overlay .lock-icon {
+    width: 64px; height: 64px;
+    margin: 0 auto 18px;
+    border-radius: 18px;
+    display: grid; place-items: center;
+    background: rgba(139,92,246,.14);
+    border: 1px solid rgba(139,92,246,.35);
+    font-size: 28px;
+    color: #a78bfa;
+  }
+  .dev-overlay h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .dev-overlay p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 460px;
+    margin: 0 auto 22px;
+  }
+
+  /* ============ 首頁 ============ */
   .welcome {
     background:
       linear-gradient(135deg, rgba(212,175,55,.12), rgba(212,175,55,.02) 50%, transparent 100%),
@@ -286,6 +352,8 @@
   .menu-card.blue .mc-cta { color: #6aaeff; }
   .menu-card.green .mc-cta { color: #5ed9a8; }
   .menu-card.purple .mc-cta { color: #a78bfa; }
+  .menu-card.locked { opacity: .65; }
+  .menu-card.locked .mc-cta { color: var(--muted); }
 
   .recent-list { display: flex; flex-direction: column; gap: 8px; }
   .recent-item {
@@ -734,6 +802,7 @@
     .toolbar .btn { flex: 1; min-width: 0; padding: 9px 8px; font-size: 12px; }
     .user-area { padding-left: 10px; margin-left: auto; }
     .user-info { display: none; }
+    .dev-badge { order: 4; width: 100%; justify-content: center; margin-top: 4px; }
     .tabs { padding: 0 16px; }
     .tab-btn { padding: 14px 14px; font-size: 13px; }
     main { padding: 14px 16px 50px; }
@@ -863,7 +932,7 @@
     body { background: #fff; color: #111; }
     .topbar, .tabs, .toolbar, .form-actions, .row-actions, .btn, #filterRow,
     .mode-group, #anPicker, #anBase, #modeGroup, .edit-banner, .errors-box,
-    #btnAddItem, .game-del, .menu-grid, .welcome, .stats-grid { display: none !important; }
+    #btnAddItem, .game-del, .menu-grid, .welcome, .stats-grid, .dev-badge { display: none !important; }
     .tab-content { display: block !important; }
     .tab-content[data-tab="inspection"], .tab-content[data-tab="dashboard"] { display: none !important; }
     .table-wrap { overflow: visible !important; }
@@ -932,6 +1001,7 @@
       <input type="file" id="fileImport" accept=".json,application/json" style="display:none">
     </div>
     <div class="user-area">
+      <div class="dev-badge" id="devBadge">🔓 開發者模式</div>
       <div class="user-info">
         <strong id="topName">—</strong>
         <span id="topId">考察人員</span>
@@ -978,10 +1048,10 @@
             <button class="menu-card blue" data-goto="records">
               <div class="mc-icon">📋</div>
               <div class="mc-title">查看考察記錄</div>
-              <div class="mc-desc">瀏覽所有已提交的考察記錄，可編輯、刪除或匯出資料。</div>
+              <div class="mc-desc">瀏覽所有已提交的考察記錄，可匯出資料。</div>
               <div class="mc-cta">查看記錄 →</div>
             </button>
-            <button class="menu-card green" data-goto="analysis">
+            <button class="menu-card green" data-goto="analysis" id="cardAnalysis">
               <div class="mc-icon">📊</div>
               <div class="mc-title">對比分析</div>
               <div class="mc-desc">依 1:1 至 1:6 對比模式，比較各休企的服務表現與雷達圖。</div>
@@ -1064,7 +1134,7 @@
           <h2><span class="dot"></span>考察記錄總表</h2>
           <div style="display:flex;gap:10px;align-items:center;">
             <span class="hint" id="recSummary">共 0 筆紀錄</span>
-            <button class="btn btn-danger btn-sm" id="btnClearAll">清除全部</button>
+            <button class="btn btn-danger btn-sm" id="btnClearAll" style="display:none;">清除全部</button>
           </div>
         </div>
         <div class="panel-body" style="padding:0;">
@@ -1082,7 +1152,7 @@
                   <th style="text-align:center">主動性</th>
                   <th style="text-align:center">耐心</th>
                   <th style="text-align:center">綜合 MRSC</th>
-                  <th></th>
+                  <th class="col-actions">操作</th>
                 </tr>
               </thead>
               <tbody></tbody>
@@ -1093,42 +1163,53 @@
     </section>
 
     <section class="tab-content" data-tab="analysis">
-      <div class="panel">
-        <div class="panel-head"><h2><span class="dot"></span>對比設定</h2><span class="hint">依據已提交之考察記錄進行聚合分析</span></div>
-        <div class="panel-body">
-          <div class="fld" style="margin-bottom:16px;">
-            <label>對比模式</label>
-            <div class="mode-group" id="modeGroup">
-              <button class="mode-btn active" data-ratio="1">1 : 1</button>
-              <button class="mode-btn" data-ratio="2">1 : 2</button>
-              <button class="mode-btn" data-ratio="3">1 : 3</button>
-              <button class="mode-btn" data-ratio="4">1 : 4</button>
-              <button class="mode-btn" data-ratio="5">1 : 5</button>
-              <button class="mode-btn" data-ratio="6">1 : 6</button>
+      <!-- 非開發者顯示的遮罩 -->
+      <div class="dev-overlay" id="analysisLocked">
+        <div class="lock-icon">🔒</div>
+        <h3>開發者專屬功能</h3>
+        <p>「對比分析」僅限開發者使用。如需使用此功能，請點擊下方按鈕輸入開發者密碼驗證。</p>
+        <button class="btn btn-dev" id="btnUnlockAnalysis">🔓 輸入開發者密碼</button>
+      </div>
+
+      <!-- 開發者顯示的內容 -->
+      <div id="analysisContent" style="display:none;">
+        <div class="panel">
+          <div class="panel-head"><h2><span class="dot"></span>對比設定</h2><span class="hint">依據已提交之考察記錄進行聚合分析</span></div>
+          <div class="panel-body">
+            <div class="fld" style="margin-bottom:16px;">
+              <label>對比模式</label>
+              <div class="mode-group" id="modeGroup">
+                <button class="mode-btn active" data-ratio="1">1 : 1</button>
+                <button class="mode-btn" data-ratio="2">1 : 2</button>
+                <button class="mode-btn" data-ratio="3">1 : 3</button>
+                <button class="mode-btn" data-ratio="4">1 : 4</button>
+                <button class="mode-btn" data-ratio="5">1 : 5</button>
+                <button class="mode-btn" data-ratio="6">1 : 6</button>
+              </div>
             </div>
-          </div>
-          <div class="fld" style="margin-bottom:16px;">
-            <label>基準休企（A 方）</label>
-            <select id="anBase"></select>
-          </div>
-          <div class="fld">
-            <label>對比休企（B 方）<span class="hint" id="anPickCount" style="margin-left:6px;">0 / 1</span></label>
-            <div class="company-picker" id="anPicker"></div>
-          </div>
-          <div class="filter-row" id="filterRow">
-            <div class="fld"><label>部門篩選</label>
-              <select id="filterDept"><option value="">全部部門</option></select>
+            <div class="fld" style="margin-bottom:16px;">
+              <label>基準休企（A 方）</label>
+              <select id="anBase"></select>
             </div>
-            <div class="fld"><label>日期起</label><input type="date" id="filterFrom"></div>
-            <div class="fld"><label>日期訖</label><input type="date" id="filterTo"></div>
-          </div>
-          <div class="form-actions">
-            <button class="btn btn-ghost" id="btnResetFilter">清除篩選</button>
-            <button class="btn btn-primary" id="btnRunAnalysis">生成對比分析</button>
+            <div class="fld">
+              <label>對比休企（B 方）<span class="hint" id="anPickCount" style="margin-left:6px;">0 / 1</span></label>
+              <div class="company-picker" id="anPicker"></div>
+            </div>
+            <div class="filter-row" id="filterRow">
+              <div class="fld"><label>部門篩選</label>
+                <select id="filterDept"><option value="">全部部門</option></select>
+              </div>
+              <div class="fld"><label>日期起</label><input type="date" id="filterFrom"></div>
+              <div class="fld"><label>日期訖</label><input type="date" id="filterTo"></div>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-ghost" id="btnResetFilter">清除篩選</button>
+              <button class="btn btn-primary" id="btnRunAnalysis">生成對比分析</button>
+            </div>
           </div>
         </div>
+        <div id="analysisResult"></div>
       </div>
-      <div id="analysisResult"></div>
     </section>
   </main>
 </div>
@@ -1188,10 +1269,6 @@ const COMPANIES = [
   { id: 'sjm',    name: '澳娛綜合',   color: '#2ea87a' },
 ];
 
-/* 場館與地點對應表
-   - group：休企中文名稱（需與 COMPANIES.name 一致）
-   - venues：該休企在該地點的所有場館
-*/
 const VENUE_BY_LOCATION = {
   '澳門半島': [
     { group: '銀河娛樂',   venues: ['星際'] },
@@ -1459,16 +1536,36 @@ function isFieldVisible(field, item) {
 }
 
 /* ============================================================
-   密碼
+   密碼 & 開發者狀態
    ============================================================ */
 const PWD_KEY = 'mrsc_export_password';
+const DEV_KEY = 'mrsc_dev_verified';
 const DEFAULT_PWD = '123456';
+
 function getStoredPassword() {
   try { const stored = localStorage.getItem(PWD_KEY); return stored === null ? DEFAULT_PWD : stored; }
   catch (e) { return DEFAULT_PWD; }
 }
 function setStoredPassword(pwd) {
   try { localStorage.setItem(PWD_KEY, pwd); return true; } catch (e) { return false; }
+}
+function isDeveloper() {
+  return safeSessionGet(DEV_KEY) === '1';
+}
+function setDeveloper(val) {
+  if (val) safeSessionSet(DEV_KEY, '1');
+  else safeSessionRemove(DEV_KEY);
+  updateDevBadge();
+}
+function updateDevBadge() {
+  const badge = $('#devBadge');
+  if (badge) badge.classList.toggle('show', isDeveloper());
+  const clearBtn = $('#btnClearAll');
+  if (clearBtn) clearBtn.style.display = isDeveloper() ? '' : 'none';
+  const devTab = $('.tab-btn[data-tab="analysis"]');
+  if (devTab) devTab.classList.toggle('locked', !isDeveloper());
+  // 更新記錄表格中的操作按鈕
+  renderRecordTable();
 }
 
 /* ============================================================
@@ -1548,6 +1645,7 @@ function openModal(config) {
   errEl.textContent = '';
   confirmBtn.textContent = config.confirmText || '確定';
   cancelBtn.textContent = config.cancelText || '取消';
+  cancelBtn.style.display = config.hideCancel ? 'none' : '';
   _modalContext = { fields, onSubmit: config.onSubmit };
   overlay.classList.add('show');
   setTimeout(() => {
@@ -1604,6 +1702,33 @@ function requirePasswordThen(actionFn, actionLabel) {
   });
 }
 
+/* 驗證開發者密碼 */
+function requireDeveloperThen(actionFn, descText) {
+  // 已經是開發者直接執行
+  if (isDeveloper()) { actionFn(); return; }
+  openModal({
+    icon: '🔓', iconType: 'dev',
+    title: '開發者驗證',
+    desc: descText || '此功能僅限開發者使用，請輸入開發者密碼。',
+    fields: [ { id: 'pwd', label: '開發者密碼', type: 'password', placeholder: '請輸入密碼', maxlength: 50 } ],
+    confirmText: '驗證',
+    onSubmit: (values) => {
+      const pwd = (values.pwd || '').trim();
+      if (!pwd) return { error: '請輸入密碼' };
+      if (pwd !== getStoredPassword()) return { error: '密碼錯誤' };
+      setDeveloper(true);
+      setTimeout(() => {
+        showToast('已進入開發者模式', 'success');
+        try { actionFn(); } catch (e) { console.error(e); }
+      }, 150);
+      return true;
+    },
+  });
+}
+
+/* ============================================================
+   開發者面板
+   ============================================================ */
 function openDevPanel() {
   openModal({
     icon: '⚙', iconType: 'dev',
@@ -1615,24 +1740,37 @@ function openDevPanel() {
       const pwd = (values.pwd || '').trim();
       if (!pwd) return { error: '請輸入密碼' };
       if (pwd !== getStoredPassword()) return { error: '密碼錯誤' };
-      setTimeout(openPasswordChange, 150);
+      setDeveloper(true);
+      setTimeout(() => {
+        showToast('已進入開發者模式', 'success');
+        openPasswordChange();
+      }, 150);
       return true;
     },
   });
 }
+
 function openPasswordChange() {
   openModal({
     icon: '🔑', iconType: 'dev',
-    title: '修改匯出密碼',
-    desc: '設定新的匯出密碼。密碼至少 4 個字元，長度不限。',
+    title: '開發者設定',
+    desc: '修改匯出密碼。密碼至少 4 個字元。',
     fields: [
       { id: 'newPwd',     label: '新密碼',     type: 'password', placeholder: '至少 4 個字元', maxlength: 50 },
       { id: 'confirmPwd', label: '確認新密碼', type: 'password', placeholder: '再次輸入', maxlength: 50 },
     ],
     confirmText: '儲存新密碼',
+    cancelText: '登出開發者模式',
     onSubmit: (values) => {
+      // 若使用者只想登出，可透過 cancel 按鈕處理
       const a = (values.newPwd || '').trim();
       const b = (values.confirmPwd || '').trim();
+      if (!a && !b) {
+        // 兩個都空 → 視為登出
+        setDeveloper(false);
+        showToast('已登出開發者模式', 'success');
+        return true;
+      }
       if (a.length < 4) return { error: '密碼至少 4 個字元' };
       if (a !== b) return { error: '兩次輸入不一致' };
       if (a === DEFAULT_PWD) return { error: '不可使用預設密碼，請設定其他密碼' };
@@ -1645,6 +1783,9 @@ function openPasswordChange() {
   });
 }
 
+/* ============================================================
+   venue 正規化
+   ============================================================ */
 function normalizeVenue(venue) {
   const out = emptyVenue();
   if (!venue || typeof venue !== 'object') return out;
@@ -1862,6 +2003,7 @@ function enterApp() {
   if (fInspector) fInspector.value = state.inspector.name;
   fillCompanyOptions(); fillDepartmentOptions(); renderCriteria(); renderFormDefaults();
   renderVenueSection(); renderRecordTable(); renderDashboard(); bindAppEvents(); renderAnalysisSection();
+  updateDevBadge();
   switchTab('dashboard');
   fetchRecordsFromCloud();
   setTimeout(migrateLocalDataToCloud, 1200);
@@ -1870,6 +2012,7 @@ function enterApp() {
 function logout() {
   if (!confirm('確定登出？未提交的表單內容將遺失。')) return;
   safeSessionRemove(SESSION_KEY);
+  safeSessionRemove(DEV_KEY);
   location.reload();
 }
 
@@ -1890,7 +2033,7 @@ function fillDepartmentOptions() {
 }
 
 /* ============================================================
-   依「考察地點 + 考察休企」渲染場館下拉
+   依「考察地點 + 考察休企」渲染場館
    ============================================================ */
 function renderVenueOptions(selectedVenue) {
   const loc = state.form.location || '';
@@ -1898,7 +2041,6 @@ function renderVenueOptions(selectedVenue) {
   const sel = $('#fVenueName');
   if (!sel) return;
 
-  // 尚未選地點或休企
   if (!loc && !companyId) {
     sel.innerHTML = '<option value="">請先選擇考察地點與休企</option>';
     return;
@@ -1912,22 +2054,18 @@ function renderVenueOptions(selectedVenue) {
     return;
   }
 
-  // 取得休企中文名稱
   const company = getCompany(companyId);
   if (!company) {
     sel.innerHTML = '<option value="">請先選擇考察休企</option>';
     return;
   }
 
-  // 取得該地點所有休企群組
   const groups = VENUE_BY_LOCATION[loc] || [];
-  // 只留下該休企的群組
   const targetGroups = groups.filter(g => g.group === company.name);
 
   let html = '<option value="">請選擇場館</option>';
 
   if (targetGroups.length === 0 || targetGroups.every(g => g.venues.length === 0)) {
-    // 該休企在此地點沒有場館
     html = `<option value="">此休企在此地點沒有場館</option>`;
   } else {
     targetGroups.forEach(g => {
@@ -2245,27 +2383,44 @@ async function submitRecord() {
 }
 
 function editRecord(id) {
-  const r = state.records.find(x => x.id === id);
-  if (!r) return;
-  state.editingId = id;
-  state.form = {
-    date: r.date, time: r.time, location: r.location,
-    company: r.companyId, venueName: r.venueName || '',
-    department: r.department || '',
-    ratings: { ...r.ratings },
-    venue: normalizeVenue(r.venue),
-    notes: r.notes || '',
-  };
-  state._lastDept = r.department || '';
-  renderFormDefaults(); renderVenueSection();
-  CRITERIA.forEach(c => updateRatingUI(c.id));
-  const banner = $('#editBanner'); if (banner) banner.classList.add('show');
-  const rid = $('#editRecordId'); if (rid) rid.textContent = id;
-  const btn = $('#btnSaveRecord'); if (btn) btn.textContent = '更新記錄';
-  validateForm();
-  switchTab('inspection');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  showToast(`正在編輯 ${id}`, '');
+  // 只有開發者可以編輯
+  requireDeveloperThen(() => {
+    const r = state.records.find(x => x.id === id);
+    if (!r) return;
+    state.editingId = id;
+    state.form = {
+      date: r.date, time: r.time, location: r.location,
+      company: r.companyId, venueName: r.venueName || '',
+      department: r.department || '',
+      ratings: { ...r.ratings },
+      venue: normalizeVenue(r.venue),
+      notes: r.notes || '',
+    };
+    state._lastDept = r.department || '';
+    renderFormDefaults(); renderVenueSection();
+    CRITERIA.forEach(c => updateRatingUI(c.id));
+    const banner = $('#editBanner'); if (banner) banner.classList.add('show');
+    const rid = $('#editRecordId'); if (rid) rid.textContent = id;
+    const btn = $('#btnSaveRecord'); if (btn) btn.textContent = '更新記錄';
+    validateForm();
+    switchTab('inspection');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    showToast(`正在編輯 ${id}`, '');
+  }, '編輯記錄僅限開發者使用，請輸入開發者密碼。');
+}
+
+function deleteRecord(id) {
+  requireDeveloperThen(async () => {
+    if (!confirm(`確定刪除記錄 ${id}？此操作無法復原。`)) return;
+    try {
+      const { deleteDoc, doc } = window.firestoreFns;
+      await deleteDoc(doc(window.db, 'records', id));
+      state.records = state.records.filter(r => r.id !== id);
+      if (state.editingId === id) { exitEditMode(); resetForm(); }
+      renderRecordTable(); renderAnalysisSection(); renderDashboard();
+      showToast('記錄已刪除', 'success');
+    } catch (e) { showToast('刪除失敗：' + e.message, 'error'); }
+  }, '刪除記錄僅限開發者使用，請輸入開發者密碼。');
 }
 
 function exitEditMode() {
@@ -2351,6 +2506,7 @@ function renderRecordTable() {
     tbody.innerHTML = `<tr><td colspan="11"><div class="empty-state"><div class="empty-icon">📋</div><p>尚無考察記錄。<br>請切換至「新考察記錄」標籤開始填寫。</p></div></td></tr>`;
     return;
   }
+  const dev = isDeveloper();
   const sorted = [...state.records].sort((a, b) =>
     (b.updatedAt || b.submittedAt || '').localeCompare(a.updatedAt || a.submittedAt || ''));
   tbody.innerHTML = sorted.map(r => {
@@ -2360,6 +2516,15 @@ function renderRecordTable() {
     const normP = normalizeMRSC('proactive', toMRSC('proactive', r.ratings.proactive));
     const normT = normalizeMRSC('patience', toMRSC('patience', r.ratings.patience));
     const overallDisplay = Math.round(((normS + normP + normT) / 3) * 2);
+
+    // 操作欄：只有開發者才顯示按鈕
+    const actionsCell = dev
+      ? `<div class="row-actions">
+           <button class="btn btn-blue btn-xs" data-edit="${escapeHTML(r.id)}">編輯</button>
+           <button class="btn btn-danger btn-xs" data-del="${escapeHTML(r.id)}">刪除</button>
+         </div>`
+      : `<span style="color:#4d5666;font-size:11.5px;">🔒 唯讀</span>`;
+
     return `<tr class="${isEditing ? 'editing' : ''}">
       <td data-label="記錄編號"><span class="rec-id">${escapeHTML(r.id)}</span></td>
       <td data-label="日期 / 時間">
@@ -2384,30 +2549,16 @@ function renderRecordTable() {
       <td data-label="主動性" style="text-align:center;">${scorePill(r.ratings.proactive)}</td>
       <td data-label="耐心" style="text-align:center;">${scorePill(r.ratings.patience)}</td>
       <td data-label="綜合 MRSC" style="text-align:center;"><span class="mrsc-pill">${overallDisplay}</span></td>
-      <td class="actions-cell">
-        <div class="row-actions">
-          <button class="btn btn-blue btn-xs" data-edit="${escapeHTML(r.id)}">編輯</button>
-          <button class="btn btn-danger btn-xs" data-del="${escapeHTML(r.id)}">刪除</button>
-        </div>
-      </td>
+      <td class="actions-cell">${actionsCell}</td>
     </tr>`;
   }).join('');
-  tbody.querySelectorAll('[data-edit]').forEach(btn =>
-    btn.addEventListener('click', () => editRecord(btn.dataset.edit)));
-  tbody.querySelectorAll('[data-del]').forEach(btn => {
-    btn.addEventListener('click', async () => {
-      const id = btn.dataset.del;
-      if (!confirm(`確定刪除記錄 ${id}？此操作無法復原。`)) return;
-      try {
-        const { deleteDoc, doc } = window.firestoreFns;
-        await deleteDoc(doc(window.db, 'records', id));
-        state.records = state.records.filter(r => r.id !== id);
-        if (state.editingId === id) { exitEditMode(); resetForm(); }
-        renderRecordTable(); renderAnalysisSection(); renderDashboard();
-        showToast('記錄已刪除', 'success');
-      } catch (e) { showToast('刪除失敗：' + e.message, 'error'); }
-    });
-  });
+
+  if (dev) {
+    tbody.querySelectorAll('[data-edit]').forEach(btn =>
+      btn.addEventListener('click', () => editRecord(btn.dataset.edit)));
+    tbody.querySelectorAll('[data-del]').forEach(btn =>
+      btn.addEventListener('click', () => deleteRecord(btn.dataset.del)));
+  }
 }
 
 function scorePill(score) {
@@ -2733,9 +2884,35 @@ function renderAnalysisResult() {
    標籤切換
    ============================================================ */
 function switchTab(tabName) {
+  // 對比分析需開發者權限
+  if (tabName === 'analysis' && !isDeveloper()) {
+    requireDeveloperThen(() => {
+      // 驗證通過後顯示分析內容
+      $('#analysisLocked').classList.remove('show');
+      $('#analysisContent').style.display = 'block';
+      // 真正切換標籤
+      doSwitchTab('analysis');
+    }, '對比分析僅限開發者使用，請輸入開發者密碼。');
+    return;
+  }
+  doSwitchTab(tabName);
+}
+
+function doSwitchTab(tabName) {
   $$('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tabName));
   $$('.tab-content').forEach(s => s.classList.toggle('active', s.dataset.tab === tabName));
   if (tabName === 'dashboard') renderDashboard();
+  if (tabName === 'analysis') {
+    // 確保顯示正確的內容
+    if (isDeveloper()) {
+      const locked = $('#analysisLocked'); if (locked) locked.classList.remove('show');
+      const content = $('#analysisContent'); if (content) content.style.display = 'block';
+      renderAnalysisSection();
+    } else {
+      const locked = $('#analysisLocked'); if (locked) locked.classList.add('show');
+      const content = $('#analysisContent'); if (content) content.style.display = 'none';
+    }
+  }
 }
 
 /* ============================================================
@@ -2781,11 +2958,19 @@ function bindAppEvents() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
+  const btnUnlock = $('#btnUnlockAnalysis');
+  if (btnUnlock) btnUnlock.addEventListener('click', () => {
+    requireDeveloperThen(() => {
+      $('#analysisLocked').classList.remove('show');
+      $('#analysisContent').style.display = 'block';
+      renderAnalysisSection();
+    }, '對比分析僅限開發者使用，請輸入開發者密碼。');
+  });
+
   const on = (sel, evt, fn) => { const el = $(sel); if (el) el.addEventListener(evt, fn); };
   on('#fDate', 'change', e => { state.form.date = e.target.value; validateForm(); });
   on('#fTime', 'change', e => { state.form.time = e.target.value; validateForm(); });
 
-  // 考察地點：改變 → 清空場館 → 重新渲染
   on('#fLocation', 'change', e => {
     state.form.location = e.target.value;
     state.form.venueName = '';
@@ -2793,7 +2978,6 @@ function bindAppEvents() {
     validateForm();
   });
 
-  // 考察休企：改變 → 清空場館 → 重新渲染
   on('#fCompany', 'change', e => {
     state.form.company = e.target.value;
     state.form.venueName = '';
@@ -2945,20 +3129,22 @@ function bindAppEvents() {
     }
   });
 
-  on('#btnClearAll', 'click', async () => {
-    if (state.records.length === 0) { showToast('目前沒有記錄', ''); return; }
-    if (!confirm(`確定清除全部 ${state.records.length} 筆考察記錄？此操作無法復原。`)) return;
-    try {
-      const { writeBatch, doc } = window.firestoreFns;
-      const batch = writeBatch(window.db);
-      state.records.forEach(r => { batch.delete(doc(window.db, 'records', r.id)); });
-      await batch.commit();
-      state.records = [];
-      exitEditMode();
-      resetForm();
-      renderRecordTable(); renderAnalysisSection(); renderDashboard();
-      showToast('所有記錄已清除', 'success');
-    } catch (e) { showToast('清除失敗：' + e.message, 'error'); }
+  on('#btnClearAll', 'click', () => {
+    requireDeveloperThen(async () => {
+      if (state.records.length === 0) { showToast('目前沒有記錄', ''); return; }
+      if (!confirm(`確定清除全部 ${state.records.length} 筆考察記錄？此操作無法復原。`)) return;
+      try {
+        const { writeBatch, doc } = window.firestoreFns;
+        const batch = writeBatch(window.db);
+        state.records.forEach(r => { batch.delete(doc(window.db, 'records', r.id)); });
+        await batch.commit();
+        state.records = [];
+        exitEditMode();
+        resetForm();
+        renderRecordTable(); renderAnalysisSection(); renderDashboard();
+        showToast('所有記錄已清除', 'success');
+      } catch (e) { showToast('清除失敗：' + e.message, 'error'); }
+    }, '清除全部記錄僅限開發者使用，請輸入開發者密碼。');
   });
 
   on('#btnLogout', 'click', logout);
