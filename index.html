@@ -598,13 +598,14 @@ th{background:#f0f0f0;color:#333}td{color:#111;border-color:#ddd}
 <div class="toast" id="toast"></div>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
-import{getFirestore,collection,setDoc,getDocs,deleteDoc,doc,updateDoc,serverTimestamp,writeBatch}from"https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+import{getFirestore,collection,setDoc,getDoc,getDocs,deleteDoc,doc,updateDoc,serverTimestamp,writeBatch}from"https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
 
 window.addEventListener('error',e=>console.error('[MRSC]',e.message,e.filename,e.lineno,e.error));
 window.addEventListener('unhandledrejection',e=>console.error('[MRSC]',e.reason));
 
 const firebaseConfig={apiKey:"AIzaSyCej6Mw-8rwuBPaX1QZ_6PtRq49gLp5GBQ",authDomain:"mrsc-2026.firebaseapp.com",projectId:"mrsc-2026",storageBucket:"mrsc-2026.firebasestorage.app",messagingSenderId:"631056702311",appId:"1:631056702311:web:a39ec349380937099d6dc2"};
 const fbApp=initializeApp(firebaseConfig);const db=getFirestore(fbApp);const recordsCol=collection(db,'records');
+const criteriaDoc=doc(db,'config','criteria');
 
 /* ========== i18n ========== */
 const LANG_KEY='mrsc_lang';
@@ -819,7 +820,9 @@ const DEFAULT_CRITERIA=[
 ];
 function genCritId(){return 'c'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);}
 function normalizeMap(m){const o={};[1,2,3,4,5].forEach(n=>{o[n]=Number(m&&m[n]!=null?m[n]:0)||0;});return o;}
-function loadCriteria(){
+
+/* 從 localStorage 讀取（同步，作初始值／離線 fallback） */
+function loadCriteriaFromLocal(){
   try{
     const raw=localStorage.getItem(CRITERIA_KEY);
     if(raw){
@@ -836,10 +839,49 @@ function loadCriteria(){
         }));
       }
     }
-  }catch(e){console.warn('[MRSC] load criteria failed',e);}
+  }catch(e){console.warn('[MRSC] load local criteria failed',e);}
   return JSON.parse(JSON.stringify(DEFAULT_CRITERIA));
 }
-let CRITERIA=loadCriteria();
+
+let CRITERIA=loadCriteriaFromLocal();
+
+/* 從 Firestore 讀取（非同步，開機時呼叫） */
+async function loadCriteriaFromCloud(){
+  try{
+    const snap=await getDoc(criteriaDoc);
+    if(snap.exists()){
+      const data=snap.data();
+      if(Array.isArray(data.criteria)&&data.criteria.length>0){
+        CRITERIA=data.criteria.map(c=>({
+          id:String(c.id||genCritId()),
+          name:String(c.name||'維度'),
+          icon:String(c.icon||'★'),
+          ref:Number(c.ref)||0,
+          max:Number(c.max)||200,
+          desc:String(c.desc||''),
+          map:normalizeMap(c.map)
+        }));
+        try{localStorage.setItem(CRITERIA_KEY,JSON.stringify(CRITERIA));}catch(e){}
+        return true;
+      }
+    }else{
+      /* Firestore 尚未有資料 → 若本機有自訂版本，上傳做首次同步 */
+      const local=localStorage.getItem(CRITERIA_KEY);
+      if(local){
+        try{
+          const arr=JSON.parse(local);
+          if(Array.isArray(arr)&&arr.length>0&&JSON.stringify(arr)!==JSON.stringify(DEFAULT_CRITERIA)){
+            await setDoc(criteriaDoc,{criteria:CRITERIA,updatedAt:serverTimestamp()});
+          }
+        }catch(e){}
+      }
+    }
+  }catch(e){
+    console.warn('[MRSC] load criteria from cloud failed',e);
+  }
+  return false;
+}
+
 const findCrit=id=>CRITERIA.find(c=>c.id===id);
 function emptyRatings(){const o={};CRITERIA.forEach(c=>{o[c.id]=null;});return o;}
 const toMRSC=(id,r)=>{if(!r)return 0;const c=findCrit(id);return c&&c.map?(c.map[r]??0):0;};
@@ -943,7 +985,35 @@ function renderDashboard(){const nEl=document.getElementById('dashName');const i
 function getLastUpdatedLabel(){if(state.records.length===0)return'—';const sorted=[...state.records].sort((a,b)=>(b.updatedAt||b.submittedAt||'').localeCompare(a.updatedAt||a.submittedAt||''));const ts=sorted[0].updatedAt||sorted[0].submittedAt;if(!ts)return'—';const d=new Date(ts);const diff=Date.now()-d.getTime();const min=Math.floor(diff/60000);if(LANG==='en'){if(min<1)return'just now';if(min<60)return`${min} min ago`;const hr=Math.floor(min/60);if(hr<24)return`${hr} hr ago`;const day=Math.floor(hr/24);if(day<7)return`${day} d ago`;}else{if(min<1)return'剛剛';if(min<60)return`${min} 分鐘前`;const hr=Math.floor(min/60);if(hr<24)return`${hr} 小時前`;const day=Math.floor(hr/24);if(day<7)return`${day} 天前`;}return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
 function renderRecentList(){const w=document.getElementById('recentList');const h=document.getElementById('recentHint');if(!w)return;if(state.records.length===0){w.innerHTML=`<div class="es" style="padding:30px 20px"><div class="ei">📋</div><p>${LANG==='en'?'No records yet.<br>Click "New Inspection" above.':'尚無考察記錄。<br>點擊上方「新增考察記錄」開始填寫。'}</p></div>`;if(h)h.textContent=LANG==='en'?'Latest 5':'最新 5 筆';return;}const sorted=[...state.records].sort((a,b)=>(b.updatedAt||b.submittedAt||'').localeCompare(a.updatedAt||a.submittedAt||'')).slice(0,5);if(h)h.textContent=LANG==='en'?`Latest ${sorted.length}`:`最新 ${sorted.length} 筆`;w.innerHTML=sorted.map(r=>{const c=getCompany(r.companyId);const ov=calcOverall(r.ratings);return`<div class="recent-item"><span class="rec-dot" style="background:${c?.color||'#888'}"></span><div class="rec-main"><strong>${escapeHTML(coName(c))} · ${escapeHTML(Wr(r.venueName)||'—')}</strong><span>${escapeHTML(r.date)} ${escapeHTML(r.time)} · ${escapeHTML(Wr(r.department)||'—')} · ${escapeHTML(r.inspectorName||'')}</span></div><span class="rec-score">${ov}</span></div>`;}).join('');}
 function initLogin(){const n=document.getElementById('ln');const i=document.getElementById('lid');const b=document.getElementById('btnLogin');if(!n||!i||!b)return;n.value='';i.value='';const upd=()=>{b.disabled=(n.value||'').trim().length<2;};['input','keyup','change','compositionend','paste','blur'].forEach(evt=>n.addEventListener(evt,()=>setTimeout(upd,0)));upd();const enter=e=>{if(e.key==='Enter'&&!b.disabled){e.preventDefault();b.click();}};n.addEventListener('keydown',enter);i.addEventListener('keydown',enter);b.addEventListener('click',()=>{const name=(n.value||'').trim();if(name.length<2){showToast(LANG==='en'?'Please enter at least 2 characters':'請輸入至少 2 個字的姓名','error');return;}state.inspector.name=name;state.inspector.id=(i.value||'').trim()||('MRSC-'+Date.now().toString(36).toUpperCase().slice(-6));safeSessionSet(SESSION_KEY,'1');try{enterApp();}catch(err){showToast((LANG==='en'?'Failed: ':'進入系統失敗：')+(err?.message||'?'),'error');}});setTimeout(()=>{try{n.focus();}catch(e){}},100);}
-async function enterApp(){const o=document.getElementById('lo');const a=document.getElementById('app');if(o)o.style.display='none';if(a)a.style.display='block';const tn=document.getElementById('topName');const ti=document.getElementById('topId');const ta=document.getElementById('topAvatar');const fi=document.getElementById('fInspector');if(tn)tn.textContent=state.inspector.name;if(ti)ti.textContent=state.inspector.id;if(ta)ta.textContent=(state.inspector.name||'考').charAt(0);if(fi)fi.value=state.inspector.name;applyI18n();fillCompanyOptions();fillDepartmentOptions();renderCriteria();renderFormDefaults();renderVenueSection();renderRecordTable();renderDashboard();bindAppEvents();renderAnalysisSection();updateDevBadge();switchTab('dashboard');try{await fetchRecordsFromCloud();}catch(e){console.error('[MRSC] cloud load failed:',e);}setTimeout(migrateLocalDataToCloud,1500);}
+async function enterApp(){
+  const o=document.getElementById('lo');const a=document.getElementById('app');
+  if(o)o.style.display='none';if(a)a.style.display='block';
+  const tn=document.getElementById('topName');const ti=document.getElementById('topId');
+  const ta=document.getElementById('topAvatar');const fi=document.getElementById('fInspector');
+  if(tn)tn.textContent=state.inspector.name;
+  if(ti)ti.textContent=state.inspector.id;
+  if(ta)ta.textContent=(state.inspector.name||'考').charAt(0);
+  if(fi)fi.value=state.inspector.name;
+  applyI18n();
+  fillCompanyOptions();
+  fillDepartmentOptions();
+
+  /* 先同步雲端評分維度，再渲染所有依賴 CRITERIA 的畫面 */
+  showToast(LANG==='en'?'Syncing scoring dimensions...':'正在同步評分維度...','');
+  try{await loadCriteriaFromCloud();}catch(e){console.warn('[MRSC] criteria sync failed',e);}
+
+  renderCriteria();
+  renderFormDefaults();
+  renderVenueSection();
+  renderRecordTable();
+  renderDashboard();
+  bindAppEvents();
+  renderAnalysisSection();
+  updateDevBadge();
+  switchTab('dashboard');
+  try{await fetchRecordsFromCloud();}catch(e){console.error('[MRSC] cloud load failed:',e);}
+  setTimeout(migrateLocalDataToCloud,1500);
+}
 function logout(){if(!confirm(LANG==='en'?'Logout? Unsubmitted form content will be lost.':'確定登出？未提交的表單內容將遺失。'))return;safeSessionRemove(SESSION_KEY);safeSessionRemove(DEV_KEY);location.reload();}
 function fillCompanyOptions(){const s=document.getElementById('fCompany');if(!s)return;const cur=s.value;s.innerHTML='<option value="">'+(LANG==='en'?'Please select':'請選擇')+'</option>'+COMPANIES.map(c=>`<option value="${c.id}">${coName(c)}</option>`).join('');if(cur)s.value=cur;}
 function fillDepartmentOptions(){const s=document.getElementById('fDepartment');if(!s)return;const cur=s.value;s.innerHTML='<option value="">'+(LANG==='en'?'Select department':'請選擇部門')+'</option>'+DEPARTMENT_NAMES.map(d=>`<option value="${escapeHTML(d)}">${escapeHTML(Wr(d))}</option>`).join('');if(cur)s.value=cur;}
@@ -1183,7 +1253,7 @@ function resetCriteriaToDefault(){
   renderCritEditor();
   showToast(en?'Draft reset. Click "Save & Apply" to confirm.':'已還原草稿，請點擊「儲存並套用」以生效。','');
 }
-function saveCriteria(){
+async function saveCriteria(){
   const en=LANG==='en';
   if(!_critDraft||!_critDraft.length){showToast(en?'At least one dimension required':'至少需要保留一個評分維度','error');return;}
   for(let i=0;i<_critDraft.length;i++){
@@ -1198,9 +1268,16 @@ function saveCriteria(){
     c.map=normalizeMap(c.map);
     if(!c.id)c.id=genCritId();
   }
-  try{localStorage.setItem(CRITERIA_KEY,JSON.stringify(_critDraft));}
-  catch(e){showToast(en?'Save failed':'儲存失敗','error');return;}
-  CRITERIA=loadCriteria();
+  /* 先存本機（即時生效、離線可用） */
+  try{localStorage.setItem(CRITERIA_KEY,JSON.stringify(_critDraft));}catch(e){}
+  CRITERIA=loadCriteriaFromLocal();
+  /* 再同步到雲端 */
+  try{
+    await setDoc(criteriaDoc,{criteria:_critDraft,updatedAt:serverTimestamp()});
+  }catch(e){
+    console.warn('[MRSC] save criteria to cloud failed',e);
+    showToast(en?'Saved locally, cloud sync failed':'已存本機，雲端同步失敗','error');
+  }
   const nr={};
   CRITERIA.forEach(c=>{nr[c.id]=state.form.ratings?.[c.id]||null;});
   state.form.ratings=nr;
