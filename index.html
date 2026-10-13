@@ -107,6 +107,30 @@ main{max-width:1500px;margin:0 auto;padding:20px 24px 60px}
 .fld input[type=date],.fld input[type=time],.fld input[type=datetime-local]{width:100%;min-width:0;max-width:100%;box-sizing:border-box;-webkit-appearance:none;-moz-appearance:textfield;appearance:none;font-family:inherit;text-align:left;padding:12px 14px;line-height:1.4}
 .fld input[type=number]::-webkit-outer-spin-button,.fld input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .fld input[type=number]{-moz-appearance:textfield;appearance:textfield}
+
+/* ===== 自訂義滾輪選擇器（Time Picker） ===== */
+.time-trigger{cursor:pointer;background:var(--in);border:1px solid var(--line);color:var(--text);padding:12px 14px;border-radius:9px;font-family:inherit;font-size:16px;min-height:46px;display:flex;align-items:center;justify-content:space-between;transition:.15s}
+.time-trigger:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--goldS);outline:none}
+.time-trigger.empty{color:var(--ph)}
+.tp-overlay{position:fixed;inset:0;z-index:10000;background:var(--mo);backdrop-filter:blur(4px);display:none;align-items:flex-end;justify-content:center;animation:mfi .2s ease}
+.tp-overlay.on{display:flex}
+.tp-sheet{width:100%;max-width:420px;background:linear-gradient(180deg,var(--mcT),var(--mcB));border-radius:20px 20px 0 0;border:1px solid var(--line);border-bottom:none;overflow:hidden;animation:slideUp .25s ease;box-shadow:0 -10px 40px rgba(0,0,0,.5)}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.tp-header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--lineS)}
+.tp-header button{background:none;border:none;color:var(--blue);font-size:16px;font-weight:600;font-family:inherit;cursor:pointer;padding:4px 8px}
+.tp-header button:active{opacity:.6}
+.tp-header span{font-size:15px;font-weight:700;color:var(--text)}
+.tp-body{position:relative;height:250px;display:flex;overflow:hidden;padding:0 40px}
+.tp-col{flex:1;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;padding:100px 0;position:relative}
+.tp-col::-webkit-scrollbar{display:none}
+.tp-item{height:50px;display:flex;justify-content:center;align-items:center;font-size:20px;color:var(--muted2);scroll-snap-align:center;transition:.15s}
+.tp-item.active{color:var(--text);font-size:24px;font-weight:700}
+.tp-mask{position:absolute;top:50%;left:20px;right:20px;height:50px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);transform:translateY(-50%);pointer-events:none;background:rgba(255,255,255,.03);border-radius:4px}
+.tp-footer{padding:16px 20px;padding-bottom:calc(16px + env(safe-area-inset-bottom));display:flex;gap:12px;justify-content:center}
+.tp-btn{flex:1;padding:14px;border-radius:10px;border:none;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;max-width:200px}
+.tp-btn.cancel{background:var(--row);color:var(--text);border:1px solid var(--line)}
+.tp-btn.confirm{background:linear-gradient(135deg,#e0be4d,#b8860b);color:#17120a;box-shadow:0 4px 16px rgba(212,175,55,.25)}
+
 .errbox{display:none;padding:14px 18px;border-radius:11px;background:rgba(224,82,82,.08);border:1px solid rgba(224,82,82,.35);margin-bottom:16px}
 .errbox.on{display:block}
 .errbox h4{font-size:12.5px;font-weight:700;color:var(--danger);margin-bottom:8px}
@@ -119,6 +143,7 @@ main{max-width:1500px;margin:0 auto;padding:20px 24px 60px}
 .grow .fld{gap:5px}
 .grow .fld label{font-size:10.5px;color:var(--muted2)}
 .grow .fld input,.grow .fld select{padding:9px 12px;font-size:14px;min-height:42px}
+.grow .time-trigger{padding:9px 12px;font-size:14px;min-height:42px}
 .gdel{width:36px;height:36px;border-radius:8px;background:transparent;border:1px solid var(--line);color:var(--muted2);cursor:pointer;font-size:13px;display:grid;place-items:center;align-self:end;flex-shrink:0}
 .gdel:hover{color:var(--danger);border-color:rgba(224,82,82,.4);background:rgba(224,82,82,.06)}
 .gempty{text-align:center;padding:22px 20px;color:var(--ph);font-size:12.5px;background:var(--row);border:1px dashed var(--line);border-radius:10px;line-height:1.6}
@@ -279,6 +304,8 @@ main{padding:14px 16px 50px}.panel{border-radius:14px;margin-bottom:12px}
 .fg{grid-template-columns:1fr;gap:12px}
 .fld label{font-size:13px}
 .fld input,.fld select,.fld textarea{font-size:17px;min-height:50px;padding:12px 14px}
+.fld .time-trigger{font-size:17px;min-height:50px;padding:12px 14px}
+.grow .fld .time-trigger{font-size:17px;min-height:48px;padding:10px 12px}
 .fld input[type=date],.fld input[type=time]{font-size:16px;padding:12px 12px}
 .grow{display:flex!important;flex-direction:column!important;grid-template-columns:none!important;padding:14px;padding-top:52px;gap:12px}
 .grow .fld{width:100%;gap:7px}.grow .fld label{font-size:12.5px}
@@ -319,6 +346,8 @@ main{padding:14px 16px 50px}.panel{border-radius:14px;margin-bottom:12px}
 .btn{font-size:14px}.lc{padding:36px 28px 30px}.lf input{font-size:17px;min-height:52px}
 .bl{font-size:16px;min-height:56px}.mcard-modal{padding:26px 22px 20px}
 .mf .fld input{font-size:17px;min-height:52px}.toast{font-size:15px;padding:16px 24px}
+.tp-sheet{border-radius:16px 16px 0 0}
+.tp-body{padding:0 20px}
 }
 @media (max-width:400px){
 .br h1{font-size:13px}
@@ -418,7 +447,7 @@ th{background:#f0f0f0;color:#333}td{color:#111;border-color:#ddd}
 <div class="pbody"><div class="fg">
 <div class="fld"><label data-i18n="fInspector">考察人員姓名 <span class="req">*</span></label><input type="text" id="fInspector" readonly></div>
 <div class="fld"><label data-i18n="fDate">考察日期 <span class="req">*</span></label><input type="date" id="fDate"></div>
-<div class="fld"><label data-i18n="fTime">考察時間 <span class="req">*</span></label><input type="time" id="fTime"></div>
+<div class="fld"><label data-i18n="fTime">考察時間 <span class="req">*</span></label><input type="text" id="fTime" class="time-trigger empty" readonly placeholder="請選擇時間" data-target="form"></div>
 <div class="fld"><label data-i18n="fLocation">考察地點 <span class="req">*</span></label><select id="fLocation"><option value="">請選擇</option><option value="澳門半島">澳門半島</option><option value="氹仔">氹仔</option><option value="路氹城">路氹城</option></select></div>
 <div class="fld"><label data-i18n="fCompany">考察休企 <span class="req">*</span></label><select id="fCompany"><option value="" data-i18n="optChoose">請選擇</option></select></div>
 <div class="fld"><label data-i18n="fVenue">場館名稱 <span class="req">*</span></label><select id="fVenueName"><option value="">請先選擇地點與休企</option></select></div>
@@ -484,6 +513,31 @@ th{background:#f0f0f0;color:#333}td{color:#111;border-color:#ddd}
 <div class="mf" id="mf"></div><div class="me" id="me"></div>
 <div class="ma"><button class="btn bg" id="mcBtn" type="button" data-i18n="cancel">取消</button><button class="btn bp" id="moBtn" type="button" data-i18n="confirm">確定</button></div>
 </div></div>
+
+<!-- 自訂義時間滾輪選擇器 -->
+<div class="tp-overlay" id="tpOverlay">
+  <div class="tp-sheet">
+    <div class="tp-header">
+      <button type="button" id="tpReset">重置</button>
+      <span id="tpTitle">選擇時間</span>
+      <button type="button" id="tpConfirm">完成</button>
+    </div>
+    <div class="tp-body">
+      <div class="tp-col" id="tpHourCol">
+        <!-- JS 填充 -->
+      </div>
+      <div class="tp-col" id="tpMinCol">
+        <!-- JS 填充 -->
+      </div>
+      <div class="tp-mask"></div>
+    </div>
+    <div class="tp-footer">
+      <button class="tp-btn cancel" type="button" id="tpCancel">取消</button>
+      <button class="tp-btn confirm" type="button" id="tpConfirm2">確認</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
@@ -659,7 +713,6 @@ function applyI18n(){
   document.querySelectorAll('[data-i18n-ph]').forEach(el=>{const entry=T[el.dataset.i18nPh];if(!entry)return;el.placeholder=LANG==='en'?entry[1]:entry[0];});
   const li=document.getElementById('langIcon');if(li)li.textContent=LANG==='en'?'中':'EN';
   document.documentElement.setAttribute('lang',LANG==='en'?'en':'zh-Hant');
-  /* fLocation：保持 option value 為中文，只切換顯示文字 */
   const fLoc=document.getElementById('fLocation');
   if(fLoc&&fLoc.options.length>=4){
     const keepVal=fLoc.value;
@@ -716,7 +769,7 @@ const DEPT_CONFIG={
 '籌碼兌換':{icon:'💱',itemLabel:'櫃檯記錄',summary:'兌換',fields:[{key:'name',label:'櫃檯位置',type:'text',span:2,placeholder:'例：主廳兌換櫃檯'},{key:'service',label:'服務記錄',type:'select',span:2,placeholder:'請選擇服務',options:[{v:'現金買碼',l:'現金買碼'},{v:'籌碼換現金',l:'籌碼換現金'},{v:'其他',l:'其他（請註明）'}]},{key:'serviceOther',label:'其他服務名稱',type:'text',span:2,showIf:{key:'service',value:'其他'},placeholder:'請輸入服務名稱'},{key:'open',label:'開啟櫃檯數',type:'number',min:0,max:200,placeholder:'0'},{key:'closed',label:'關閉櫃檯數',type:'number',min:0,max:200,placeholder:'0'},{key:'queue',label:'排隊人數',type:'number',min:0,max:500,placeholder:'0'},{key:'waitTime',label:'等候(分鐘)',type:'number',min:0,max:120,placeholder:'0'}]},
 '保安':{icon:'🛡',itemLabel:'崗位記錄',summary:'保安',fields:[{key:'position',label:'崗位位置',type:'select',span:2,placeholder:'請選擇崗位',options:[{v:'inside',l:'場內'},{v:'entrance',l:'門口'}]},{key:'maintainOrder',label:'維持場內秩序',type:'select',placeholder:'請選擇',options:YES_NO_OPTIONS},{key:'uniform',label:'制服整潔',type:'select',placeholder:'請評分',options:RATING_OPTIONS},{key:'politeness',label:'禮貌',type:'select',placeholder:'請評分',options:RATING_OPTIONS},{key:'posture',label:'站姿',type:'select',showIf:{key:'position',value:'inside'},placeholder:'請評分',options:RATING_OPTIONS},{key:'entryTime',label:'進場用時(分)',type:'number',showIf:{key:'position',value:'entrance'},min:0,max:60,placeholder:'0'}]},
 '會籍服務':{icon:'💳',itemLabel:'服務記錄',summary:'會籍',fields:[{key:'name',label:'服務項目',type:'select',span:2,placeholder:'請選擇服務',options:[{v:'開卡',l:'開卡'},{v:'查詢積分',l:'查詢積分'},{v:'兌換禮品',l:'兌換禮品'},{v:'其他',l:'其他（請註明）'}]},{key:'nameOther',label:'其他服務名稱',type:'text',span:2,showIf:{key:'name',value:'其他'},placeholder:'請輸入服務名稱'},{key:'open',label:'開啟櫃檯數',type:'number',min:0,max:100,placeholder:'0'},{key:'closed',label:'關閉櫃檯數',type:'number',min:0,max:100,placeholder:'0'},{key:'queue',label:'排隊人數',type:'number',min:0,max:500,placeholder:'0'},{key:'waitTime',label:'等候(分鐘)',type:'number',min:0,max:120,placeholder:'0'}]},
-'穿梭巴士':{icon:'🚌',itemLabel:'班次記錄',summary:'巴士',fields:[{key:'name',label:'路線',type:'select',span:2,placeholder:'請選擇路線',options:[{v:'關閘',l:'關閘'},{v:'氹仔碼頭',l:'氹仔碼頭'},{v:'港澳碼頭',l:'港澳碼頭'},{v:'港珠澳大橋',l:'港珠澳大橋'},{v:'橫琴口岸',l:'橫琴口岸'},{v:'澳門國際機場',l:'澳門國際機場'},{v:'其他',l:'其他（請註明）'}]},{key:'nameOther',label:'其他路線名稱',type:'text',span:2,showIf:{key:'name',value:'其他'},placeholder:'請輸入路線名稱'},{key:'departureTime',label:'發車時間',type:'text',span:2,placeholder:'24小時制，例：14:30'},{key:'queue',label:'候車人數',type:'number',min:0,max:1000,placeholder:'0'},{key:'waitTime',label:'等候(分鐘)',type:'number',min:0,max:120,placeholder:'0'},{key:'wifi',label:'車內提供 WiFi',type:'select',placeholder:'請選擇',options:YES_NO_OPTIONS},{key:'water',label:'車內提供樽裝水',type:'select',placeholder:'請選擇',options:YES_NO_OPTIONS}]},
+'穿梭巴士':{icon:'🚌',itemLabel:'班次記錄',summary:'巴士',fields:[{key:'name',label:'路線',type:'select',span:2,placeholder:'請選擇路線',options:[{v:'關閘',l:'關閘'},{v:'氹仔碼頭',l:'氹仔碼頭'},{v:'港澳碼頭',l:'港澳碼頭'},{v:'港珠澳大橋',l:'港珠澳大橋'},{v:'橫琴口岸',l:'橫琴口岸'},{v:'澳門國際機場',l:'澳門國際機場'},{v:'其他',l:'其他（請註明）'}]},{key:'nameOther',label:'其他路線名稱',type:'text',span:2,showIf:{key:'name',value:'其他'},placeholder:'請輸入路線名稱'},{key:'departureTime',label:'發車時間',type:'time',span:2},{key:'queue',label:'候車人數',type:'number',min:0,max:1000,placeholder:'0'},{key:'waitTime',label:'等候(分鐘)',type:'number',min:0,max:120,placeholder:'0'},{key:'wifi',label:'車內提供 WiFi',type:'select',placeholder:'請選擇',options:YES_NO_OPTIONS},{key:'water',label:'車內提供樽裝水',type:'select',placeholder:'請選擇',options:YES_NO_OPTIONS}]},
 '衣帽間':{icon:'🧥',itemLabel:'寄存記錄',summary:'衣帽間',fields:[{key:'name',label:'服務項目',type:'select',span:2,placeholder:'請選擇服務',options:[{v:'寄存',l:'寄存'},{v:'取件',l:'取件'},{v:'其他',l:'其他（請註明）'}]},{key:'nameOther',label:'其他服務名稱',type:'text',span:2,showIf:{key:'name',value:'其他'},placeholder:'請輸入服務名稱'},{key:'open',label:'開啟窗口數',type:'number',min:0,max:50,placeholder:'0'},{key:'closed',label:'關閉窗口數',type:'number',min:0,max:50,placeholder:'0'},{key:'queue',label:'排隊人數',type:'number',min:0,max:500,placeholder:'0'},{key:'waitTime',label:'等候(分鐘)',type:'number',min:0,max:120,placeholder:'0'}]}};
 const DEPARTMENT_NAMES=Object.keys(DEPT_CONFIG);
 const DEFAULT_DEPT_CONFIG={icon:'📝',itemLabel:'觀察記錄',summary:'其他',fields:[{key:'name',label:'項目',type:'text',span:2,placeholder:'例：項目名稱'},{key:'open',label:'數量',type:'number',min:0,max:10000,placeholder:'0'},{key:'closed',label:'備註數值',type:'number',min:0,max:10000,placeholder:'0'},{key:'minBet',label:'金額(HKD)',type:'number',min:0,max:1000000,step:10,placeholder:'0'}]};
@@ -766,37 +819,14 @@ async function enterApp(){const o=document.getElementById('lo');const a=document
 function logout(){if(!confirm(LANG==='en'?'Logout? Unsubmitted form content will be lost.':'確定登出？未提交的表單內容將遺失。'))return;safeSessionRemove(SESSION_KEY);safeSessionRemove(DEV_KEY);location.reload();}
 function fillCompanyOptions(){const s=document.getElementById('fCompany');if(!s)return;const cur=s.value;s.innerHTML='<option value="">'+(LANG==='en'?'Please select':'請選擇')+'</option>'+COMPANIES.map(c=>`<option value="${c.id}">${coName(c)}</option>`).join('');if(cur)s.value=cur;}
 function fillDepartmentOptions(){const s=document.getElementById('fDepartment');if(!s)return;const cur=s.value;s.innerHTML='<option value="">'+(LANG==='en'?'Select department':'請選擇部門')+'</option>'+DEPARTMENT_NAMES.map(d=>`<option value="${escapeHTML(d)}">${escapeHTML(Wr(d))}</option>`).join('');if(cur)s.value=cur;}
-/* 場館：用 select 顯示，option value 一律存中文 key（與舊資料兼容） */
-function renderVenueOptions(sel){
-  const loc=state.form.location||'';const cid=state.form.company||'';
-  const s=document.getElementById('fVenueName');if(!s)return;
-  const en=LANG==='en';
-  const cur=sel||state.form.venueName||'';
-  if(!loc&&!cid){s.innerHTML=`<option value="">${en?'Select location and company first':'請先選擇考察地點與休企'}</option>`;return;}
-  if(!loc){s.innerHTML=`<option value="">${en?'Select location first':'請先選擇考察地點'}</option>`;return;}
-  if(!cid){s.innerHTML=`<option value="">${en?'Select company first':'請先選擇考察休企'}</option>`;return;}
-  const c=getCompany(cid);
-  if(!c){s.innerHTML=`<option value="">${en?'Select company first':'請先選擇考察休企'}</option>`;return;}
-  const groups=VENUE_BY_LOCATION[loc]||[];
-  const targets=groups.filter(g=>g.group===c.name);
-  let html=`<option value="">${en?'Select venue':'請選擇場館'}</option>`;
-  if(targets.length===0||targets.every(g=>g.venues.length===0)){
-    html=`<option value="">${en?'No venue for this company at this location':'此休企在此地點沒有場館'}</option>`;
-  }else{
-    targets.forEach(g=>g.venues.forEach(v=>{
-      html+=`<option value="${escapeHTML(v)}" ${cur===v?'selected':''}>${escapeHTML(Wr(v))}</option>`;
-    }));
-    html+=`<option value="其他" ${cur==='其他'?'selected':''}>${en?'Other':'其他'}</option>`;
-  }
-  s.innerHTML=html;
-}
-function renderFormDefaults(){if(!state.form.date)state.form.date=todayISO();if(!state.form.time)state.form.time=nowTime();const sv=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v;};sv('fDate',state.form.date);sv('fTime',state.form.time);sv('fLocation',safeStr(state.form.location));sv('fCompany',safeStr(state.form.company));renderVenueOptions(state.form.venueName);sv('fDepartment',safeStr(state.form.department));sv('fNotes',safeStr(state.form.notes));}
+function renderVenueOptions(sel){const loc=state.form.location||'';const cid=state.form.company||'';const s=document.getElementById('fVenueName');if(!s)return;const en=LANG==='en';const cur=sel||state.form.venueName||'';if(!loc&&!cid){s.innerHTML=`<option value="">${en?'Select location and company first':'請先選擇考察地點與休企'}</option>`;return;}if(!loc){s.innerHTML=`<option value="">${en?'Select location first':'請先選擇考察地點'}</option>`;return;}if(!cid){s.innerHTML=`<option value="">${en?'Select company first':'請先選擇考察休企'}</option>`;return;}const c=getCompany(cid);if(!c){s.innerHTML=`<option value="">${en?'Select company first':'請先選擇考察休企'}</option>`;return;}const groups=VENUE_BY_LOCATION[loc]||[];const targets=groups.filter(g=>g.group===c.name);let html=`<option value="">${en?'Select venue':'請選擇場館'}</option>`;if(targets.length===0||targets.every(g=>g.venues.length===0)){html=`<option value="">${en?'No venue for this company at this location':'此休企在此地點沒有場館'}</option>`;}else{targets.forEach(g=>g.venues.forEach(v=>{html+=`<option value="${escapeHTML(v)}" ${cur===v?'selected':''}>${escapeHTML(Wr(v))}</option>`;}));html+=`<option value="其他" ${cur==='其他'?'selected':''}>${en?'Other':'其他'}</option>`;}s.innerHTML=html;}
+function renderFormDefaults(){if(!state.form.date)state.form.date=todayISO();if(!state.form.time)state.form.time=nowTime();const sv=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v;};sv('fDate',state.form.date);const tEl=document.getElementById('fTime');if(tEl){tEl.value=state.form.time;tEl.classList.toggle('empty',!state.form.time);}sv('fLocation',safeStr(state.form.location));sv('fCompany',safeStr(state.form.company));renderVenueOptions(state.form.venueName);sv('fDepartment',safeStr(state.form.department));sv('fNotes',safeStr(state.form.notes));}
 function renderVenueSection(){const w=document.getElementById('venueBody');const h=document.getElementById('venueHint');if(!w)return;const dept=state.form.department||'';const cfg=getDeptConfig(dept);const items=state.form.venue.items||[];const env=state.form.venue.env||{};const en=LANG==='en';if(h)h.textContent=dept?(en?`${cfg.icon||'📝'} Department items (${Wr(dept)}) · Env observation fixed`:`${cfg.icon||'📝'} 部門專屬項目（${dept}）　·　環境觀察為固定項目`):(en?'Select "Department" to show items':'請先選擇「考察部門」顯示專屬項目');let html='';if(!dept)html+=`<div class="gempty">${en?'Select "Department" above to show department-specific items.':'請先於上方「考察資訊」選擇「考察部門」，本區塊將顯示該部門專屬的觀察項目。'}</div>`;else{html+=`<div class="slabel"><span>${en?`Items (multiple allowed) · ${escapeHTML(Wr(cfg.itemLabel))}`:`${escapeHTML(cfg.itemLabel)}（可新增多筆）`}</span><button class="btn bg bs" id="btnAddItem" type="button">${en?'＋ Add':'＋ 新增一筆'}</button></div>`;if(items.length===0)html+=`<div class="gempty">${en?'No records yet. Click "＋ Add" to start.':'尚未新增記錄。可點擊右上角「＋ 新增一筆」開始填寫。'}</div>`;else{html+='<div class="glist" id="itemRows">';items.forEach((it,i)=>{html+=renderItemRow(it,i,cfg);});html+='</div>';}}html+=`<div class="envs"><div class="slabel"><span>${en?'Environment Observation (fixed)':'環境觀察（固定項目）'}<span class="sn">${en?'reflects venue popularity':'反映場館是否受客人喜愛'}</span></span></div><div class="envg">`;ENV_KEYS.forEach(k=>{const ed=ENV_FIELDS[k];if(!ed)return;const cur=env[k]||'';html+=`<div class="envf ${cur?'filled':''}"><label><span>${ed.icon}</span>${escapeHTML(envName(k))}</label><select class="env-select" data-env-key="${k}"><option value="">${en?'Select':'請選擇'}</option>${ed.options.map(o=>`<option value="${o.v}" ${cur===o.v?'selected':''}>${escapeHTML(Wr(o.l))}</option>`).join('')}</select></div>`;});html+=`</div></div>`;w.innerHTML=html;}
-function renderItemRow(it,i,cfg){const fs=(cfg.fields||[]).filter(f=>isFieldVisible(f,it));const cols=(fs.length?fs.map(f=>f.span===2?'2fr':'1fr').join(' '):'1fr')+' auto';let inputs='';fs.forEach(f=>{const val=safeStr(it[f.key]);const lab=Wr(f.label);const ph=Wr(f.placeholder||'');if(f.type==='number')inputs+=`<div class="fld"><label>${escapeHTML(lab)}</label><input type="number" class="item-input" data-field="${f.key}" min="${f.min??0}" max="${f.max??999999}" step="${f.step??1}" inputmode="numeric" placeholder="${escapeHTML(ph)}" value="${escapeHTML(val)}"></div>`;else if(f.type==='select')inputs+=`<div class="fld"><label>${escapeHTML(lab)}</label><select class="item-input item-select" data-field="${f.key}"><option value="">${escapeHTML(ph||'請選擇')}</option>${(f.options||[]).map(o=>`<option value="${o.v}" ${val===o.v?'selected':''}>${escapeHTML(Wr(o.l))}</option>`).join('')}</select></div>`;else inputs+=`<div class="fld"><label>${escapeHTML(lab)}</label><input type="text" class="item-input" data-field="${f.key}" placeholder="${escapeHTML(ph)}" value="${escapeHTML(val)}" maxlength="40" autocomplete="off"></div>`;});return`<div class="grow" data-idx="${i}" style="grid-template-columns:${cols}">${inputs}<button class="gdel" data-idx="${i}" type="button" title="${LANG==='en'?'Delete':'刪除'}">✕</button></div>`;}
+function renderItemRow(it,i,cfg){const fs=(cfg.fields||[]).filter(f=>isFieldVisible(f,it));const cols=(fs.length?fs.map(f=>f.span===2?'2fr':'1fr').join(' '):'1fr')+' auto';let inputs='';fs.forEach(f=>{const val=safeStr(it[f.key]);const lab=Wr(f.label);const ph=Wr(f.placeholder||'');if(f.type==='number')inputs+=`<div class="fld"><label>${escapeHTML(lab)}</label><input type="number" class="item-input" data-field="${f.key}" min="${f.min??0}" max="${f.max??999999}" step="${f.step??1}" inputmode="numeric" placeholder="${escapeHTML(ph)}" value="${escapeHTML(val)}"></div>`;else if(f.type==='time'){inputs+=`<div class="fld"><label>${escapeHTML(lab)}</label><input type="text" class="time-trigger empty item-time-trigger" data-field="${f.key}" readonly placeholder="請選擇時間" value="${escapeHTML(val)}" data-target="item" data-idx="${i}"></div>`;}else if(f.type==='select')inputs+=`<div class="fld"><label>${escapeHTML(lab)}</label><select class="item-input item-select" data-field="${f.key}"><option value="">${escapeHTML(ph||'請選擇')}</option>${(f.options||[]).map(o=>`<option value="${o.v}" ${val===o.v?'selected':''}>${escapeHTML(Wr(o.l))}</option>`).join('')}</select></div>`;else inputs+=`<div class="fld"><label>${escapeHTML(lab)}</label><input type="text" class="item-input" data-field="${f.key}" placeholder="${escapeHTML(ph)}" value="${escapeHTML(val)}" maxlength="40" autocomplete="off"></div>`;});return`<div class="grow" data-idx="${i}" style="grid-template-columns:${cols}">${inputs}<button class="gdel" data-idx="${i}" type="button" title="${LANG==='en'?'Delete':'刪除'}">✕</button></div>`;}
 function renderCriteria(){const w=document.getElementById('criteriaList');if(!w)return;const en=LANG==='en';w.innerHTML=CRITERIA.map(c=>`<div class="cr" data-crit="${c.id}"><div class="chead"><div class="cicon">${c.icon}</div><div><div class="cname">${escapeHTML(Wr(c.name))}<span class="ref">MRSC 2026 ${en?'Macau':'全澳'} ${c.ref}</span></div><div class="cdesc">${escapeHTML(Wr(c.desc))}</div></div></div><div class="rr"><div class="rbtns">${[1,2,3,4,5].map(n=>`<button class="rbtn" data-crit="${c.id}" data-score="${n}" title="${ratingLabel(n)}">${n}</button>`).join('')}</div><div class="rlbl" data-crit-label="${c.id}">${en?'Not rated':'尚未評分'}</div></div></div>`).join('');if(!w._bound){w._bound=true;w.addEventListener('click',e=>{const b=e.target.closest('.rbtn');if(!b)return;const critId=b.dataset.crit;state.form.ratings[critId]=parseInt(b.dataset.score,10);updateRatingUI(critId);validateForm();});}}
 function updateRatingUI(cid){$$(`.rbtn[data-crit="${cid}"]`).forEach(b=>b.classList.toggle('on',parseInt(b.dataset.score,10)===state.form.ratings[cid]));const l=document.querySelector(`[data-crit-label="${cid}"]`);const s=state.form.ratings[cid];if(l){if(s){l.innerHTML=`${escapeHTML(ratingLabel(s))}<span class="eq">MRSC ≈ ${toMRSC(cid,s)}</span>`;l.classList.add('on');}else{l.textContent=LANG==='en'?'Not rated':'尚未評分';l.classList.remove('on');}}const c=document.querySelector(`.cr[data-crit="${cid}"]`);if(c)c.classList.toggle('scored',!!s);}
 function validateForm(){const b=document.getElementById('btnSaveRecord');if(b)b.disabled=validateFormData().length>0;}
-function validateFormData(){const e=[];const f=state.form;const en=LANG==='en';if(!f.date)e.push(en?'Date is required':'考察日期為必填');else if(f.date>todayISO())e.push(en?'Date cannot be later than today':'考察日期不可晚於今天');if(!f.time)e.push(en?'Time is required':'考察時間為必填');if(!f.location)e.push(en?'Location is required':'考察地點為必填');if(!f.company)e.push(en?'Company is required':'考察休企為必填');if(!f.venueName)e.push(en?'Venue is required':'場館名稱為必填');if(!f.department)e.push(en?'Department is required':'考察部門為必填');CRITERIA.forEach(c=>{if(!f.ratings[c.id])e.push(en?`${Wr(c.name)} is required`:`${c.name}評分為必填`);});const cfg=getDeptConfig(f.department);(f.venue.items||[]).forEach((it,i)=>{cfg.fields.forEach(fd=>{if(!isFieldVisible(fd,it))return;const v=it[fd.key];if(fd.type==='number'){if(v===''||v===null||v===undefined)return;const n=Number(v);const lbl=it.name?`「${Wr(it.name)}」${Wr(fd.label)}`:`${en?'Item':'第'} ${i+1} ${Wr(fd.label)}`;if(isNaN(n))e.push(`${lbl}${en?' must be a number':'必須為數字'}`);else if(n<(fd.min??0)||n>(fd.max??999999))e.push(`${lbl}${en?` must be between ${fd.min??0}–${fd.max??999999}`:`應在 ${fd.min??0}–${fd.max??999999} 之間`}`);}else if(fd.key==='departureTime'){if(!v)return;if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(String(v).trim()))e.push(en?'Departure time must be in 24-hour format (e.g. 14:30)':'發車時間格式錯誤，請輸入24小時制（例：14:30）');}});});return e;}
+function validateFormData(){const e=[];const f=state.form;const en=LANG==='en';if(!f.date)e.push(en?'Date is required':'考察日期為必填');else if(f.date>todayISO())e.push(en?'Date cannot be later than today':'考察日期不可晚於今天');if(!f.time)e.push(en?'Time is required':'考察時間為必填');if(!f.location)e.push(en?'Location is required':'考察地點為必填');if(!f.company)e.push(en?'Company is required':'考察休企為必填');if(!f.venueName)e.push(en?'Venue is required':'場館名稱為必填');if(!f.department)e.push(en?'Department is required':'考察部門為必填');CRITERIA.forEach(c=>{if(!f.ratings[c.id])e.push(en?`${Wr(c.name)} is required`:`${c.name}評分為必填`);});const cfg=getDeptConfig(f.department);(f.venue.items||[]).forEach((it,i)=>{cfg.fields.forEach(fd=>{if(!isFieldVisible(fd,it))return;const v=it[fd.key];if(fd.type==='number'){if(v===''||v===null||v===undefined)return;const n=Number(v);const lbl=it.name?`「${Wr(it.name)}」${Wr(fd.label)}`:`${en?'Item':'第'} ${i+1} ${Wr(fd.label)}`;if(isNaN(n))e.push(`${lbl}${en?' must be a number':'必須為數字'}`);else if(n<(fd.min??0)||n>(fd.max??999999))e.push(`${lbl}${en?` must be between ${fd.min??0}–${fd.max??999999}`:`應在 ${fd.min??0}–${fd.max??999999} 之間`}`);}else if(fd.type==='time'){if(!v)return;if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(String(v).trim()))e.push(en?'Time must be in 24-hour format (e.g. 14:30)':'時間格式錯誤，請使用 24 小時制（例：14:30）');}});});return e;}
 function showErrors(errs){const b=document.getElementById('errorsBox');const l=document.getElementById('errorsList');if(!b||!l)return;if(!errs.length){b.classList.remove('on');return;}l.innerHTML=errs.map(e=>`<li>${escapeHTML(e)}</li>`).join('');b.classList.add('on');b.scrollIntoView({behavior:'smooth',block:'center'});}
 function buildCleanVenue(){const cfg=getDeptConfig(state.form.department);const items=(state.form.venue.items||[]).map(it=>{const o={};cfg.fields.forEach(f=>{if(isFieldVisible(f,it)){const v=it[f.key];o[f.key]=(v==null)?'':v;}else{o[f.key]='';}});return o;}).filter(it=>Object.values(it).some(v=>v!==''&&v!=null));const env={};ENV_KEYS.forEach(k=>{if(state.form.venue.env[k])env[k]=state.form.venue.env[k];});return{items,env};}
 async function submitRecord(){const errs=validateFormData();if(errs.length){showErrors(errs);showToast(LANG==='en'?`Form has ${errs.length} issue(s)`:`表單有 ${errs.length} 項問題`,'error');return;}showErrors([]);const v=buildCleanVenue();const editing=!!state.editingId;try{if(editing){const upd={date:state.form.date,time:state.form.time,location:state.form.location,companyId:state.form.company,venueName:state.form.venueName.trim(),department:state.form.department.trim(),ratings:{...state.form.ratings},venue:v,notes:state.form.notes.trim(),updatedAt:new Date().toISOString()};await updateDoc(doc(db,'records',state.editingId),upd);const idx=state.records.findIndex(r=>r.id===state.editingId);if(idx!==-1)state.records[idx]={...state.records[idx],...upd};showToast(LANG==='en'?'Record updated':'記錄已更新','success');exitEditMode();}else{const ds=state.form.date.replace(/-/g,'');const prefix=`MRSC-${ds}-`;const nums=state.records.filter(r=>r.id&&r.id.startsWith(prefix)).map(r=>parseInt(r.id.slice(prefix.length),10)).filter(n=>!isNaN(n));const maxN=nums.length?Math.max(...nums):0;const customId=`${prefix}${String(maxN+1).padStart(3,'0')}`;const rec={inspectorName:state.inspector.name,inspectorId:state.inspector.id,date:state.form.date,time:state.form.time,location:state.form.location,companyId:state.form.company,venueName:state.form.venueName.trim(),department:state.form.department.trim(),ratings:{...state.form.ratings},venue:v,notes:state.form.notes.trim(),submittedAt:new Date().toISOString(),serverTime:serverTimestamp()};await setDoc(doc(db,'records',customId),rec);state.records.unshift({id:customId,...rec});showToast(LANG==='en'?`Submitted to cloud: ${customId}`:`已提交至雲端：${customId}`,'success');}resetForm();renderRecordTable();renderAnalysisSection();renderDashboard();}catch(e){console.error('Submit failed:',e);showToast((LANG==='en'?'Submit failed: ':'提交失敗：')+e.message,'error');}}
@@ -826,8 +856,117 @@ function renderDeptBarCharts(sorted){const en=LANG==='en';const df=(state.compar
 function renderAnalysisResult(){const w=document.getElementById('analysisResult');if(!w)return;const en=LANG==='en';const ids=[state.comparison.base,...state.comparison.picks].filter((v,i,a)=>a.indexOf(v)===i);const rows=ids.map(id=>{const a=aggCo(id);return a?{id,...a}:null;}).filter(Boolean);if(rows.length<2){w.innerHTML=`<div class="panel"><div class="pbody"><div class="es"><div class="ei">📊</div><p>${en?'Not enough records for analysis.<br>Please submit records for at least 2 companies.':'尚無足夠的考察記錄可進行對比分析。<br>請先為至少 2 間休企提交考察記錄。'}</p></div></div></div>`;return;}const sorted=[...rows].sort((a,b)=>b.overall-a.overall);const maxS=Math.max(...sorted.map(r=>r.overall),180);const f=state.comparison;const fc=[];if(f.departmentFilter)fc.push((en?'Dept: ':'部門：')+Wr(f.departmentFilter));if(f.dateFrom)fc.push((en?'From: ':'起：')+f.dateFrom);if(f.dateTo)fc.push((en?'To: ':'訖：')+f.dateTo);const fd=fc.length?'　·　'+fc.join('　·　'):'';let html='<div class="panel"><div class="ph"><h2><span class="dot"></span>'+(en?'Overall Ranking':'綜合評分排名')+'</h2>';html+=`<span class="hint">${en?'Mode':'對比模式'} 1:${f.ratio}　·　${sorted.length} ${en?'companies':'間休企'}　·　${en?'Samples':'有效樣本'} ${sorted.reduce((s,r)=>s+r.count,0)}${fd}</span></div><div class="pbody"><div class="rlist2">`;sorted.forEach((r,i)=>{const c=getCompany(r.id);const isB=r.id===state.comparison.base;const width=Math.min((r.overall/maxS)*100,100);html+=`<div class="rrow"><div class="rb ${i===0?'top':''}">${i+1}</div><div class="rm"><div class="rt2"><span class="rd" style="background:${c.color}"></span><span class="rn">${coName(c)}</span>${isB?'<span class="tb2">'+Wr('基準')+'</span>':''}<span class="rcnt">${r.count} ${en?'rec':'筆'}</span><span class="rs">${r.overall}<small>/200</small></span></div><div class="rbar"><div class="rfill" style="width:${width}%;background:linear-gradient(90deg,${c.color}55,${c.color})"></div></div></div></div>`;});html+='</div>';html+='<div class="dw"><div class="dt">'+(en?'3-Dimension Radar':'三維度雷達圖')+'</div><div class="rw">'+renderRadarChart(sorted)+'</div><div class="rl">';sorted.forEach(r=>{const c=getCompany(r.id);html+=`<span class="l"><span class="ld" style="background:${c.color}"></span>${coName(c)}</span>`;});html+='</div></div>';html+='<div class="dw"><div class="dt">'+(en?'Tier × Time Slot':'限紅 × 時段分佈')+'</div>'+renderTierStats(sorted)+'</div>';html+='<div class="dw"><div class="dt">'+(en?'Department Data Comparison':'部門專屬數據對比')+'</div>'+renderDeptBarCharts(sorted)+'</div>';html+='<div class="dw"><div class="dt">'+(en?'Three Dimensions Detail':'三大維度明細')+'</div><div class="tw"><table class="dtab"><thead><tr><th>'+(en?'Company':'休企')+'</th>';CRITERIA.forEach(c=>{html+=`<th>${Wr(c.name)}</th>`;});html+='<th>'+(en?'Overall MRSC':'綜合 MRSC')+'</th></tr></thead><tbody>';const mx={};CRITERIA.forEach(c=>{mx[c.id]=Math.max(...sorted.map(r=>r[c.id]));});sorted.forEach(r=>{const c=getCompany(r.id);html+=`<tr><td><span class="rc"><span class="cdot" style="background:${c.color}"></span>${coName(c)}</span></td>`;CRITERIA.forEach(cr=>{const v=r[cr.id];const rk=cr.id==='smile'?'rawSmile':cr.id==='proactive'?'rawPro':'rawPat';const raw=r[rk];const isMax=v===mx[cr.id]&&sorted.length>1;html+=`<td class="dc ${isMax?'win':''}">${v}<span class="draw">${en?'Raw avg':'原始平均'} ${raw.toFixed(2)}</span>${isMax?'<span style="font-size:10px;color:var(--gold)">▲</span>':''}</td>`;});html+=`<td class="dc" style="color:var(--gold);font-size:14px">${r.overall}</td></tr>`;});html+=`<tr style="border-top:1px solid var(--line)"><td class="dref">${en?'Macau Average (MRSC 2026)':'全澳平均（MRSC 2026）'}</td><td class="dc dref">${MRSC_REF.smile}</td><td class="dc dref">${MRSC_REF.proactive}</td><td class="dc dref">${MRSC_REF.patience}</td><td class="dc dref">—</td></tr>`;html+='</tbody></table></div></div></div></div>';w.innerHTML=html;}
 function switchTab(name){if(name==='analysis'&&!isDeveloper()){requireDeveloperThen(()=>{document.getElementById('analysisLocked').classList.remove('on');document.getElementById('analysisContent').style.display='block';doSwitchTab('analysis');},LANG==='en'?'Analysis is developer-only. Enter developer password.':'對比分析僅限開發者使用，請輸入開發者密碼。');return;}doSwitchTab(name);}
 function doSwitchTab(name){$$('.tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===name));$$('.tc').forEach(s=>s.classList.toggle('on',s.dataset.tab===name));if(name==='dashboard')renderDashboard();if(name==='analysis'){if(isDeveloper()){document.getElementById('analysisLocked').classList.remove('on');document.getElementById('analysisContent').style.display='block';renderAnalysisSection();}else{document.getElementById('analysisLocked').classList.add('on');document.getElementById('analysisContent').style.display='none';}}}
+
+/* ===== 滾輪時間選擇器核心邏輯 ===== */
+const tpState={h:'00',m:'00',target:null,idx:null};
+function initTimePicker(){
+  const hCol=document.getElementById('tpHourCol');
+  const mCol=document.getElementById('tpMinCol');
+  if(!hCol||!mCol)return;
+  let hHtml='';for(let i=0;i<24;i++){const v=String(i).padStart(2,'0');hHtml+=`<div class="tp-item" data-val="${v}">${v}</div>`;}
+  let mHtml='';for(let i=0;i<60;i++){const v=String(i).padStart(2,'0');mHtml+=`<div class="tp-item" data-val="${v}">${v}</div>`;}
+  hCol.innerHTML=hHtml;mCol.innerHTML=mHtml;
+  
+  const bindScroll=(col,type)=>{
+    let timer=null;
+    col.addEventListener('scroll',()=>{
+      clearTimeout(timer);
+      timer=setTimeout(()=>{
+        const idx=Math.round(col.scrollTop/50);
+        const items=col.querySelectorAll('.tp-item');
+        items.forEach((it,i)=>{it.classList.toggle('active',i===idx);});
+        if(type==='h')tpState.h=items[idx]?.dataset.val||'00';
+        else tpState.m=items[idx]?.dataset.val||'00';
+      },50);
+    });
+  };
+  bindScroll(hCol,'h');bindScroll(mCol,'m');
+}
+function openTimePicker(target,idx,currentVal){
+  const overlay=document.getElementById('tpOverlay');
+  const hCol=document.getElementById('tpHourCol');
+  const mCol=document.getElementById('tpMinCol');
+  if(!overlay||!hCol||!mCol)return;
+  
+  tpState.target=target;tpState.idx=idx;
+  
+  let hh='00',mm='00';
+  if(currentVal&&/^\d{2}:\d{2}$/.test(currentVal)){
+    const p=currentVal.split(':');hh=p[0];mm=p[1];
+  }
+  tpState.h=hh;tpState.m=mm;
+  
+  // 設定初始位置
+  const hIdx=parseInt(hh);const mIdx=parseInt(mm);
+  hCol.scrollTop=hIdx*50;mCol.scrollTop=mIdx*50;
+  
+  // 更新高亮
+  hCol.querySelectorAll('.tp-item').forEach((it,i)=>it.classList.toggle('active',i===hIdx));
+  mCol.querySelectorAll('.tp-item').forEach((it,i)=>it.classList.toggle('active',i===mIdx));
+  
+  overlay.classList.add('on');
+}
+function closeTimePicker(){
+  const overlay=document.getElementById('tpOverlay');
+  if(overlay)overlay.classList.remove('on');
+}
+function confirmTimePicker(){
+  const val=`${tpState.h}:${tpState.m}`;
+  if(tpState.target==='form'){
+    state.form.time=val;
+    const el=document.getElementById('fTime');
+    if(el){el.value=val;el.classList.toggle('empty',!val);}
+    validateForm();
+  }else if(tpState.target==='item'&&tpState.idx!==null){
+    const item=state.form.venue.items[tpState.idx];
+    if(item){
+      const row=document.querySelector(`.grow[data-idx="${tpState.idx}"]`);
+      const input=row?row.querySelector(`.item-time-trigger[data-field]`):null;
+      if(input){
+        const field=input.dataset.field;
+        item[field]=val;
+        input.value=val;
+        input.classList.toggle('empty',!val);
+      }
+    }
+    validateForm();
+  }
+  closeTimePicker();
+}
+
 let _bound=false;
-function bindAppEvents(){if(_bound)return;_bound=true;$$('.tab').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));$$('.mcard[data-goto]').forEach(c=>c.addEventListener('click',()=>switchTab(c.dataset.goto)));const on=(id,evt,fn)=>{const el=document.getElementById(id);if(el)el.addEventListener(evt,fn);};on('btnLang','click',toggleLang);on('btnTheme','click',toggleTheme);on('btnMenu','click',e=>{e.stopPropagation();const d=document.getElementById('menuDrop');if(d)d.classList.toggle('on');});document.addEventListener('click',e=>{const d=document.getElementById('menuDrop');if(d&&!e.target.closest('.menu-wrap'))d.classList.remove('on');});const md=document.getElementById('menuDrop');if(md)md.addEventListener('click',e=>{if(e.target.closest('.menu-item'))md.classList.remove('on');});on('btnHome','click',()=>{switchTab('dashboard');window.scrollTo({top:0,behavior:'smooth'});});on('btnDev','click',openDevPanel);on('btnLogout','click',logout);on('fDate','change',e=>{state.form.date=e.target.value;validateForm();});on('fTime','change',e=>{state.form.time=e.target.value;validateForm();});on('fLocation','change',e=>{state.form.location=e.target.value;state.form.venueName='';renderVenueOptions('');validateForm();});on('fCompany','change',e=>{state.form.company=e.target.value;state.form.venueName='';renderVenueOptions('');validateForm();});on('fVenueName','change',e=>{state.form.venueName=e.target.value;validateForm();});on('fNotes','input',e=>{state.form.notes=e.target.value;});on('fDepartment','change',e=>{const nd=e.target.value;const od=state._lastDept||'';if(nd!==od){if(state.form.venue.items.length>0){const msg=LANG==='en'?`Switching department will clear existing "${getDeptConfig(od).itemLabel}" items.\n\nContinue?`:`切換部門後，現有「${getDeptConfig(od).itemLabel}」資料將被清空。\n\n確定切換嗎？`;if(confirm(msg))state.form.venue.items=[];else{e.target.value=od;return;}}state._lastDept=nd;}state.form.department=nd;renderVenueSection();validateForm();});const vb=document.getElementById('venueBody');if(vb){vb.addEventListener('click',e=>{if(e.target.closest('#btnAddItem')){const dept=state.form.department||'';if(!dept){showToast(LANG==='en'?'Please select department first':'請先選擇考察部門','error');return;}const cfg=getDeptConfig(dept);const ni={};cfg.fields.forEach(f=>{ni[f.key]='';});state.form.venue.items.push(ni);renderVenueSection();const rows=$$('#itemRows .grow');const last=rows[rows.length-1];if(last){last.scrollIntoView({behavior:'smooth',block:'center'});const fi=last.querySelector('.item-input');if(fi)setTimeout(()=>{try{fi.focus({preventScroll:true});}catch(e){}},300);}return;}const db=e.target.closest('.gdel');if(db){state.form.venue.items.splice(parseInt(db.dataset.idx,10),1);renderVenueSection();validateForm();}});vb.addEventListener('input',e=>{const el=e.target;if(el.classList.contains('item-input')&&!el.classList.contains('item-select')){const row=el.closest('.grow');if(!row)return;const it=state.form.venue.items[parseInt(row.dataset.idx,10)];if(!it)return;const f=el.dataset.field;if(f){it[f]=el.value;validateForm();}}});vb.addEventListener('change',e=>{const el=e.target;if(el.classList.contains('env-select')){const k=el.dataset.envKey;if(!k)return;state.form.venue.env[k]=el.value;const w=el.closest('.envf');if(w)w.classList.toggle('filled',!!el.value);return;}if(el.classList.contains('item-select')){const row=el.closest('.grow');if(!row)return;const idx=parseInt(row.dataset.idx,10);const it=state.form.venue.items[idx];if(!it)return;const f=el.dataset.field;if(!f)return;it[f]=el.value;const cfg=getDeptConfig(state.form.department);if(cfg.fields.some(fd=>fd.showIf&&fd.showIf.key===f)){const nh=renderItemRow(it,idx,cfg);const t=document.createElement('div');t.innerHTML=nh;const nr=t.firstElementChild;if(nr)row.replaceWith(nr);}validateForm();}});}on('btnSaveRecord','click',submitRecord);on('btnResetForm','click',()=>{if(!confirm(LANG==='en'?'Clear form content?':'確定清除表單內容？'))return;exitEditMode();resetForm();});on('btnCancelEdit','click',()=>{if(!confirm(LANG==='en'?'Cancel editing? Form will be cleared.':'取消編輯？表單內容將清空。'))return;exitEditMode();resetForm();});on('btnExportJSON','click',()=>{if(!state.records.length){showToast(LANG==='en'?'No records':'沒有記錄','error');return;}requirePasswordThen(doExportJSON,LANG==='en'?'Export JSON':'匯出 JSON');});on('btnExportCSV','click',()=>{if(!state.records.length){showToast(LANG==='en'?'No records':'沒有記錄','error');return;}requirePasswordThen(doExportCSV,LANG==='en'?'Export CSV':'匯出 CSV');});on('btnImport','click',()=>{const fi=document.getElementById('fileImport');if(fi)fi.click();});on('fileImport','change',e=>{const f=e.target.files[0];if(f)importJSON(f);e.target.value='';});on('btnPrint','click',()=>window.print());on('btnRefresh','click',()=>fetchRecordsFromCloud());on('mcBtn','click',closeModal);on('moBtn','click',submitModal);const moEl=document.getElementById('mo');if(moEl)moEl.addEventListener('click',e=>{if(e.target===moEl)closeModal();});document.addEventListener('keydown',e=>{const o=document.getElementById('mo');if(!o||!o.classList.contains('on'))return;if(e.key==='Escape'){e.preventDefault();closeModal();return;}if(e.key==='Enter'){const a=document.activeElement;if(a&&a.tagName==='INPUT'&&a.closest('#mo')){e.preventDefault();submitModal();}}});on('btnClearAll','click',()=>{requireDeveloperThen(async()=>{if(!state.records.length){showToast(LANG==='en'?'No records':'沒有記錄','');return;}if(!confirm(LANG==='en'?`Clear all ${state.records.length} records?`:`確定清除全部 ${state.records.length} 筆記錄？`))return;try{const batch=writeBatch(db);state.records.forEach(r=>{batch.delete(doc(db,'records',r.id));});await batch.commit();state.records=[];exitEditMode();resetForm();renderRecordTable();renderAnalysisSection();renderDashboard();showToast(LANG==='en'?'All records cleared':'所有記錄已清除','success');}catch(e){showToast((LANG==='en'?'Clear failed: ':'清除失敗：')+e.message,'error');}},LANG==='en'?'Clearing all records is developer-only. Enter developer password.':'清除全部記錄僅限開發者使用，請輸入開發者密碼。');});const bu=document.getElementById('btnUnlockAnalysis');if(bu)bu.addEventListener('click',()=>{requireDeveloperThen(()=>{document.getElementById('analysisLocked').classList.remove('on');document.getElementById('analysisContent').style.display='block';renderAnalysisSection();},LANG==='en'?'Analysis is developer-only. Enter developer password.':'對比分析僅限開發者使用，請輸入開發者密碼。');});const mg=document.getElementById('modeGroup');if(mg)mg.addEventListener('click',e=>{const btn=e.target.closest('.mbtn');if(!btn)return;$$('.mbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');state.comparison.ratio=parseInt(btn.dataset.ratio,10);autoFillPicks();renderPicker();renderAnalysisResult();});on('anBase','change',e=>{state.comparison.base=e.target.value;state.comparison.picks=state.comparison.picks.filter(id=>id!==state.comparison.base);autoFillPicks();renderPicker();renderAnalysisResult();});on('filterDept','change',e=>{state.comparison.departmentFilter=e.target.value;renderPicker();renderAnalysisResult();});on('filterFrom','change',e=>{state.comparison.dateFrom=e.target.value;renderPicker();renderAnalysisResult();});on('filterTo','change',e=>{state.comparison.dateTo=e.target.value;renderPicker();renderAnalysisResult();});on('btnResetFilter','click',()=>{state.comparison.departmentFilter='';state.comparison.dateFrom='';state.comparison.dateTo='';const fd=document.getElementById('filterDept');if(fd)fd.value='';const ff=document.getElementById('filterFrom');if(ff)ff.value='';const ft=document.getElementById('filterTo');if(ft)ft.value='';renderPicker();renderAnalysisResult();showToast(LANG==='en'?'Filter reset':'已清除篩選','success');});on('btnRunAnalysis','click',renderAnalysisResult);const arEl=document.getElementById('analysisResult');if(arEl)arEl.addEventListener('click',e=>{const btn=e.target.closest('[data-time]');if(!btn)return;state.comparison.timeFilter=btn.dataset.time;renderAnalysisResult();});}
+function bindAppEvents(){if(_bound)return;_bound=true;$$('.tab').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));$$('.mcard[data-goto]').forEach(c=>c.addEventListener('click',()=>switchTab(c.dataset.goto)));const on=(id,evt,fn)=>{const el=document.getElementById(id);if(el)el.addEventListener(evt,fn);};on('btnLang','click',toggleLang);on('btnTheme','click',toggleTheme);on('btnMenu','click',e=>{e.stopPropagation();const d=document.getElementById('menuDrop');if(d)d.classList.toggle('on');});document.addEventListener('click',e=>{const d=document.getElementById('menuDrop');if(d&&!e.target.closest('.menu-wrap'))d.classList.remove('on');});const md=document.getElementById('menuDrop');if(md)md.addEventListener('click',e=>{if(e.target.closest('.menu-item'))md.classList.remove('on');});on('btnHome','click',()=>{switchTab('dashboard');window.scrollTo({top:0,behavior:'smooth'});});on('btnDev','click',openDevPanel);on('btnLogout','click',logout);on('fDate','change',e=>{state.form.date=e.target.value;validateForm();});
+/* 時間觸發器事件 */
+const fTimeEl=document.getElementById('fTime');
+if(fTimeEl)fTimeEl.addEventListener('click',()=>openTimePicker('form',null,state.form.time));
+/* 滾輪選擇器事件 */
+initTimePicker();
+const tpOverlay=document.getElementById('tpOverlay');
+if(tpOverlay){
+  document.getElementById('tpReset').addEventListener('click',()=>{
+    tpState.h='00';tpState.m='00';
+    const hCol=document.getElementById('tpHourCol');const mCol=document.getElementById('tpMinCol');
+    if(hCol){hCol.scrollTop=0;hCol.querySelectorAll('.tp-item').forEach((it,i)=>it.classList.toggle('active',i===0));}
+    if(mCol){mCol.scrollTop=0;mCol.querySelectorAll('.tp-item').forEach((it,i)=>it.classList.toggle('active',i===0));}
+  });
+  document.getElementById('tpConfirm').addEventListener('click',confirmTimePicker);
+  document.getElementById('tpConfirm2').addEventListener('click',confirmTimePicker);
+  document.getElementById('tpCancel').addEventListener('click',closeTimePicker);
+  tpOverlay.addEventListener('click',e=>{if(e.target===tpOverlay)closeTimePicker();});
+}
+on('fLocation','change',e=>{state.form.location=e.target.value;state.form.venueName='';renderVenueOptions('');validateForm();});on('fCompany','change',e=>{state.form.company=e.target.value;state.form.venueName='';renderVenueOptions('');validateForm();});on('fVenueName','change',e=>{state.form.venueName=e.target.value;validateForm();});on('fNotes','input',e=>{state.form.notes=e.target.value;});on('fDepartment','change',e=>{const nd=e.target.value;const od=state._lastDept||'';if(nd!==od){if(state.form.venue.items.length>0){const msg=LANG==='en'?`Switching department will clear existing "${getDeptConfig(od).itemLabel}" items.\n\nContinue?`:`切換部門後，現有「${getDeptConfig(od).itemLabel}」資料將被清空。\n\n確定切換嗎？`;if(confirm(msg))state.form.venue.items=[];else{e.target.value=od;return;}}state._lastDept=nd;}state.form.department=nd;renderVenueSection();validateForm();});const vb=document.getElementById('venueBody');if(vb){vb.addEventListener('click',e=>{
+  // 部門項目內的時間觸發
+  const timeTrigger=e.target.closest('.item-time-trigger');
+  if(timeTrigger){
+    const idx=timeTrigger.dataset.idx;
+    const field=timeTrigger.dataset.field;
+    if(idx!==null&&field){
+      const item=state.form.venue.items[parseInt(idx)];
+      if(item)openTimePicker('item',parseInt(idx),item[field]);
+    }
+    return;
+  }
+  if(e.target.closest('#btnAddItem')){const dept=state.form.department||'';if(!dept){showToast(LANG==='en'?'Please select department first':'請先選擇考察部門','error');return;}const cfg=getDeptConfig(dept);const ni={};cfg.fields.forEach(f=>{ni[f.key]='';});state.form.venue.items.push(ni);renderVenueSection();const rows=$$('#itemRows .grow');const last=rows[rows.length-1];if(last){last.scrollIntoView({behavior:'smooth',block:'center'});const fi=last.querySelector('.item-input, .time-trigger');if(fi)setTimeout(()=>{try{fi.focus({preventScroll:true});}catch(e){}},300);}return;}const db=e.target.closest('.gdel');if(db){state.form.venue.items.splice(parseInt(db.dataset.idx,10),1);renderVenueSection();validateForm();}});vb.addEventListener('input',e=>{const el=e.target;if(el.classList.contains('item-input')&&!el.classList.contains('item-select')){const row=el.closest('.grow');if(!row)return;const it=state.form.venue.items[parseInt(row.dataset.idx,10)];if(!it)return;const f=el.dataset.field;if(f){it[f]=el.value;validateForm();}}});vb.addEventListener('change',e=>{const el=e.target;if(el.classList.contains('env-select')){const k=el.dataset.envKey;if(!k)return;state.form.venue.env[k]=el.value;const w=el.closest('.envf');if(w)w.classList.toggle('filled',!!el.value);return;}if(el.classList.contains('item-select')){const row=el.closest('.grow');if(!row)return;const idx=parseInt(row.dataset.idx,10);const it=state.form.venue.items[idx];if(!it)return;const f=el.dataset.field;if(!f)return;it[f]=el.value;const cfg=getDeptConfig(state.form.department);if(cfg.fields.some(fd=>fd.showIf&&fd.showIf.key===f)){const nh=renderItemRow(it,idx,cfg);const t=document.createElement('div');t.innerHTML=nh;const nr=t.firstElementChild;if(nr)row.replaceWith(nr);}validateForm();}});}on('btnSaveRecord','click',submitRecord);on('btnResetForm','click',()=>{if(!confirm(LANG==='en'?'Clear form content?':'確定清除表單內容？'))return;exitEditMode();resetForm();});on('btnCancelEdit','click',()=>{if(!confirm(LANG==='en'?'Cancel editing? Form will be cleared.':'取消編輯？表單內容將清空。'))return;exitEditMode();resetForm();});on('btnExportJSON','click',()=>{if(!state.records.length){showToast(LANG==='en'?'No records':'沒有記錄','error');return;}requirePasswordThen(doExportJSON,LANG==='en'?'Export JSON':'匯出 JSON');});on('btnExportCSV','click',()=>{if(!state.records.length){showToast(LANG==='en'?'No records':'沒有記錄','error');return;}requirePasswordThen(doExportCSV,LANG==='en'?'Export CSV':'匯出 CSV');});on('btnImport','click',()=>{const fi=document.getElementById('fileImport');if(fi)fi.click();});on('fileImport','change',e=>{const f=e.target.files[0];if(f)importJSON(f);e.target.value='';});on('btnPrint','click',()=>window.print());on('btnRefresh','click',()=>fetchRecordsFromCloud());on('mcBtn','click',closeModal);on('moBtn','click',submitModal);const moEl=document.getElementById('mo');if(moEl)moEl.addEventListener('click',e=>{if(e.target===moEl)closeModal();});document.addEventListener('keydown',e=>{const o=document.getElementById('mo');if(!o||!o.classList.contains('on'))return;if(e.key==='Escape'){e.preventDefault();closeModal();return;}if(e.key==='Enter'){const a=document.activeElement;if(a&&a.tagName==='INPUT'&&a.closest('#mo')){e.preventDefault();submitModal();}}});on('btnClearAll','click',()=>{requireDeveloperThen(async()=>{if(!state.records.length){showToast(LANG==='en'?'No records':'沒有記錄','');return;}if(!confirm(LANG==='en'?`Clear all ${state.records.length} records?`:`確定清除全部 ${state.records.length} 筆記錄？`))return;try{const batch=writeBatch(db);state.records.forEach(r=>{batch.delete(doc(db,'records',r.id));});await batch.commit();state.records=[];exitEditMode();resetForm();renderRecordTable();renderAnalysisSection();renderDashboard();showToast(LANG==='en'?'All records cleared':'所有記錄已清除','success');}catch(e){showToast((LANG==='en'?'Clear failed: ':'清除失敗：')+e.message,'error');}},LANG==='en'?'Clearing all records is developer-only. Enter developer password.':'清除全部記錄僅限開發者使用，請輸入開發者密碼。');});const bu=document.getElementById('btnUnlockAnalysis');if(bu)bu.addEventListener('click',()=>{requireDeveloperThen(()=>{document.getElementById('analysisLocked').classList.remove('on');document.getElementById('analysisContent').style.display='block';renderAnalysisSection();},LANG==='en'?'Analysis is developer-only. Enter developer password.':'對比分析僅限開發者使用，請輸入開發者密碼。');});const mg=document.getElementById('modeGroup');if(mg)mg.addEventListener('click',e=>{const btn=e.target.closest('.mbtn');if(!btn)return;$$('.mbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');state.comparison.ratio=parseInt(btn.dataset.ratio,10);autoFillPicks();renderPicker();renderAnalysisResult();});on('anBase','change',e=>{state.comparison.base=e.target.value;state.comparison.picks=state.comparison.picks.filter(id=>id!==state.comparison.base);autoFillPicks();renderPicker();renderAnalysisResult();});on('filterDept','change',e=>{state.comparison.departmentFilter=e.target.value;renderPicker();renderAnalysisResult();});on('filterFrom','change',e=>{state.comparison.dateFrom=e.target.value;renderPicker();renderAnalysisResult();});on('filterTo','change',e=>{state.comparison.dateTo=e.target.value;renderPicker();renderAnalysisResult();});on('btnResetFilter','click',()=>{state.comparison.departmentFilter='';state.comparison.dateFrom='';state.comparison.dateTo='';const fd=document.getElementById('filterDept');if(fd)fd.value='';const ff=document.getElementById('filterFrom');if(ff)ff.value='';const ft=document.getElementById('filterTo');if(ft)ft.value='';renderPicker();renderAnalysisResult();showToast(LANG==='en'?'Filter reset':'已清除篩選','success');});on('btnRunAnalysis','click',renderAnalysisResult);const arEl=document.getElementById('analysisResult');if(arEl)arEl.addEventListener('click',e=>{const btn=e.target.closest('[data-time]');if(!btn)return;state.comparison.timeFilter=btn.dataset.time;renderAnalysisResult();});}
 function boot(){try{applyTheme(getTheme());applyI18n();const sa=safeSessionGet(SESSION_KEY)==='1';if(sa&&state.inspector.name)enterApp();else initLogin();}catch(err){console.error('[MRSC] boot:',err);try{initLogin();}catch(e){alert('系統初始化失敗，請重新整理頁面。\n\n錯誤：'+(err?.message||'未知'));}}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 </script></body></html>
