@@ -526,23 +526,29 @@ const DEPT_CONFIG={
 {key:'minBet',label:'最低投注(HKD)',type:'number',min:0,max:100000,step:1,placeholder:'1'}]},
 '籌碼兌換':{icon:'💱',itemLabel:'櫃檯記錄',summary:'兌換',fields:[
 {key:'name',label:'櫃檯位置',type:'text',span:2,placeholder:'例：主廳兌換櫃檯'},
+{key:'service',label:'服務記錄',type:'select',span:2,placeholder:'請選擇服務',options:[{v:'現金買碼',l:'現金買碼'},{v:'籌碼換現金',l:'籌碼換現金'},{v:'其他',l:'其他（請註明）'}]},
+{key:'serviceOther',label:'其他服務名稱',type:'text',span:2,showIf:{key:'service',value:'其他'},placeholder:'請輸入服務名稱'},
 {key:'open',label:'開啟櫃檯數',type:'number',min:0,max:200,placeholder:'0'},
+{key:'closed',label:'關閉櫃檯數',type:'number',min:0,max:200,placeholder:'0'},
 {key:'queue',label:'排隊人數',type:'number',min:0,max:500,placeholder:'0'},
 {key:'waitTime',label:'等候(分鐘)',type:'number',min:0,max:120,placeholder:'0'}]},
 '保安':{icon:'🛡',itemLabel:'崗位記錄',summary:'保安',fields:[
 {key:'position',label:'崗位位置',type:'select',span:2,placeholder:'請選擇崗位',options:[{v:'inside',l:'場內'},{v:'entrance',l:'門口'}]},
+{key:'maintainOrder',label:'維持場內秩序',type:'select',placeholder:'請選擇',options:YES_NO_OPTIONS},
 {key:'uniform',label:'制服整潔',type:'select',placeholder:'請評分',options:RATING_OPTIONS},
 {key:'politeness',label:'禮貌',type:'select',placeholder:'請評分',options:RATING_OPTIONS},
 {key:'posture',label:'站姿',type:'select',showIf:{key:'position',value:'inside'},placeholder:'請評分',options:RATING_OPTIONS},
 {key:'entryTime',label:'進場用時(分)',type:'number',showIf:{key:'position',value:'entrance'},min:0,max:60,placeholder:'0'}]},
 '會籍服務':{icon:'💳',itemLabel:'服務記錄',summary:'會籍',fields:[
-{key:'name',label:'服務項目',type:'text',span:2,placeholder:'例：開卡 / 積分查詢'},
+{key:'name',label:'服務項目',type:'select',span:2,placeholder:'請選擇服務',options:[{v:'開卡',l:'開卡'},{v:'查詢積分',l:'查詢積分'},{v:'兌換禮品',l:'兌換禮品'},{v:'其他',l:'其他（請註明）'}]},
+{key:'nameOther',label:'其他服務名稱',type:'text',span:2,showIf:{key:'name',value:'其他'},placeholder:'請輸入服務名稱'},
 {key:'open',label:'開啟櫃檯數',type:'number',min:0,max:100,placeholder:'0'},
+{key:'closed',label:'關閉櫃檯數',type:'number',min:0,max:100,placeholder:'0'},
 {key:'queue',label:'排隊人數',type:'number',min:0,max:500,placeholder:'0'},
 {key:'waitTime',label:'等候(分鐘)',type:'number',min:0,max:120,placeholder:'0'}]},
 '穿梭巴士':{icon:'🚌',itemLabel:'班次記錄',summary:'巴士',fields:[
 {key:'name',label:'路線',type:'select',span:2,placeholder:'請選擇路線',options:[
-{v:'關閘',l:'關閘'},{v:'青茂口岸',l:'青茂口岸'},{v:'港澳碼頭',l:'港澳碼頭'},
+{v:'關閘',l:'關閘'},{v:'氹仔碼頭',l:'氹仔碼頭'},{v:'港澳碼頭',l:'港澳碼頭'},
 {v:'港珠澳大橋',l:'港珠澳大橋'},{v:'橫琴口岸',l:'橫琴口岸'},
 {v:'澳門國際機場',l:'澳門國際機場'},{v:'其他',l:'其他（請註明）'}]},
 {key:'nameOther',label:'其他路線名稱',type:'text',span:2,showIf:{key:'name',value:'其他'},placeholder:'請輸入路線名稱'},
@@ -552,8 +558,10 @@ const DEPT_CONFIG={
 {key:'wifi',label:'車內提供 WiFi',type:'select',placeholder:'請選擇',options:YES_NO_OPTIONS},
 {key:'water',label:'車內提供樽裝水',type:'select',placeholder:'請選擇',options:YES_NO_OPTIONS}]},
 '衣帽間':{icon:'🧥',itemLabel:'寄存記錄',summary:'衣帽間',fields:[
-{key:'name',label:'服務項目',type:'text',span:2,placeholder:'例：寄存行李 / 取件'},
+{key:'name',label:'服務項目',type:'select',span:2,placeholder:'請選擇服務',options:[{v:'寄存',l:'寄存'},{v:'取件',l:'取件'},{v:'其他',l:'其他（請註明）'}]},
+{key:'nameOther',label:'其他服務名稱',type:'text',span:2,showIf:{key:'name',value:'其他'},placeholder:'請輸入服務名稱'},
 {key:'open',label:'開啟窗口數',type:'number',min:0,max:50,placeholder:'0'},
+{key:'closed',label:'關閉窗口數',type:'number',min:0,max:50,placeholder:'0'},
 {key:'queue',label:'排隊人數',type:'number',min:0,max:500,placeholder:'0'},
 {key:'waitTime',label:'等候(分鐘)',type:'number',min:0,max:120,placeholder:'0'}]}};
 const DEPARTMENT_NAMES=Object.keys(DEPT_CONFIG);
