@@ -107,8 +107,6 @@ main{max-width:1500px;margin:0 auto;padding:20px 24px 60px}
 .fld input[type=date],.fld input[type=time],.fld input[type=datetime-local]{width:100%;min-width:0;max-width:100%;box-sizing:border-box;-webkit-appearance:none;-moz-appearance:textfield;appearance:none;font-family:inherit;text-align:left;padding:12px 14px;line-height:1.4}
 .fld input[type=number]::-webkit-outer-spin-button,.fld input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .fld input[type=number]{-moz-appearance:textfield;appearance:textfield}
-
-/* ===== 自訂義滾輪選擇器（Time Picker） ===== */
 .time-trigger{cursor:pointer;background:var(--in);border:1px solid var(--line);color:var(--text);padding:12px 14px;border-radius:9px;font-family:inherit;font-size:16px;min-height:46px;display:flex;align-items:center;justify-content:space-between;transition:.15s}
 .time-trigger:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--goldS);outline:none}
 .time-trigger.empty{color:var(--ph)}
@@ -130,7 +128,6 @@ main{max-width:1500px;margin:0 auto;padding:20px 24px 60px}
 .tp-btn{flex:1;padding:14px;border-radius:10px;border:none;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;max-width:200px}
 .tp-btn.cancel{background:var(--row);color:var(--text);border:1px solid var(--line)}
 .tp-btn.confirm{background:linear-gradient(135deg,#e0be4d,#b8860b);color:#17120a;box-shadow:0 4px 16px rgba(212,175,55,.25)}
-
 .errbox{display:none;padding:14px 18px;border-radius:11px;background:rgba(224,82,82,.08);border:1px solid rgba(224,82,82,.35);margin-bottom:16px}
 .errbox.on{display:block}
 .errbox h4{font-size:12.5px;font-weight:700;color:var(--danger);margin-bottom:8px}
@@ -288,8 +285,6 @@ tbody tr.editing td{background:rgba(74,144,217,.08)}
 .me.on{display:block}
 .ma{display:flex;gap:10px;margin-top:22px;padding-top:18px;border-top:1px solid var(--lineS)}
 .ma .btn{flex:1;min-height:48px;font-size:14px}
-
-/* ===== 評分項目編輯器 ===== */
 .crit-editor{position:fixed;inset:0;z-index:10001;background:var(--bg);display:none;flex-direction:column;overflow:hidden}
 .crit-editor.on{display:flex;animation:mfi .2s ease}
 .ce-header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 20px;padding-top:calc(14px + env(safe-area-inset-top));background:var(--top);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
@@ -317,7 +312,6 @@ tbody tr.editing td{background:rgba(74,144,217,.08)}
 .ce-map-item input{width:72px;min-height:38px;padding:8px 10px;background:var(--in);border:1px solid var(--line);color:var(--text);border-radius:8px;font-family:inherit;font-size:14px;outline:none;text-align:center;box-sizing:border-box}
 .ce-map-item input:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--goldS)}
 .ce-empty{text-align:center;padding:40px 20px;color:var(--ph);font-size:13px;border:1px dashed var(--line);border-radius:12px;line-height:1.6}
-
 @media (max-width:900px){
 .top{padding:10px 16px;padding-top:calc(10px + env(safe-area-inset-top));gap:10px}
 .br p{display:none}.br h1{font-size:14px}
@@ -555,8 +549,6 @@ th{background:#f0f0f0;color:#333}td{color:#111;border-color:#ddd}
 <div class="mf" id="mf"></div><div class="me" id="me"></div>
 <div class="ma"><button class="btn bg" id="mcBtn" type="button" data-i18n="cancel">取消</button><button class="btn bp" id="moBtn" type="button" data-i18n="confirm">確定</button></div>
 </div></div>
-
-<!-- 評分項目編輯器（全屏面板） -->
 <div class="crit-editor" id="critEditor">
   <div class="ce-header">
     <h3>🧩 <span data-i18n="critEditorTitle">評分項目編輯器</span></h3>
@@ -568,14 +560,10 @@ th{background:#f0f0f0;color:#333}td{color:#111;border-color:#ddd}
     </div>
   </div>
   <div class="ce-body">
-    <div class="ce-note" data-i18n="critEditorNote">
-      在此新增、刪除或修改 MRSC 核心評分維度。每個維度可設定圖示、名稱、描述、參考值、滿分，以及 1–5 分對應的 MRSC 分數。變更後請點擊「儲存並套用」，系統會即時套用至評分表單、記錄總表與對比分析。
-    </div>
+    <div class="ce-note" data-i18n="critEditorNote">在此新增、刪除或修改 MRSC 核心評分維度。每個維度可設定圖示、名稱、描述、參考值、滿分，以及 1–5 分對應的 MRSC 分數。變更後請點擊「儲存並套用」，系統會即時同步至雲端。</div>
     <div class="ce-list" id="ceList"></div>
   </div>
 </div>
-
-<!-- 自訂義時間滾輪選擇器 -->
 <div class="tp-overlay" id="tpOverlay">
   <div class="tp-sheet">
     <div class="tp-header">
@@ -594,25 +582,22 @@ th{background:#f0f0f0;color:#333}td{color:#111;border-color:#ddd}
     </div>
   </div>
 </div>
-
 <div class="toast" id="toast"></div>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
-import{getFirestore,collection,setDoc,getDoc,getDocs,deleteDoc,doc,updateDoc,serverTimestamp,writeBatch}from"https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
-
+import{getFirestore,collection,setDoc,getDoc,getDocs,deleteDoc,doc,updateDoc,serverTimestamp,writeBatch,onSnapshot}from"https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
 window.addEventListener('error',e=>console.error('[MRSC]',e.message,e.filename,e.lineno,e.error));
 window.addEventListener('unhandledrejection',e=>console.error('[MRSC]',e.reason));
-
 const firebaseConfig={apiKey:"AIzaSyCej6Mw-8rwuBPaX1QZ_6PtRq49gLp5GBQ",authDomain:"mrsc-2026.firebaseapp.com",projectId:"mrsc-2026",storageBucket:"mrsc-2026.firebasestorage.app",messagingSenderId:"631056702311",appId:"1:631056702311:web:a39ec349380937099d6dc2"};
-const fbApp=initializeApp(firebaseConfig);const db=getFirestore(fbApp);const recordsCol=collection(db,'records');
+const fbApp=initializeApp(firebaseConfig);const db=getFirestore(fbApp);
+const recordsCol=collection(db,'records');
 const criteriaDoc=doc(db,'config','criteria');
+const pwdDoc=doc(db,'config','password');
 
-/* ========== i18n ========== */
 const LANG_KEY='mrsc_lang';
 const getLang=()=>{try{return localStorage.getItem(LANG_KEY)==='en'?'en':'zh';}catch(e){return'zh';}};
 const setLangStorage=l=>{try{localStorage.setItem(LANG_KEY,l);}catch(e){}};
 let LANG=getLang();
-
 const T={
   appTitle:['澳門六大休企服務評核系統','Macau Six IRs Service Assessment System'],
   appSubtitle:['MRSC 神秘顧客評核平台 · 2026','MRSC Mystery Customer Assessment Platform · 2026'],
@@ -719,9 +704,8 @@ const T={
   critReset:['↺ 還原預設','↺ Reset Default'],
   critSave:['💾 儲存並套用','💾 Save & Apply'],
   critClose:['✕ 關閉','✕ Close'],
-  critEditorNote:['在此新增、刪除或修改 MRSC 核心評分維度。每個維度可設定圖示、名稱、描述、參考值、滿分，以及 1–5 分對應的 MRSC 分數。變更後請點擊「儲存並套用」，系統會即時套用至評分表單、記錄總表與對比分析。','Add, remove, or edit MRSC core scoring dimensions here. Each dimension supports icon, name, description, reference value, max score, and 1–5 → MRSC mapping. Click "Save & Apply" to update the form, records table, and analysis instantly.']
+  critEditorNote:['在此新增、刪除或修改 MRSC 核心評分維度。每個維度可設定圖示、名稱、描述、參考值、滿分，以及 1–5 分對應的 MRSC 分數。變更後請點擊「儲存並套用」，系統會即時同步至雲端。','Add, remove, or edit MRSC core scoring dimensions here. Each dimension supports icon, name, description, reference value, max score, and 1–5 → MRSC mapping. Click "Save & Apply" to sync to cloud.']
 };
-
 const W={
   '賭檯運作（中場）':'Table Ops (Mass)','賭檯運作（高投）':'Table Ops (Premium)','角子機':'Slot Machines','籌碼兌換':'Chip Exchange','保安':'Security','會籍服務':'Membership','穿梭巴士':'Shuttle Bus','衣帽間':'Cloakroom',
   '笑容':'Smile','主動性':'Proactivity','耐心':'Patience',
@@ -763,42 +747,28 @@ const W={
   '考察部門':'Department','現場數據':'On-site Data','備註':'Notes',
   '編輯':'Edit','刪除':'Delete','唯讀':'Read-only',
   '休企':'Company','綜合 MRSC':'Overall MRSC','基準':'Base','合計':'Total','平均':'Average','選項分佈':'Distribution','出現類別':'Categories',
-  '無資料':'No data','綜合評分排名':'Overall Ranking','三維度雷達圖':'Radar Chart','評分維度雷達圖':'Radar Chart','限紅 × 時段分佈':'Tier × Time Slot',
-  '部門專屬數據對比':'Department Data Comparison','三大維度明細':'Dimension Detail','評分維度明細':'Dimension Detail',
+  '無資料':'No data','綜合評分排名':'Overall Ranking','評分維度雷達圖':'Radar Chart','限紅 × 時段分佈':'Tier × Time Slot',
+  '部門專屬數據對比':'Department Data Comparison','評分維度明細':'Dimension Detail',
   '原始平均':'Raw avg','全澳平均（MRSC 2026）':'Macau Average (MRSC 2026)','對比模式':'Mode',
   '星際':'StarWorld','金沙':'Sands','永利澳門':'Wynn Macau','澳門美高梅':'MGM Macau','新葡京':'Grand Lisboa','葡京':'Lisboa','回力海立方':'Jai Alai Oceanus','凱旋門':"L'Arc Macau",'新濠鋒':'Altira','澳門銀河':'Galaxy Macau','百老匯':'Broadway Macau','威尼斯人':'Venetian','倫敦人':'Londoner','巴黎人':'Parisian','百利宮':'Plaza','永利皇宮':'Wynn Palace','新濠天地':'City of Dreams','新濠影匯':'Studio City','美獅美高梅':'MGM Cotai','上葡京':'Grand Lisboa Palace',
   '正在編輯':'Editing'
 };
 const Wr=s=>{const str=String(s??'');if(LANG!=='en')return str;return W[str]!==undefined?W[str]:str;};
-const WrRev=(()=>{const m={};for(const zh of Object.keys(W)){const en=W[zh];if(en&&!m[en])m[en]=zh;}return m;})();
-function toZh(s){const str=String(s??'').trim();if(!str)return'';if(W[str]!==undefined)return str;if(WrRev[str]!==undefined)return WrRev[str];return str;}
-
 function applyI18n(){
   document.querySelectorAll('[data-i18n]').forEach(el=>{const entry=T[el.dataset.i18n];if(!entry)return;el.innerHTML=LANG==='en'?entry[1]:entry[0];});
   document.querySelectorAll('[data-i18n-ph]').forEach(el=>{const entry=T[el.dataset.i18nPh];if(!entry)return;el.placeholder=LANG==='en'?entry[1]:entry[0];});
   const li=document.getElementById('langIcon');if(li)li.textContent=LANG==='en'?'中':'EN';
   document.documentElement.setAttribute('lang',LANG==='en'?'en':'zh-Hant');
   const fLoc=document.getElementById('fLocation');
-  if(fLoc&&fLoc.options.length>=4){
-    const keepVal=fLoc.value;
-    fLoc.options[0].textContent=LANG==='en'?'Please select':'請選擇';
-    fLoc.options[1].textContent=LANG==='en'?'Macau Peninsula':'澳門半島';
-    fLoc.options[2].textContent=LANG==='en'?'Taipa':'氹仔';
-    fLoc.options[3].textContent=LANG==='en'?'Cotai':'路氹城';
-    fLoc.value=keepVal;
-  }
+  if(fLoc&&fLoc.options.length>=4){const keepVal=fLoc.value;fLoc.options[0].textContent=LANG==='en'?'Please select':'請選擇';fLoc.options[1].textContent=LANG==='en'?'Macau Peninsula':'澳門半島';fLoc.options[2].textContent=LANG==='en'?'Taipa':'氹仔';fLoc.options[3].textContent=LANG==='en'?'Cotai':'路氹城';fLoc.value=keepVal;}
 }
 function setLang(l){
   LANG=l;setLangStorage(l);applyI18n();
   const app=document.getElementById('app');
   if(app&&app.style.display!=='none'){
-    try{
-      fillCompanyOptions();fillDepartmentOptions();renderCriteria();renderVenueSection();
-      renderRecordTable();renderDashboard();renderAnalysisSection();
-      const btn=document.getElementById('btnSaveRecord');
-      if(btn&&state.editingId)btn.textContent=LANG==='en'?'Update Record':'更新記錄';
-      const activeTab=document.querySelector('.tab.on');
-      if(activeTab)doSwitchTab(activeTab.dataset.tab);
+    try{fillCompanyOptions();fillDepartmentOptions();renderCriteria();renderVenueSection();renderRecordTable();renderDashboard();renderAnalysisSection();
+      const btn=document.getElementById('btnSaveRecord');if(btn&&state.editingId)btn.textContent=LANG==='en'?'Update Record':'更新記錄';
+      const activeTab=document.querySelector('.tab.on');if(activeTab)doSwitchTab(activeTab.dataset.tab);
       if(document.getElementById('critEditor')?.classList.contains('on'))renderCritEditor();
     }catch(e){console.error('[MRSC] rerender failed:',e);}
   }
@@ -806,12 +776,10 @@ function setLang(l){
 }
 function toggleLang(){setLang(LANG==='en'?'zh':'en');}
 
-/* ========== 常數 ========== */
 const COMPANIES=[{id:'galaxy',name:'銀河娛樂',nameEn:'Galaxy Entertainment',color:'#d4af37'},{id:'sands',name:'金沙中國',nameEn:'Sands China',color:'#e05252'},{id:'wynn',name:'永利澳門',nameEn:'Wynn Macau',color:'#e08a2e'},{id:'melco',name:'新濠博亞',nameEn:'Melco Resorts',color:'#4a90d9'},{id:'mgm',name:'美高梅中國',nameEn:'MGM China',color:'#8b5cf6'},{id:'sjm',name:'澳娛綜合',nameEn:'SJM Resorts',color:'#2ea87a'}];
 const coName=c=>c?(LANG==='en'?(c.nameEn||c.name):c.name):'—';
 const VENUE_BY_LOCATION={'澳門半島':[{group:'銀河娛樂',venues:['星際']},{group:'金沙中國',venues:['金沙']},{group:'永利澳門',venues:['永利澳門']},{group:'美高梅中國',venues:['澳門美高梅']},{group:'澳娛綜合',venues:['新葡京','葡京','回力海立方','凱旋門']}],'氹仔':[{group:'新濠博亞',venues:['新濠鋒']}],'路氹城':[{group:'銀河娛樂',venues:['澳門銀河','百老匯']},{group:'金沙中國',venues:['威尼斯人','倫敦人','巴黎人','百利宮']},{group:'永利澳門',venues:['永利皇宮']},{group:'新濠博亞',venues:['新濠天地','新濠影匯']},{group:'美高梅中國',venues:['美獅美高梅']},{group:'澳娛綜合',venues:['上葡京']}]};
 
-/* ========== 可編輯的評分維度 ========== */
 const CRITERIA_KEY='mrsc_criteria_v1';
 const DEFAULT_CRITERIA=[
   {id:'smile',name:'笑容',icon:'☺',ref:171,max:200,desc:'員工是否面帶真誠笑容、主動以眼神交流，展現親切的服務態度。',map:{1:60,2:100,3:140,4:175,5:200}},
@@ -820,81 +788,35 @@ const DEFAULT_CRITERIA=[
 ];
 function genCritId(){return 'c'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);}
 function normalizeMap(m){const o={};[1,2,3,4,5].forEach(n=>{o[n]=Number(m&&m[n]!=null?m[n]:0)||0;});return o;}
-
-/* 從 localStorage 讀取（同步，作初始值／離線 fallback） */
 function loadCriteriaFromLocal(){
-  try{
-    const raw=localStorage.getItem(CRITERIA_KEY);
-    if(raw){
-      const arr=JSON.parse(raw);
-      if(Array.isArray(arr)&&arr.length>0){
-        return arr.map(c=>({
-          id:String(c.id||genCritId()),
-          name:String(c.name||'維度'),
-          icon:String(c.icon||'★'),
-          ref:Number(c.ref)||0,
-          max:Number(c.max)||200,
-          desc:String(c.desc||''),
-          map:normalizeMap(c.map)
-        }));
-      }
-    }
-  }catch(e){console.warn('[MRSC] load local criteria failed',e);}
+  try{const raw=localStorage.getItem(CRITERIA_KEY);if(raw){const arr=JSON.parse(raw);if(Array.isArray(arr)&&arr.length>0){return arr.map(c=>({id:String(c.id||genCritId()),name:String(c.name||'維度'),icon:String(c.icon||'★'),ref:Number(c.ref)||0,max:Number(c.max)||200,desc:String(c.desc||''),map:normalizeMap(c.map)}));}}}catch(e){console.warn('[MRSC] load local criteria failed',e);}
   return JSON.parse(JSON.stringify(DEFAULT_CRITERIA));
 }
-
 let CRITERIA=loadCriteriaFromLocal();
-
-/* 從 Firestore 讀取（非同步，開機時呼叫） */
 async function loadCriteriaFromCloud(){
   try{
     const snap=await getDoc(criteriaDoc);
     if(snap.exists()){
       const data=snap.data();
       if(Array.isArray(data.criteria)&&data.criteria.length>0){
-        CRITERIA=data.criteria.map(c=>({
-          id:String(c.id||genCritId()),
-          name:String(c.name||'維度'),
-          icon:String(c.icon||'★'),
-          ref:Number(c.ref)||0,
-          max:Number(c.max)||200,
-          desc:String(c.desc||''),
-          map:normalizeMap(c.map)
-        }));
+        CRITERIA=data.criteria.map(c=>({id:String(c.id||genCritId()),name:String(c.name||'維度'),icon:String(c.icon||'★'),ref:Number(c.ref)||0,max:Number(c.max)||200,desc:String(c.desc||''),map:normalizeMap(c.map)}));
         try{localStorage.setItem(CRITERIA_KEY,JSON.stringify(CRITERIA));}catch(e){}
         return true;
       }
     }else{
-      /* Firestore 尚未有資料 → 若本機有自訂版本，上傳做首次同步 */
       const local=localStorage.getItem(CRITERIA_KEY);
-      if(local){
-        try{
-          const arr=JSON.parse(local);
-          if(Array.isArray(arr)&&arr.length>0&&JSON.stringify(arr)!==JSON.stringify(DEFAULT_CRITERIA)){
-            await setDoc(criteriaDoc,{criteria:CRITERIA,updatedAt:serverTimestamp()});
-          }
-        }catch(e){}
-      }
+      if(local){try{const arr=JSON.parse(local);if(Array.isArray(arr)&&arr.length>0&&JSON.stringify(arr)!==JSON.stringify(DEFAULT_CRITERIA)){await setDoc(criteriaDoc,{criteria:CRITERIA,updatedAt:serverTimestamp()});}}catch(e){}}
     }
-  }catch(e){
-    console.warn('[MRSC] load criteria from cloud failed',e);
-  }
+  }catch(e){console.warn('[MRSC] load criteria from cloud failed',e);}
   return false;
 }
-
 const findCrit=id=>CRITERIA.find(c=>c.id===id);
 function emptyRatings(){const o={};CRITERIA.forEach(c=>{o[c.id]=null;});return o;}
 const toMRSC=(id,r)=>{if(!r)return 0;const c=findCrit(id);return c&&c.map?(c.map[r]??0):0;};
 const normMRSC=(id,v)=>{const c=findCrit(id);const mx=(c&&c.max)||200;return Math.max(0,Math.min((v/mx)*100,100));};
-function calcOverall(ratings){
-  if(!ratings||!CRITERIA.length)return 0;
-  let sum=0,n=0;
-  CRITERIA.forEach(c=>{const r=ratings[c.id];if(!r)return;sum+=normMRSC(c.id,toMRSC(c.id,r));n++;});
-  return n?Math.round((sum/n)*2):0;
-}
+function calcOverall(ratings){if(!ratings||!CRITERIA.length)return 0;let sum=0,n=0;CRITERIA.forEach(c=>{const r=ratings[c.id];if(!r)return;sum+=normMRSC(c.id,toMRSC(c.id,r));n++;});return n?Math.round((sum/n)*2):0;}
 const RATING_LABELS={1:'非常不滿意',2:'不滿意',3:'一般',4:'滿意',5:'非常滿意'};
 const ratingLabel=s=>Wr(RATING_LABELS[s]||s);
-
 const TIER_OPTIONS=[{v:'low',l:'低限紅（≤ HKD 500）'},{v:'mid',l:'中限紅（HKD 501–2,000）'},{v:'high',l:'高限紅（HKD 2,001–10,000）'},{v:'vip',l:'貴賓限紅（> HKD 10,000）'}];
 const TIER_SHORT={low:'低限紅',mid:'中限紅',high:'高限紅',vip:'貴賓限紅'};
 const tierShort=v=>Wr(TIER_SHORT[v]||v);
@@ -920,9 +842,33 @@ const DEFAULT_DEPT_CONFIG={icon:'📝',itemLabel:'觀察記錄',summary:'其他'
 const getDeptConfig=d=>DEPT_CONFIG[(d||'').trim()]||DEFAULT_DEPT_CONFIG;
 const isFieldVisible=(f,it)=>!f.showIf||((it?it[f.showIf.key]:'')===f.showIf.value);
 
-const PWD_KEY='mrsc_export_password';const DEV_KEY='mrsc_dev_verified';const THEME_KEY='mrsc_theme';const DEFAULT_PWD='123456';const SESSION_KEY='mrsc_session';
-const getStoredPassword=()=>{try{const s=localStorage.getItem(PWD_KEY);return s===null?DEFAULT_PWD:s;}catch(e){return DEFAULT_PWD;}};
-const setStoredPassword=p=>{try{localStorage.setItem(PWD_KEY,p);return true;}catch(e){return false;}};
+const PWD_KEY='mrsc_export_password';
+const DEV_KEY='mrsc_dev_verified';
+const THEME_KEY='mrsc_theme';
+const DEFAULT_PWD='123456';
+const SESSION_KEY='mrsc_session';
+
+/* 密碼：Firestore 為主要來源，本地 localStorage 為快取 */
+let _pwdCache=(()=>{try{const l=localStorage.getItem(PWD_KEY);return l===null?DEFAULT_PWD:l;}catch(e){return DEFAULT_PWD;}})();
+
+async function refreshPasswordCache(){
+  try{
+    const snap=await getDoc(pwdDoc);
+    if(snap.exists()){
+      const p=String(snap.data().password||'').trim();
+      if(p){_pwdCache=p;try{localStorage.setItem(PWD_KEY,p);}catch(e){};return p;}
+    }
+  }catch(e){console.warn('[MRSC] refresh pwd failed',e);}
+  return _pwdCache;
+}
+const getStoredPassword=()=>_pwdCache;
+async function setStoredPasswordCloud(p){
+  await setDoc(pwdDoc,{password:p,updatedAt:serverTimestamp()});
+  _pwdCache=p;
+  try{localStorage.setItem(PWD_KEY,p);}catch(e){}
+  return true;
+}
+
 const getTheme=()=>{try{return localStorage.getItem(THEME_KEY)==='light'?'light':'dark';}catch(e){return'dark';}};
 function applyTheme(t){document.documentElement.setAttribute('data-theme',t);const ti=document.getElementById('themeIcon');if(ti)ti.textContent=t==='dark'?'🌙':'☀️';const m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',t==='dark'?'#0b0e14':'#eef1f6');if(state.records.length>0)renderAnalysisResult();}
 function setTheme(t){try{localStorage.setItem(THEME_KEY,t);}catch(e){}applyTheme(t);}
@@ -948,39 +894,59 @@ function openModal(cfg){const o=document.getElementById('mo');if(!o)return;const
 function closeModal(){const o=document.getElementById('mo');if(o)o.classList.remove('on');_modalCtx=null;}
 function modalErr(msg){const e=document.getElementById('me');if(!e)return;e.textContent=msg;e.classList.add('on');e.style.animation='none';void e.offsetWidth;e.style.animation='';}
 function submitModal(){if(!_modalCtx)return;const vals={};_modalCtx.fields.forEach(f=>{const el=document.getElementById(f.id);vals[f.id]=el?el.value:'';});const r=_modalCtx.onSubmit(vals);if(r&&typeof r==='object'&&r.error){modalErr(r.error);return;}if(r===false)return;closeModal();}
-function requirePasswordThen(fn,label){openModal({icon:'🔒',title:LANG==='en'?'Password Required':'匯出需要密碼',desc:LANG==='en'?`Enter password to export ${label||'data'}.`:`為保護考察資料，${label||'匯出'}前請先輸入密碼。`,fields:[{id:'pwd',label:LANG==='en'?'Password':'匯出密碼',type:'password',placeholder:LANG==='en'?'Enter password':'請輸入密碼',maxlength:50}],confirmText:LANG==='en'?'Confirm':'確認匯出',onSubmit:v=>{const p=(v.pwd||'').trim();if(!p)return{error:LANG==='en'?'Please enter password':'請輸入密碼'};if(p!==getStoredPassword())return{error:LANG==='en'?'Incorrect password':'密碼錯誤，請重試'};setTimeout(()=>{try{fn();}catch(e){showToast((LANG==='en'?'Export failed: ':'匯出失敗：')+(e.message||'?'),'error');}},150);return true;}});}
-function requireDeveloperThen(fn,descText){if(isDeveloper()){fn();return;}openModal({icon:'🔓',iconType:'dev',title:LANG==='en'?'Developer Verification':'開發者驗證',desc:descText||(LANG==='en'?'Developer-only. Enter password.':'此功能僅限開發者使用，請輸入開發者密碼。'),fields:[{id:'pwd',label:LANG==='en'?'Developer Password':'開發者密碼',type:'password',placeholder:LANG==='en'?'Enter password':'請輸入密碼',maxlength:50}],confirmText:LANG==='en'?'Verify':'驗證',onSubmit:v=>{const p=(v.pwd||'').trim();if(!p)return{error:LANG==='en'?'Please enter password':'請輸入密碼'};if(p!==getStoredPassword())return{error:LANG==='en'?'Incorrect password':'密碼錯誤'};setDeveloper(true);setTimeout(()=>{showToast(LANG==='en'?'Developer mode enabled':'已進入開發者模式','success');try{fn();}catch(e){}},150);return true;}});}
 
-/* 每次都需要輸入密碼（不記憶開發者狀態） */
-function requirePasswordEveryTime(fn,descText){
-  openModal({
-    icon:'🔒',
-    iconType:'dev',
-    title:LANG==='en'?'Password Required':'需要密碼',
-    desc:descText||(LANG==='en'?'Enter password to continue.':'此操作需要密碼驗證，請輸入密碼。'),
-    fields:[{
-      id:'pwd',
-      label:LANG==='en'?'Password':'密碼',
-      type:'password',
-      placeholder:LANG==='en'?'Enter password':'請輸入密碼',
-      maxlength:50
-    }],
-    confirmText:LANG==='en'?'Confirm':'確定',
-    onSubmit:v=>{
-      const p=(v.pwd||'').trim();
-      if(!p)return{error:LANG==='en'?'Please enter password':'請輸入密碼'};
-      if(p!==getStoredPassword())return{error:LANG==='en'?'Incorrect password':'密碼錯誤'};
-      setTimeout(()=>{try{fn();}catch(e){console.error(e);}},150);
-      return true;
-    }
+async function requirePasswordThen(fn,label){
+  await refreshPasswordCache();
+  openModal({icon:'🔒',title:LANG==='en'?'Password Required':'匯出需要密碼',desc:LANG==='en'?`Enter password to export ${label||'data'}.`:`為保護考察資料，${label||'匯出'}前請先輸入密碼。`,fields:[{id:'pwd',label:LANG==='en'?'Password':'匯出密碼',type:'password',placeholder:LANG==='en'?'Enter password':'請輸入密碼',maxlength:50}],confirmText:LANG==='en'?'Confirm':'確認匯出',onSubmit:v=>{const p=(v.pwd||'').trim();if(!p)return{error:LANG==='en'?'Please enter password':'請輸入密碼'};if(p!==getStoredPassword())return{error:LANG==='en'?'Incorrect password':'密碼錯誤，請重試'};setTimeout(()=>{try{fn();}catch(e){showToast((LANG==='en'?'Export failed: ':'匯出失敗：')+(e.message||'?'),'error');}},150);return true;}});
+}
+async function requireDeveloperThen(fn,descText){
+  await refreshPasswordCache();
+  if(isDeveloper()){fn();return;}
+  openModal({icon:'🔓',iconType:'dev',title:LANG==='en'?'Developer Verification':'開發者驗證',desc:descText||(LANG==='en'?'Developer-only. Enter password.':'此功能僅限開發者使用，請輸入開發者密碼。'),fields:[{id:'pwd',label:LANG==='en'?'Developer Password':'開發者密碼',type:'password',placeholder:LANG==='en'?'Enter password':'請輸入密碼',maxlength:50}],confirmText:LANG==='en'?'Verify':'驗證',onSubmit:v=>{const p=(v.pwd||'').trim();if(!p)return{error:LANG==='en'?'Please enter password':'請輸入密碼'};if(p!==getStoredPassword())return{error:LANG==='en'?'Incorrect password':'密碼錯誤'};setDeveloper(true);setTimeout(()=>{showToast(LANG==='en'?'Developer mode enabled':'已進入開發者模式','success');try{fn();}catch(e){}},150);return true;}});
+}
+async function requirePasswordEveryTime(fn,descText){
+  await refreshPasswordCache();
+  openModal({icon:'🔒',iconType:'dev',title:LANG==='en'?'Password Required':'需要密碼',desc:descText||(LANG==='en'?'Enter password to continue.':'此操作需要密碼驗證，請輸入密碼。'),fields:[{id:'pwd',label:LANG==='en'?'Password':'密碼',type:'password',placeholder:LANG==='en'?'Enter password':'請輸入密碼',maxlength:50}],confirmText:LANG==='en'?'Confirm':'確定',onSubmit:v=>{const p=(v.pwd||'').trim();if(!p)return{error:LANG==='en'?'Please enter password':'請輸入密碼'};if(p!==getStoredPassword())return{error:LANG==='en'?'Incorrect password':'密碼錯誤'};setTimeout(()=>{try{fn();}catch(e){console.error(e);}},150);return true;}});
+}
+async function openDevPanel(){
+  await refreshPasswordCache();
+  if(isDeveloper()){openPasswordChange();return;}
+  openModal({icon:'⚙',iconType:'dev',title:LANG==='en'?'Developer Mode':'開發者模式',desc:LANG==='en'?'Enter developer password. Default: 123456.':'請輸入開發者密碼以進入設定。預設密碼為 123456。',fields:[{id:'pwd',label:LANG==='en'?'Developer Password':'開發者密碼',type:'password',placeholder:LANG==='en'?'Enter password':'請輸入密碼',maxlength:50}],confirmText:LANG==='en'?'Enter Settings':'進入設定',onSubmit:v=>{const p=(v.pwd||'').trim();if(!p)return{error:LANG==='en'?'Please enter password':'請輸入密碼'};if(p!==getStoredPassword())return{error:LANG==='en'?'Incorrect password':'密碼錯誤'};setDeveloper(true);setTimeout(()=>{showToast(LANG==='en'?'Developer mode enabled':'已進入開發者模式','success');openPasswordChange();},150);return true;}});
+}
+function openPasswordChange(){
+  openModal({icon:'🔑',iconType:'dev',title:LANG==='en'?'Developer Settings':'開發者設定',desc:LANG==='en'?'Change password (min 4 chars, synced to cloud). Leave both blank to logout developer mode.':'修改密碼（至少 4 字元，會同步至雲端）。若兩個欄位留空，則登出開發者模式。',fields:[{id:'newPwd',label:LANG==='en'?'New Password':'新密碼',type:'password',placeholder:LANG==='en'?'Min 4 chars (blank to logout)':'至少 4 個字元（留空可登出）',maxlength:50},{id:'confirmPwd',label:LANG==='en'?'Confirm':'確認新密碼',type:'password',placeholder:LANG==='en'?'Re-enter':'再次輸入',maxlength:50}],confirmText:LANG==='en'?'Save / Logout':'儲存 / 登出',onSubmit:async v=>{
+    const a=(v.newPwd||'').trim();const b=(v.confirmPwd||'').trim();
+    if(!a&&!b){setDeveloper(false);setTimeout(()=>showToast(LANG==='en'?'Developer mode disabled':'已登出開發者模式','success'),150);return true;}
+    if(a.length<4)return{error:LANG==='en'?'Min 4 chars':'密碼至少 4 個字元'};
+    if(a!==b)return{error:LANG==='en'?'Passwords do not match':'兩次輸入不一致'};
+    if(a===DEFAULT_PWD)return{error:LANG==='en'?'Cannot use default password':'不可使用預設密碼'};
+    try{await setStoredPasswordCloud(a);setTimeout(()=>showToast(LANG==='en'?'Password updated (synced)':'密碼已更新並同步至雲端','success'),150);return true;}
+    catch(e){modalErr((LANG==='en'?'Save failed: ':'儲存失敗：')+e.message);return false;}
+  }});
+}
+function normalizeVenue(venue){const out=emptyVenue();if(!venue||typeof venue!=='object')return out;if(Array.isArray(venue.items))out.items=venue.items.filter(it=>it&&typeof it==='object').map(it=>({...it}));else if(Array.isArray(venue.games))out.items=venue.games.filter(g=>g&&typeof g==='object').map(g=>({name:safeStr(g.name),open:safeStr(g.tablesOpen),closed:safeStr(g.tablesClosed),minBet:safeStr(g.minBet)}));else if(typeof venue.games==='string'&&venue.games)out.items=[{name:safeStr(venue.games),open:safeStr(venue.tablesOpen),closed:safeStr(venue.tablesClosed),minBet:safeStr(venue.minBet)}];if(venue.env&&typeof venue.env==='object')out.env={...venue.env};else out.env={traffic:safeStr(venue.traffic),air:safeStr(venue.air)};return out;}
+
+/* 記錄：即時監聽 Firestore（多人同步） */
+let _unsubRecords=null;
+function subscribeRecords(){
+  if(_unsubRecords){try{_unsubRecords();}catch(e){}}
+  _unsubRecords=onSnapshot(recordsCol, snap=>{
+    state.records=snap.docs.map(d=>({id:d.id,...d.data()}));
+    state.records.sort((a,b)=>{const ta=a.updatedAt||a.submittedAt||'';const tb=b.updatedAt||b.submittedAt||'';return tb.localeCompare(ta);});
+    try{renderRecordTable();renderDashboard();renderAnalysisSection();}catch(e){console.error('[MRSC] render on snapshot failed',e);}
+  }, err=>{
+    console.error('[MRSC] snapshot error',err);
+    showToast((LANG==='en'?'Sync error: ':'同步錯誤：')+err.message,'error');
   });
 }
+async function fetchRecordsFromCloud(){
+  /* 手動重新載入：先解除訂閱再重新訂閱 */
+  subscribeRecords();
+  showToast(LANG==='en'?'Re-syncing records...':'正在重新同步記錄...','');
+}
 
-function openDevPanel(){if(isDeveloper()){openPasswordChange();return;}openModal({icon:'⚙',iconType:'dev',title:LANG==='en'?'Developer Mode':'開發者模式',desc:LANG==='en'?'Enter developer password. Default: 123456.':'請輸入開發者密碼以進入設定。預設密碼為 123456。',fields:[{id:'pwd',label:LANG==='en'?'Developer Password':'開發者密碼',type:'password',placeholder:LANG==='en'?'Enter password':'請輸入密碼',maxlength:50}],confirmText:LANG==='en'?'Enter Settings':'進入設定',onSubmit:v=>{const p=(v.pwd||'').trim();if(!p)return{error:LANG==='en'?'Please enter password':'請輸入密碼'};if(p!==getStoredPassword())return{error:LANG==='en'?'Incorrect password':'密碼錯誤'};setDeveloper(true);setTimeout(()=>{showToast(LANG==='en'?'Developer mode enabled':'已進入開發者模式','success');openPasswordChange();},150);return true;}});}
-function openPasswordChange(){openModal({icon:'🔑',iconType:'dev',title:LANG==='en'?'Developer Settings':'開發者設定',desc:LANG==='en'?'Change export password (min 4 chars). Leave both blank to logout developer mode.':'修改匯出密碼（至少 4 字元）。若兩個欄位留空，則登出開發者模式。',fields:[{id:'newPwd',label:LANG==='en'?'New Password':'新密碼',type:'password',placeholder:LANG==='en'?'Min 4 chars (blank to logout)':'至少 4 個字元（留空可登出）',maxlength:50},{id:'confirmPwd',label:LANG==='en'?'Confirm':'確認新密碼',type:'password',placeholder:LANG==='en'?'Re-enter':'再次輸入',maxlength:50}],confirmText:LANG==='en'?'Save / Logout':'儲存 / 登出',onSubmit:v=>{const a=(v.newPwd||'').trim();const b=(v.confirmPwd||'').trim();if(!a&&!b){setDeveloper(false);setTimeout(()=>showToast(LANG==='en'?'Developer mode disabled':'已登出開發者模式','success'),150);return true;}if(a.length<4)return{error:LANG==='en'?'Min 4 chars':'密碼至少 4 個字元'};if(a!==b)return{error:LANG==='en'?'Passwords do not match':'兩次輸入不一致'};if(a===DEFAULT_PWD)return{error:LANG==='en'?'Cannot use default password':'不可使用預設密碼'};if(setStoredPassword(a)){setTimeout(()=>showToast(LANG==='en'?'Password updated':'匯出密碼已更新','success'),150);return true;}return{error:'Save failed'};}});}
-function normalizeVenue(venue){const out=emptyVenue();if(!venue||typeof venue!=='object')return out;if(Array.isArray(venue.items))out.items=venue.items.filter(it=>it&&typeof it==='object').map(it=>({...it}));else if(Array.isArray(venue.games))out.items=venue.games.filter(g=>g&&typeof g==='object').map(g=>({name:safeStr(g.name),open:safeStr(g.tablesOpen),closed:safeStr(g.tablesClosed),minBet:safeStr(g.minBet)}));else if(typeof venue.games==='string'&&venue.games)out.items=[{name:safeStr(venue.games),open:safeStr(venue.tablesOpen),closed:safeStr(venue.tablesClosed),minBet:safeStr(venue.minBet)}];if(venue.env&&typeof venue.env==='object')out.env={...venue.env};else out.env={traffic:safeStr(venue.traffic),air:safeStr(venue.air)};return out;}
-async function fetchRecordsFromCloud(){try{showToast(LANG==='en'?'Loading from cloud...':'正在從雲端載入資料...','');const snapshot=await getDocs(recordsCol);state.records=snapshot.docs.map(d=>({id:d.id,...d.data()}));state.records.sort((a,b)=>{const ta=a.updatedAt||a.submittedAt||'';const tb=b.updatedAt||b.submittedAt||'';return tb.localeCompare(ta);});renderRecordTable();renderDashboard();renderAnalysisSection();showToast(LANG==='en'?`Loaded ${state.records.length} records`:`已載入 ${state.records.length} 筆雲端記錄`,'success');}catch(e){console.error('Load failed:',e);showToast((LANG==='en'?'Load failed: ':'載入失敗：')+e.message,'error');throw e;}}
-async function migrateLocalDataToCloud(){const LEGACY=['mrsc_records_v6','mrsc_records_v5','mrsc_records_v4','mrsc_records_v3','mrsc_records_v2','mrsc_records_v1','gsi_records_v3','gsi_records_v2'];let localRecords=null;for(const key of LEGACY){const raw=localStorage.getItem(key);if(raw){try{const d=JSON.parse(raw);if(d&&Array.isArray(d.records)){localRecords=d.records;break;}}catch(e){}}}if(!localRecords||localRecords.length===0)return;if(!confirm(LANG==='en'?`Found ${localRecords.length} local records. Upload to cloud?`:`偵測到本機有 ${localRecords.length} 筆舊記錄，是否要上傳到雲端？`))return;let n=0;for(const rec of localRecords){try{const{id,...data}=rec;const docId=id||('MRSC-LEGACY-'+Date.now()+'-'+Math.random().toString(36).slice(2,8));await setDoc(doc(db,'records',docId),{...data,_legacyId:id,serverTime:serverTimestamp()});n++;}catch(e){}}showToast(LANG==='en'?`Uploaded ${n} records`:`已成功上傳 ${n} 筆記錄`,'success');LEGACY.forEach(k=>localStorage.removeItem(k));await fetchRecordsFromCloud();}
+async function migrateLocalDataToCloud(){const LEGACY=['mrsc_records_v6','mrsc_records_v5','mrsc_records_v4','mrsc_records_v3','mrsc_records_v2','mrsc_records_v1','gsi_records_v3','gsi_records_v2'];let localRecords=null;for(const key of LEGACY){const raw=localStorage.getItem(key);if(raw){try{const d=JSON.parse(raw);if(d&&Array.isArray(d.records)){localRecords=d.records;break;}}catch(e){}}}if(!localRecords||localRecords.length===0)return;if(!confirm(LANG==='en'?`Found ${localRecords.length} local records. Upload to cloud?`:`偵測到本機有 ${localRecords.length} 筆舊記錄，是否要上傳到雲端？`))return;let n=0;for(const rec of localRecords){try{const{id,...data}=rec;const docId=id||('MRSC-LEGACY-'+Date.now()+'-'+Math.random().toString(36).slice(2,8));await setDoc(doc(db,'records',docId),{...data,_legacyId:id,serverTime:serverTimestamp()});n++;}catch(e){}}showToast(LANG==='en'?`Uploaded ${n} records`:`已成功上傳 ${n} 筆記錄`,'success');LEGACY.forEach(k=>localStorage.removeItem(k));}
+
 function renderDashboard(){const nEl=document.getElementById('dashName');const iEl=document.getElementById('dashId');const tEl=document.getElementById('dashToday');if(nEl)nEl.textContent=state.inspector.name||(LANG==='en'?'Inspector':'考察人員');if(iEl)iEl.textContent=state.inspector.id||'—';if(tEl){const d=new Date();const w=LANG==='en'?['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()]:['日','一','二','三','四','五','六'][d.getDay()];tEl.textContent=LANG==='en'?`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} (${w})`:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}（週${w}）`;}const total=state.records.length;const unit=LANG==='en'?' rec':'筆';const totEl=document.getElementById('statTotal');if(totEl)totEl.innerHTML=`${total}<small>${unit}</small>`;const totSub=document.getElementById('statTotalSub');if(totSub)totSub.textContent=total===0?(LANG==='en'?'No records yet':'尚未提交記錄'):(LANG==='en'?'Last updated: ':'最後更新：')+getLastUpdatedLabel();const now=new Date();const weekAgo=new Date(now.getTime()-7*24*3600*1000);const wc=state.records.filter(r=>{if(!r.date)return false;const d=new Date(r.date+'T00:00:00');return d>=weekAgo&&d<=now;}).length;const wEl=document.getElementById('statWeek');if(wEl)wEl.innerHTML=`${wc}<small>${unit}</small>`;const cc=new Set(state.records.map(r=>r.companyId)).size;const cEl=document.getElementById('statCompanies');if(cEl)cEl.innerHTML=`${cc}<small>/ ${COMPANIES.length}</small>`;const cSub=document.getElementById('statCompaniesSub');if(cSub){if(cc===0)cSub.textContent=LANG==='en'?'None covered yet':'尚未涵蓋任何休企';else if(cc===COMPANIES.length)cSub.textContent=LANG==='en'?'All companies covered':'已涵蓋全部休企';else cSub.textContent=LANG==='en'?`${COMPANIES.length-cc} remaining`:`尚餘 ${COMPANIES.length-cc} 間未考察`;}const aEl=document.getElementById('statAvg');const aSub=document.getElementById('statAvgSub');if(total===0){if(aEl)aEl.textContent='—';if(aSub)aSub.textContent=LANG==='en'?'No data':'尚無資料';}else{const avg=state.records.reduce((s,r)=>s+calcOverall(r.ratings),0)/total;if(aEl)aEl.innerHTML=`${avg.toFixed(1)}<small>/ 200</small>`;if(aSub)aSub.textContent=LANG==='en'?`Based on ${total} records`:`基於 ${total} 筆記錄`;}renderRecentList();}
 function getLastUpdatedLabel(){if(state.records.length===0)return'—';const sorted=[...state.records].sort((a,b)=>(b.updatedAt||b.submittedAt||'').localeCompare(a.updatedAt||a.submittedAt||''));const ts=sorted[0].updatedAt||sorted[0].submittedAt;if(!ts)return'—';const d=new Date(ts);const diff=Date.now()-d.getTime();const min=Math.floor(diff/60000);if(LANG==='en'){if(min<1)return'just now';if(min<60)return`${min} min ago`;const hr=Math.floor(min/60);if(hr<24)return`${hr} hr ago`;const day=Math.floor(hr/24);if(day<7)return`${day} d ago`;}else{if(min<1)return'剛剛';if(min<60)return`${min} 分鐘前`;const hr=Math.floor(min/60);if(hr<24)return`${hr} 小時前`;const day=Math.floor(hr/24);if(day<7)return`${day} 天前`;}return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
 function renderRecentList(){const w=document.getElementById('recentList');const h=document.getElementById('recentHint');if(!w)return;if(state.records.length===0){w.innerHTML=`<div class="es" style="padding:30px 20px"><div class="ei">📋</div><p>${LANG==='en'?'No records yet.<br>Click "New Inspection" above.':'尚無考察記錄。<br>點擊上方「新增考察記錄」開始填寫。'}</p></div>`;if(h)h.textContent=LANG==='en'?'Latest 5':'最新 5 筆';return;}const sorted=[...state.records].sort((a,b)=>(b.updatedAt||b.submittedAt||'').localeCompare(a.updatedAt||a.submittedAt||'')).slice(0,5);if(h)h.textContent=LANG==='en'?`Latest ${sorted.length}`:`最新 ${sorted.length} 筆`;w.innerHTML=sorted.map(r=>{const c=getCompany(r.companyId);const ov=calcOverall(r.ratings);return`<div class="recent-item"><span class="rec-dot" style="background:${c?.color||'#888'}"></span><div class="rec-main"><strong>${escapeHTML(coName(c))} · ${escapeHTML(Wr(r.venueName)||'—')}</strong><span>${escapeHTML(r.date)} ${escapeHTML(r.time)} · ${escapeHTML(Wr(r.department)||'—')} · ${escapeHTML(r.inspectorName||'')}</span></div><span class="rec-score">${ov}</span></div>`;}).join('');}
@@ -994,27 +960,15 @@ async function enterApp(){
   if(ti)ti.textContent=state.inspector.id;
   if(ta)ta.textContent=(state.inspector.name||'考').charAt(0);
   if(fi)fi.value=state.inspector.name;
-  applyI18n();
-  fillCompanyOptions();
-  fillDepartmentOptions();
-
-  /* 先同步雲端評分維度，再渲染所有依賴 CRITERIA 的畫面 */
-  showToast(LANG==='en'?'Syncing scoring dimensions...':'正在同步評分維度...','');
-  try{await loadCriteriaFromCloud();}catch(e){console.warn('[MRSC] criteria sync failed',e);}
-
-  renderCriteria();
-  renderFormDefaults();
-  renderVenueSection();
-  renderRecordTable();
-  renderDashboard();
-  bindAppEvents();
-  renderAnalysisSection();
-  updateDevBadge();
-  switchTab('dashboard');
-  try{await fetchRecordsFromCloud();}catch(e){console.error('[MRSC] cloud load failed:',e);}
+  applyI18n();fillCompanyOptions();fillDepartmentOptions();
+  showToast(LANG==='en'?'Syncing from cloud...':'正在從雲端同步...','');
+  try{await refreshPasswordCache();}catch(e){}
+  try{await loadCriteriaFromCloud();}catch(e){}
+  renderCriteria();renderFormDefaults();renderVenueSection();renderRecordTable();renderDashboard();bindAppEvents();renderAnalysisSection();updateDevBadge();switchTab('dashboard');
+  subscribeRecords();
   setTimeout(migrateLocalDataToCloud,1500);
 }
-function logout(){if(!confirm(LANG==='en'?'Logout? Unsubmitted form content will be lost.':'確定登出？未提交的表單內容將遺失。'))return;safeSessionRemove(SESSION_KEY);safeSessionRemove(DEV_KEY);location.reload();}
+function logout(){if(!confirm(LANG==='en'?'Logout? Unsubmitted form content will be lost.':'確定登出？未提交的表單內容將遺失。'))return;if(_unsubRecords){try{_unsubRecords();}catch(e){}_unsubRecords=null;}safeSessionRemove(SESSION_KEY);safeSessionRemove(DEV_KEY);location.reload();}
 function fillCompanyOptions(){const s=document.getElementById('fCompany');if(!s)return;const cur=s.value;s.innerHTML='<option value="">'+(LANG==='en'?'Please select':'請選擇')+'</option>'+COMPANIES.map(c=>`<option value="${c.id}">${coName(c)}</option>`).join('');if(cur)s.value=cur;}
 function fillDepartmentOptions(){const s=document.getElementById('fDepartment');if(!s)return;const cur=s.value;s.innerHTML='<option value="">'+(LANG==='en'?'Select department':'請選擇部門')+'</option>'+DEPARTMENT_NAMES.map(d=>`<option value="${escapeHTML(d)}">${escapeHTML(Wr(d))}</option>`).join('');if(cur)s.value=cur;}
 function renderVenueOptions(sel){const loc=state.form.location||'';const cid=state.form.company||'';const s=document.getElementById('fVenueName');if(!s)return;const en=LANG==='en';const cur=sel||state.form.venueName||'';if(!loc&&!cid){s.innerHTML=`<option value="">${en?'Select location and company first':'請先選擇考察地點與休企'}</option>`;return;}if(!loc){s.innerHTML=`<option value="">${en?'Select location first':'請先選擇考察地點'}</option>`;return;}if(!cid){s.innerHTML=`<option value="">${en?'Select company first':'請先選擇考察休企'}</option>`;return;}const c=getCompany(cid);if(!c){s.innerHTML=`<option value="">${en?'Select company first':'請先選擇考察休企'}</option>`;return;}const groups=VENUE_BY_LOCATION[loc]||[];const targets=groups.filter(g=>g.group===c.name);let html=`<option value="">${en?'Select venue':'請選擇場館'}</option>`;if(targets.length===0||targets.every(g=>g.venues.length===0)){html=`<option value="">${en?'No venue for this company at this location':'此休企在此地點沒有場館'}</option>`;}else{targets.forEach(g=>g.venues.forEach(v=>{html+=`<option value="${escapeHTML(v)}" ${cur===v?'selected':''}>${escapeHTML(Wr(v))}</option>`;}));html+=`<option value="其他" ${cur==='其他'?'selected':''}>${en?'Other':'其他'}</option>`;}s.innerHTML=html;}
@@ -1027,41 +981,9 @@ function validateForm(){const b=document.getElementById('btnSaveRecord');if(b)b.
 function validateFormData(){const e=[];const f=state.form;const en=LANG==='en';if(!f.date)e.push(en?'Date is required':'考察日期為必填');else if(f.date>todayISO())e.push(en?'Date cannot be later than today':'考察日期不可晚於今天');if(!f.time)e.push(en?'Time is required':'考察時間為必填');if(!f.location)e.push(en?'Location is required':'考察地點為必填');if(!f.company)e.push(en?'Company is required':'考察休企為必填');if(!f.venueName)e.push(en?'Venue is required':'場館名稱為必填');if(!f.department)e.push(en?'Department is required':'考察部門為必填');CRITERIA.forEach(c=>{if(!f.ratings[c.id])e.push(en?`${Wr(c.name)} is required`:`${c.name}評分為必填`);});const cfg=getDeptConfig(f.department);(f.venue.items||[]).forEach((it,i)=>{cfg.fields.forEach(fd=>{if(!isFieldVisible(fd,it))return;const v=it[fd.key];if(fd.type==='number'){if(v===''||v===null||v===undefined)return;const n=Number(v);const lbl=it.name?`「${Wr(it.name)}」${Wr(fd.label)}`:`${en?'Item':'第'} ${i+1} ${Wr(fd.label)}`;if(isNaN(n))e.push(`${lbl}${en?' must be a number':'必須為數字'}`);else if(n<(fd.min??0)||n>(fd.max??999999))e.push(`${lbl}${en?` must be between ${fd.min??0}–${fd.max??999999}`:`應在 ${fd.min??0}–${fd.max??999999} 之間`}`);}else if(fd.type==='time'){if(!v)return;if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(String(v).trim()))e.push(en?'Time must be in 24-hour format (e.g. 14:30)':'時間格式錯誤，請使用 24 小時制（例：14:30）');}});});return e;}
 function showErrors(errs){const b=document.getElementById('errorsBox');const l=document.getElementById('errorsList');if(!b||!l)return;if(!errs.length){b.classList.remove('on');return;}l.innerHTML=errs.map(e=>`<li>${escapeHTML(e)}</li>`).join('');b.classList.add('on');b.scrollIntoView({behavior:'smooth',block:'center'});}
 function buildCleanVenue(){const cfg=getDeptConfig(state.form.department);const items=(state.form.venue.items||[]).map(it=>{const o={};cfg.fields.forEach(f=>{if(isFieldVisible(f,it)){const v=it[f.key];o[f.key]=(v==null)?'':v;}else{o[f.key]='';}});return o;}).filter(it=>Object.values(it).some(v=>v!==''&&v!=null));const env={};ENV_KEYS.forEach(k=>{if(state.form.venue.env[k])env[k]=state.form.venue.env[k];});return{items,env};}
-async function submitRecord(){const errs=validateFormData();if(errs.length){showErrors(errs);showToast(LANG==='en'?`Form has ${errs.length} issue(s)`:`表單有 ${errs.length} 項問題`,'error');return;}showErrors([]);const v=buildCleanVenue();const editing=!!state.editingId;try{if(editing){const upd={date:state.form.date,time:state.form.time,location:state.form.location,companyId:state.form.company,venueName:state.form.venueName.trim(),department:state.form.department.trim(),ratings:{...state.form.ratings},venue:v,notes:state.form.notes.trim(),updatedAt:new Date().toISOString()};await updateDoc(doc(db,'records',state.editingId),upd);const idx=state.records.findIndex(r=>r.id===state.editingId);if(idx!==-1)state.records[idx]={...state.records[idx],...upd};showToast(LANG==='en'?'Record updated':'記錄已更新','success');exitEditMode();}else{const ds=state.form.date.replace(/-/g,'');const prefix=`MRSC-${ds}-`;const nums=state.records.filter(r=>r.id&&r.id.startsWith(prefix)).map(r=>parseInt(r.id.slice(prefix.length),10)).filter(n=>!isNaN(n));const maxN=nums.length?Math.max(...nums):0;const customId=`${prefix}${String(maxN+1).padStart(3,'0')}`;const rec={inspectorName:state.inspector.name,inspectorId:state.inspector.id,date:state.form.date,time:state.form.time,location:state.form.location,companyId:state.form.company,venueName:state.form.venueName.trim(),department:state.form.department.trim(),ratings:{...state.form.ratings},venue:v,notes:state.form.notes.trim(),submittedAt:new Date().toISOString(),serverTime:serverTimestamp()};await setDoc(doc(db,'records',customId),rec);state.records.unshift({id:customId,...rec});showToast(LANG==='en'?`Submitted to cloud: ${customId}`:`已提交至雲端：${customId}`,'success');}resetForm();renderRecordTable();renderAnalysisSection();renderDashboard();}catch(e){console.error('Submit failed:',e);showToast((LANG==='en'?'Submit failed: ':'提交失敗：')+e.message,'error');}}
-
-/* ===== 編輯記錄（每次需輸入密碼） ===== */
-function editRecord(id){
-  requirePasswordEveryTime(()=>{
-    const r=state.records.find(x=>x.id===id);if(!r)return;
-    state.editingId=id;
-    const nr=emptyRatings();
-    CRITERIA.forEach(c=>{nr[c.id]=r.ratings?r.ratings[c.id]||null:null;});
-    state.form={date:r.date,time:r.time,location:r.location,company:r.companyId,venueName:r.venueName||'',department:r.department||'',ratings:nr,venue:normalizeVenue(r.venue),notes:r.notes||''};
-    state._lastDept=r.department||'';
-    renderFormDefaults();renderVenueSection();
-    CRITERIA.forEach(c=>updateRatingUI(c.id));
-    const b=document.getElementById('editBanner');if(b)b.classList.add('on');
-    const rid=document.getElementById('editRecordId');if(rid)rid.textContent=id;
-    const btn=document.getElementById('btnSaveRecord');if(btn)btn.textContent=LANG==='en'?'Update Record':'更新記錄';
-    validateForm();switchTab('inspection');window.scrollTo({top:0,behavior:'smooth'});
-    showToast(LANG==='en'?`Editing ${id}`:`正在編輯 ${id}`,'');
-  },LANG==='en'?'Enter password to edit this record.':'編輯此記錄需要密碼驗證，請輸入密碼。');
-}
-
-/* ===== 刪除記錄（每次需輸入密碼） ===== */
-function deleteRecord(id){
-  requirePasswordEveryTime(async()=>{
-    if(!confirm(LANG==='en'?`Delete record ${id}? Cannot be undone.`:`確定刪除記錄 ${id}？此操作無法復原。`))return;
-    try{
-      await deleteDoc(doc(db,'records',id));
-      state.records=state.records.filter(r=>r.id!==id);
-      if(state.editingId===id){exitEditMode();resetForm();}
-      renderRecordTable();renderAnalysisSection();renderDashboard();
-      showToast(LANG==='en'?'Record deleted':'記錄已刪除','success');
-    }catch(e){showToast((LANG==='en'?'Delete failed: ':'刪除失敗：')+e.message,'error');}
-  },LANG==='en'?'Enter password to delete this record.':'刪除此記錄需要密碼驗證，請輸入密碼。');
-}
-
+async function submitRecord(){const errs=validateFormData();if(errs.length){showErrors(errs);showToast(LANG==='en'?`Form has ${errs.length} issue(s)`:`表單有 ${errs.length} 項問題`,'error');return;}showErrors([]);const v=buildCleanVenue();const editing=!!state.editingId;try{if(editing){const upd={date:state.form.date,time:state.form.time,location:state.form.location,companyId:state.form.company,venueName:state.form.venueName.trim(),department:state.form.department.trim(),ratings:{...state.form.ratings},venue:v,notes:state.form.notes.trim(),updatedAt:new Date().toISOString()};await updateDoc(doc(db,'records',state.editingId),upd);showToast(LANG==='en'?'Record updated':'記錄已更新','success');exitEditMode();}else{const ds=state.form.date.replace(/-/g,'');const prefix=`MRSC-${ds}-`;const nums=state.records.filter(r=>r.id&&r.id.startsWith(prefix)).map(r=>parseInt(r.id.slice(prefix.length),10)).filter(n=>!isNaN(n));const maxN=nums.length?Math.max(...nums):0;const customId=`${prefix}${String(maxN+1).padStart(3,'0')}`;const rec={inspectorName:state.inspector.name,inspectorId:state.inspector.id,date:state.form.date,time:state.form.time,location:state.form.location,companyId:state.form.company,venueName:state.form.venueName.trim(),department:state.form.department.trim(),ratings:{...state.form.ratings},venue:v,notes:state.form.notes.trim(),submittedAt:new Date().toISOString(),serverTime:serverTimestamp()};await setDoc(doc(db,'records',customId),rec);showToast(LANG==='en'?`Submitted to cloud: ${customId}`:`已提交至雲端：${customId}`,'success');}resetForm();}catch(e){console.error('Submit failed:',e);showToast((LANG==='en'?'Submit failed: ':'提交失敗：')+e.message,'error');}}
+function editRecord(id){requirePasswordEveryTime(()=>{const r=state.records.find(x=>x.id===id);if(!r)return;state.editingId=id;const nr=emptyRatings();CRITERIA.forEach(c=>{nr[c.id]=r.ratings?r.ratings[c.id]||null:null;});state.form={date:r.date,time:r.time,location:r.location,company:r.companyId,venueName:r.venueName||'',department:r.department||'',ratings:nr,venue:normalizeVenue(r.venue),notes:r.notes||''};state._lastDept=r.department||'';renderFormDefaults();renderVenueSection();CRITERIA.forEach(c=>updateRatingUI(c.id));const b=document.getElementById('editBanner');if(b)b.classList.add('on');const rid=document.getElementById('editRecordId');if(rid)rid.textContent=id;const btn=document.getElementById('btnSaveRecord');if(btn)btn.textContent=LANG==='en'?'Update Record':'更新記錄';validateForm();switchTab('inspection');window.scrollTo({top:0,behavior:'smooth'});showToast(LANG==='en'?`Editing ${id}`:`正在編輯 ${id}`,'');},LANG==='en'?'Enter password to edit this record.':'編輯此記錄需要密碼驗證，請輸入密碼。');}
+function deleteRecord(id){requirePasswordEveryTime(async()=>{if(!confirm(LANG==='en'?`Delete record ${id}? Cannot be undone.`:`確定刪除記錄 ${id}？此操作無法復原。`))return;try{await deleteDoc(doc(db,'records',id));showToast(LANG==='en'?'Record deleted':'記錄已刪除','success');}catch(e){showToast((LANG==='en'?'Delete failed: ':'刪除失敗：')+e.message,'error');}},LANG==='en'?'Enter password to delete this record.':'刪除此記錄需要密碼驗證，請輸入密碼。');}
 function exitEditMode(){state.editingId=null;const b=document.getElementById('editBanner');if(b)b.classList.remove('on');const btn=document.getElementById('btnSaveRecord');if(btn)btn.textContent=LANG==='en'?'Submit Record':'提交考察記錄';}
 function resetForm(){state.form.date=todayISO();state.form.time=nowTime();state.form.location='';state.form.company='';state.form.venueName='';state.form.department='';state.form.ratings=emptyRatings();state.form.venue=emptyVenue();state.form.notes='';state._lastDept='';renderFormDefaults();renderVenueSection();CRITERIA.forEach(c=>updateRatingUI(c.id));showErrors([]);validateForm();}
 function buildVenueDetailHtml(record){const v=record.venue||{};const items=Array.isArray(v.items)?v.items:[];const env=v.env||{};const hasEnv=ENV_KEYS.some(k=>env[k]);if(items.length===0&&!hasEnv)return'<span style="color:var(--ph)">—</span>';const en=LANG==='en';const rows=items.length>0?items:[{}];let tableHtml='<div class="venue-table-wrapper"><table class="venue-table"><thead><tr><th>'+(en?'Item':'項目')+'</th><th>'+(en?'Open':'開檯數')+'</th><th>'+(en?'Closed':'關檯數')+'</th><th>'+(en?'Min Bet':'最低投注')+'</th><th>'+(en?'Tier':'限紅類別')+'</th>';ENV_KEYS.forEach(k=>{const ed=ENV_FIELDS[k];if(ed)tableHtml+=`<th>${ed.icon} ${envName(k)}</th>`;});tableHtml+='</tr></thead><tbody>';rows.forEach((it,i)=>{let displayName=it.name?escapeHTML(Wr(it.name)):'—';if(it.name==='其他'&&it.nameOther){displayName=escapeHTML(it.nameOther);}const openVal=(it.open!==undefined&&it.open!==null&&it.open!=='')?escapeHTML(String(it.open)):'—';const closedVal=(it.closed===''||it.closed===null||it.closed===undefined)?'0':escapeHTML(String(it.closed));const minBetVal=it.minBet?'(HKD)'+escapeHTML(String(it.minBet)):'—';let tierVal='—';if(it.tier){tierVal=escapeHTML(tierShort(it.tier));}let envRowHtml='';if(i===0){ENV_KEYS.forEach(k=>{const ed=ENV_FIELDS[k];const val=env[k];if(val&&ed){const o=ed.options.find(o=>o.v===val);envRowHtml+=`<td>${o?Wr(o.l):escapeHTML(val)}</td>`;}else{envRowHtml+='<td>—</td>';}});}else{envRowHtml=`<td colspan="${ENV_KEYS.length}"></td>`;}tableHtml+=`<tr><td>${displayName}</td><td>${openVal}</td><td>${closedVal}</td><td>${minBetVal}</td><td>${tierVal}</td>${envRowHtml}</tr>`;});tableHtml+='</tbody></table></div>';return tableHtml;}
@@ -1070,7 +992,7 @@ function scorePill(s){if(!s)return'<span style="color:var(--ph)">—</span>';con
 function dlBlob(b,name){const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(()=>URL.revokeObjectURL(u),100);}
 function doExportJSON(){if(!state.records.length){showToast(LANG==='en'?'No records':'沒有記錄','error');return;}const d={version:6,exportedAt:new Date().toISOString(),inspector:state.inspector,criteria:CRITERIA,records:state.records};dlBlob(new Blob([JSON.stringify(d,null,2)],{type:'application/json'}),`mrsc-backup-${todayISO()}.json`);showToast(LANG==='en'?`Exported ${state.records.length} records (JSON)`:`已匯出 ${state.records.length} 筆記錄（JSON）`,'success');}
 function doExportCSV(){if(!state.records.length){showToast(LANG==='en'?'No records':'沒有記錄','error');return;}const baseHeaders=['記錄編號','考察人員','人員編號','日期','時間','地點','休企','場館名稱','部門',...CRITERIA.map(c=>c.name+'(1-5)'),'綜合MRSC'];const itemFieldMap=new Map();state.records.forEach(r=>{const cfg=getDeptConfig(r.department);cfg.fields.forEach(f=>{if(!itemFieldMap.has(f.key))itemFieldMap.set(f.key,f);});});const itemFields=[...itemFieldMap.values()];const itemHeaders=itemFields.map(f=>f.label);const envHeaders=ENV_KEYS.map(k=>ENV_FIELDS[k].label);const tailHeaders=['備註','提交時間','更新時間'];const headers=[...baseHeaders,...itemHeaders,...envHeaders,...tailHeaders];const rows=[];state.records.forEach(r=>{const c=getCompany(r.companyId);const ov=calcOverall(r.ratings);const v=r.venue||{};const items=Array.isArray(v.items)?v.items:[];const env=v.env||{};const baseRow=[r.id,r.inspectorName,r.inspectorId,r.date,r.time,r.location,coName(c),r.venueName||'',r.department||'',...CRITERIA.map(cr=>r.ratings?r.ratings[cr.id]:''),ov];const envRow=ENV_KEYS.map(k=>{if(!env[k])return'';const o=ENV_FIELDS[k].options.find(o=>o.v===env[k]);return o?o.l:env[k];});const tailRow=[r.notes||'',r.submittedAt||'',r.updatedAt||''];const buildItemRow=it=>itemFields.map(f=>{const val=it?it[f.key]:'';if(val===''||val===null||val===undefined)return'';if(f.type==='select'&&f.options){const o=f.options.find(o=>o.v===val);return o?o.l:val;}return val;});if(items.length===0){rows.push([...baseRow,...buildItemRow(null),...envRow,...tailRow]);}else{items.forEach(it=>{rows.push([...baseRow,...buildItemRow(it),...envRow,...tailRow]);});}});const csv=[headers,...rows].map(row=>row.map(v=>{const s=String(v??'');return/[",\n\r]/.test(s)?`"${s.replace(/"/g,'""')}"`:s;}).join(',')).join('\r\n');dlBlob(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}),`mrsc-records-${todayISO()}.csv`);showToast(LANG==='en'?`Exported ${rows.length} rows`:`已匯出 ${rows.length} 行`,'success');}
-function importJSON(file){const rd=new FileReader();rd.onload=async(e)=>{try{const d=JSON.parse(e.target.result);if(!Array.isArray(d.records))throw new Error(LANG==='en'?'Bad format':'檔案格式錯誤');if(!confirm(LANG==='en'?`Source: ${d.inspector?.name||'Unknown'}\nRecords: ${d.records.length}\n\nMerge into cloud?`:`來源：${d.inspector?.name||'未知'}\n記錄筆數：${d.records.length}\n\n確定合併至雲端？`))return;const ids=new Set(state.records.map(r=>r.id));const inc=d.records.filter(r=>r&&r.id&&!ids.has(r.id));let n=0;for(const rec of inc){try{const{id,...data}=rec;const docId=id||('MRSC-IMPORT-'+Date.now()+'-'+Math.random().toString(36).slice(2,8));await setDoc(doc(db,'records',docId),{...data,venue:normalizeVenue(data.venue),serverTime:serverTimestamp()});n++;}catch(err){}}showToast(LANG==='en'?`Imported ${n} records`:`已匯入 ${n} 筆記錄`,'success');await fetchRecordsFromCloud();}catch(err){showToast((LANG==='en'?'Import failed: ':'匯入失敗：')+err.message,'error');}};rd.onerror=()=>showToast(LANG==='en'?'Failed to read file':'讀取檔案失敗','error');rd.readAsText(file);}
+function importJSON(file){const rd=new FileReader();rd.onload=async(e)=>{try{const d=JSON.parse(e.target.result);if(!Array.isArray(d.records))throw new Error(LANG==='en'?'Bad format':'檔案格式錯誤');if(!confirm(LANG==='en'?`Source: ${d.inspector?.name||'Unknown'}\nRecords: ${d.records.length}\n\nMerge into cloud?`:`來源：${d.inspector?.name||'未知'}\n記錄筆數：${d.records.length}\n\n確定合併至雲端？`))return;const ids=new Set(state.records.map(r=>r.id));const inc=d.records.filter(r=>r&&r.id&&!ids.has(r.id));let n=0;for(const rec of inc){try{const{id,...data}=rec;const docId=id||('MRSC-IMPORT-'+Date.now()+'-'+Math.random().toString(36).slice(2,8));await setDoc(doc(db,'records',docId),{...data,venue:normalizeVenue(data.venue),serverTime:serverTimestamp()});n++;}catch(err){}}showToast(LANG==='en'?`Imported ${n} records`:`已匯入 ${n} 筆記錄`,'success');}catch(err){showToast((LANG==='en'?'Import failed: ':'匯入失敗：')+err.message,'error');}};rd.onerror=()=>showToast(LANG==='en'?'Failed to read file':'讀取檔案失敗','error');rd.readAsText(file);}
 function renderAnalysisSection(){const s=document.getElementById('anBase');if(!s)return;const cb=s.value||state.comparison.base;s.innerHTML=COMPANIES.map(c=>`<option value="${c.id}" ${c.id===cb?'selected':''}>${coName(c)}</option>`).join('');state.comparison.base=s.value||cb;renderDeptFilter();if(!state.comparison.picks.length)autoFillPicks();renderPicker();renderAnalysisResult();}
 function renderDeptFilter(){const s=document.getElementById('filterDept');if(!s)return;const cur=s.value;const ds=[...new Set(state.records.map(r=>(r.department||'').trim()).filter(Boolean))].sort();const en=LANG==='en';s.innerHTML=`<option value="">${en?'All Departments':'全部部門'}</option>`+ds.map(d=>`<option value="${escapeHTML(d)}">${escapeHTML(Wr(d))}</option>`).join('');if(cur&&ds.includes(cur))s.value=cur;else state.comparison.departmentFilter='';}
 const maxPick=()=>Math.min(state.comparison.ratio,COMPANIES.length-1);
@@ -1079,287 +1001,49 @@ function togglePick(id){if(id===state.comparison.base)return;const a=state.compa
 function autoFillPicks(){const b=state.comparison.base;const need=maxPick();state.comparison.picks=state.comparison.picks.filter(id=>id!==b).slice(0,need);for(const c of COMPANIES){if(state.comparison.picks.length>=need)break;if(c.id!==b&&!state.comparison.picks.includes(c.id))state.comparison.picks.push(c.id);}}
 function filterRecs(rs){const f=state.comparison;return rs.filter(r=>{if(f.departmentFilter&&(r.department||'').trim()!==f.departmentFilter)return false;if(f.dateFrom&&r.date<f.dateFrom)return false;if(f.dateTo&&r.date>f.dateTo)return false;return true;});}
 function aggCo(id){const rs=filterRecs(state.records.filter(r=>r.companyId===id));if(!rs.length)return null;const out={count:rs.length,raw:{},mrsc:{},norms:{}};CRITERIA.forEach(c=>{const vals=rs.map(r=>r.ratings?r.ratings[c.id]:null).filter(v=>v);if(!vals.length){out.raw[c.id]=0;out.mrsc[c.id]=0;out.norms[c.id]=0;return;}const rawAvg=vals.reduce((a,b)=>a+b,0)/vals.length;const mrscAvg=vals.reduce((s,v)=>s+toMRSC(c.id,v),0)/vals.length;const normAvg=vals.reduce((s,v)=>s+normMRSC(c.id,toMRSC(c.id,v)),0)/vals.length;out.raw[c.id]=rawAvg;out.mrsc[c.id]=Math.round(mrscAvg);out.norms[c.id]=normAvg;});const nv=CRITERIA.map(c=>out.norms[c.id]);out.overall=nv.length?Math.round((nv.reduce((a,b)=>a+b,0)/nv.length)*2):0;return out;}
-function renderRadarChart(rows){const n=CRITERIA.length;if(n<3)return`<div class="es" style="padding:24px"><div class="ei">📐</div><p>${LANG==='en'?'At least 3 dimensions are required to draw a radar chart.':'需要至少 3 個評分維度才能繪製雷達圖。'}</p></div>`;const size=400;const cx=size/2,cy=size/2+6;const R=size/2-72;const axes=CRITERIA.map((c,i)=>({...c,angle:-Math.PI/2+i*(2*Math.PI/n)}));const pt=(a,r)=>({x:cx+Math.cos(a.angle)*R*r,y:cy+Math.sin(a.angle)*R*r});const lc=getTheme()==='light'?'#c8cfd9':'#262d3a';const tc=getTheme()==='light'?'#5d6878':'#8b95a7';let svg=`<svg viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">`;for(let l=1;l<=4;l++){const pts=axes.map(a=>pt(a,l/4)).map(p=>`${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');svg+=`<polygon points="${pts}" fill="none" stroke="${lc}" stroke-width="1"/>`;}axes.forEach(a=>{const e=pt(a,1);svg+=`<line x1="${cx}" y1="${cy}" x2="${e.x.toFixed(1)}" y2="${e.y.toFixed(1)}" stroke="${lc}" stroke-width="1"/>`;const lb=pt(a,1.24);svg+=`<text x="${lb.x.toFixed(1)}" y="${lb.y.toFixed(1)}" text-anchor="middle" dominant-baseline="middle" fill="${tc}" font-size="12" font-family="sans-serif" font-weight="600">${escapeHTML(Wr(a.name))}</text>`;});rows.forEach(row=>{const c=getCompany(row.id);if(!c)return;const pts=axes.map(a=>pt(a,Math.max(0.02,(row.norms[a.id]||0)/100)));const ps=pts.map(p=>`${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');svg+=`<polygon points="${ps}" fill="${c.color}22" stroke="${c.color}" stroke-width="2" stroke-linejoin="round"/>`;pts.forEach(p=>{svg+=`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.5" fill="${c.color}"/>`;});});svg+='</svg>';return svg;}
+function renderRadarChart(rows){const n=CRITERIA.length;if(n<3)return`<div class="es" style="padding:24px"><div class="ei">📐</div><p>${LANG==='en'?'At least 3 dimensions required.':'需要至少 3 個評分維度。'}</p></div>`;const size=400;const cx=size/2,cy=size/2+6;const R=size/2-72;const axes=CRITERIA.map((c,i)=>({...c,angle:-Math.PI/2+i*(2*Math.PI/n)}));const pt=(a,r)=>({x:cx+Math.cos(a.angle)*R*r,y:cy+Math.sin(a.angle)*R*r});const lc=getTheme()==='light'?'#c8cfd9':'#262d3a';const tc=getTheme()==='light'?'#5d6878':'#8b95a7';let svg=`<svg viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">`;for(let l=1;l<=4;l++){const pts=axes.map(a=>pt(a,l/4)).map(p=>`${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');svg+=`<polygon points="${pts}" fill="none" stroke="${lc}" stroke-width="1"/>`;}axes.forEach(a=>{const e=pt(a,1);svg+=`<line x1="${cx}" y1="${cy}" x2="${e.x.toFixed(1)}" y2="${e.y.toFixed(1)}" stroke="${lc}" stroke-width="1"/>`;const lb=pt(a,1.24);svg+=`<text x="${lb.x.toFixed(1)}" y="${lb.y.toFixed(1)}" text-anchor="middle" dominant-baseline="middle" fill="${tc}" font-size="12" font-family="sans-serif" font-weight="600">${escapeHTML(Wr(a.name))}</text>`;});rows.forEach(row=>{const c=getCompany(row.id);if(!c)return;const pts=axes.map(a=>pt(a,Math.max(0.02,(row.norms[a.id]||0)/100)));const ps=pts.map(p=>`${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');svg+=`<polygon points="${ps}" fill="${c.color}22" stroke="${c.color}" stroke-width="2" stroke-linejoin="round"/>`;pts.forEach(p=>{svg+=`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.5" fill="${c.color}"/>`;});});svg+='</svg>';return svg;}
 function calcTierStats(companyIds,timeFilter){const result={};companyIds.forEach(id=>result[id]={low:0,mid:0,high:0,vip:0,total:0});state.records.forEach(rec=>{if(!companyIds.includes(rec.companyId))return;const dept=(rec.department||'').trim();if(!dept.includes('賭檯運作'))return;if(timeFilter&&timeFilter!=='all'){const slot=getTimeSlot(rec.time);if(slot!==timeFilter)return;}const items=(rec.venue&&rec.venue.items)||[];items.forEach(it=>{const tier=it.tier;const open=parseInt(it.open)||0;if(tier&&result[rec.companyId]){result[rec.companyId][tier]=(result[rec.companyId][tier]||0)+open;result[rec.companyId].total+=open;}});});return result;}
-function renderTierStats(sorted){const en=LANG==='en';const ids=sorted.map(r=>r.id);const tf=state.comparison.timeFilter||'all';const stats=calcTierStats(ids,tf);const hasAny=ids.some(id=>stats[id].total>0);let html='<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">';html+=`<button class="mbtn ${tf==='all'?'on':''}" data-time="all">${en?'All Slots':'全部時段'}</button>`;TIME_SLOTS.forEach(s=>{html+=`<button class="mbtn ${tf===s.id?'on':''}" data-time="${s.id}">${Wr(s.label)} ${s.range}</button>`;});html+='</div>';if(!hasAny){html+=`<div class="es" style="padding:30px 20px"><div class="ei">🎲</div><p>${en?'No tier records for selected companies.':'目前選中的休企尚無限紅記錄。'}</p></div>`;return html;}html+='<div class="tw"><table class="dtab" style="min-width:640px"><thead><tr><th>'+(en?'Company':'休企')+'</th><th style="text-align:center">'+tierShort('low')+'</th><th style="text-align:center">'+tierShort('mid')+'</th><th style="text-align:center">'+tierShort('high')+'</th><th style="text-align:center">'+tierShort('vip')+'</th><th style="text-align:center">'+(en?'Total':'合計')+'</th></tr></thead><tbody>';const totals={low:0,mid:0,high:0,vip:0,total:0};sorted.forEach(r=>{const c=getCompany(r.id);const s=stats[r.id];totals.low+=s.low;totals.mid+=s.mid;totals.high+=s.high;totals.vip+=s.vip;totals.total+=s.total;html+=`<tr><td><span class="rc"><span class="cdot" style="background:${c.color}"></span>${coName(c)}</span></td><td class="dc">${s.low||'—'}</td><td class="dc">${s.mid||'—'}</td><td class="dc">${s.high||'—'}</td><td class="dc">${s.vip||'—'}</td><td class="dc" style="color:var(--gold);font-size:14px">${s.total||'—'}</td></tr>`;});html+=`<tr style="border-top:1px solid var(--line);font-weight:700"><td class="dref">${en?'Total':'合計'}</td><td class="dc dref">${totals.low}</td><td class="dc dref">${totals.mid}</td><td class="dc dref">${totals.high}</td><td class="dc dref">${totals.vip}</td><td class="dc dref" style="color:var(--gold)">${totals.total}</td></tr>`;html+='</tbody></table></div>';return html;}
-function renderDeptBarCharts(sorted){const en=LANG==='en';const df=(state.comparison.departmentFilter||'').trim();let depts=[];if(df)depts=[df];else{const set=new Set();sorted.forEach(r=>{state.records.filter(rec=>rec.companyId===r.id).forEach(rec=>{const d=(rec.department||'').trim();if(d)set.add(d);});});depts=[...set].sort();}if(!depts.length)return`<div class="es" style="padding:30px 20px"><div class="ei">📊</div><p>${en?'No department data.':'尚無部門專屬數據可對比。'}</p></div>`;let html='';if(!df&&depts.length>1)html+=`<div style="font-size:11.5px;color:var(--muted2);margin-bottom:16px;padding:10px 14px;background:rgba(74,144,217,.06);border:1px solid rgba(74,144,217,.2);border-radius:8px;line-height:1.55">${en?'ℹ️ Showing all departments grouped. Use "Department Filter" above to focus on one.':'ℹ️ 顯示所有部門數據（依部門分組）。如要聚焦單一部門，可於上方「部門篩選」選擇。'}</div>`;let anyR=false;depts.forEach(dept=>{const cfg=getDeptConfig(dept);const numFs=(cfg.fields||[]).filter(f=>f.type==='number');const selFs=(cfg.fields||[]).filter(f=>f.type==='select');const txtFs=(cfg.fields||[]).filter(f=>f.type==='text'&&f.key!=='name');const coRecs=sorted.map(r=>({id:r.id,company:getCompany(r.id),recs:state.records.filter(rec=>rec.companyId===r.id&&(rec.department||'').trim()===dept)}));if(!coRecs.some(cr=>cr.recs.length>0))return;anyR=true;const cntTxt=en?`${coRecs.reduce((s,cr)=>s+cr.recs.length,0)} records`:`共 ${coRecs.reduce((s,cr)=>s+cr.recs.length,0)} 筆記錄`;let dHtml=`<div style="margin-bottom:24px"><div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px;padding-bottom:10px;border-bottom:1px solid var(--lineS)"><span>${cfg.icon||'📝'}</span><span>${escapeHTML(Wr(dept))}</span><span style="font-size:11.5px;color:var(--muted);font-weight:500;margin-left:auto">${cntTxt}</span></div>`;numFs.forEach(field=>{const rows=coRecs.map(cr=>{const nums=[];cr.recs.forEach(rec=>{const items=(rec.venue&&rec.venue.items)||[];items.forEach(it=>{const n=parseFloat(it[field.key]);if(!isNaN(n))nums.push(n);});});if(!nums.length)return{company:cr.company,value:null,count:0};return{company:cr.company,value:nums.reduce((a,b)=>a+b,0)/nums.length,count:nums.length};});if(!rows.some(r=>r.value!==null))return;const maxV=Math.max(...rows.map(r=>r.value||0),1);dHtml+=`<div style="margin-bottom:14px;padding:14px 16px;background:var(--goldD);border:1px solid var(--goldB2);border-radius:10px"><div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:12px">${escapeHTML(Wr(field.label))}（${en?'Average':'平均'}）</div>`;rows.forEach(r=>{if(r.value===null){dHtml+=`<div style="display:grid;grid-template-columns:130px 1fr 100px;gap:12px;align-items:center;margin-bottom:8px"><span style="font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:${r.company.color};flex-shrink:0"></span>${escapeHTML(coName(r.company))}</span><span style="height:22px;background:var(--bar);border-radius:6px"></span><span style="font-size:12px;color:var(--ph);text-align:right">${en?'No data':'無資料'}</span></div>`;}else{const pct=Math.max((r.value/maxV)*100,2);dHtml+=`<div style="display:grid;grid-template-columns:130px 1fr 100px;gap:12px;align-items:center;margin-bottom:8px"><span style="font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:${r.company.color};flex-shrink:0"></span>${escapeHTML(coName(r.company))}</span><span style="height:22px;background:var(--bar);border-radius:6px;overflow:hidden"><span style="display:block;height:100%;width:${pct}%;background:linear-gradient(90deg,${r.company.color}55,${r.company.color});border-radius:6px"></span></span><span style="font-size:13px;font-weight:700;color:var(--gold);text-align:right">${r.value.toFixed(1)}<small style="font-size:10px;color:var(--muted);margin-left:2px">(${r.count})</small></span></div>`;}});dHtml+=`</div>`;});selFs.forEach(field=>{const options=field.options||[];const rows=coRecs.map(cr=>{const counts={};let total=0;cr.recs.forEach(rec=>{const items=(rec.venue&&rec.venue.items)||[];items.forEach(it=>{const v=it[field.key];if(v){counts[v]=(counts[v]||0)+1;total++;}});});return{company:cr.company,counts,total};});if(!rows.some(r=>r.total>0))return;dHtml+=`<div style="margin-bottom:14px;padding:14px 16px;background:var(--goldD);border:1px solid var(--goldB2);border-radius:10px"><div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:12px">${escapeHTML(Wr(field.label))}（${en?'Distribution':'選項分佈'}）</div>`;rows.forEach(r=>{if(!r.total){dHtml+=`<div style="display:grid;grid-template-columns:130px 1fr 100px;gap:12px;align-items:center;margin-bottom:8px"><span style="font-size:12.5px;font-weight:600"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${r.company.color};margin-right:6px"></span>${escapeHTML(coName(r.company))}</span><span style="height:22px;background:var(--bar);border-radius:6px"></span><span style="font-size:12px;color:var(--ph);text-align:right">${en?'No data':'無資料'}</span></div>`;return;}let segs='';options.forEach(o=>{const cnt=r.counts[o.v]||0;if(!cnt)return;const pct=(cnt/r.total)*100;const alpha=0.4+(cnt/r.total)*0.6;segs+=`<span style="display:inline-block;height:100%;width:${pct}%;background:${r.company.color};opacity:${alpha}" title="${escapeHTML(Wr(o.l))} ×${cnt}"></span>`;});const summary=options.map(o=>({o,cnt:r.counts[o.v]||0})).filter(x=>x.cnt>0).map(x=>`${Wr(x.o.l)}×${x.cnt}`).join(en?', ':'、');dHtml+=`<div style="display:grid;grid-template-columns:130px 1fr 160px;gap:12px;align-items:center;margin-bottom:8px"><span style="font-size:12.5px;font-weight:600"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${r.company.color};margin-right:6px"></span>${escapeHTML(coName(r.company))}</span><span style="height:22px;background:var(--bar);border-radius:6px;overflow:hidden;display:flex">${segs}</span><span style="font-size:11.5px;color:var(--text);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${escapeHTML(summary)}</span></div>`;});dHtml+=`</div>`;});txtFs.forEach(field=>{const rows=coRecs.map(cr=>{const set=new Set();cr.recs.forEach(rec=>{const items=(rec.venue&&rec.venue.items)||[];items.forEach(it=>{const v=it[field.key];if(v&&String(v).trim())set.add(String(v).trim());});});return{company:cr.company,values:[...set]};});if(!rows.some(r=>r.values.length))return;dHtml+=`<div style="margin-bottom:14px;padding:14px 16px;background:var(--goldD);border:1px solid var(--goldB2);border-radius:10px"><div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:12px">${escapeHTML(Wr(field.label))}（${en?'Categories':'出現類別'}）</div>`;rows.forEach(r=>{if(!r.values.length)dHtml+=`<div style="display:grid;grid-template-columns:130px 1fr;gap:12px;align-items:center;margin-bottom:8px"><span style="font-size:12.5px;font-weight:600"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${r.company.color};margin-right:6px"></span>${escapeHTML(coName(r.company))}</span><span style="font-size:12px;color:var(--ph)">${en?'No data':'無資料'}</span></div>`;else dHtml+=`<div style="display:grid;grid-template-columns:130px 1fr;gap:12px;align-items:center;margin-bottom:8px"><span style="font-size:12.5px;font-weight:600"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${r.company.color};margin-right:6px"></span>${escapeHTML(coName(r.company))}</span><span style="font-size:11.5px;color:var(--text);line-height:1.55">${escapeHTML(r.values.join(en?', ':'、'))}</span></div>`;});dHtml+=`</div>`;});dHtml+=`</div>`;html+=dHtml;});if(!anyR)return`<div class="es" style="padding:30px 20px"><div class="ei">📊</div><p>${en?'No observations for selected companies.':'目前選中的休企在該部門尚無觀察記錄。'}</p></div>`;return html;}
-function renderAnalysisResult(){const w=document.getElementById('analysisResult');if(!w)return;const en=LANG==='en';const ids=[state.comparison.base,...state.comparison.picks].filter((v,i,a)=>a.indexOf(v)===i);const rows=ids.map(id=>{const a=aggCo(id);return a?{id,...a}:null;}).filter(Boolean);if(rows.length<2){w.innerHTML=`<div class="panel"><div class="pbody"><div class="es"><div class="ei">📊</div><p>${en?'Not enough records for analysis.<br>Please submit records for at least 2 companies.':'尚無足夠的考察記錄可進行對比分析。<br>請先為至少 2 間休企提交考察記錄。'}</p></div></div></div>`;return;}const sorted=[...rows].sort((a,b)=>b.overall-a.overall);const maxS=Math.max(...sorted.map(r=>r.overall),180);const f=state.comparison;const fc=[];if(f.departmentFilter)fc.push((en?'Dept: ':'部門：')+Wr(f.departmentFilter));if(f.dateFrom)fc.push((en?'From: ':'起：')+f.dateFrom);if(f.dateTo)fc.push((en?'To: ':'訖：')+f.dateTo);const fd=fc.length?'　·　'+fc.join('　·　'):'';let html='<div class="panel"><div class="ph"><h2><span class="dot"></span>'+(en?'Overall Ranking':'綜合評分排名')+'</h2>';html+=`<span class="hint">${en?'Mode':'對比模式'} 1:${f.ratio}　·　${sorted.length} ${en?'companies':'間休企'}　·　${en?'Samples':'有效樣本'} ${sorted.reduce((s,r)=>s+r.count,0)}${fd}</span></div><div class="pbody"><div class="rlist2">`;sorted.forEach((r,i)=>{const c=getCompany(r.id);const isB=r.id===state.comparison.base;const width=Math.min((r.overall/maxS)*100,100);html+=`<div class="rrow"><div class="rb ${i===0?'top':''}">${i+1}</div><div class="rm"><div class="rt2"><span class="rd" style="background:${c.color}"></span><span class="rn">${coName(c)}</span>${isB?'<span class="tb2">'+Wr('基準')+'</span>':''}<span class="rcnt">${r.count} ${en?'rec':'筆'}</span><span class="rs">${r.overall}<small>/200</small></span></div><div class="rbar"><div class="rfill" style="width:${width}%;background:linear-gradient(90deg,${c.color}55,${c.color})"></div></div></div></div>`;});html+='</div>';html+='<div class="dw"><div class="dt">'+(en?'Dimension Radar Chart':'評分維度雷達圖')+'</div><div class="rw">'+renderRadarChart(sorted)+'</div><div class="rl">';sorted.forEach(r=>{const c=getCompany(r.id);html+=`<span class="l"><span class="ld" style="background:${c.color}"></span>${coName(c)}</span>`;});html+='</div></div>';html+='<div class="dw"><div class="dt">'+(en?'Tier × Time Slot':'限紅 × 時段分佈')+'</div>'+renderTierStats(sorted)+'</div>';html+='<div class="dw"><div class="dt">'+(en?'Department Data Comparison':'部門專屬數據對比')+'</div>'+renderDeptBarCharts(sorted)+'</div>';html+='<div class="dw"><div class="dt">'+(en?'Dimension Detail':'評分維度明細')+'</div><div class="tw"><table class="dtab"><thead><tr><th>'+(en?'Company':'休企')+'</th>';CRITERIA.forEach(c=>{html+=`<th>${escapeHTML(Wr(c.name))}</th>`;});html+='<th>'+(en?'Overall MRSC':'綜合 MRSC')+'</th></tr></thead><tbody>';const mx={};CRITERIA.forEach(c=>{mx[c.id]=Math.max(...sorted.map(r=>r.mrsc[c.id]||0));});sorted.forEach(r=>{const c=getCompany(r.id);html+=`<tr><td><span class="rc"><span class="cdot" style="background:${c.color}"></span>${coName(c)}</span></td>`;CRITERIA.forEach(cr=>{const v=r.mrsc[cr.id]||0;const raw=r.raw[cr.id]||0;const isMax=v===mx[cr.id]&&sorted.length>1;html+=`<td class="dc ${isMax?'win':''}">${v}<span class="draw">${en?'Raw avg':'原始平均'} ${raw.toFixed(2)}</span>${isMax?'<span style="font-size:10px;color:var(--gold)">▲</span>':''}</td>`;});html+=`<td class="dc" style="color:var(--gold);font-size:14px">${r.overall}</td></tr>`;});html+=`<tr style="border-top:1px solid var(--line)"><td class="dref">${en?'Macau Average (MRSC 2026)':'全澳平均（MRSC 2026）'}</td>`;CRITERIA.forEach(c=>{html+=`<td class="dc dref">${c.ref||0}</td>`;});html+='<td class="dc dref">—</td></tr>';html+='</tbody></table></div></div></div></div>';w.innerHTML=html;}
-function switchTab(name){if(name==='analysis'&&!isDeveloper()){requireDeveloperThen(()=>{document.getElementById('analysisLocked').classList.remove('on');document.getElementById('analysisContent').style.display='block';doSwitchTab('analysis');},LANG==='en'?'Analysis is developer-only. Enter developer password.':'對比分析僅限開發者使用，請輸入開發者密碼。');return;}doSwitchTab(name);}
+function renderTierStats(sorted){const en=LANG==='en';const ids=sorted.map(r=>r.id);const tf=state.comparison.timeFilter||'all';const stats=calcTierStats(ids,tf);const hasAny=ids.some(id=>stats[id].total>0);let html='<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">';html+=`<button class="mbtn ${tf==='all'?'on':''}" data-time="all">${en?'All Slots':'全部時段'}</button>`;TIME_SLOTS.forEach(s=>{html+=`<button class="mbtn ${tf===s.id?'on':''}" data-time="${s.id}">${Wr(s.label)} ${s.range}</button>`;});html+='</div>';if(!hasAny){html+=`<div class="es" style="padding:30px 20px"><div class="ei">🎲</div><p>${en?'No tier records.':'尚無限紅記錄。'}</p></div>`;return html;}html+='<div class="tw"><table class="dtab" style="min-width:640px"><thead><tr><th>'+(en?'Company':'休企')+'</th><th style="text-align:center">'+tierShort('low')+'</th><th style="text-align:center">'+tierShort('mid')+'</th><th style="text-align:center">'+tierShort('high')+'</th><th style="text-align:center">'+tierShort('vip')+'</th><th style="text-align:center">'+(en?'Total':'合計')+'</th></tr></thead><tbody>';const totals={low:0,mid:0,high:0,vip:0,total:0};sorted.forEach(r=>{const c=getCompany(r.id);const s=stats[r.id];totals.low+=s.low;totals.mid+=s.mid;totals.high+=s.high;totals.vip+=s.vip;totals.total+=s.total;html+=`<tr><td><span class="rc"><span class="cdot" style="background:${c.color}"></span>${coName(c)}</span></td><td class="dc">${s.low||'—'}</td><td class="dc">${s.mid||'—'}</td><td class="dc">${s.high||'—'}</td><td class="dc">${s.vip||'—'}</td><td class="dc" style="color:var(--gold);font-size:14px">${s.total||'—'}</td></tr>`;});html+=`<tr style="border-top:1px solid var(--line);font-weight:700"><td class="dref">${en?'Total':'合計'}</td><td class="dc dref">${totals.low}</td><td class="dc dref">${totals.mid}</td><td class="dc dref">${totals.high}</td><td class="dc dref">${totals.vip}</td><td class="dc dref" style="color:var(--gold)">${totals.total}</td></tr>`;html+='</tbody></table></div>';return html;}
+function renderDeptBarCharts(sorted){const en=LANG==='en';const df=(state.comparison.departmentFilter||'').trim();let depts=[];if(df)depts=[df];else{const set=new Set();sorted.forEach(r=>{state.records.filter(rec=>rec.companyId===r.id).forEach(rec=>{const d=(rec.department||'').trim();if(d)set.add(d);});});depts=[...set].sort();}if(!depts.length)return`<div class="es" style="padding:30px 20px"><div class="ei">📊</div><p>${en?'No department data.':'尚無部門專屬數據可對比。'}</p></div>`;let html='';if(!df&&depts.length>1)html+=`<div style="font-size:11.5px;color:var(--muted2);margin-bottom:16px;padding:10px 14px;background:rgba(74,144,217,.06);border:1px solid rgba(74,144,217,.2);border-radius:8px;line-height:1.55">${en?'ℹ️ Showing all departments grouped.':'ℹ️ 顯示所有部門數據（依部門分組）。'}</div>`;let anyR=false;depts.forEach(dept=>{const cfg=getDeptConfig(dept);const numFs=(cfg.fields||[]).filter(f=>f.type==='number');const selFs=(cfg.fields||[]).filter(f=>f.type==='select');const txtFs=(cfg.fields||[]).filter(f=>f.type==='text'&&f.key!=='name');const coRecs=sorted.map(r=>({id:r.id,company:getCompany(r.id),recs:state.records.filter(rec=>rec.companyId===r.id&&(rec.department||'').trim()===dept)}));if(!coRecs.some(cr=>cr.recs.length>0))return;anyR=true;const cntTxt=en?`${coRecs.reduce((s,cr)=>s+cr.recs.length,0)} records`:`共 ${coRecs.reduce((s,cr)=>s+cr.recs.length,0)} 筆記錄`;let dHtml=`<div style="margin-bottom:24px"><div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px;padding-bottom:10px;border-bottom:1px solid var(--lineS)"><span>${cfg.icon||'📝'}</span><span>${escapeHTML(Wr(dept))}</span><span style="font-size:11.5px;color:var(--muted);font-weight:500;margin-left:auto">${cntTxt}</span></div>`;numFs.forEach(field=>{const rows=coRecs.map(cr=>{const nums=[];cr.recs.forEach(rec=>{const items=(rec.venue&&rec.venue.items)||[];items.forEach(it=>{const n=parseFloat(it[field.key]);if(!isNaN(n))nums.push(n);});});if(!nums.length)return{company:cr.company,value:null,count:0};return{company:cr.company,value:nums.reduce((a,b)=>a+b,0)/nums.length,count:nums.length};});if(!rows.some(r=>r.value!==null))return;const maxV=Math.max(...rows.map(r=>r.value||0),1);dHtml+=`<div style="margin-bottom:14px;padding:14px 16px;background:var(--goldD);border:1px solid var(--goldB2);border-radius:10px"><div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:12px">${escapeHTML(Wr(field.label))}（${en?'Average':'平均'}）</div>`;rows.forEach(r=>{if(r.value===null){dHtml+=`<div style="display:grid;grid-template-columns:130px 1fr 100px;gap:12px;align-items:center;margin-bottom:8px"><span style="font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:${r.company.color};flex-shrink:0"></span>${escapeHTML(coName(r.company))}</span><span style="height:22px;background:var(--bar);border-radius:6px"></span><span style="font-size:12px;color:var(--ph);text-align:right">${en?'No data':'無資料'}</span></div>`;}else{const pct=Math.max((r.value/maxV)*100,2);dHtml+=`<div style="display:grid;grid-template-columns:130px 1fr 100px;gap:12px;align-items:center;margin-bottom:8px"><span style="font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:${r.company.color};flex-shrink:0"></span>${escapeHTML(coName(r.company))}</span><span style="height:22px;background:var(--bar);border-radius:6px;overflow:hidden"><span style="display:block;height:100%;width:${pct}%;background:linear-gradient(90deg,${r.company.color}55,${r.company.color});border-radius:6px"></span></span><span style="font-size:13px;font-weight:700;color:var(--gold);text-align:right">${r.value.toFixed(1)}<small style="font-size:10px;color:var(--muted);margin-left:2px">(${r.count})</small></span></div>`;}});dHtml+=`</div>`;});selFs.forEach(field=>{const options=field.options||[];const rows=coRecs.map(cr=>{const counts={};let total=0;cr.recs.forEach(rec=>{const items=(rec.venue&&rec.venue.items)||[];items.forEach(it=>{const v=it[field.key];if(v){counts[v]=(counts[v]||0)+1;total++;}});});return{company:cr.company,counts,total};});if(!rows.some(r=>r.total>0))return;dHtml+=`<div style="margin-bottom:14px;padding:14px 16px;background:var(--goldD);border:1px solid var(--goldB2);border-radius:10px"><div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:12px">${escapeHTML(Wr(field.label))}（${en?'Distribution':'選項分佈'}）</div>`;rows.forEach(r=>{if(!r.total){dHtml+=`<div style="display:grid;grid-template-columns:130px 1fr 100px;gap:12px;align-items:center;margin-bottom:8px"><span style="font-size:12.5px;font-weight:600"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${r.company.color};margin-right:6px"></span>${escapeHTML(coName(r.company))}</span><span style="height:22px;background:var(--bar);border-radius:6px"></span><span style="font-size:12px;color:var(--ph);text-align:right">${en?'No data':'無資料'}</span></div>`;return;}let segs='';options.forEach(o=>{const cnt=r.counts[o.v]||0;if(!cnt)return;const pct=(cnt/r.total)*100;const alpha=0.4+(cnt/r.total)*0.6;segs+=`<span style="display:inline-block;height:100%;width:${pct}%;background:${r.company.color};opacity:${alpha}" title="${escapeHTML(Wr(o.l))} ×${cnt}"></span>`;});const summary=options.map(o=>({o,cnt:r.counts[o.v]||0})).filter(x=>x.cnt>0).map(x=>`${Wr(x.o.l)}×${x.cnt}`).join(en?', ':'、');dHtml+=`<div style="display:grid;grid-template-columns:130px 1fr 160px;gap:12px;align-items:center;margin-bottom:8px"><span style="font-size:12.5px;font-weight:600"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${r.company.color};margin-right:6px"></span>${escapeHTML(coName(r.company))}</span><span style="height:22px;background:var(--bar);border-radius:6px;overflow:hidden;display:flex">${segs}</span><span style="font-size:11.5px;color:var(--text);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${escapeHTML(summary)}</span></div>`;});dHtml+=`</div>`;});txtFs.forEach(field=>{const rows=coRecs.map(cr=>{const set=new Set();cr.recs.forEach(rec=>{const items=(rec.venue&&rec.venue.items)||[];items.forEach(it=>{const v=it[field.key];if(v&&String(v).trim())set.add(String(v).trim());});});return{company:cr.company,values:[...set]};});if(!rows.some(r=>r.values.length))return;dHtml+=`<div style="margin-bottom:14px;padding:14px 16px;background:var(--goldD);border:1px solid var(--goldB2);border-radius:10px"><div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:12px">${escapeHTML(Wr(field.label))}（${en?'Categories':'出現類別'}）</div>`;rows.forEach(r=>{if(!r.values.length)dHtml+=`<div style="display:grid;grid-template-columns:130px 1fr;gap:12px;align-items:center;margin-bottom:8px"><span style="font-size:12.5px;font-weight:600"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${r.company.color};margin-right:6px"></span>${escapeHTML(coName(r.company))}</span><span style="font-size:12px;color:var(--ph)">${en?'No data':'無資料'}</span></div>`;else dHtml+=`<div style="display:grid;grid-template-columns:130px 1fr;gap:12px;align-items:center;margin-bottom:8px"><span style="font-size:12.5px;font-weight:600"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${r.company.color};margin-right:6px"></span>${escapeHTML(coName(r.company))}</span><span style="font-size:11.5px;color:var(--text);line-height:1.55">${escapeHTML(r.values.join(en?', ':'、'))}</span></div>`;});dHtml+=`</div>`;});dHtml+=`</div>`;html+=dHtml;});if(!anyR)return`<div class="es" style="padding:30px 20px"><div class="ei">📊</div><p>${en?'No observations.':'尚無觀察記錄。'}</p></div>`;return html;}
+function renderAnalysisResult(){const w=document.getElementById('analysisResult');if(!w)return;const en=LANG==='en';const ids=[state.comparison.base,...state.comparison.picks].filter((v,i,a)=>a.indexOf(v)===i);const rows=ids.map(id=>{const a=aggCo(id);return a?{id,...a}:null;}).filter(Boolean);if(rows.length<2){w.innerHTML=`<div class="panel"><div class="pbody"><div class="es"><div class="ei">📊</div><p>${en?'Not enough records.':'尚無足夠記錄。'}</p></div></div></div>`;return;}const sorted=[...rows].sort((a,b)=>b.overall-a.overall);const maxS=Math.max(...sorted.map(r=>r.overall),180);const f=state.comparison;const fc=[];if(f.departmentFilter)fc.push((en?'Dept: ':'部門：')+Wr(f.departmentFilter));if(f.dateFrom)fc.push((en?'From: ':'起：')+f.dateFrom);if(f.dateTo)fc.push((en?'To: ':'訖：')+f.dateTo);const fd=fc.length?'　·　'+fc.join('　·　'):'';let html='<div class="panel"><div class="ph"><h2><span class="dot"></span>'+(en?'Overall Ranking':'綜合評分排名')+'</h2>';html+=`<span class="hint">${en?'Mode':'對比模式'} 1:${f.ratio}　·　${sorted.length} ${en?'companies':'間休企'}　·　${en?'Samples':'有效樣本'} ${sorted.reduce((s,r)=>s+r.count,0)}${fd}</span></div><div class="pbody"><div class="rlist2">`;sorted.forEach((r,i)=>{const c=getCompany(r.id);const isB=r.id===state.comparison.base;const width=Math.min((r.overall/maxS)*100,100);html+=`<div class="rrow"><div class="rb ${i===0?'top':''}">${i+1}</div><div class="rm"><div class="rt2"><span class="rd" style="background:${c.color}"></span><span class="rn">${coName(c)}</span>${isB?'<span class="tb2">'+Wr('基準')+'</span>':''}<span class="rcnt">${r.count} ${en?'rec':'筆'}</span><span class="rs">${r.overall}<small>/200</small></span></div><div class="rbar"><div class="rfill" style="width:${width}%;background:linear-gradient(90deg,${c.color}55,${c.color})"></div></div></div></div>`;});html+='</div>';html+='<div class="dw"><div class="dt">'+(en?'Dimension Radar Chart':'評分維度雷達圖')+'</div><div class="rw">'+renderRadarChart(sorted)+'</div><div class="rl">';sorted.forEach(r=>{const c=getCompany(r.id);html+=`<span class="l"><span class="ld" style="background:${c.color}"></span>${coName(c)}</span>`;});html+='</div></div>';html+='<div class="dw"><div class="dt">'+(en?'Tier × Time Slot':'限紅 × 時段分佈')+'</div>'+renderTierStats(sorted)+'</div>';html+='<div class="dw"><div class="dt">'+(en?'Department Data Comparison':'部門專屬數據對比')+'</div>'+renderDeptBarCharts(sorted)+'</div>';html+='<div class="dw"><div class="dt">'+(en?'Dimension Detail':'評分維度明細')+'</div><div class="tw"><table class="dtab"><thead><tr><th>'+(en?'Company':'休企')+'</th>';CRITERIA.forEach(c=>{html+=`<th>${escapeHTML(Wr(c.name))}</th>`;});html+='<th>'+(en?'Overall MRSC':'綜合 MRSC')+'</th></tr></thead><tbody>';const mx={};CRITERIA.forEach(c=>{mx[c.id]=Math.max(...sorted.map(r=>r.mrsc[c.id]||0));});sorted.forEach(r=>{const c=getCompany(r.id);html+=`<tr><td><span class="rc"><span class="cdot" style="background:${c.color}"></span>${coName(c)}</span></td>`;CRITERIA.forEach(cr=>{const v=r.mrsc[cr.id]||0;const raw=r.raw[cr.id]||0;const isMax=v===mx[cr.id]&&sorted.length>1;html+=`<td class="dc ${isMax?'win':''}">${v}<span class="draw">${en?'Raw avg':'原始平均'} ${raw.toFixed(2)}</span>${isMax?'<span style="font-size:10px;color:var(--gold)">▲</span>':''}</td>`;});html+=`<td class="dc" style="color:var(--gold);font-size:14px">${r.overall}</td></tr>`;});html+=`<tr style="border-top:1px solid var(--line)"><td class="dref">${en?'Macau Average (MRSC 2026)':'全澳平均（MRSC 2026）'}</td>`;CRITERIA.forEach(c=>{html+=`<td class="dc dref">${c.ref||0}</td>`;});html+='<td class="dc dref">—</td></tr>';html+='</tbody></table></div></div></div></div>';w.innerHTML=html;}
+function switchTab(name){if(name==='analysis'&&!isDeveloper()){requireDeveloperThen(()=>{document.getElementById('analysisLocked').classList.remove('on');document.getElementById('analysisContent').style.display='block';doSwitchTab('analysis');},LANG==='en'?'Analysis is developer-only.':'對比分析僅限開發者使用。');return;}doSwitchTab(name);}
 function doSwitchTab(name){$$('.tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===name));$$('.tc').forEach(s=>s.classList.toggle('on',s.dataset.tab===name));if(name==='dashboard')renderDashboard();if(name==='analysis'){if(isDeveloper()){document.getElementById('analysisLocked').classList.remove('on');document.getElementById('analysisContent').style.display='block';renderAnalysisSection();}else{document.getElementById('analysisLocked').classList.add('on');document.getElementById('analysisContent').style.display='none';}}}
 
-/* ===== 滾輪時間選擇器核心邏輯 ===== */
 const tpState={h:'00',m:'00',target:null,idx:null};
-function initTimePicker(){
-  const hCol=document.getElementById('tpHourCol');
-  const mCol=document.getElementById('tpMinCol');
-  if(!hCol||!mCol)return;
-  let hHtml='';for(let i=0;i<24;i++){const v=String(i).padStart(2,'0');hHtml+=`<div class="tp-item" data-val="${v}">${v}</div>`;}
-  let mHtml='';for(let i=0;i<60;i++){const v=String(i).padStart(2,'0');mHtml+=`<div class="tp-item" data-val="${v}">${v}</div>`;}
-  hCol.innerHTML=hHtml;mCol.innerHTML=mHtml;
-  const bindScroll=(col,type)=>{
-    let timer=null;
-    col.addEventListener('scroll',()=>{
-      clearTimeout(timer);
-      timer=setTimeout(()=>{
-        const idx=Math.round(col.scrollTop/50);
-        const items=col.querySelectorAll('.tp-item');
-        items.forEach((it,i)=>{it.classList.toggle('active',i===idx);});
-        if(type==='h')tpState.h=items[idx]?.dataset.val||'00';
-        else tpState.m=items[idx]?.dataset.val||'00';
-      },50);
-    });
-  };
-  bindScroll(hCol,'h');bindScroll(mCol,'m');
-}
-function openTimePicker(target,idx,currentVal){
-  const overlay=document.getElementById('tpOverlay');
-  const hCol=document.getElementById('tpHourCol');
-  const mCol=document.getElementById('tpMinCol');
-  if(!overlay||!hCol||!mCol)return;
-  tpState.target=target;tpState.idx=idx;
-  let hh='00',mm='00';
-  if(currentVal&&/^\d{2}:\d{2}$/.test(currentVal)){
-    const p=currentVal.split(':');hh=p[0];mm=p[1];
-  }
-  tpState.h=hh;tpState.m=mm;
-  const hIdx=parseInt(hh);const mIdx=parseInt(mm);
-  hCol.scrollTop=hIdx*50;mCol.scrollTop=mIdx*50;
-  hCol.querySelectorAll('.tp-item').forEach((it,i)=>it.classList.toggle('active',i===hIdx));
-  mCol.querySelectorAll('.tp-item').forEach((it,i)=>it.classList.toggle('active',i===mIdx));
-  overlay.classList.add('on');
-}
-function closeTimePicker(){
-  const overlay=document.getElementById('tpOverlay');
-  if(overlay)overlay.classList.remove('on');
-}
-function confirmTimePicker(){
-  const val=`${tpState.h}:${tpState.m}`;
-  if(tpState.target==='form'){
-    state.form.time=val;
-    const el=document.getElementById('fTime');
-    if(el){el.value=val;el.classList.toggle('empty',!val);}
-    validateForm();
-  }else if(tpState.target==='item'&&tpState.idx!==null){
-    const item=state.form.venue.items[tpState.idx];
-    if(item){
-      const row=document.querySelector(`.grow[data-idx="${tpState.idx}"]`);
-      const input=row?row.querySelector(`.item-time-trigger[data-field]`):null;
-      if(input){
-        const field=input.dataset.field;
-        item[field]=val;
-        input.value=val;
-        input.classList.toggle('empty',!val);
-      }
-    }
-    validateForm();
-  }
-  closeTimePicker();
-}
+function initTimePicker(){const hCol=document.getElementById('tpHourCol');const mCol=document.getElementById('tpMinCol');if(!hCol||!mCol)return;let hHtml='';for(let i=0;i<24;i++){const v=String(i).padStart(2,'0');hHtml+=`<div class="tp-item" data-val="${v}">${v}</div>`;}let mHtml='';for(let i=0;i<60;i++){const v=String(i).padStart(2,'0');mHtml+=`<div class="tp-item" data-val="${v}">${v}</div>`;}hCol.innerHTML=hHtml;mCol.innerHTML=mHtml;const bindScroll=(col,type)=>{let timer=null;col.addEventListener('scroll',()=>{clearTimeout(timer);timer=setTimeout(()=>{const idx=Math.round(col.scrollTop/50);const items=col.querySelectorAll('.tp-item');items.forEach((it,i)=>{it.classList.toggle('active',i===idx);});if(type==='h')tpState.h=items[idx]?.dataset.val||'00';else tpState.m=items[idx]?.dataset.val||'00';},50);});};bindScroll(hCol,'h');bindScroll(mCol,'m');}
+function openTimePicker(target,idx,currentVal){const overlay=document.getElementById('tpOverlay');const hCol=document.getElementById('tpHourCol');const mCol=document.getElementById('tpMinCol');if(!overlay||!hCol||!mCol)return;tpState.target=target;tpState.idx=idx;let hh='00',mm='00';if(currentVal&&/^\d{2}:\d{2}$/.test(currentVal)){const p=currentVal.split(':');hh=p[0];mm=p[1];}tpState.h=hh;tpState.m=mm;const hIdx=parseInt(hh);const mIdx=parseInt(mm);hCol.scrollTop=hIdx*50;mCol.scrollTop=mIdx*50;hCol.querySelectorAll('.tp-item').forEach((it,i)=>it.classList.toggle('active',i===hIdx));mCol.querySelectorAll('.tp-item').forEach((it,i)=>it.classList.toggle('active',i===mIdx));overlay.classList.add('on');}
+function closeTimePicker(){const overlay=document.getElementById('tpOverlay');if(overlay)overlay.classList.remove('on');}
+function confirmTimePicker(){const val=`${tpState.h}:${tpState.m}`;if(tpState.target==='form'){state.form.time=val;const el=document.getElementById('fTime');if(el){el.value=val;el.classList.toggle('empty',!val);}validateForm();}else if(tpState.target==='item'&&tpState.idx!==null){const item=state.form.venue.items[tpState.idx];if(item){const row=document.querySelector(`.grow[data-idx="${tpState.idx}"]`);const input=row?row.querySelector(`.item-time-trigger[data-field]`):null;if(input){const field=input.dataset.field;item[field]=val;input.value=val;input.classList.toggle('empty',!val);}}validateForm();}closeTimePicker();}
 
-/* ===== 評分項目編輯器（每次需密碼） ===== */
 let _critDraft=null;
-function openCriteriaEditor(){
-  requirePasswordEveryTime(()=>{
-    _critDraft=JSON.parse(JSON.stringify(CRITERIA));
-    renderCritEditor();
-    const el=document.getElementById('critEditor');
-    if(el){el.classList.add('on');document.body.style.overflow='hidden';}
-  },LANG==='en'?'Enter password to edit scoring dimensions.':'編輯評分維度需要密碼驗證，請輸入密碼。');
-}
-function closeCriteriaEditor(){
-  const el=document.getElementById('critEditor');
-  if(el)el.classList.remove('on');
-  document.body.style.overflow='';
-  _critDraft=null;
-}
-function renderCritEditor(){
-  const w=document.getElementById('ceList');
-  if(!w)return;
-  const en=LANG==='en';
-  if(!_critDraft||!_critDraft.length){
-    w.innerHTML=`<div class="ce-empty">${en?'No dimensions yet. Click "＋ Add Dimension" to start.':'尚未有任何評分維度，請點擊右上角「＋ 新增維度」開始建立。'}</div>`;
-    return;
-  }
-  w.innerHTML=_critDraft.map((c,i)=>{
-    const map=c.map||normalizeMap();
-    return `<div class="ce-card" data-idx="${i}">
-      <div class="ce-card-head">
-        <span class="ce-icon-preview">${escapeHTML(c.icon||'★')}</span>
-        <span class="ce-card-title">${escapeHTML(c.name||((en?'Dimension ':'維度 ')+(i+1)))}</span>
-        <button class="ce-del" data-del="${i}" type="button" title="${en?'Delete':'刪除'}">✕</button>
-      </div>
-      <div class="ce-grid">
-        <label class="ce-fld"><span>${en?'Icon':'圖示（1–2 字元）'}</span><input type="text" data-idx="${i}" data-key="icon" value="${escapeHTML(c.icon||'')}" maxlength="4" autocomplete="off"></label>
-        <label class="ce-fld"><span>${en?'Name':'維度名稱'}</span><input type="text" data-idx="${i}" data-key="name" value="${escapeHTML(c.name||'')}" maxlength="20" autocomplete="off"></label>
-        <label class="ce-fld"><span>${en?'Reference':'全澳參考值'}</span><input type="number" data-idx="${i}" data-key="ref" value="${Number(c.ref)||0}" min="0" max="9999" inputmode="numeric"></label>
-        <label class="ce-fld"><span>${en?'Max Score':'滿分'}</span><input type="number" data-idx="${i}" data-key="max" value="${Number(c.max)||200}" min="1" max="9999" inputmode="numeric"></label>
-      </div>
-      <label class="ce-fld ce-fld-full"><span>${en?'Description':'評分描述'}</span><textarea data-idx="${i}" data-key="desc" rows="2" maxlength="200">${escapeHTML(c.desc||'')}</textarea></label>
-      <div class="ce-map-row">
-        <span class="ce-map-label">${en?'Score Map':'1–5 分對應 MRSC'}</span>
-        ${[1,2,3,4,5].map(n=>`<label class="ce-map-item"><span>${n}★</span><input type="number" data-idx="${i}" data-key="map" data-lv="${n}" value="${Number(map[n])||0}" min="0" max="9999" inputmode="numeric"></label>`).join('')}
-      </div>
-    </div>`;
-  }).join('');
-}
-function syncCritDraftFromInput(el){
-  const idx=parseInt(el.dataset.idx,10);
-  const key=el.dataset.key;
-  if(isNaN(idx)||!_critDraft||!_critDraft[idx]||!key)return;
-  const c=_critDraft[idx];
-  if(key==='map'){
-    const lv=parseInt(el.dataset.lv,10);
-    if(!c.map)c.map=normalizeMap();
-    c.map[lv]=Number(el.value)||0;
-  }else if(key==='ref'||key==='max'){
-    c[key]=Number(el.value)||0;
-  }else{
-    c[key]=el.value;
-  }
-  if(key==='name'||key==='icon'){
-    const card=document.querySelector(`.ce-card[data-idx="${idx}"]`);
-    if(card){
-      const ip=card.querySelector('.ce-icon-preview');
-      if(ip)ip.textContent=c.icon||'★';
-      const ct=card.querySelector('.ce-card-title');
-      if(ct)ct.textContent=c.name||((LANG==='en'?'Dimension ':'維度 ')+(idx+1));
-    }
-  }
-}
-function addCritDraft(){
-  if(!_critDraft)_critDraft=JSON.parse(JSON.stringify(CRITERIA));
-  _critDraft.push({id:genCritId(),name:'新維度',icon:'★',ref:100,max:200,desc:'',map:{1:40,2:80,3:120,4:160,5:200}});
-  renderCritEditor();
-  setTimeout(()=>{
-    const inputs=document.querySelectorAll('.ce-card input[data-key="name"]');
-    const last=inputs[inputs.length-1];
-    if(last){try{last.focus();last.select();}catch(e){}}
-    const card=document.querySelector(`.ce-card[data-idx="${_critDraft.length-1}"]`);
-    if(card)card.scrollIntoView({behavior:'smooth',block:'center'});
-  },80);
-}
-function delCritDraft(idx){
-  const en=LANG==='en';
-  if(!_critDraft||!_critDraft[idx])return;
-  if(_critDraft.length<=1){showToast(en?'Keep at least one dimension':'至少需保留一個評分維度','error');return;}
-  if(!confirm(en?`Delete dimension "${_critDraft[idx].name}"?`:`確定刪除維度「${_critDraft[idx].name}」？`))return;
-  _critDraft.splice(idx,1);
-  renderCritEditor();
-}
-function resetCriteriaToDefault(){
-  const en=LANG==='en';
-  if(!confirm(en?'Reset the draft to the default 3 core dimensions?':'確定將草稿還原為預設的三大核心維度？'))return;
-  _critDraft=JSON.parse(JSON.stringify(DEFAULT_CRITERIA));
-  renderCritEditor();
-  showToast(en?'Draft reset. Click "Save & Apply" to confirm.':'已還原草稿，請點擊「儲存並套用」以生效。','');
-}
-async function saveCriteria(){
-  const en=LANG==='en';
-  if(!_critDraft||!_critDraft.length){showToast(en?'At least one dimension required':'至少需要保留一個評分維度','error');return;}
-  for(let i=0;i<_critDraft.length;i++){
-    const c=_critDraft[i];
-    const nm=String(c.name||'').trim();
-    if(!nm){showToast(en?`Dimension ${i+1}: name is required`:`第 ${i+1} 個維度：名稱不可為空`,'error');return;}
-    c.name=nm;
-    c.icon=String(c.icon||'★').trim()||'★';
-    c.desc=String(c.desc||'').trim();
-    c.ref=Number(c.ref)||0;
-    c.max=Number(c.max)||200;
-    c.map=normalizeMap(c.map);
-    if(!c.id)c.id=genCritId();
-  }
-  /* 先存本機（即時生效、離線可用） */
+function openCriteriaEditor(){requirePasswordEveryTime(()=>{_critDraft=JSON.parse(JSON.stringify(CRITERIA));renderCritEditor();const el=document.getElementById('critEditor');if(el){el.classList.add('on');document.body.style.overflow='hidden';}},LANG==='en'?'Enter password to edit scoring dimensions.':'編輯評分維度需要密碼驗證。');}
+function closeCriteriaEditor(){const el=document.getElementById('critEditor');if(el)el.classList.remove('on');document.body.style.overflow='';_critDraft=null;}
+function renderCritEditor(){const w=document.getElementById('ceList');if(!w)return;const en=LANG==='en';if(!_critDraft||!_critDraft.length){w.innerHTML=`<div class="ce-empty">${en?'No dimensions yet.':'尚未有任何評分維度。'}</div>`;return;}w.innerHTML=_critDraft.map((c,i)=>{const map=c.map||normalizeMap();return `<div class="ce-card" data-idx="${i}"><div class="ce-card-head"><span class="ce-icon-preview">${escapeHTML(c.icon||'★')}</span><span class="ce-card-title">${escapeHTML(c.name||((en?'Dimension ':'維度 ')+(i+1)))}</span><button class="ce-del" data-del="${i}" type="button" title="${en?'Delete':'刪除'}">✕</button></div><div class="ce-grid"><label class="ce-fld"><span>${en?'Icon':'圖示'}</span><input type="text" data-idx="${i}" data-key="icon" value="${escapeHTML(c.icon||'')}" maxlength="4" autocomplete="off"></label><label class="ce-fld"><span>${en?'Name':'維度名稱'}</span><input type="text" data-idx="${i}" data-key="name" value="${escapeHTML(c.name||'')}" maxlength="20" autocomplete="off"></label><label class="ce-fld"><span>${en?'Reference':'全澳參考值'}</span><input type="number" data-idx="${i}" data-key="ref" value="${Number(c.ref)||0}" min="0" max="9999" inputmode="numeric"></label><label class="ce-fld"><span>${en?'Max Score':'滿分'}</span><input type="number" data-idx="${i}" data-key="max" value="${Number(c.max)||200}" min="1" max="9999" inputmode="numeric"></label></div><label class="ce-fld ce-fld-full"><span>${en?'Description':'評分描述'}</span><textarea data-idx="${i}" data-key="desc" rows="2" maxlength="200">${escapeHTML(c.desc||'')}</textarea></label><div class="ce-map-row"><span class="ce-map-label">${en?'Score Map':'1–5 分對應 MRSC'}</span>${[1,2,3,4,5].map(n=>`<label class="ce-map-item"><span>${n}★</span><input type="number" data-idx="${i}" data-key="map" data-lv="${n}" value="${Number(map[n])||0}" min="0" max="9999" inputmode="numeric"></label>`).join('')}</div></div>`;}).join('');}
+function syncCritDraftFromInput(el){const idx=parseInt(el.dataset.idx,10);const key=el.dataset.key;if(isNaN(idx)||!_critDraft||!_critDraft[idx]||!key)return;const c=_critDraft[idx];if(key==='map'){const lv=parseInt(el.dataset.lv,10);if(!c.map)c.map=normalizeMap();c.map[lv]=Number(el.value)||0;}else if(key==='ref'||key==='max'){c[key]=Number(el.value)||0;}else{c[key]=el.value;}if(key==='name'||key==='icon'){const card=document.querySelector(`.ce-card[data-idx="${idx}"]`);if(card){const ip=card.querySelector('.ce-icon-preview');if(ip)ip.textContent=c.icon||'★';const ct=card.querySelector('.ce-card-title');if(ct)ct.textContent=c.name||((LANG==='en'?'Dimension ':'維度 ')+(idx+1));}}}
+function addCritDraft(){if(!_critDraft)_critDraft=JSON.parse(JSON.stringify(CRITERIA));_critDraft.push({id:genCritId(),name:'新維度',icon:'★',ref:100,max:200,desc:'',map:{1:40,2:80,3:120,4:160,5:200}});renderCritEditor();setTimeout(()=>{const inputs=document.querySelectorAll('.ce-card input[data-key="name"]');const last=inputs[inputs.length-1];if(last){try{last.focus();last.select();}catch(e){}}const card=document.querySelector(`.ce-card[data-idx="${_critDraft.length-1}"]`);if(card)card.scrollIntoView({behavior:'smooth',block:'center'});},80);}
+function delCritDraft(idx){const en=LANG==='en';if(!_critDraft||!_critDraft[idx])return;if(_critDraft.length<=1){showToast(en?'Keep at least one dimension':'至少需保留一個評分維度','error');return;}if(!confirm(en?`Delete dimension "${_critDraft[idx].name}"?`:`確定刪除維度「${_critDraft[idx].name}」？`))return;_critDraft.splice(idx,1);renderCritEditor();}
+function resetCriteriaToDefault(){const en=LANG==='en';if(!confirm(en?'Reset to default 3 dimensions?':'確定還原為預設三大核心維度？'))return;_critDraft=JSON.parse(JSON.stringify(DEFAULT_CRITERIA));renderCritEditor();showToast(en?'Draft reset. Click "Save & Apply" to confirm.':'已還原草稿，請點擊「儲存並套用」以生效。','');}
+async function saveCriteria(){const en=LANG==='en';if(!_critDraft||!_critDraft.length){showToast(en?'At least one dimension required':'至少需要保留一個評分維度','error');return;}for(let i=0;i<_critDraft.length;i++){const c=_critDraft[i];const nm=String(c.name||'').trim();if(!nm){showToast(en?`Dimension ${i+1}: name is required`:`第 ${i+1} 個維度：名稱不可為空`,'error');return;}c.name=nm;c.icon=String(c.icon||'★').trim()||'★';c.desc=String(c.desc||'').trim();c.ref=Number(c.ref)||0;c.max=Number(c.max)||200;c.map=normalizeMap(c.map);if(!c.id)c.id=genCritId();}
+  /* 先存本機 */
   try{localStorage.setItem(CRITERIA_KEY,JSON.stringify(_critDraft));}catch(e){}
   CRITERIA=loadCriteriaFromLocal();
-  /* 再同步到雲端 */
-  try{
-    await setDoc(criteriaDoc,{criteria:_critDraft,updatedAt:serverTimestamp()});
-  }catch(e){
-    console.warn('[MRSC] save criteria to cloud failed',e);
-    showToast(en?'Saved locally, cloud sync failed':'已存本機，雲端同步失敗','error');
-  }
-  const nr={};
-  CRITERIA.forEach(c=>{nr[c.id]=state.form.ratings?.[c.id]||null;});
-  state.form.ratings=nr;
-  renderCriteria();
-  CRITERIA.forEach(c=>updateRatingUI(c.id));
-  renderRecordTable();
-  renderDashboard();
-  renderAnalysisSection();
-  validateForm();
-  closeCriteriaEditor();
-  showToast(en?`Saved ${CRITERIA.length} dimension(s)`:`已儲存 ${CRITERIA.length} 個評分維度`,'success');
-}
-function bindCriteriaEditor(){
-  const el=document.getElementById('critEditor');
-  if(!el||el._bound)return;
-  el._bound=true;
-  const list=document.getElementById('ceList');
-  if(list){
-    list.addEventListener('input',e=>{
-      const t=e.target;
-      if(t&&t.dataset&&t.dataset.idx!==undefined&&t.dataset.key)syncCritDraftFromInput(t);
-    });
-  }
-  el.addEventListener('click',e=>{
-    const del=e.target.closest('[data-del]');
-    if(del){delCritDraft(parseInt(del.dataset.del,10));return;}
-    if(e.target.closest('#ceAdd')){addCritDraft();return;}
-    if(e.target.closest('#ceReset')){resetCriteriaToDefault();return;}
-    if(e.target.closest('#ceSave')){saveCriteria();return;}
-    if(e.target.closest('#ceClose')){closeCriteriaEditor();return;}
-  });
-}
+  /* 再同步到雲端（強制，多人同步） */
+  try{await setDoc(criteriaDoc,{criteria:_critDraft,updatedAt:serverTimestamp()});}
+  catch(e){console.warn('[MRSC] save criteria to cloud failed',e);showToast(en?'Cloud sync failed':'雲端同步失敗','error');return;}
+  const nr={};CRITERIA.forEach(c=>{nr[c.id]=state.form.ratings?.[c.id]||null;});state.form.ratings=nr;
+  renderCriteria();CRITERIA.forEach(c=>updateRatingUI(c.id));renderRecordTable();renderDashboard();renderAnalysisSection();validateForm();
+  closeCriteriaEditor();showToast(en?`Saved & synced ${CRITERIA.length} dimension(s)`:`已儲存並同步 ${CRITERIA.length} 個評分維度`,'success');}
+function bindCriteriaEditor(){const el=document.getElementById('critEditor');if(!el||el._bound)return;el._bound=true;const list=document.getElementById('ceList');if(list){list.addEventListener('input',e=>{const t=e.target;if(t&&t.dataset&&t.dataset.idx!==undefined&&t.dataset.key)syncCritDraftFromInput(t);});}el.addEventListener('click',e=>{const del=e.target.closest('[data-del]');if(del){delCritDraft(parseInt(del.dataset.del,10));return;}if(e.target.closest('#ceAdd')){addCritDraft();return;}if(e.target.closest('#ceReset')){resetCriteriaToDefault();return;}if(e.target.closest('#ceSave')){saveCriteria();return;}if(e.target.closest('#ceClose')){closeCriteriaEditor();return;}});}
 
 let _bound=false;
 function bindAppEvents(){if(_bound)return;_bound=true;$$('.tab').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));$$('.mcard[data-goto]').forEach(c=>c.addEventListener('click',()=>switchTab(c.dataset.goto)));const on=(id,evt,fn)=>{const el=document.getElementById(id);if(el)el.addEventListener(evt,fn);};on('btnLang','click',toggleLang);on('btnTheme','click',toggleTheme);on('btnMenu','click',e=>{e.stopPropagation();const d=document.getElementById('menuDrop');if(d)d.classList.toggle('on');});document.addEventListener('click',e=>{const d=document.getElementById('menuDrop');if(d&&!e.target.closest('.menu-wrap'))d.classList.remove('on');});const md=document.getElementById('menuDrop');if(md)md.addEventListener('click',e=>{if(e.target.closest('.menu-item'))md.classList.remove('on');});on('btnHome','click',()=>{switchTab('dashboard');window.scrollTo({top:0,behavior:'smooth'});});on('btnDev','click',openDevPanel);on('btnCriteriaEditor','click',openCriteriaEditor);on('btnLogout','click',logout);on('fDate','change',e=>{state.form.date=e.target.value;validateForm();});
-const fTimeEl=document.getElementById('fTime');
-if(fTimeEl)fTimeEl.addEventListener('click',()=>openTimePicker('form',null,state.form.time));
+const fTimeEl=document.getElementById('fTime');if(fTimeEl)fTimeEl.addEventListener('click',()=>openTimePicker('form',null,state.form.time));
 initTimePicker();
-const tpOverlay=document.getElementById('tpOverlay');
-if(tpOverlay){
-  document.getElementById('tpReset').addEventListener('click',()=>{
-    tpState.h='00';tpState.m='00';
-    const hCol=document.getElementById('tpHourCol');const mCol=document.getElementById('tpMinCol');
-    if(hCol){hCol.scrollTop=0;hCol.querySelectorAll('.tp-item').forEach((it,i)=>it.classList.toggle('active',i===0));}
-    if(mCol){mCol.scrollTop=0;mCol.querySelectorAll('.tp-item').forEach((it,i)=>it.classList.toggle('active',i===0));}
-  });
-  document.getElementById('tpConfirm').addEventListener('click',confirmTimePicker);
-  document.getElementById('tpConfirm2').addEventListener('click',confirmTimePicker);
-  document.getElementById('tpCancel').addEventListener('click',closeTimePicker);
-  tpOverlay.addEventListener('click',e=>{if(e.target===tpOverlay)closeTimePicker();});
-}
-on('fLocation','change',e=>{state.form.location=e.target.value;state.form.venueName='';renderVenueOptions('');validateForm();});on('fCompany','change',e=>{state.form.company=e.target.value;state.form.venueName='';renderVenueOptions('');validateForm();});on('fVenueName','change',e=>{state.form.venueName=e.target.value;validateForm();});on('fNotes','input',e=>{state.form.notes=e.target.value;});on('fDepartment','change',e=>{const nd=e.target.value;const od=state._lastDept||'';if(nd!==od){if(state.form.venue.items.length>0){const msg=LANG==='en'?`Switching department will clear existing "${getDeptConfig(od).itemLabel}" items.\n\nContinue?`:`切換部門後，現有「${getDeptConfig(od).itemLabel}」資料將被清空。\n\n確定切換嗎？`;if(confirm(msg))state.form.venue.items=[];else{e.target.value=od;return;}}state._lastDept=nd;}state.form.department=nd;renderVenueSection();validateForm();});const vb=document.getElementById('venueBody');if(vb){vb.addEventListener('click',e=>{
-  const timeTrigger=e.target.closest('.item-time-trigger');
-  if(timeTrigger){
-    const idx=timeTrigger.dataset.idx;
-    const field=timeTrigger.dataset.field;
-    if(idx!==null&&field){
-      const item=state.form.venue.items[parseInt(idx)];
-      if(item)openTimePicker('item',parseInt(idx),item[field]);
-    }
-    return;
-  }
-  if(e.target.closest('#btnAddItem')){const dept=state.form.department||'';if(!dept){showToast(LANG==='en'?'Please select department first':'請先選擇考察部門','error');return;}const cfg=getDeptConfig(dept);const ni={};cfg.fields.forEach(f=>{ni[f.key]='';});state.form.venue.items.push(ni);renderVenueSection();const rows=$$('#itemRows .grow');const last=rows[rows.length-1];if(last){last.scrollIntoView({behavior:'smooth',block:'center'});const fi=last.querySelector('.item-input, .time-trigger');if(fi)setTimeout(()=>{try{fi.focus({preventScroll:true});}catch(e){}},300);}return;}const db=e.target.closest('.gdel');if(db){state.form.venue.items.splice(parseInt(db.dataset.idx,10),1);renderVenueSection();validateForm();}});vb.addEventListener('input',e=>{const el=e.target;if(el.classList.contains('item-input')&&!el.classList.contains('item-select')){const row=el.closest('.grow');if(!row)return;const it=state.form.venue.items[parseInt(row.dataset.idx,10)];if(!it)return;const f=el.dataset.field;if(f){it[f]=el.value;validateForm();}}});vb.addEventListener('change',e=>{const el=e.target;if(el.classList.contains('env-select')){const k=el.dataset.envKey;if(!k)return;state.form.venue.env[k]=el.value;const w=el.closest('.envf');if(w)w.classList.toggle('filled',!!el.value);return;}if(el.classList.contains('item-select')){const row=el.closest('.grow');if(!row)return;const idx=parseInt(row.dataset.idx,10);const it=state.form.venue.items[idx];if(!it)return;const f=el.dataset.field;if(!f)return;it[f]=el.value;const cfg=getDeptConfig(state.form.department);if(cfg.fields.some(fd=>fd.showIf&&fd.showIf.key===f)){const nh=renderItemRow(it,idx,cfg);const t=document.createElement('div');t.innerHTML=nh;const nr=t.firstElementChild;if(nr)row.replaceWith(nr);}validateForm();}});}on('btnSaveRecord','click',submitRecord);on('btnResetForm','click',()=>{if(!confirm(LANG==='en'?'Clear form content?':'確定清除表單內容？'))return;exitEditMode();resetForm();});on('btnCancelEdit','click',()=>{if(!confirm(LANG==='en'?'Cancel editing? Form will be cleared.':'取消編輯？表單內容將清空。'))return;exitEditMode();resetForm();});on('btnExportJSON','click',()=>{if(!state.records.length){showToast(LANG==='en'?'No records':'沒有記錄','error');return;}requirePasswordThen(doExportJSON,LANG==='en'?'Export JSON':'匯出 JSON');});on('btnExportCSV','click',()=>{if(!state.records.length){showToast(LANG==='en'?'No records':'沒有記錄','error');return;}requirePasswordThen(doExportCSV,LANG==='en'?'Export CSV':'匯出 CSV');});on('btnImport','click',()=>{const fi=document.getElementById('fileImport');if(fi)fi.click();});on('fileImport','change',e=>{const f=e.target.files[0];if(f)importJSON(f);e.target.value='';});on('btnPrint','click',()=>window.print());on('btnRefresh','click',()=>fetchRecordsFromCloud());on('mcBtn','click',closeModal);on('moBtn','click',submitModal);const moEl=document.getElementById('mo');if(moEl)moEl.addEventListener('click',e=>{if(e.target===moEl)closeModal();});document.addEventListener('keydown',e=>{const o=document.getElementById('mo');if(!o||!o.classList.contains('on'))return;if(e.key==='Escape'){e.preventDefault();closeModal();return;}if(e.key==='Enter'){const a=document.activeElement;if(a&&a.tagName==='INPUT'&&a.closest('#mo')){e.preventDefault();submitModal();}}});
-
-/* 清除全部（每次需密碼） */
-on('btnClearAll','click',()=>{
-  requirePasswordEveryTime(async()=>{
-    if(!state.records.length){showToast(LANG==='en'?'No records':'沒有記錄','');return;}
-    if(!confirm(LANG==='en'?`Clear all ${state.records.length} records?`:`確定清除全部 ${state.records.length} 筆記錄？`))return;
-    try{
-      const batch=writeBatch(db);
-      state.records.forEach(r=>{batch.delete(doc(db,'records',r.id));});
-      await batch.commit();
-      state.records=[];
-      exitEditMode();resetForm();
-      renderRecordTable();renderAnalysisSection();renderDashboard();
-      showToast(LANG==='en'?'All records cleared':'所有記錄已清除','success');
-    }catch(e){showToast((LANG==='en'?'Clear failed: ':'清除失敗：')+e.message,'error');}
-  },LANG==='en'?'Enter password to clear all records.':'清除全部記錄需要密碼驗證，請輸入密碼。');
-});
-
-const bu=document.getElementById('btnUnlockAnalysis');if(bu)bu.addEventListener('click',()=>{requireDeveloperThen(()=>{document.getElementById('analysisLocked').classList.remove('on');document.getElementById('analysisContent').style.display='block';renderAnalysisSection();},LANG==='en'?'Analysis is developer-only. Enter developer password.':'對比分析僅限開發者使用，請輸入開發者密碼。');});const mg=document.getElementById('modeGroup');if(mg)mg.addEventListener('click',e=>{const btn=e.target.closest('.mbtn');if(!btn)return;$$('.mbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');state.comparison.ratio=parseInt(btn.dataset.ratio,10);autoFillPicks();renderPicker();renderAnalysisResult();});on('anBase','change',e=>{state.comparison.base=e.target.value;state.comparison.picks=state.comparison.picks.filter(id=>id!==state.comparison.base);autoFillPicks();renderPicker();renderAnalysisResult();});on('filterDept','change',e=>{state.comparison.departmentFilter=e.target.value;renderPicker();renderAnalysisResult();});on('filterFrom','change',e=>{state.comparison.dateFrom=e.target.value;renderPicker();renderAnalysisResult();});on('filterTo','change',e=>{state.comparison.dateTo=e.target.value;renderPicker();renderAnalysisResult();});on('btnResetFilter','click',()=>{state.comparison.departmentFilter='';state.comparison.dateFrom='';state.comparison.dateTo='';const fd=document.getElementById('filterDept');if(fd)fd.value='';const ff=document.getElementById('filterFrom');if(ff)ff.value='';const ft=document.getElementById('filterTo');if(ft)ft.value='';renderPicker();renderAnalysisResult();showToast(LANG==='en'?'Filter reset':'已清除篩選','success');});on('btnRunAnalysis','click',renderAnalysisResult);const arEl=document.getElementById('analysisResult');if(arEl)arEl.addEventListener('click',e=>{const btn=e.target.closest('[data-time]');if(!btn)return;state.comparison.timeFilter=btn.dataset.time;renderAnalysisResult();});}
+const tpOverlay=document.getElementById('tpOverlay');if(tpOverlay){document.getElementById('tpReset').addEventListener('click',()=>{tpState.h='00';tpState.m='00';const hCol=document.getElementById('tpHourCol');const mCol=document.getElementById('tpMinCol');if(hCol){hCol.scrollTop=0;hCol.querySelectorAll('.tp-item').forEach((it,i)=>it.classList.toggle('active',i===0));}if(mCol){mCol.scrollTop=0;mCol.querySelectorAll('.tp-item').forEach((it,i)=>it.classList.toggle('active',i===0));}});document.getElementById('tpConfirm').addEventListener('click',confirmTimePicker);document.getElementById('tpConfirm2').addEventListener('click',confirmTimePicker);document.getElementById('tpCancel').addEventListener('click',closeTimePicker);tpOverlay.addEventListener('click',e=>{if(e.target===tpOverlay)closeTimePicker();});}
+on('fLocation','change',e=>{state.form.location=e.target.value;state.form.venueName='';renderVenueOptions('');validateForm();});on('fCompany','change',e=>{state.form.company=e.target.value;state.form.venueName='';renderVenueOptions('');validateForm();});on('fVenueName','change',e=>{state.form.venueName=e.target.value;validateForm();});on('fNotes','input',e=>{state.form.notes=e.target.value;});on('fDepartment','change',e=>{const nd=e.target.value;const od=state._lastDept||'';if(nd!==od){if(state.form.venue.items.length>0){const msg=LANG==='en'?`Switching department will clear existing "${getDeptConfig(od).itemLabel}" items.\n\nContinue?`:`切換部門後，現有「${getDeptConfig(od).itemLabel}」資料將被清空。\n\n確定切換嗎？`;if(confirm(msg))state.form.venue.items=[];else{e.target.value=od;return;}}state._lastDept=nd;}state.form.department=nd;renderVenueSection();validateForm();});const vb=document.getElementById('venueBody');if(vb){vb.addEventListener('click',e=>{const timeTrigger=e.target.closest('.item-time-trigger');if(timeTrigger){const idx=timeTrigger.dataset.idx;const field=timeTrigger.dataset.field;if(idx!==null&&field){const item=state.form.venue.items[parseInt(idx)];if(item)openTimePicker('item',parseInt(idx),item[field]);}return;}if(e.target.closest('#btnAddItem')){const dept=state.form.department||'';if(!dept){showToast(LANG==='en'?'Please select department first':'請先選擇考察部門','error');return;}const cfg=getDeptConfig(dept);const ni={};cfg.fields.forEach(f=>{ni[f.key]='';});state.form.venue.items.push(ni);renderVenueSection();const rows=$$('#itemRows .grow');const last=rows[rows.length-1];if(last){last.scrollIntoView({behavior:'smooth',block:'center'});const fi=last.querySelector('.item-input, .time-trigger');if(fi)setTimeout(()=>{try{fi.focus({preventScroll:true});}catch(e){}},300);}return;}const db=e.target.closest('.gdel');if(db){state.form.venue.items.splice(parseInt(db.dataset.idx,10),1);renderVenueSection();validateForm();}});vb.addEventListener('input',e=>{const el=e.target;if(el.classList.contains('item-input')&&!el.classList.contains('item-select')){const row=el.closest('.grow');if(!row)return;const it=state.form.venue.items[parseInt(row.dataset.idx,10)];if(!it)return;const f=el.dataset.field;if(f){it[f]=el.value;validateForm();}}});vb.addEventListener('change',e=>{const el=e.target;if(el.classList.contains('env-select')){const k=el.dataset.envKey;if(!k)return;state.form.venue.env[k]=el.value;const w=el.closest('.envf');if(w)w.classList.toggle('filled',!!el.value);return;}if(el.classList.contains('item-select')){const row=el.closest('.grow');if(!row)return;const idx=parseInt(row.dataset.idx,10);const it=state.form.venue.items[idx];if(!it)return;const f=el.dataset.field;if(!f)return;it[f]=el.value;const cfg=getDeptConfig(state.form.department);if(cfg.fields.some(fd=>fd.showIf&&fd.showIf.key===f)){const nh=renderItemRow(it,idx,cfg);const t=document.createElement('div');t.innerHTML=nh;const nr=t.firstElementChild;if(nr)row.replaceWith(nr);}validateForm();}});}
+on('btnSaveRecord','click',submitRecord);on('btnResetForm','click',()=>{if(!confirm(LANG==='en'?'Clear form content?':'確定清除表單內容？'))return;exitEditMode();resetForm();});on('btnCancelEdit','click',()=>{if(!confirm(LANG==='en'?'Cancel editing? Form will be cleared.':'取消編輯？表單內容將清空。'))return;exitEditMode();resetForm();});on('btnExportJSON','click',()=>{if(!state.records.length){showToast(LANG==='en'?'No records':'沒有記錄','error');return;}requirePasswordThen(doExportJSON,LANG==='en'?'Export JSON':'匯出 JSON');});on('btnExportCSV','click',()=>{if(!state.records.length){showToast(LANG==='en'?'No records':'沒有記錄','error');return;}requirePasswordThen(doExportCSV,LANG==='en'?'Export CSV':'匯出 CSV');});on('btnImport','click',()=>{const fi=document.getElementById('fileImport');if(fi)fi.click();});on('fileImport','change',e=>{const f=e.target.files[0];if(f)importJSON(f);e.target.value='';});on('btnPrint','click',()=>window.print());on('btnRefresh','click',()=>fetchRecordsFromCloud());on('mcBtn','click',closeModal);on('moBtn','click',submitModal);const moEl=document.getElementById('mo');if(moEl)moEl.addEventListener('click',e=>{if(e.target===moEl)closeModal();});document.addEventListener('keydown',e=>{const o=document.getElementById('mo');if(!o||!o.classList.contains('on'))return;if(e.key==='Escape'){e.preventDefault();closeModal();return;}if(e.key==='Enter'){const a=document.activeElement;if(a&&a.tagName==='INPUT'&&a.closest('#mo')){e.preventDefault();submitModal();}}});
+on('btnClearAll','click',()=>{requirePasswordEveryTime(async()=>{if(!state.records.length){showToast(LANG==='en'?'No records':'沒有記錄','');return;}if(!confirm(LANG==='en'?`Clear all ${state.records.length} records?`:`確定清除全部 ${state.records.length} 筆記錄？`))return;try{const batch=writeBatch(db);state.records.forEach(r=>{batch.delete(doc(db,'records',r.id));});await batch.commit();exitEditMode();resetForm();showToast(LANG==='en'?'All records cleared':'所有記錄已清除','success');}catch(e){showToast((LANG==='en'?'Clear failed: ':'清除失敗：')+e.message,'error');}},LANG==='en'?'Enter password to clear all records.':'清除全部記錄需要密碼驗證。');});
+const bu=document.getElementById('btnUnlockAnalysis');if(bu)bu.addEventListener('click',()=>{requireDeveloperThen(()=>{document.getElementById('analysisLocked').classList.remove('on');document.getElementById('analysisContent').style.display='block';renderAnalysisSection();},LANG==='en'?'Analysis is developer-only.':'對比分析僅限開發者使用。');});const mg=document.getElementById('modeGroup');if(mg)mg.addEventListener('click',e=>{const btn=e.target.closest('.mbtn');if(!btn)return;$$('.mbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');state.comparison.ratio=parseInt(btn.dataset.ratio,10);autoFillPicks();renderPicker();renderAnalysisResult();});on('anBase','change',e=>{state.comparison.base=e.target.value;state.comparison.picks=state.comparison.picks.filter(id=>id!==state.comparison.base);autoFillPicks();renderPicker();renderAnalysisResult();});on('filterDept','change',e=>{state.comparison.departmentFilter=e.target.value;renderPicker();renderAnalysisResult();});on('filterFrom','change',e=>{state.comparison.dateFrom=e.target.value;renderPicker();renderAnalysisResult();});on('filterTo','change',e=>{state.comparison.dateTo=e.target.value;renderPicker();renderAnalysisResult();});on('btnResetFilter','click',()=>{state.comparison.departmentFilter='';state.comparison.dateFrom='';state.comparison.dateTo='';const fd=document.getElementById('filterDept');if(fd)fd.value='';const ff=document.getElementById('filterFrom');if(ff)ff.value='';const ft=document.getElementById('filterTo');if(ft)ft.value='';renderPicker();renderAnalysisResult();showToast(LANG==='en'?'Filter reset':'已清除篩選','success');});on('btnRunAnalysis','click',renderAnalysisResult);const arEl=document.getElementById('analysisResult');if(arEl)arEl.addEventListener('click',e=>{const btn=e.target.closest('[data-time]');if(!btn)return;state.comparison.timeFilter=btn.dataset.time;renderAnalysisResult();});}
 function boot(){try{applyTheme(getTheme());applyI18n();bindCriteriaEditor();const sa=safeSessionGet(SESSION_KEY)==='1';if(sa&&state.inspector.name)enterApp();else initLogin();}catch(err){console.error('[MRSC] boot:',err);try{initLogin();}catch(e){alert('系統初始化失敗，請重新整理頁面。\n\n錯誤：'+(err?.message||'未知'));}}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 </script></body></html>
