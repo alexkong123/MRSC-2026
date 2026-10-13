@@ -181,7 +181,7 @@ tbody tr.editing td{background:rgba(74,144,217,.08)}
 .rec-detail-row{display:none}
 .rec-detail-row.on{display:table-row}
 .rec-detail-row td{padding:0;background:var(--goldD);border-bottom:2px solid var(--goldB2)}
-.rec-detail-inner{padding:14px 18px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.rec-detail-inner{padding:16px 20px 18px;display:grid;grid-template-columns:minmax(160px, 1fr) minmax(280px, 2.5fr) minmax(160px, 1fr);gap:20px;align-items:start} /* 修改此處：固定三欄比例，避免右側留白 */
 .rec-detail-block{display:flex;flex-direction:column;gap:6px;min-width:0}
 .rec-detail-block .lbl{font-size:11px;color:var(--gold);font-weight:700;letter-spacing:.6px;text-transform:uppercase}
 .rec-detail-block .val{font-size:13px;color:var(--text);line-height:1.6;word-break:break-word}
