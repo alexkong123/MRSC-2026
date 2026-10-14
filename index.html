@@ -771,8 +771,8 @@ const T={
   thOverall:['綜合 MRSC','Overall MRSC'],
   thExpand:['展開','Expand'],
   analysisLockedTitle:['開發者專屬功能','Developer-only Feature'],
-  analysisLockedDesc:['「對比分析」僅限開發者使用。請點擊下方按鈕輸入開發者密碼驗證。','"Comparison Analysis" is developer-only. Enter developer password to verify.'],
-  btnUnlockAnalysis:['🔓 輸入開發者密碼','🔓 Enter Developer Password'],
+  analysisLockedDesc:['「對比分析」需要密碼驗證。請點擊下方按鈕輸入密碼。','"Comparison Analysis" requires password. Enter password to continue.'],
+  btnUnlockAnalysis:['🔓 輸入密碼','🔓 Enter Password'],
   comparisonSettings:['對比設定','Comparison Settings'],
   compareMode:['對比模式','Comparison Mode'],
   baseCompany:['基準休企（A 方）','Base Company (A)'],
@@ -919,11 +919,27 @@ const DEFAULT_DEPT_CONFIG={icon:'📝',itemLabel:'觀察記錄',summary:'其他'
 const getDeptConfig=d=>DEPT_CONFIG[(d||'').trim()]||DEFAULT_DEPT_CONFIG;
 const isFieldVisible=(f,it)=>!f.showIf||((it?it[f.showIf.key]:'')===f.showIf.value);
 
-const PWD_KEY='mrsc_export_password';const DEV_KEY='mrsc_dev_verified';const THEME_KEY='mrsc_theme';const DEFAULT_PWD='123456';const SESSION_KEY='mrsc_session';
-let _pwdCache=(()=>{try{const l=localStorage.getItem(PWD_KEY);return l===null?DEFAULT_PWD:l;}catch(e){return DEFAULT_PWD;}})();
-async function refreshPasswordCache(){try{const snap=await getDoc(pwdDoc);if(snap.exists()){const p=String(snap.data().password||'').trim();if(p){_pwdCache=p;try{localStorage.setItem(PWD_KEY,p);}catch(e){};return p;}}}catch(e){}return _pwdCache;}
+/* ===== 密碼機制（只存記憶體，每次從雲端讀取） ===== */
+const DEV_KEY='mrsc_dev_verified';const THEME_KEY='mrsc_theme';const DEFAULT_PWD='123456';const SESSION_KEY='mrsc_session';
+let _pwdCache=null;
+async function refreshPasswordCache(){
+  try{
+    const snap=await getDoc(pwdDoc);
+    if(snap.exists()){
+      const p=String(snap.data().password||'').trim();
+      if(p){_pwdCache=p;return true;}
+    }
+    /* 雲端文件不存在或密碼為空 → 使用預設（首次設定前） */
+    _pwdCache=DEFAULT_PWD;
+    return true;
+  }catch(e){
+    console.warn('[MRSC] refresh pwd failed',e);
+    _pwdCache=null;
+    return false;
+  }
+}
 const getStoredPassword=()=>_pwdCache;
-async function setStoredPasswordCloud(p){await setDoc(pwdDoc,{password:p,updatedAt:serverTimestamp()});_pwdCache=p;try{localStorage.setItem(PWD_KEY,p);}catch(e){}return true;}
+async function setStoredPasswordCloud(p){await setDoc(pwdDoc,{password:p,updatedAt:serverTimestamp()});_pwdCache=p;return true;}
 const getTheme=()=>{try{return localStorage.getItem(THEME_KEY)==='light'?'light':'dark';}catch(e){return'dark';}};
 function applyTheme(t){document.documentElement.setAttribute('data-theme',t);const ti=document.getElementById('themeIcon');if(ti)ti.textContent=t==='dark'?'🌙':'☀️';const m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',t==='dark'?'#0b0e14':'#eef1f6');if(state.records.length>0)renderAnalysisResult();}
 function setTheme(t){try{localStorage.setItem(THEME_KEY,t);}catch(e){}applyTheme(t);}
@@ -933,7 +949,7 @@ const safeSessionSet=(k,v)=>{try{sessionStorage.setItem(k,v);}catch(e){}};
 const safeSessionRemove=k=>{try{sessionStorage.removeItem(k);}catch(e){}};
 const isDeveloper=()=>safeSessionGet(DEV_KEY)==='1';
 function setDeveloper(v){if(v)safeSessionSet(DEV_KEY,'1');else safeSessionRemove(DEV_KEY);updateDevBadge();}
-function updateDevBadge(){const b=document.getElementById('devBadge');if(b)b.classList.toggle('show',isDeveloper());const c=document.getElementById('btnClearAll');if(c)c.style.display=isDeveloper()?'':'none';const t=document.querySelector('.tab[data-tab="analysis"]');if(t)t.classList.toggle('locked',!isDeveloper());if(document.getElementById('rt'))renderRecordTable();}
+function updateDevBadge(){const b=document.getElementById('devBadge');if(b)b.classList.toggle('show',isDeveloper());const c=document.getElementById('btnClearAll');if(c)c.style.display=isDeveloper()?'':'none';if(document.getElementById('rt'))renderRecordTable();}
 const $=(s,r=document)=>r.querySelector(s);
 const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const todayISO=()=>{const d=new Date();return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
@@ -949,10 +965,30 @@ function openModal(cfg){const o=document.getElementById('mo');if(!o)return;const
 function closeModal(){const o=document.getElementById('mo');if(o)o.classList.remove('on');_modalCtx=null;}
 function modalErr(msg){const e=document.getElementById('me');if(!e)return;e.textContent=msg;e.classList.add('on');e.style.animation='none';void e.offsetWidth;e.style.animation='';}
 function submitModal(){if(!_modalCtx)return;const vals={};_modalCtx.fields.forEach(f=>{const el=document.getElementById(f.id);vals[f.id]=el?el.value:'';});const r=_modalCtx.onSubmit(vals);if(r&&typeof r==='object'&&r.error){modalErr(r.error);return;}if(r===false)return;closeModal();}
-async function requirePasswordThen(fn,label){await refreshPasswordCache();openModal({icon:'🔒',title:LANG==='en'?'Password Required':'匯出需要密碼',desc:LANG==='en'?`Enter password to export ${label||'data'}.`:`為保護考察資料，${label||'匯出'}前請先輸入密碼。`,fields:[{id:'pwd',label:LANG==='en'?'Password':'匯出密碼',type:'password',placeholder:LANG==='en'?'Enter password':'請輸入密碼',maxlength:50}],confirmText:LANG==='en'?'Confirm':'確認匯出',onSubmit:v=>{const p=(v.pwd||'').trim();if(!p)return{error:LANG==='en'?'Please enter password':'請輸入密碼'};if(p!==getStoredPassword())return{error:LANG==='en'?'Incorrect password':'密碼錯誤，請重試'};setTimeout(()=>{try{fn();}catch(e){showToast((LANG==='en'?'Export failed: ':'匯出失敗：')+(e.message||'?'),'error');}},150);return true;}});}
-async function requireDeveloperThen(fn,descText){await refreshPasswordCache();if(isDeveloper()){fn();return;}openModal({icon:'🔓',iconType:'dev',title:LANG==='en'?'Developer Verification':'開發者驗證',desc:descText||(LANG==='en'?'Developer-only. Enter password.':'此功能僅限開發者使用，請輸入開發者密碼。'),fields:[{id:'pwd',label:LANG==='en'?'Developer Password':'開發者密碼',type:'password',placeholder:LANG==='en'?'Enter password':'請輸入密碼',maxlength:50}],confirmText:LANG==='en'?'Verify':'驗證',onSubmit:v=>{const p=(v.pwd||'').trim();if(!p)return{error:LANG==='en'?'Please enter password':'請輸入密碼'};if(p!==getStoredPassword())return{error:LANG==='en'?'Incorrect password':'密碼錯誤'};setDeveloper(true);setTimeout(()=>{showToast(LANG==='en'?'Developer mode enabled':'已進入開發者模式','success');try{fn();}catch(e){}},150);return true;}});}
-async function requirePasswordEveryTime(fn,descText){await refreshPasswordCache();openModal({icon:'🔒',iconType:'dev',title:LANG==='en'?'Password Required':'需要密碼',desc:descText||(LANG==='en'?'Enter password to continue.':'此操作需要密碼驗證，請輸入密碼。'),fields:[{id:'pwd',label:LANG==='en'?'Password':'密碼',type:'password',placeholder:LANG==='en'?'Enter password':'請輸入密碼',maxlength:50}],confirmText:LANG==='en'?'Confirm':'確定',onSubmit:v=>{const p=(v.pwd||'').trim();if(!p)return{error:LANG==='en'?'Please enter password':'請輸入密碼'};if(p!==getStoredPassword())return{error:LANG==='en'?'Incorrect password':'密碼錯誤'};setTimeout(()=>{try{fn();}catch(e){console.error(e);}},150);return true;}});}
-async function openDevPanel(){await refreshPasswordCache();if(isDeveloper()){openPasswordChange();return;}openModal({icon:'⚙',iconType:'dev',title:LANG==='en'?'Developer Mode':'開發者模式',desc:LANG==='en'?'Enter developer password. Default: 123456.':'請輸入開發者密碼以進入設定。預設密碼為 123456。',fields:[{id:'pwd',label:LANG==='en'?'Developer Password':'開發者密碼',type:'password',placeholder:LANG==='en'?'Enter password':'請輸入密碼',maxlength:50}],confirmText:LANG==='en'?'Enter Settings':'進入設定',onSubmit:v=>{const p=(v.pwd||'').trim();if(!p)return{error:LANG==='en'?'Please enter password':'請輸入密碼'};if(p!==getStoredPassword())return{error:LANG==='en'?'Incorrect password':'密碼錯誤'};setDeveloper(true);setTimeout(()=>{showToast(LANG==='en'?'Developer mode enabled':'已進入開發者模式','success');openPasswordChange();},150);return true;}});}
+
+/* ===== 密碼驗證函數（雲端必須可讀） ===== */
+async function requirePasswordThen(fn,label){
+  const ok=await refreshPasswordCache();
+  if(!ok){showToast(LANG==='en'?'Cannot verify: cloud unreachable':'無法驗證：無法連接雲端','error');return;}
+  openModal({icon:'🔒',title:LANG==='en'?'Password Required':'匯出需要密碼',desc:LANG==='en'?`Enter password to export ${label||'data'}.`:`為保護考察資料，${label||'匯出'}前請先輸入密碼。`,fields:[{id:'pwd',label:LANG==='en'?'Password':'匯出密碼',type:'password',placeholder:LANG==='en'?'Enter password':'請輸入密碼',maxlength:50}],confirmText:LANG==='en'?'Confirm':'確認匯出',onSubmit:v=>{const p=(v.pwd||'').trim();if(!p)return{error:LANG==='en'?'Please enter password':'請輸入密碼'};if(p!==getStoredPassword())return{error:LANG==='en'?'Incorrect password':'密碼錯誤，請重試'};setTimeout(()=>{try{fn();}catch(e){showToast((LANG==='en'?'Export failed: ':'匯出失敗：')+(e.message||'?'),'error');}},150);return true;}});
+}
+async function requireDeveloperThen(fn,descText){
+  const ok=await refreshPasswordCache();
+  if(!ok){showToast(LANG==='en'?'Cannot verify: cloud unreachable':'無法驗證：無法連接雲端','error');return;}
+  if(isDeveloper()){fn();return;}
+  openModal({icon:'🔓',iconType:'dev',title:LANG==='en'?'Developer Verification':'開發者驗證',desc:descText||(LANG==='en'?'Developer-only. Enter password.':'此功能僅限開發者使用，請輸入開發者密碼。'),fields:[{id:'pwd',label:LANG==='en'?'Developer Password':'開發者密碼',type:'password',placeholder:LANG==='en'?'Enter password':'請輸入密碼',maxlength:50}],confirmText:LANG==='en'?'Verify':'驗證',onSubmit:v=>{const p=(v.pwd||'').trim();if(!p)return{error:LANG==='en'?'Please enter password':'請輸入密碼'};if(p!==getStoredPassword())return{error:LANG==='en'?'Incorrect password':'密碼錯誤'};setDeveloper(true);setTimeout(()=>{showToast(LANG==='en'?'Developer mode enabled':'已進入開發者模式','success');try{fn();}catch(e){}},150);return true;}});
+}
+async function requirePasswordEveryTime(fn,descText){
+  const ok=await refreshPasswordCache();
+  if(!ok){showToast(LANG==='en'?'Cannot verify: cloud unreachable':'無法驗證：無法連接雲端','error');return;}
+  openModal({icon:'🔒',iconType:'dev',title:LANG==='en'?'Password Required':'需要密碼',desc:descText||(LANG==='en'?'Enter password to continue.':'此操作需要密碼驗證，請輸入密碼。'),fields:[{id:'pwd',label:LANG==='en'?'Password':'密碼',type:'password',placeholder:LANG==='en'?'Enter password':'請輸入密碼',maxlength:50}],confirmText:LANG==='en'?'Confirm':'確定',onSubmit:v=>{const p=(v.pwd||'').trim();if(!p)return{error:LANG==='en'?'Please enter password':'請輸入密碼'};if(p!==getStoredPassword())return{error:LANG==='en'?'Incorrect password':'密碼錯誤'};setTimeout(()=>{try{fn();}catch(e){console.error(e);}},150);return true;}});
+}
+async function openDevPanel(){
+  const ok=await refreshPasswordCache();
+  if(!ok){showToast(LANG==='en'?'Cannot verify: cloud unreachable':'無法驗證：無法連接雲端','error');return;}
+  if(isDeveloper()){openPasswordChange();return;}
+  openModal({icon:'⚙',iconType:'dev',title:LANG==='en'?'Developer Mode':'開發者模式',desc:LANG==='en'?'Enter developer password. Default: 123456.':'請輸入開發者密碼以進入設定。預設密碼為 123456。',fields:[{id:'pwd',label:LANG==='en'?'Developer Password':'開發者密碼',type:'password',placeholder:LANG==='en'?'Enter password':'請輸入密碼',maxlength:50}],confirmText:LANG==='en'?'Enter Settings':'進入設定',onSubmit:v=>{const p=(v.pwd||'').trim();if(!p)return{error:LANG==='en'?'Please enter password':'請輸入密碼'};if(p!==getStoredPassword())return{error:LANG==='en'?'Incorrect password':'密碼錯誤'};setDeveloper(true);setTimeout(()=>{showToast(LANG==='en'?'Developer mode enabled':'已進入開發者模式','success');openPasswordChange();},150);return true;}});
+}
 function openPasswordChange(){openModal({icon:'🔑',iconType:'dev',title:LANG==='en'?'Developer Settings':'開發者設定',desc:LANG==='en'?'Change password (min 4 chars, synced to cloud). Leave blank to logout.':'修改密碼（至少 4 字元，會同步至雲端）。若兩個欄位留空，則登出開發者模式。',fields:[{id:'newPwd',label:LANG==='en'?'New Password':'新密碼',type:'password',placeholder:LANG==='en'?'Min 4 chars (blank to logout)':'至少 4 個字元（留空可登出）',maxlength:50},{id:'confirmPwd',label:LANG==='en'?'Confirm':'確認新密碼',type:'password',placeholder:LANG==='en'?'Re-enter':'再次輸入',maxlength:50}],confirmText:LANG==='en'?'Save / Logout':'儲存 / 登出',onSubmit:async v=>{const a=(v.newPwd||'').trim();const b=(v.confirmPwd||'').trim();if(!a&&!b){setDeveloper(false);setTimeout(()=>showToast(LANG==='en'?'Developer mode disabled':'已登出開發者模式','success'),150);return true;}if(a.length<4)return{error:LANG==='en'?'Min 4 chars':'密碼至少 4 個字元'};if(a!==b)return{error:LANG==='en'?'Passwords do not match':'兩次輸入不一致'};if(a===DEFAULT_PWD)return{error:LANG==='en'?'Cannot use default password':'不可使用預設密碼'};try{await setStoredPasswordCloud(a);setTimeout(()=>showToast(LANG==='en'?'Password updated (synced)':'密碼已更新並同步至雲端','success'),150);return true;}catch(e){modalErr((LANG==='en'?'Save failed: ':'儲存失敗：')+e.message);return false;}}});}
 function normalizeVenue(venue){const out=emptyVenue();if(!venue||typeof venue!=='object')return out;if(Array.isArray(venue.items))out.items=venue.items.filter(it=>it&&typeof it==='object').map(it=>({...it}));else if(Array.isArray(venue.games))out.items=venue.games.filter(g=>g&&typeof g==='object').map(g=>({name:safeStr(g.name),open:safeStr(g.tablesOpen),closed:safeStr(g.tablesClosed),minBet:safeStr(g.minBet)}));else if(typeof venue.games==='string'&&venue.games)out.items=[{name:safeStr(venue.games),open:safeStr(venue.tablesOpen),closed:safeStr(venue.tablesClosed),minBet:safeStr(venue.minBet)}];if(venue.env&&typeof venue.env==='object')out.env={...venue.env};else out.env={traffic:safeStr(venue.traffic),air:safeStr(venue.air)};return out;}
 let _unsubRecords=null;
@@ -1091,9 +1127,7 @@ function computeIndustryBenchmark(force){
 function getBenchmark(critId,dept,excludeCompanyId){
   const c=findCrit(critId);
   if(!c)return null;
-  if(c.ref>0){
-    return {p25:Math.round(c.ref*0.9),p50:c.ref,p75:Math.round(c.ref*1.05),p90:Math.round(c.ref*1.1),n:0,totalSamples:0,source:'manual',label:'手動基準',value:c.ref};
-  }
+  /* 若手動 ref > 0（舊值殘留），自動忽略，改用動態計算 */
   const bm=computeIndustryBenchmark();
   let b=null;
   if(dept&&excludeCompanyId&&bm.byCompanyDept[excludeCompanyId]?.[dept]?.[critId]){
@@ -1145,7 +1179,7 @@ async function enterApp(){
   subscribeRecords();
   setTimeout(migrateLocalDataToCloud,1500);
 }
-function logout(){if(!confirm(LANG==='en'?'Logout? Unsubmitted form content will be lost.':'確定登出？未提交的表單內容將遺失。'))return;if(_unsubRecords){try{_unsubRecords();}catch(e){}_unsubRecords=null;}safeSessionRemove(SESSION_KEY);safeSessionRemove(DEV_KEY);location.reload();}
+function logout(){if(!confirm(LANG==='en'?'Logout? Unsubmitted form content will be lost.':'確定登出？未提交的表單內容將遺失。'))return;if(_unsubRecords){try{_unsubRecords();}catch(e){}_unsubRecords=null;}_pwdCache=null;safeSessionRemove(SESSION_KEY);safeSessionRemove(DEV_KEY);location.reload();}
 function fillCompanyOptions(){const s=document.getElementById('fCompany');if(!s)return;const cur=s.value;s.innerHTML='<option value="">'+(LANG==='en'?'Please select':'請選擇')+'</option>'+COMPANIES.map(c=>`<option value="${c.id}">${coName(c)}</option>`).join('');if(cur)s.value=cur;}
 function fillDepartmentOptions(){const s=document.getElementById('fDepartment');if(!s)return;const cur=s.value;s.innerHTML='<option value="">'+(LANG==='en'?'Select department':'請選擇部門')+'</option>'+DEPARTMENT_NAMES.map(d=>`<option value="${escapeHTML(d)}">${escapeHTML(Wr(d))}</option>`).join('');if(cur)s.value=cur;}
 function renderVenueOptions(sel){const loc=state.form.location||'';const cid=state.form.company||'';const s=document.getElementById('fVenueName');if(!s)return;const en=LANG==='en';const cur=sel||state.form.venueName||'';if(!loc&&!cid){s.innerHTML=`<option value="">${en?'Select location and company first':'請先選擇考察地點與休企'}</option>`;return;}if(!loc){s.innerHTML=`<option value="">${en?'Select location first':'請先選擇考察地點'}</option>`;return;}if(!cid){s.innerHTML=`<option value="">${en?'Select company first':'請先選擇考察休企'}</option>`;return;}const c=getCompany(cid);if(!c){s.innerHTML=`<option value="">${en?'Select company first':'請先選擇考察休企'}</option>`;return;}const groups=VENUE_BY_LOCATION[loc]||[];const targets=groups.filter(g=>g.group===c.name);let html=`<option value="">${en?'Select venue':'請選擇場館'}</option>`;if(targets.length===0||targets.every(g=>g.venues.length===0)){html=`<option value="">${en?'No venue for this company at this location':'此休企在此地點沒有場館'}</option>`;}else{targets.forEach(g=>g.venues.forEach(v=>{html+=`<option value="${escapeHTML(v)}" ${cur===v?'selected':''}>${escapeHTML(Wr(v))}</option>`;}));html+=`<option value="其他" ${cur==='其他'?'selected':''}>${en?'Other':'其他'}</option>`;}s.innerHTML=html;}
@@ -1157,15 +1191,11 @@ function renderCriteria(){
   const w=document.getElementById('criteriaList');if(!w)return;
   const en=LANG==='en';
   w.innerHTML=CRITERIA.map(c=>{
+    const bm=getBenchmark(c.id);
     let refHtml='';
-    if(c.ref>0){
-      refHtml=`<span class="ref">手動基準 ${c.ref}</span>`;
-    }else{
-      const bm=getBenchmark(c.id);
-      if(bm&&bm.source==='insufficient'){refHtml=`<span class="ref">樣本不足</span>`;}
-      else if(bm&&bm.p50>0){refHtml=`<span class="ref">中位 ${bm.p50} · P75 ${bm.p75} · P90 ${bm.p90}</span>`;}
-      else{refHtml=`<span class="ref">尚無基準</span>`;}
-    }
+    if(bm&&bm.source==='insufficient'){refHtml=`<span class="ref">樣本不足</span>`;}
+    else if(bm&&bm.p50>0){refHtml=`<span class="ref">中位 ${bm.p50} · P75 ${bm.p75} · P90 ${bm.p90}</span>`;}
+    else{refHtml=`<span class="ref">尚無基準</span>`;}
     return`<div class="cr" data-crit="${escapeHTML(c.id)}"><div class="chead"><div class="cicon">${escapeHTML(c.icon||'★')}</div><div><div class="cname">${escapeHTML(Wr(c.name))}${refHtml}</div><div class="cdesc">${escapeHTML(Wr(c.desc))}</div></div></div><div class="rr"><div class="rbtns">${[1,2,3,4,5].map(n=>`<button class="rbtn" data-crit="${escapeHTML(c.id)}" data-score="${n}" title="${ratingLabel(n)}">${n}</button>`).join('')}</div><div class="rlbl" data-crit-label="${escapeHTML(c.id)}">${en?'Not rated':'尚未評分'}</div></div></div>`;
   }).join('');
   if(!w._bound){w._bound=true;w.addEventListener('click',e=>{const b=e.target.closest('.rbtn');if(!b)return;const critId=b.dataset.crit;state.form.ratings[critId]=parseInt(b.dataset.score,10);updateRatingUI(critId);validateForm();});}
@@ -1247,54 +1277,66 @@ function renderAnalysisResult(){
   if(f.dateFrom)fc.push((en?'From: ':'起：')+f.dateFrom);
   if(f.dateTo)fc.push((en?'To: ':'訖：')+f.dateTo);
   const fd=fc.length?'　·　'+fc.join('　·　'):'';
+  const baseId=state.comparison.base;
   let html='<div class="panel"><div class="ph"><h2><span class="dot"></span>'+(en?'Overall Ranking':'綜合評分排名')+'</h2>';
   html+=`<span class="hint">${en?'Mode':'對比模式'} 1:${f.ratio}　·　${sorted.length} ${en?'companies':'間休企'}　·　${en?'Samples':'有效樣本'} ${sorted.reduce((s,r)=>s+r.count,0)}${fd}</span></div><div class="pbody"><div class="rlist2">`;
-  sorted.forEach((r,i)=>{const c=getCompany(r.id);const isB=r.id===state.comparison.base;const width=Math.min((r.overall/maxS)*100,100);html+=`<div class="rrow"><div class="rb ${i===0?'top':''}">${i+1}</div><div class="rm"><div class="rt2"><span class="rd" style="background:${c.color}"></span><span class="rn">${coName(c)}</span>${isB?'<span class="tb2">'+Wr('基準')+'</span>':''}<span class="rcnt">${r.count} ${en?'rec':'筆'}</span><span class="rs">${r.overall}<small>/200</small></span></div><div class="rbar"><div class="rfill" style="width:${width}%;background:linear-gradient(90deg,${c.color}55,${c.color})"></div></div></div></div>`;});
+  sorted.forEach((r,i)=>{const c=getCompany(r.id);const isB=r.id===baseId;const width=Math.min((r.overall/maxS)*100,100);html+=`<div class="rrow"${isB?' style="border-left:3px solid #d4af37"':''}><div class="rb ${i===0?'top':''}">${i+1}</div><div class="rm"><div class="rt2"><span class="rd" style="background:${c.color}"></span><span class="rn">${coName(c)}</span>${isB?'<span class="tb2">'+(en?'BASE (A)':'基準 A 方')+'</span>':''}<span class="rcnt">${r.count} ${en?'rec':'筆'}</span><span class="rs">${r.overall}<small>/200</small></span></div><div class="rbar"><div class="rfill" style="width:${width}%;background:linear-gradient(90deg,${c.color}55,${c.color})"></div></div></div></div>`;});
   html+='</div>';
   html+='<div class="dw"><div class="dt">'+(en?'Dimension Radar Chart':'評分維度雷達圖')+'</div><div class="rw">'+renderRadarChart(sorted)+'</div><div class="rl">';
-  sorted.forEach(r=>{const c=getCompany(r.id);html+=`<span class="l"><span class="ld" style="background:${c.color}"></span>${coName(c)}</span>`;});
+  sorted.forEach(r=>{const c=getCompany(r.id);const isB=r.id===baseId;html+=`<span class="l" style="${isB?'font-weight:700':''}"><span class="ld" style="background:${c.color}"></span>${coName(c)}${isB?' (A)':''}</span>`;});
   html+='</div></div>';
   html+='<div class="dw"><div class="dt">'+(en?'Tier × Time Slot':'限紅 × 時段分佈')+'</div>'+renderTierStats(sorted)+'</div>';
   html+='<div class="dw"><div class="dt">'+(en?'Department Data Comparison':'部門專屬數據對比')+'</div>'+renderDeptBarCharts(sorted)+'</div>';
   html+='<div class="dw"><div class="dt">'+(en?'Dimension Detail':'評分維度明細')+'</div><div class="tw"><table class="dtab"><thead><tr><th>'+(en?'Company':'休企')+'</th>';
   CRITERIA.forEach(c=>{
+    const bm2=getBenchmark(c.id);
     let refLabel='';
-    if(c.ref>0){refLabel=`手動 ${c.ref}`;}
-    else{const bm2=getBenchmark(c.id);if(bm2&&bm2.p50>0&&bm2.source!=='insufficient'){refLabel=`P50 ${bm2.p50}`;}else{refLabel='無基準';}}
+    if(bm2&&bm2.p50>0&&bm2.source!=='insufficient'){refLabel=`P50 ${bm2.p50}`;}
+    else{refLabel='無基準';}
     html+=`<th>${escapeHTML(Wr(c.name))}<br><small style="font-weight:400;color:var(--muted2)">(${refLabel})</small></th>`;
   });
   html+='<th>'+(en?'Overall MRSC':'綜合 MRSC')+'</th></tr></thead><tbody>';
   const mx={};CRITERIA.forEach(c=>{mx[c.id]=Math.max(...sorted.map(r=>r.mrsc[c.id]||0));});
-  sorted.forEach(r=>{const c=getCompany(r.id);html+=`<tr><td><span class="rc"><span class="cdot" style="background:${c.color}"></span>${coName(c)}</span></td>`;CRITERIA.forEach(cr=>{const v=r.mrsc[cr.id]||0;const raw=r.raw[cr.id]||0;const isMax=v===mx[cr.id]&&sorted.length>1;html+=`<td class="dc ${isMax?'win':''}">${v}<span class="draw">${en?'Raw avg':'原始平均'} ${raw.toFixed(2)}</span>${isMax?'<span style="font-size:10px;color:var(--gold)">▲</span>':''}</td>`;});html+=`<td class="dc" style="color:var(--gold);font-size:14px">${r.overall}</td></tr>`;});
+  sorted.forEach(r=>{const c=getCompany(r.id);const isB=r.id===baseId;html+=`<tr${isB?' style="background:rgba(212,175,55,.06)"':''}><td><span class="rc"><span class="cdot" style="background:${c.color}"></span>${coName(c)}${isB?' <b style="color:var(--gold);font-size:10px">A</b>':''}</span></td>`;CRITERIA.forEach(cr=>{const v=r.mrsc[cr.id]||0;const raw=r.raw[cr.id]||0;const isMax=v===mx[cr.id]&&sorted.length>1;html+=`<td class="dc ${isMax?'win':''}">${v}<span class="draw">${en?'Raw avg':'原始平均'} ${raw.toFixed(2)}</span>${isMax?'<span style="font-size:10px;color:var(--gold)">▲</span>':''}</td>`;});html+=`<td class="dc" style="color:var(--gold);font-size:14px">${r.overall}</td></tr>`;});
   const anyRef=CRITERIA.some(c=>{
     const bm2=getBenchmark(c.id);
-    return c.ref>0||(bm2&&bm2.p50>0&&bm2.source!=='insufficient');
+    return bm2&&bm2.p50>0&&bm2.source!=='insufficient';
   });
   if(anyRef){
     html+=`<tr style="border-top:1px solid var(--line)"><td class="dref">${en?'P50 (Median)':'P50 中位'}</td>`;
-    CRITERIA.forEach(c=>{
-      if(c.ref>0)html+=`<td class="dc dref">手動 ${c.ref}</td>`;
-      else{const bm2=getBenchmark(c.id);if(bm2&&bm2.p50>0&&bm2.source!=='insufficient')html+=`<td class="dc dref">${bm2.p50}</td>`;else html+=`<td class="dc dref">—</td>`;}
-    });
+    CRITERIA.forEach(c=>{const bm2=getBenchmark(c.id);if(bm2&&bm2.p50>0&&bm2.source!=='insufficient')html+=`<td class="dc dref">${bm2.p50}</td>`;else html+=`<td class="dc dref">—</td>`;});
     html+='<td class="dc dref">—</td></tr>';
     html+=`<tr><td class="dref">${en?'P75 (Good)':'P75 良好線'}</td>`;
-    CRITERIA.forEach(c=>{
-      const bm2=getBenchmark(c.id);
-      if(bm2&&bm2.p75>0&&bm2.source!=='insufficient')html+=`<td class="dc dref">${bm2.p75}</td>`;else html+=`<td class="dc dref">—</td>`;
-    });
+    CRITERIA.forEach(c=>{const bm2=getBenchmark(c.id);if(bm2&&bm2.p75>0&&bm2.source!=='insufficient')html+=`<td class="dc dref">${bm2.p75}</td>`;else html+=`<td class="dc dref">—</td>`;});
     html+='<td class="dc dref">—</td></tr>';
     html+=`<tr><td class="dref">${en?'P90 (Excellent)':'P90 優秀線'}</td>`;
-    CRITERIA.forEach(c=>{
-      const bm2=getBenchmark(c.id);
-      if(bm2&&bm2.p90>0&&bm2.source!=='insufficient')html+=`<td class="dc dref">${bm2.p90}</td>`;else html+=`<td class="dc dref">—</td>`;
-    });
+    CRITERIA.forEach(c=>{const bm2=getBenchmark(c.id);if(bm2&&bm2.p90>0&&bm2.source!=='insufficient')html+=`<td class="dc dref">${bm2.p90}</td>`;else html+=`<td class="dc dref">—</td>`;});
     html+='<td class="dc dref">—</td></tr>';
   }
   html+='</tbody></table></div></div></div></div>';
   w.innerHTML=html;
 }
-function switchTab(name){if(name==='analysis'&&!isDeveloper()){requireDeveloperThen(()=>{document.getElementById('analysisLocked').classList.remove('on');document.getElementById('analysisContent').style.display='block';doSwitchTab('analysis');},LANG==='en'?'Analysis is developer-only.':'對比分析僅限開發者使用。');return;}doSwitchTab(name);}
-function doSwitchTab(name){$$('.tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===name));$$('.tc').forEach(s=>s.classList.toggle('on',s.dataset.tab===name));if(name==='dashboard')renderDashboard();if(name==='analysis'){if(isDeveloper()){document.getElementById('analysisLocked').classList.remove('on');document.getElementById('analysisContent').style.display='block';renderAnalysisSection();}else{document.getElementById('analysisLocked').classList.add('on');document.getElementById('analysisContent').style.display='none';}}}
+function switchTab(name){
+  if(name==='analysis'){
+    requirePasswordEveryTime(()=>{
+      document.getElementById('analysisLocked').classList.remove('on');
+      document.getElementById('analysisContent').style.display='block';
+      doSwitchTab('analysis');
+    },LANG==='en'?'Enter password to open Analysis.':'進入對比分析需要密碼驗證，請輸入密碼。');
+    return;
+  }
+  doSwitchTab(name);
+}
+function doSwitchTab(name){
+  $$('.tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===name));
+  $$('.tc').forEach(s=>s.classList.toggle('on',s.dataset.tab===name));
+  if(name==='dashboard')renderDashboard();
+  if(name==='analysis'){
+    document.getElementById('analysisLocked').classList.remove('on');
+    document.getElementById('analysisContent').style.display='block';
+    renderAnalysisSection();
+  }
+}
   /* ===== SVG 圖表工具 ===== */
 function hexA(hex,a){const h=hex.replace('#','');const r=parseInt(h.substring(0,2),16),g=parseInt(h.substring(2,4),16),b=parseInt(h.substring(4,6),16);return`rgba(${r},${g},${b},${a})`;}
 const _colorCache={};
@@ -1328,8 +1370,6 @@ function narrativeDimAnalysis(critId,sorted,avgAllDim,modeTxt){
     html+=`<p class="rp-para"><b>行業基準（${bm.label}，基於 ${bm.n} 間企業 / ${bm.totalSamples} 筆樣本）：</b>P25 ${bm.p25}｜P50（中位）${bm.p50}｜P75 ${bm.p75}｜P90 ${bm.p90}。全組平均落在「<b style="color:${level.color}">${level.label}</b>」。</p>`;
   }else if(bm&&bm.source==='insufficient'){
     html+=`<p class="rp-para">該維度基準樣本不足（${bm.n} 間企業），無法進行行業對比。</p>`;
-  }else if(bm&&bm.source==='manual'){
-    html+=`<p class="rp-para">該維度使用手動設定基準 ${bm.value} 分。</p>`;
   }
   html+=`<p class="rp-para">該維度中，最高為 <b>${escapeHTML(topName)}</b>（${max} 分），最低為 <b>${escapeHTML(lowName)}</b>（${min} 分），分差 <b>${gap} 分</b>（相對差距約 ${gapPct}%）。</p>`;
   html+=`<p class="rp-para">評分標準：滿分 ${c.max} 分，1–5 分對應分值為 ${[1,2,3,4,5].map(n=>`${n}★→${c.map[n]||0}`).join('、')}。對比模式 ${modeTxt}。</p>`;
@@ -1388,39 +1428,6 @@ function narrativeDeptData(dept,coRecs,cfg,sorted){
   return html;
 }
 
-function narrativeCompany(prof,allProfs,rank,avgAllDim){
-  const c=prof.company;const r=prof.data;const totalAll=allProfs.length;
-  const strengths=[],weaknesses=[],onPar=[];
-  CRITERIA.forEach(cr=>{
-    const v=r.mrsc[cr.id]||0;const a=avgAllDim[cr.id];
-    if(v>=a*1.04)strengths.push({name:cr.name,value:v,avg:a});
-    else if(v<=a*0.96)weaknesses.push({name:cr.name,value:v,avg:a});
-    else onPar.push({name:cr.name,value:v,avg:a});
-  });
-  let html='';
-  html+=`<div class="rp-block" style="margin-top:14px"><div class="rp-block-title">📝 綜合評述</div>`;
-  html+=`<p class="rp-para">${escapeHTML(coName(c))} 於本次評核中排名第 <b>${rank}</b>（共 ${totalAll} 間企業），綜合得分 <b>${r.overall}/200</b>，樣本數 ${r.count} 筆。</p>`;
-  html+=`<p class="rp-para">從維度角度分析，`;
-  const parts=[];
-  if(strengths.length) parts.push(`該企業於 <b>${strengths.map(s=>s.name).join('、')}</b> 高於同組平均`);
-  if(onPar.length) parts.push(`於 <b>${onPar.map(s=>s.name).join('、')}</b> 與同組平均接近`);
-  if(weaknesses.length) parts.push(`於 <b>${weaknesses.map(s=>s.name).join('、')}</b> 低於同組平均`);
-  html+=parts.length?parts.join('；')+'。':'該企業於各維度均與同組平均相近。';
-  html+=`</p>`;
-  const envDist=getEnvDistForCompany(r.id);
-  const envSummary=ENV_KEYS.map(k=>{
-    const d=envDist[k];if(!d||!d.total)return null;
-    const top=Object.entries(d.counts).sort((a,b)=>b[1]-a[1])[0];if(!top)return null;
-    const ed=ENV_FIELDS[k];const optDef=ed.options.find(o=>o.v===top[0]);
-    return optDef?`${envName(k)}以「${Wr(optDef.l)}」為主（${top[1]}/${d.total} 次）`:null;
-  }).filter(Boolean);
-  if(envSummary.length){
-    html+=`<p class="rp-para">環境觀察方面，該企業的場所特徵：${envSummary.join('；')}。</p>`;
-  }
-  html+=`</div>`;
-  return html;
-}
-
 function narrativeOverview(sorted,avgAllDim,modeTxt,filterTxt){
   const top=sorted[0],last=sorted[sorted.length-1];
   const topC=getCompany(top.id),lastC=getCompany(last.id);
@@ -1437,43 +1444,143 @@ function narrativeMethodology(){
   return `<p class="rp-para">數據來源為神秘顧客於現場填寫的 MRSC 評核表單，所有記錄提交時均附有提交時間、考察人員身份及 GPS 位置。綜合 MRSC 計算方式：先將各維度原始分數除以該維度滿分得出標準化分數（0–100），取所有維度平均後乘以 2，得出 200 分制分數。</p>`
     +`<p class="rp-para"><b>行業基準計算方式：</b>報告內的行業基準採用統計學百分位法（Percentile），依部門、維度分別計算。流程如下：① 按企業聚合（每個企業在該部門該維度的加權平均，確保企業等權，避免大樣本企業主導）；② 時間衰減加權（90 天半衰期，近期記錄權重較高）；③ 對所有企業的加權平均值排序，求 P25 / P50 / P75 / P90 四個百分位。</p>`
     +`<p class="rp-para"><b>五級評等對應：</b>得分 ≥ P90 = <b style="color:#2ea87a">卓越（行業前 10%）</b>；≥ P75 = <b style="color:#4a9e4a">優秀（前 25%）</b>；≥ P50 = <b style="color:#c9a527">良好（優於中位）</b>；≥ P25 = <b style="color:#d97c28">一般（中後段）</b>；&lt; P25 = <b style="color:#c94141">待改善（行業後段）</b>。</p>`
-    +`<p class="rp-para">環境觀察數據以選項分佈方式呈現；數字型運營數據以平均數計算；選項型運營數據以分佈圖對比；文字型運營數據列出出現類別。</p>`;
+    +`<p class="rp-para">當樣本不足（&lt; ${MIN_COMPANIES} 間企業或 &lt; ${MIN_SAMPLES} 筆樣本）時，基準標示為「樣本不足」，報告不對比。環境觀察數據以選項分佈方式呈現；數字型運營數據以平均數計算；選項型運營數據以分佈圖對比；文字型運營數據列出出現類別。</p>`;
 }
 
+/* ===== 整體結論：以基準企業（A 方）為中心 ===== */
 function narrativeConclusion(sorted,avgAllDim,modeTxt){
-  const top=sorted[0],last=sorted[sorted.length-1];
-  const topC=getCompany(top.id),lastC=getCompany(last.id);
-  const gap=top.overall-last.overall;
-  const benchData=CRITERIA.map(cr=>{
+  const baseId=state.comparison.base;
+  const baseRow=sorted.find(r=>r.id===baseId)||sorted[0];
+  const baseC=getCompany(baseRow.id);
+  const others=sorted.filter(r=>r.id!==baseRow.id);
+  const isBaseMissing=baseRow.id!==baseId;
+
+  const dimCompare=CRITERIA.map(cr=>{
     const bm=getBenchmark(cr.id);
-    return {crit:cr,bench:bm,avg:avgAllDim[cr.id]};
-  }).filter(x=>x.bench&&x.bench.p50>0&&x.bench.source!=='insufficient');
-  const ratings=benchData.map(x=>({...x,level:getRatingLevel(x.avg,x.bench)}));
-  const excellents=ratings.filter(x=>x.level.level==='excellent'||x.level.level==='good');
-  const poors=ratings.filter(x=>x.level.level==='poor'||x.level.level==='below');
+    const hasBench=bm&&bm.p50>0&&bm.source!=='insufficient';
+    const baseVal=baseRow.mrsc[cr.id]||0;
+    const othersVals=others.map(o=>({company:getCompany(o.id),value:o.mrsc[cr.id]||0,count:o.count}));
+    const othersAvg=othersVals.length?Math.round(othersVals.reduce((s,x)=>s+x.value,0)/othersVals.length):0;
+    const best=othersVals.length?othersVals.reduce((a,b)=>a.value>b.value?a:b):null;
+    const worst=othersVals.length?othersVals.reduce((a,b)=>a.value<b.value?a:b):null;
+    const gap=baseVal-othersAvg;
+    const leadAll=othersVals.length>0&&othersVals.every(x=>x.value<baseVal);
+    const loseAll=othersVals.length>0&&othersVals.every(x=>x.value>baseVal);
+    const rankInGroup=1+othersVals.filter(x=>x.value>baseVal).length;
+    return {crit:cr,bench:bm,hasBench,baseVal,othersAvg,best,worst,gap,leadAll,loseAll,rankInGroup,othersVals,baseCount:baseRow.count};
+  });
+
+  const leads=dimCompare.filter(d=>d.gap>=3);
+  const lags=dimCompare.filter(d=>d.gap<=-3);
+  const onPar=dimCompare.filter(d=>Math.abs(d.gap)<3);
+
   let html='';
-  html+=`<h4 style="font-size:14px;color:#a37800;margin:18px 0 8px">一、綜合排名</h4>`;
-  html+=`<p class="rp-para">綜合 MRSC 得分最高為 <b>${escapeHTML(coName(topC))}</b>（${top.overall}/200，${top.count} 筆樣本），最低為 <b>${escapeHTML(coName(lastC))}</b>（${last.overall}/200，${last.count} 筆樣本），兩者分差 <b>${gap} 分</b>（相對差距約 ${pctCalc(top.overall,last.overall)}%）。</p>`;
-  html+=`<p class="rp-para">完整排名：${sorted.map((r,i)=>{const c=getCompany(r.id);return `${i+1}. ${escapeHTML(coName(c))}（${r.overall}）`;}).join('　·　')}</p>`;
-  html+=`<h4 style="font-size:14px;color:#a37800;margin:18px 0 8px">二、維度評等總覽</h4>`;
-  if(ratings.length){
-    html+=`<table class="rp-table" style="margin:10px 0"><thead><tr><th>維度</th><th>全組平均</th><th>P50</th><th>P75</th><th>P90</th><th>評等</th></tr></thead><tbody>`;
-    ratings.forEach(x=>{
-      html+=`<tr><td>${escapeHTML(x.crit.name)}</td><td>${x.avg}</td><td>${x.bench.p50}</td><td>${x.bench.p75}</td><td>${x.bench.p90}</td><td style="color:${x.level.color};font-weight:700">${x.level.label}</td></tr>`;
-    });
-    html+='</tbody></table>';
+
+  html+=`<h4 style="font-size:14px;color:#a37800;margin:18px 0 8px">一、基準企業與對比組</h4>`;
+  html+=`<p class="rp-para">本節以使用者選擇的 <b style="color:#a37800">基準休企（A 方）：${escapeHTML(coName(baseC))}</b> 為分析中心，與 ${others.length} 間對比休企（B 方）逐維度比較，找出基準企業的優勢、劣勢及改善方向。</p>`;
+  html+=`<p class="rp-para"><b>基準企業：</b>${escapeHTML(coName(baseC))}（綜合 ${baseRow.overall}/200，樣本 ${baseRow.count} 筆）`;
+  html+=`　·　<b>對比企業：</b>${others.map(o=>{const c=getCompany(o.id);return `${escapeHTML(coName(c))}（${o.overall}/200，${o.count} 筆）`;}).join('、')}。</p>`;
+  if(isBaseMissing){
+    html+=`<div class="rp-insight warn"><strong>⚠ 注意：</strong>所選基準企業於本次篩選條件下無有效記錄，已自動以綜合排名首位作替代。</div>`;
+  }
+
+  html+=`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">二、綜合表現對比</h4>`;
+  const groupRank=1+sorted.filter(r=>r.overall>baseRow.overall&&r.id!==baseRow.id).length;
+  const groupTotal=sorted.length;
+  html+=`<p class="rp-para">基準企業綜合得分 <b>${baseRow.overall}/200</b>，於本次對比 ${groupTotal} 間企業中排名第 <b>${groupRank}</b>。`;
+  if(groupRank===1){
+    html+=`為本次對比組之<b style="color:#158052">綜合第一</b>。`;
   }else{
-    html+=`<p class="rp-para">本次評核所選用的維度均無可用行業基準（樣本不足），無法進行評等。</p>`;
+    const ahead=sorted.filter(r=>r.overall>baseRow.overall&&r.id!==baseRow.id);
+    html+=`領先基準企業的企業為：${ahead.map(r=>{const c=getCompany(r.id);return `<b>${escapeHTML(coName(c))}</b>（+${r.overall-baseRow.overall} 分）`;}).join('、')}。`;
   }
-  html+=`<h4 style="font-size:14px;color:#a37800;margin:18px 0 8px">三、行業定位</h4>`;
-  if(excellents.length){
-    html+=`<p class="rp-para"><b>已達優秀或卓越的維度：</b>${excellents.map(x=>`${x.crit.name}（平均 ${x.avg}，評等：${x.level.label}）`).join('、')}。</p>`;
+  html+=`</p>`;
+
+  html+=`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">三、逐維度對比（基準 vs 對比組）</h4>`;
+  html+=`<p class="rp-para">下表顯示基準企業於各維度的得分、對比組平均、與對比組之差距，以及基準企業在組內的排名。</p>`;
+
+  html+=`<table class="rp-table" style="margin:10px 0"><thead><tr>`;
+  html+=`<th>維度</th><th>基準企業</th><th>對比組平均</th><th>差距</th><th>組內排名</th><th>評語</th>`;
+  html+=`</tr></thead><tbody>`;
+
+  dimCompare.forEach(d=>{
+    const gapColor=d.gap>0?'#158052':d.gap<0?'#c93636':'#888';
+    const gapSign=d.gap>0?'+':'';
+    const gapText=d.gap===0?'持平':`${gapSign}${d.gap}`;
+    let verdict='';
+    if(d.leadAll){verdict=`<b style="color:#158052">領先全組</b>`;}
+    else if(d.loseAll){verdict=`<b style="color:#c93636">落後全組</b>`;}
+    else if(d.gap>=3){verdict=`<span style="color:#158052">優於平均</span>`;}
+    else if(d.gap<=-3){verdict=`<span style="color:#c93636">低於平均</span>`;}
+    else{verdict=`<span style="color:#888">與平均持平</span>`;}
+    html+=`<tr>`;
+    html+=`<td>${escapeHTML(d.crit.name)}</td>`;
+    html+=`<td style="font-weight:700">${d.baseVal}</td>`;
+    html+=`<td>${d.othersAvg||'—'}</td>`;
+    html+=`<td style="color:${gapColor};font-weight:700">${gapText}</td>`;
+    html+=`<td>${d.othersVals.length?`${d.rankInGroup} / ${d.othersVals.length+1}`:'—'}</td>`;
+    html+=`<td>${verdict}</td>`;
+    html+=`</tr>`;
+  });
+  html+='</tbody></table>';
+
+  html+=`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">四、基準企業優勢維度</h4>`;
+  if(leads.length){
+    html+=`<p class="rp-para">以下維度基準企業<b style="color:#158052">明顯優於對比組平均</b>（差距 ≥3 分），可作為企業標竿及持續保持的核心競爭力：</p>`;
+    html+=`<ul class="rp-list">`;
+    leads.forEach(d=>{
+      const bestOther=d.best?coName(d.best.company):'—';
+      html+=`<li><b>${escapeHTML(d.crit.name)}</b>：基準 ${d.baseVal} 分，對比組平均 ${d.othersAvg} 分（<b style="color:#158052">領先 ${d.gap} 分</b>）。${d.leadAll?'<b>領先所有對比企業</b>。':`最接近的對手為 ${escapeHTML(bestOther)}（${d.best.value} 分）。`}</li>`;
+    });
+    html+=`</ul>`;
+  }else{
+    html+=`<p class="rp-para" style="color:#888">基準企業於各維度均未明顯領先對比組平均（差距 &lt;3 分）。</p>`;
   }
-  if(poors.length){
-    html+=`<p class="rp-para"><b>低於行業中位的維度：</b>${poors.map(x=>`${x.crit.name}（平均 ${x.avg}，評等：${x.level.label}）`).join('、')}。</p>`;
+
+  html+=`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">五、基準企業劣勢維度</h4>`;
+  if(lags.length){
+    html+=`<p class="rp-para">以下維度基準企業<b style="color:#c93636">明顯低於對比組平均</b>（差距 ≥3 分），屬需優先改善項目：</p>`;
+    html+=`<ul class="rp-list">`;
+    lags.forEach(d=>{
+      const bestOther=d.best?coName(d.best.company):'—';
+      html+=`<li><b>${escapeHTML(d.crit.name)}</b>：基準 ${d.baseVal} 分，對比組平均 ${d.othersAvg} 分（<b style="color:#c93636">落後 ${Math.abs(d.gap)} 分</b>）。${d.loseAll?`<b>落後所有對比企業</b>，建議列為首要改善項目。`:`對比組最高為 ${escapeHTML(bestOther)}（${d.best.value} 分），可作為學習標竿。`}</li>`;
+    });
+    html+=`</ul>`;
+  }else{
+    html+=`<p class="rp-para" style="color:#888">基準企業於各維度均未明顯落後對比組平均（差距 &lt;3 分）。</p>`;
   }
-  html+=`<h4 style="font-size:14px;color:#a37800;margin:18px 0 8px">四、數據說明</h4>`;
-  html+=`<p class="rp-para">本報告數據來自 MRSC 神秘顧客評核系統雲端記錄。行業基準採百分位法，按部門、維度分別計算，並按企業等權聚合及時間衰減加權（90 天半衰期），確保基準不受單一企業樣本量主導。所有分析僅基於上述數據，不含任何推測性結論。</p>`;
+
+  if(onPar.length){
+    html+=`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">六、持平維度</h4>`;
+    html+=`<p class="rp-para">以下維度基準企業與對比組平均差距在 3 分以內，屬「持平」狀態，可視情況優化或維持：`;
+    html+=onPar.map(d=>`<b>${escapeHTML(d.crit.name)}</b>（基準 ${d.baseVal}，對比組平均 ${d.othersAvg}）`).join('、');
+    html+=`。</p>`;
+  }
+
+  html+=`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">七、改善優先次序建議</h4>`;
+
+  if(lags.length>0){
+    html+=`<p class="rp-para">根據差距大小，建議基準企業按以下優先次序規劃改善方案：</p>`;
+    html+=`<ol class="rp-list" style="padding-left:24px">`;
+    const lagsSorted=[...lags].sort((a,b)=>a.gap-b.gap);
+    lagsSorted.forEach((d,i)=>{
+      const priority=i===0?'【最高優先】':i===1?'【次高優先】':'【持續改善】';
+      const bestOther=d.best?coName(d.best.company):'—';
+      html+=`<li><b>${priority}${escapeHTML(d.crit.name)}</b>：落後對比組平均 ${Math.abs(d.gap)} 分${d.loseAll?'（落後全組）':''}。`;
+      html+=`建議參考對比組最佳做法（${escapeHTML(bestOther)}：${d.best.value} 分）進行改善。</li>`;
+    });
+    html+=`</ol>`;
+  }else{
+    html+=`<p class="rp-para">基準企業於各維度均未明顯落後對比組，無迫切改善項目。建議持續保持現有水平，並從「持平」維度中尋找進一步優化空間。</p>`;
+  }
+
+  if(leads.length>0){
+    html+=`<p class="rp-para"><b>優勢鞏固建議：</b>基準企業於 ${leads.map(d=>escapeHTML(d.crit.name)).join('、')} 已明顯領先對比組，建議將此優勢列為服務標準，並向內部推廣成功經驗，維持領先地位。</p>`;
+  }
+
+  html+=`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">八、數據說明</h4>`;
+  html+=`<p class="rp-para">本報告數據來自 MRSC 神秘顧客評核系統雲端記錄。「對比組平均」為所有 B 方企業於該維度的加權平均。所有差距以「基準企業得分 − 對比組平均」計算，正值表示基準領先，負值表示落後。報告所有分析僅基於上述數據，不含任何推測性結論。</p>`;
+
   return html;
 }
 
@@ -1487,20 +1594,23 @@ function buildReportHtml(sorted){
   const totalSamples=sorted.reduce((s,r)=>s+r.count,0);
   const avgScore=Math.round(sorted.reduce((s,r)=>s+r.overall,0)/sorted.length);
   const top=sorted[0],last=sorted[sorted.length-1];const topC=getCompany(top.id),lastC=getCompany(last.id);const gap=top.overall-last.overall;
+  const baseId=state.comparison.base;
+  const baseRow=sorted.find(r=>r.id===baseId)||sorted[0];
+  const baseC=getCompany(baseRow.id);
   const avgAllDim={};CRITERIA.forEach(cr=>{avgAllDim[cr.id]=Math.round(sorted.reduce((s,r)=>s+(r.mrsc[cr.id]||0),0)/sorted.length);});
   const allDepts=new Set();sorted.forEach(r=>{state.records.filter(rec=>rec.companyId===r.id).forEach(rec=>{const d=(rec.department||'').trim();if(d&&(!f.departmentFilter||d===f.departmentFilter))allDepts.add(d);});});
   const depts=[...allDepts].sort();
   const anyRef=CRITERIA.some(c=>{
     const bm=getBenchmark(c.id);
-    return c.ref>0||(bm&&bm.p50>0&&bm.source!=='insufficient');
+    return bm&&bm.p50>0&&bm.source!=='insufficient';
   });
   let html='';
-  html+=`<div class="rp-cover"><div class="logo">澳</div><h1>MRSC 神秘顧客評核分析報告</h1><div class="sub">Macau Six IRs Service Assessment Report</div><div class="info"><div><b>生成時間：</b>${generatedAt}</div><div><b>對比模式：</b>${modeTxt}</div><div><b>參與企業：</b>${sorted.length} 間</div><div><b>有效樣本：</b>${totalSamples} 筆</div><div><b>篩選條件：</b>${filterTxt}</div><div><b>行業基準：</b>${anyRef?'統計百分位法（P25/P50/P75/P90）':'樣本不足'}</div></div></div>`;
+  html+=`<div class="rp-cover"><div class="logo">澳</div><h1>MRSC 神秘顧客評核分析報告</h1><div class="sub">Macau Six IRs Service Assessment Report</div><div class="info"><div><b>生成時間：</b>${generatedAt}</div><div><b>基準企業：</b>${escapeHTML(coName(baseC))}</div><div><b>對比模式：</b>${modeTxt}</div><div><b>參與企業：</b>${sorted.length} 間</div><div><b>有效樣本：</b>${totalSamples} 筆</div><div><b>篩選條件：</b>${filterTxt}</div><div><b>行業基準：</b>${anyRef?'統計百分位法（P25/P50/P75/P90）':'樣本不足'}</div></div></div>`;
   html+=`<div class="rp-section"><h2>一、執行摘要</h2>`;
-  html+=`<div class="rp-kpi-grid"><div class="rp-kpi"><div class="kpi-label">🏆 綜合第一</div><div class="kpi-value">${escapeHTML(coName(topC))}</div><div class="kpi-sub">${top.overall}/200 · ${top.count} 筆</div></div><div class="rp-kpi"><div class="kpi-label">📉 排名末位</div><div class="kpi-value">${escapeHTML(coName(lastC))}</div><div class="kpi-sub">${last.overall}/200 · ${last.count} 筆</div></div><div class="rp-kpi"><div class="kpi-label">📊 平均 MRSC</div><div class="kpi-value">${avgScore}<small>/200</small></div><div class="kpi-sub">${sorted.length} 間企業平均</div></div><div class="rp-kpi"><div class="kpi-label">📏 首末分差</div><div class="kpi-value">${gap}<small>分</small></div><div class="kpi-sub">${gap>=30?'差距懸殊':gap>=15?'中等差距':'差距較小'}</div></div></div>`;
+  html+=`<div class="rp-kpi-grid"><div class="rp-kpi"><div class="kpi-label">⭐ 基準企業</div><div class="kpi-value">${escapeHTML(coName(baseC))}</div><div class="kpi-sub">${baseRow.overall}/200 · ${baseRow.count} 筆</div></div><div class="rp-kpi"><div class="kpi-label">🏆 綜合第一</div><div class="kpi-value">${escapeHTML(coName(topC))}</div><div class="kpi-sub">${top.overall}/200 · ${top.count} 筆</div></div><div class="rp-kpi"><div class="kpi-label">📉 排名末位</div><div class="kpi-value">${escapeHTML(coName(lastC))}</div><div class="kpi-sub">${last.overall}/200 · ${last.count} 筆</div></div><div class="rp-kpi"><div class="kpi-label">📏 首末分差</div><div class="kpi-value">${gap}<small>分</small></div><div class="kpi-sub">${gap>=30?'差距懸殊':gap>=15?'中等差距':'差距較小'}</div></div></div>`;
   html+=narrativeOverview(sorted,avgAllDim,modeTxt,filterTxt);
-  html+=`<div class="rp-chart"><div class="rp-chart-title">綜合 MRSC 排名對比</div>`+svgHBars(sorted.map(r=>{const c=getCompany(r.id);return{label:coName(c),value:r.overall,color:c.color,sub:`${r.count} 筆`};}),{maxVal:200,unit:'/200'})+`</div>`;
-  html+=`<div class="rp-insight good"><strong>核心數據：</strong>${sorted.length} 間企業平均綜合 MRSC 為 ${avgScore}/200；${escapeHTML(coName(topC))} 以 ${top.overall} 分居首，與末位 ${escapeHTML(coName(lastC))}（${last.overall} 分）相差 ${gap} 分。</div>`;
+  html+=`<div class="rp-chart"><div class="rp-chart-title">綜合 MRSC 排名對比（⭐ 為基準企業）</div>`+svgHBars(sorted.map(r=>{const c=getCompany(r.id);const isB=r.id===baseRow.id;return{label:(isB?'⭐ ':'')+coName(c),value:r.overall,color:c.color,sub:`${r.count} 筆`};}),{maxVal:200,unit:'/200'})+`</div>`;
+  html+=`<div class="rp-insight good"><strong>核心數據：</strong>基準企業 ${escapeHTML(coName(baseC))} 綜合得分 ${baseRow.overall}/200，於 ${sorted.length} 間企業中排名第 ${1+sorted.filter(r=>r.overall>baseRow.overall).length}。</div>`;
   html+=`<h4 style="font-size:14px;color:#a37800;margin:20px 0 8px">▍ 報告方法論</h4>`;
   html+=narrativeMethodology();
   html+=`</div>`;
@@ -1514,14 +1624,13 @@ function buildReportHtml(sorted){
   CRITERIA.forEach(c=>{
     const bm=getBenchmark(c.id);
     let refLabel='';
-    if(c.ref>0){refLabel=`手動 ${c.ref}`;}
-    else if(bm&&bm.p50>0&&bm.source!=='insufficient'){refLabel=`P50 ${bm.p50}`;}
+    if(bm&&bm.p50>0&&bm.source!=='insufficient'){refLabel=`P50 ${bm.p50}`;}
     else{refLabel='無基準';}
     html+=`<th>${escapeHTML(c.name)}<br><small style="font-weight:400;color:#888">(${refLabel})</small></th>`;
   });
   html+=`<th>綜合 MRSC</th></tr></thead><tbody>`;
   const maxDim={};CRITERIA.forEach(c=>{maxDim[c.id]=Math.max(...sorted.map(r=>r.mrsc[c.id]||0));});
-  sorted.forEach(r=>{const c=getCompany(r.id);html+=`<tr><td><span class="rp-dot" style="display:inline-block;background:${c.color};margin-right:6px"></span>${escapeHTML(coName(c))}</td><td>${r.count}</td>`;CRITERIA.forEach(cr=>{const v=r.mrsc[cr.id]||0;const isMax=v===maxDim[cr.id]&&sorted.length>1;html+=`<td class="${isMax?'cell-win':''}">${v}</td>`;});html+=`<td style="color:#a37800;font-weight:700">${r.overall}</td></tr>`;});
+  sorted.forEach(r=>{const c=getCompany(r.id);const isB=r.id===baseRow.id;html+=`<tr${isB?' style="background:#fbf8ec"':''}><td><span class="rp-dot" style="display:inline-block;background:${c.color};margin-right:6px"></span>${escapeHTML(coName(c))}${isB?' ⭐':''}</td><td>${r.count}</td>`;CRITERIA.forEach(cr=>{const v=r.mrsc[cr.id]||0;const isMax=v===maxDim[cr.id]&&sorted.length>1;html+=`<td class="${isMax?'cell-win':''}">${v}</td>`;});html+=`<td style="color:#a37800;font-weight:700">${r.overall}</td></tr>`;});
   html+=`</tbody></table>`;
   CRITERIA.forEach(cr=>{html+=narrativeDimAnalysis(cr.id,sorted,avgAllDim,modeTxt);});
   const benchList=CRITERIA.map(c=>{
@@ -1550,19 +1659,19 @@ function buildReportHtml(sorted){
   html+=`<div class="rp-page-break"></div>`;
   html+=`<div class="rp-section"><h2>五、企業數據畫像</h2>`;
   html+=`<p class="rp-para">以下為每間參與企業的數據呈現，包含核心評分、環境觀察與運營數據。</p>`;
-  sorted.forEach((r,i)=>{const c=getCompany(r.id);const rank=i+1;const strengths=[],weaknesses=[];CRITERIA.forEach(cr=>{const v=r.mrsc[cr.id]||0;const a=avgAllDim[cr.id];if(v>=a*1.04)strengths.push({name:cr.name,value:v,avg:a});else if(v<=a*0.96)weaknesses.push({name:cr.name,value:v,avg:a});});html+=`<div class="rp-company" style="page-break-inside:avoid">`;html+=`<div class="rp-company-head"><span class="rp-dot" style="background:${c.color};width:14px;height:14px"></span><span class="rp-company-name">第 ${rank} 名 · ${escapeHTML(coName(c))}</span><span class="rp-company-score">${r.overall}<small>/200（${r.count} 筆）</small></span></div>`;html+=`<div class="rp-block"><div class="rp-block-title">📈 MRSC 核心維度</div><table class="rp-table" style="margin:6px 0 10px"><thead><tr>`;CRITERIA.forEach(cr=>{html+=`<th>${escapeHTML(cr.name)}</th>`;});html+=`<th>綜合</th></tr></thead><tbody><tr>`;CRITERIA.forEach(cr=>{html+=`<td>${r.mrsc[cr.id]||0}</td>`;});html+=`<td style="color:#a37800;font-weight:700">${r.overall}</td></tr></tbody></table></div>`;const envDist=getEnvDistForCompany(r.id);html+=`<div class="rp-block"><div class="rp-block-title">🌐 環境觀察概況</div><ul class="rp-list" style="font-size:12.5px">`;ENV_KEYS.forEach(k=>{const d=envDist[k];if(!d||!d.total)return;const topOpt=Object.entries(d.counts).sort((a,b)=>b[1]-a[1])[0];if(!topOpt)return;const ed=ENV_FIELDS[k];const optDef=ed.options.find(o=>o.v===topOpt[0]);if(optDef)html+=`<li><b>${escapeHTML(envName(k))}：</b>主要為「${escapeHTML(Wr(optDef.l))}」（${topOpt[1]}/${d.total} 次）</li>`;});html+=`</ul></div>`;const coRecsByDept={};state.records.filter(x=>x.companyId===r.id).forEach(x=>{const d=(x.department||'').trim();if(d&&(!f.departmentFilter||d===f.departmentFilter)){if(!coRecsByDept[d])coRecsByDept[d]=[];coRecsByDept[d].push(x);}});const deptKeys=Object.keys(coRecsByDept);if(deptKeys.length){html+=`<div class="rp-block"><div class="rp-block-title">🏢 部門運營數據概況</div>`;deptKeys.forEach(d=>{const cfg=getDeptConfig(d);const recs=coRecsByDept[d];html+=`<div style="margin-bottom:8px"><b style="font-size:12.5px;color:#555">${cfg.icon||''} ${escapeHTML(d)}</b><span style="font-size:11.5px;color:#999;margin-left:6px">${recs.length} 筆</span>`;(cfg.fields||[]).filter(fd=>fd.type==='number').forEach(fd=>{const nums=[];recs.forEach(rec=>{(rec.venue&&rec.venue.items||[]).forEach(it=>{const n=parseFloat(it[fd.key]);if(!isNaN(n))nums.push(n);});});if(nums.length)html+=`<div style="font-size:12px;color:#333;margin-left:14px;line-height:1.7">· ${escapeHTML(Wr(fd.label))}：平均 <b>${(nums.reduce((a,b)=>a+b,0)/nums.length).toFixed(1)}</b>（${nums.length} 筆）</div>`;});html+=`</div>`;});html+=`</div>`;}if(strengths.length){html+=`<div class="rp-block"><div class="rp-block-title">✅ 高於同組平均的維度</div><ul class="rp-list">`;strengths.forEach(s=>{html+=`<li><span class="rp-good">${escapeHTML(s.name)}</span>：${s.value} 分（同組平均 ${s.avg} 分）</li>`;});html+=`</ul></div>`;}if(weaknesses.length){html+=`<div class="rp-block"><div class="rp-block-title">⚠ 低於同組平均的維度</div><ul class="rp-list">`;weaknesses.forEach(s=>{html+=`<li><span class="rp-bad">${escapeHTML(s.name)}</span>：${s.value} 分（同組平均 ${s.avg} 分）</li>`;});html+=`</ul></div>`;}html+=narrativeCompany({company:c,data:r},sorted.map(x=>({company:getCompany(x.id),data:x})),rank,avgAllDim);html+=`</div>`;});
+  sorted.forEach((r,i)=>{const c=getCompany(r.id);const rank=i+1;const isB=r.id===baseRow.id;const strengths=[],weaknesses=[];CRITERIA.forEach(cr=>{const v=r.mrsc[cr.id]||0;const a=avgAllDim[cr.id];if(v>=a*1.04)strengths.push({name:cr.name,value:v,avg:a});else if(v<=a*0.96)weaknesses.push({name:cr.name,value:v,avg:a});});html+=`<div class="rp-company" style="page-break-inside:avoid${isB?';border-color:#a37800;border-width:2px':''}">`;html+=`<div class="rp-company-head"><span class="rp-dot" style="background:${c.color};width:14px;height:14px"></span><span class="rp-company-name">第 ${rank} 名 · ${escapeHTML(coName(c))}${isB?' ⭐（基準 A 方）':''}</span><span class="rp-company-score">${r.overall}<small>/200（${r.count} 筆）</small></span></div>`;html+=`<div class="rp-block"><div class="rp-block-title">📈 MRSC 核心維度</div><table class="rp-table" style="margin:6px 0 10px"><thead><tr>`;CRITERIA.forEach(cr=>{html+=`<th>${escapeHTML(cr.name)}</th>`;});html+=`<th>綜合</th></tr></thead><tbody><tr>`;CRITERIA.forEach(cr=>{html+=`<td>${r.mrsc[cr.id]||0}</td>`;});html+=`<td style="color:#a37800;font-weight:700">${r.overall}</td></tr></tbody></table></div>`;const envDist=getEnvDistForCompany(r.id);html+=`<div class="rp-block"><div class="rp-block-title">🌐 環境觀察概況</div><ul class="rp-list" style="font-size:12.5px">`;ENV_KEYS.forEach(k=>{const d=envDist[k];if(!d||!d.total)return;const topOpt=Object.entries(d.counts).sort((a,b)=>b[1]-a[1])[0];if(!topOpt)return;const ed=ENV_FIELDS[k];const optDef=ed.options.find(o=>o.v===topOpt[0]);if(optDef)html+=`<li><b>${escapeHTML(envName(k))}：</b>主要為「${escapeHTML(Wr(optDef.l))}」（${topOpt[1]}/${d.total} 次）</li>`;});html+=`</ul></div>`;const coRecsByDept={};state.records.filter(x=>x.companyId===r.id).forEach(x=>{const d=(x.department||'').trim();if(d&&(!f.departmentFilter||d===f.departmentFilter)){if(!coRecsByDept[d])coRecsByDept[d]=[];coRecsByDept[d].push(x);}});const deptKeys=Object.keys(coRecsByDept);if(deptKeys.length){html+=`<div class="rp-block"><div class="rp-block-title">🏢 部門運營數據概況</div>`;deptKeys.forEach(d=>{const cfg=getDeptConfig(d);const recs=coRecsByDept[d];html+=`<div style="margin-bottom:8px"><b style="font-size:12.5px;color:#555">${cfg.icon||''} ${escapeHTML(d)}</b><span style="font-size:11.5px;color:#999;margin-left:6px">${recs.length} 筆</span>`;(cfg.fields||[]).filter(fd=>fd.type==='number').forEach(fd=>{const nums=[];recs.forEach(rec=>{(rec.venue&&rec.venue.items||[]).forEach(it=>{const n=parseFloat(it[fd.key]);if(!isNaN(n))nums.push(n);});});if(nums.length)html+=`<div style="font-size:12px;color:#333;margin-left:14px;line-height:1.7">· ${escapeHTML(Wr(fd.label))}：平均 <b>${(nums.reduce((a,b)=>a+b,0)/nums.length).toFixed(1)}</b>（${nums.length} 筆）</div>`;});html+=`</div>`;});html+=`</div>`;}if(strengths.length){html+=`<div class="rp-block"><div class="rp-block-title">✅ 高於同組平均的維度</div><ul class="rp-list">`;strengths.forEach(s=>{html+=`<li><span class="rp-good">${escapeHTML(s.name)}</span>：${s.value} 分（同組平均 ${s.avg} 分）</li>`;});html+=`</ul></div>`;}if(weaknesses.length){html+=`<div class="rp-block"><div class="rp-block-title">⚠ 低於同組平均的維度</div><ul class="rp-list">`;weaknesses.forEach(s=>{html+=`<li><span class="rp-bad">${escapeHTML(s.name)}</span>：${s.value} 分（同組平均 ${s.avg} 分）</li>`;});html+=`</ul></div>`;}html+=`</div>`;});
   html+=`</div>`;
   if(depts.length){html+=`<div class="rp-page-break"></div>`;html+=`<div class="rp-section"><h2>六、部門綜合橫向對比</h2>`;html+=`<p class="rp-para">以下按部門維度進行企業之間的橫向對比，以部門內綜合 MRSC 為主要排序依據，並列出各企業在該部門內的樣本數及維度得分。</p>`;depts.forEach(dept=>{const stats=deptAggByCompany(sorted,dept);if(!stats.length)return;const cfg=getDeptConfig(dept);const sortedDept=[...stats].sort((a,b)=>b.overall-a.overall);const topD=sortedDept[0],lowD=sortedDept[sortedDept.length-1];const gapD=topD.overall-lowD.overall;html+=`<div class="rp-dep"><div class="rp-dep-title">${cfg.icon||''} ${escapeHTML(dept)}</div>`;html+=`<div class="rp-chart" style="margin:10px 0"><div class="rp-chart-title">部門內綜合 MRSC 排名</div>`+svgHBars(sortedDept.map(x=>({label:coName(x.company),value:x.overall,color:x.company.color,sub:`${x.count} 筆`})),{maxVal:200,unit:'/200'})+`</div>`;html+=`<table class="rp-table" style="margin:10px 0"><thead><tr><th>企業</th><th>樣本</th>`;CRITERIA.forEach(cr=>{html+=`<th>${escapeHTML(cr.name)}</th>`;});html+=`<th>綜合</th></tr></thead><tbody>`;const maxD={};CRITERIA.forEach(cr=>{maxD[cr.id]=Math.max(...sortedDept.map(x=>x.dims[cr.id]||0));});sortedDept.forEach(x=>{html+=`<tr><td><span class="rp-dot" style="display:inline-block;background:${x.company.color};margin-right:6px"></span>${escapeHTML(coName(x.company))}</td><td>${x.count}</td>`;CRITERIA.forEach(cr=>{const v=x.dims[cr.id]||0;const isMax=v===maxD[cr.id]&&sortedDept.length>1;html+=`<td class="${isMax?'cell-win':''}">${v}</td>`;});html+=`<td style="color:#a37800;font-weight:700">${x.overall}</td></tr>`;});html+=`</tbody></table>`;html+=`<div class="rp-insight ${gapD>=20?'warn':'good'}"><strong>部門數據：</strong>「${escapeHTML(dept)}」部門中，最高為 <b>${escapeHTML(coName(topD.company))}</b>（${topD.overall}/200），最低為 <b>${escapeHTML(coName(lowD.company))}</b>（${lowD.overall}/200），分差 ${gapD} 分。</div>`;html+=`</div>`;});html+=`</div>`;}
   html+=`<div class="rp-page-break"></div>`;
-  html+=`<div class="rp-section"><h2>七、整體結論</h2>`;
-  html+=`<p class="rp-para">本次報告涵蓋 ${sorted.length} 間休企、共 ${totalSamples} 筆有效樣本，對比模式為 ${modeTxt}，部門範圍：${f.departmentFilter||'全部部門'}。</p>`;
+  html+=`<div class="rp-section"><h2>七、整體結論（以基準企業為中心）</h2>`;
+  html+=`<p class="rp-para">本節以基準企業 <b>${escapeHTML(coName(baseC))}</b> 為中心，逐維度對比其他企業，找出優勢、劣勢及改善方向。對比模式 ${modeTxt}，部門範圍：${f.departmentFilter||'全部部門'}。</p>`;
   html+=narrativeConclusion(sorted,avgAllDim,modeTxt);
   html+=`<div class="rp-footer">本報告由 MRSC 2026 神秘顧客評核系統自動生成　·　生成時間 ${generatedAt}<br>本報告數據僅供內部參考及授權用途。</div>`;
   html+=`</div>`;
   return html;
 }
 
-function generateReport(){if(!isDeveloper()){requireDeveloperThen(()=>{doGenerateReport();},LANG==='en'?'Report generation is developer-only.':'報告生成僅限開發者使用。');return;}doGenerateReport();}
+function generateReport(){doGenerateReport();}
 function doGenerateReport(){const ids=[state.comparison.base,...state.comparison.picks].filter((v,i,a)=>a.indexOf(v)===i);const rows=ids.map(id=>{const a=aggCo(id);return a?{id,...a}:null;}).filter(Boolean);if(rows.length<2){showToast(LANG==='en'?'At least 2 companies required for report.':'至少需要 2 間休企的數據才能生成報告。','error');return;}const sorted=[...rows].sort((a,b)=>b.overall-a.overall);const html=buildReportHtml(sorted);const page=document.getElementById('rpPage');if(page)page.innerHTML=html;const ov=document.getElementById('reportOverlay');if(ov)ov.classList.add('on');document.body.style.overflow='hidden';}
 function closeReport(){const ov=document.getElementById('reportOverlay');if(ov)ov.classList.remove('on');document.body.style.overflow='';}
 
@@ -1571,7 +1680,7 @@ function saveReport(){
   if(!page||!page.innerHTML.trim()){showToast(LANG==='en'?'No report to save':'沒有可儲存的報告','error');return;}
   const now=new Date();
   const stamp=`${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}-${String(now.getHours()).padStart(2,'0')}${String(now.getMinutes()).padStart(2,'0')}`;
-  const fullHtml=`<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><title>MRSC分析報告 ${stamp}</title><style>
+  const fullHtml=`<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><title>MRSC 分析報告 ${stamp}</title><style>
 body{margin:0;background:#eef1f6;padding:20px;font-family:"PingFang TC","Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif}
 .rp-page{max-width:900px;margin:0 auto;background:#fff;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,.08);padding:40px 40px 80px;color:#1a1f2e;line-height:1.7}
 .rp-page h1{font-size:26px;font-weight:800;color:#a37800;margin-bottom:6px;letter-spacing:1px}
@@ -1650,7 +1759,7 @@ function confirmTimePicker(){const val=`${tpState.h}:${tpState.m}`;if(tpState.ta
 let _critDraft=null;
 function openCriteriaEditor(){requirePasswordEveryTime(()=>{_critDraft=JSON.parse(JSON.stringify(CRITERIA));renderCritEditor();const el=document.getElementById('critEditor');if(el){el.classList.add('on');document.body.style.overflow='hidden';}},LANG==='en'?'Enter password to edit scoring dimensions.':'編輯評分維度需要密碼驗證。');}
 function closeCriteriaEditor(){const el=document.getElementById('critEditor');if(el)el.classList.remove('on');document.body.style.overflow='';_critDraft=null;}
-function renderCritEditor(){const w=document.getElementById('ceList');if(!w)return;const en=LANG==='en';if(!_critDraft||!_critDraft.length){w.innerHTML=`<div class="ce-empty">${en?'No dimensions yet.':'尚未有任何評分維度。'}</div>`;return;}w.innerHTML=_critDraft.map((c,i)=>{const map=c.map||normalizeMap();return `<div class="ce-card" data-idx="${i}"><div class="ce-card-head"><span class="ce-icon-preview">${escapeHTML(c.icon||'★')}</span><span class="ce-card-title">${escapeHTML(c.name||((en?'Dimension ':'維度 ')+(i+1)))}</span><button class="ce-del" data-del="${i}" type="button" title="${en?'Delete':'刪除'}">✕</button></div><div class="ce-grid"><label class="ce-fld"><span>${en?'Icon':'圖示'}</span><input type="text" data-idx="${i}" data-key="icon" value="${escapeHTML(c.icon||'')}" maxlength="4" autocomplete="off"></label><label class="ce-fld"><span>${en?'Name':'維度名稱'}</span><input type="text" data-idx="${i}" data-key="name" value="${escapeHTML(c.name||'')}" maxlength="20" autocomplete="off"></label><label class="ce-fld"><span>${en?'Reference':'全澳參考值（0 = 使用自動基準）'}</span><input type="number" data-idx="${i}" data-key="ref" value="${Number(c.ref)||0}" min="0" max="9999" inputmode="numeric"></label><label class="ce-fld"><span>${en?'Max Score':'滿分'}</span><input type="number" data-idx="${i}" data-key="max" value="${Number(c.max)||200}" min="1" max="9999" inputmode="numeric"></label></div><label class="ce-fld ce-fld-full"><span>${en?'Description':'評分描述'}</span><textarea data-idx="${i}" data-key="desc" rows="2" maxlength="200">${escapeHTML(c.desc||'')}</textarea></label><div class="ce-map-row"><span class="ce-map-label">${en?'Score Map':'1–5 分對應 MRSC'}</span>${[1,2,3,4,5].map(n=>`<label class="ce-map-item"><span>${n}★</span><input type="number" data-idx="${i}" data-key="map" data-lv="${n}" value="${Number(map[n])||0}" min="0" max="9999" inputmode="numeric"></label>`).join('')}</div></div>`;}).join('');}
+function renderCritEditor(){const w=document.getElementById('ceList');if(!w)return;const en=LANG==='en';if(!_critDraft||!_critDraft.length){w.innerHTML=`<div class="ce-empty">${en?'No dimensions yet.':'尚未有任何評分維度。'}</div>`;return;}w.innerHTML=_critDraft.map((c,i)=>{const map=c.map||normalizeMap();return `<div class="ce-card" data-idx="${i}"><div class="ce-card-head"><span class="ce-icon-preview">${escapeHTML(c.icon||'★')}</span><span class="ce-card-title">${escapeHTML(c.name||((en?'Dimension ':'維度 ')+(i+1)))}</span><button class="ce-del" data-del="${i}" type="button" title="${en?'Delete':'刪除'}">✕</button></div><div class="ce-grid"><label class="ce-fld"><span>${en?'Icon':'圖示'}</span><input type="text" data-idx="${i}" data-key="icon" value="${escapeHTML(c.icon||'')}" maxlength="4" autocomplete="off"></label><label class="ce-fld"><span>${en?'Name':'維度名稱'}</span><input type="text" data-idx="${i}" data-key="name" value="${escapeHTML(c.name||'')}" maxlength="20" autocomplete="off"></label><label class="ce-fld"><span>${en?'Reference (0 = auto)':'全澳參考值（0 = 自動計算）'}</span><input type="number" data-idx="${i}" data-key="ref" value="${Number(c.ref)||0}" min="0" max="9999" inputmode="numeric"></label><label class="ce-fld"><span>${en?'Max Score':'滿分'}</span><input type="number" data-idx="${i}" data-key="max" value="${Number(c.max)||200}" min="1" max="9999" inputmode="numeric"></label></div><label class="ce-fld ce-fld-full"><span>${en?'Description':'評分描述'}</span><textarea data-idx="${i}" data-key="desc" rows="2" maxlength="200">${escapeHTML(c.desc||'')}</textarea></label><div class="ce-map-row"><span class="ce-map-label">${en?'Score Map':'1–5 分對應 MRSC'}</span>${[1,2,3,4,5].map(n=>`<label class="ce-map-item"><span>${n}★</span><input type="number" data-idx="${i}" data-key="map" data-lv="${n}" value="${Number(map[n])||0}" min="0" max="9999" inputmode="numeric"></label>`).join('')}</div></div>`;}).join('');}
 function syncCritDraftFromInput(el){const idx=parseInt(el.dataset.idx,10);const key=el.dataset.key;if(isNaN(idx)||!_critDraft||!_critDraft[idx]||!key)return;const c=_critDraft[idx];if(key==='map'){const lv=parseInt(el.dataset.lv,10);if(!c.map)c.map=normalizeMap();c.map[lv]=Number(el.value)||0;}else if(key==='ref'||key==='max'){c[key]=Number(el.value)||0;}else{c[key]=el.value;}if(key==='name'||key==='icon'){const card=document.querySelector(`.ce-card[data-idx="${idx}"]`);if(card){const ip=card.querySelector('.ce-icon-preview');if(ip)ip.textContent=c.icon||'★';const ct=card.querySelector('.ce-card-title');if(ct)ct.textContent=c.name||((LANG==='en'?'Dimension ':'維度 ')+(idx+1));}}}
 function addCritDraft(){if(!_critDraft)_critDraft=JSON.parse(JSON.stringify(CRITERIA));_critDraft.push({id:genCritId(),name:'新維度',icon:'★',ref:0,max:200,desc:'',map:{1:40,2:80,3:120,4:160,5:200}});renderCritEditor();setTimeout(()=>{const inputs=document.querySelectorAll('.ce-card input[data-key="name"]');const last=inputs[inputs.length-1];if(last){try{last.focus();last.select();}catch(e){}}const card=document.querySelector(`.ce-card[data-idx="${_critDraft.length-1}"]`);if(card)card.scrollIntoView({behavior:'smooth',block:'center'});},80);}
 function delCritDraft(idx){const en=LANG==='en';if(!_critDraft||!_critDraft[idx])return;if(_critDraft.length<=1){showToast(en?'Keep at least one dimension':'至少需保留一個評分維度','error');return;}if(!confirm(en?`Delete dimension "${_critDraft[idx].name}"?`:`確定刪除維度「${_critDraft[idx].name}」？`))return;_critDraft.splice(idx,1);renderCritEditor();}
@@ -1674,7 +1783,19 @@ const tpOverlay=document.getElementById('tpOverlay');if(tpOverlay){document.getE
 on('fLocation','change',e=>{state.form.location=e.target.value;state.form.venueName='';renderVenueOptions('');validateForm();});on('fCompany','change',e=>{state.form.company=e.target.value;state.form.venueName='';renderVenueOptions('');validateForm();});on('fVenueName','change',e=>{state.form.venueName=e.target.value;validateForm();});on('fNotes','input',e=>{state.form.notes=e.target.value;});on('fDepartment','change',e=>{const nd=e.target.value;const od=state._lastDept||'';if(nd!==od){if(state.form.venue.items.length>0){const msg=LANG==='en'?`Switching department will clear existing "${getDeptConfig(od).itemLabel}" items.\n\nContinue?`:`切換部門後，現有「${getDeptConfig(od).itemLabel}」資料將被清空。\n\n確定切換嗎？`;if(confirm(msg))state.form.venue.items=[];else{e.target.value=od;return;}}state._lastDept=nd;}state.form.department=nd;renderVenueSection();validateForm();});const vb=document.getElementById('venueBody');if(vb){vb.addEventListener('click',e=>{const timeTrigger=e.target.closest('.item-time-trigger');if(timeTrigger){const idx=timeTrigger.dataset.idx;const field=timeTrigger.dataset.field;if(idx!==null&&field){const item=state.form.venue.items[parseInt(idx)];if(item)openTimePicker('item',parseInt(idx),item[field]);}return;}if(e.target.closest('#btnAddItem')){const dept=state.form.department||'';if(!dept){showToast(LANG==='en'?'Please select department first':'請先選擇考察部門','error');return;}const cfg=getDeptConfig(dept);const ni={};cfg.fields.forEach(f=>{ni[f.key]='';});state.form.venue.items.push(ni);renderVenueSection();const rows=$$('#itemRows .grow');const last=rows[rows.length-1];if(last){last.scrollIntoView({behavior:'smooth',block:'center'});const fi=last.querySelector('.item-input, .time-trigger');if(fi)setTimeout(()=>{try{fi.focus({preventScroll:true});}catch(e){}},300);}return;}const db=e.target.closest('.gdel');if(db){state.form.venue.items.splice(parseInt(db.dataset.idx,10),1);renderVenueSection();validateForm();}});vb.addEventListener('input',e=>{const el=e.target;if(el.classList.contains('item-input')&&!el.classList.contains('item-select')){const row=el.closest('.grow');if(!row)return;const it=state.form.venue.items[parseInt(row.dataset.idx,10)];if(!it)return;const f=el.dataset.field;if(f){it[f]=el.value;validateForm();}}});vb.addEventListener('change',e=>{const el=e.target;if(el.classList.contains('env-select')){const k=el.dataset.envKey;if(!k)return;state.form.venue.env[k]=el.value;const w=el.closest('.envf');if(w)w.classList.toggle('filled',!!el.value);return;}if(el.classList.contains('item-select')){const row=el.closest('.grow');if(!row)return;const idx=parseInt(row.dataset.idx,10);const it=state.form.venue.items[idx];if(!it)return;const f=el.dataset.field;if(!f)return;it[f]=el.value;const cfg=getDeptConfig(state.form.department);if(cfg.fields.some(fd=>fd.showIf&&fd.showIf.key===f)){const nh=renderItemRow(it,idx,cfg);const t=document.createElement('div');t.innerHTML=nh;const nr=t.firstElementChild;if(nr)row.replaceWith(nr);}validateForm();}});}
 on('btnSaveRecord','click',submitRecord);on('btnResetForm','click',()=>{if(!confirm(LANG==='en'?'Clear form content?':'確定清除表單內容？'))return;exitEditMode();resetForm();});on('btnCancelEdit','click',()=>{if(!confirm(LANG==='en'?'Cancel editing? Form will be cleared.':'取消編輯？表單內容將清空。'))return;exitEditMode();resetForm();});on('btnExportJSON','click',()=>{if(!state.records.length){showToast(LANG==='en'?'No records':'沒有記錄','error');return;}requirePasswordThen(doExportJSON,LANG==='en'?'Export JSON':'匯出 JSON');});on('btnExportCSV','click',()=>{if(!state.records.length){showToast(LANG==='en'?'No records':'沒有記錄','error');return;}requirePasswordThen(doExportCSV,LANG==='en'?'Export CSV':'匯出 CSV');});on('btnImport','click',()=>{const fi=document.getElementById('fileImport');if(fi)fi.click();});on('fileImport','change',e=>{const f=e.target.files[0];if(f)importJSON(f);e.target.value='';});on('btnPrint','click',()=>window.print());on('btnRefresh','click',()=>fetchRecordsFromCloud());on('mcBtn','click',closeModal);on('moBtn','click',submitModal);const moEl=document.getElementById('mo');if(moEl)moEl.addEventListener('click',e=>{if(e.target===moEl)closeModal();});document.addEventListener('keydown',e=>{const o=document.getElementById('mo');if(!o||!o.classList.contains('on'))return;if(e.key==='Escape'){e.preventDefault();closeModal();return;}if(e.key==='Enter'){const a=document.activeElement;if(a&&a.tagName==='INPUT'&&a.closest('#mo')){e.preventDefault();submitModal();}}});
 on('btnClearAll','click',()=>{requirePasswordEveryTime(async()=>{if(!state.records.length){showToast(LANG==='en'?'No records':'沒有記錄','');return;}if(!confirm(LANG==='en'?`Clear all ${state.records.length} records?`:`確定清除全部 ${state.records.length} 筆記錄？`))return;try{const batch=writeBatch(db);state.records.forEach(r=>{batch.delete(doc(db,'records',r.id));});await batch.commit();exitEditMode();resetForm();showToast(LANG==='en'?'All records cleared':'所有記錄已清除','success');}catch(e){showToast((LANG==='en'?'Clear failed: ':'清除失敗：')+e.message,'error');}},LANG==='en'?'Enter password to clear all records.':'清除全部記錄需要密碼驗證。');});
-const bu=document.getElementById('btnUnlockAnalysis');if(bu)bu.addEventListener('click',()=>{requireDeveloperThen(()=>{document.getElementById('analysisLocked').classList.remove('on');document.getElementById('analysisContent').style.display='block';renderAnalysisSection();},LANG==='en'?'Analysis is developer-only.':'對比分析僅限開發者使用。');});const mg=document.getElementById('modeGroup');if(mg)mg.addEventListener('click',e=>{const btn=e.target.closest('.mbtn');if(!btn)return;$$('.mbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');state.comparison.ratio=parseInt(btn.dataset.ratio,10);autoFillPicks();renderPicker();renderAnalysisResult();});on('anBase','change',e=>{state.comparison.base=e.target.value;state.comparison.picks=state.comparison.picks.filter(id=>id!==state.comparison.base);autoFillPicks();renderPicker();renderAnalysisResult();});on('filterDept','change',e=>{state.comparison.departmentFilter=e.target.value;renderPicker();renderAnalysisResult();});on('filterFrom','change',e=>{state.comparison.dateFrom=e.target.value;renderPicker();renderAnalysisResult();});on('filterTo','change',e=>{state.comparison.dateTo=e.target.value;renderPicker();renderAnalysisResult();});on('btnResetFilter','click',()=>{state.comparison.departmentFilter='';state.comparison.dateFrom='';state.comparison.dateTo='';const fd=document.getElementById('filterDept');if(fd)fd.value='';const ff=document.getElementById('filterFrom');if(ff)ff.value='';const ft=document.getElementById('filterTo');if(ft)ft.value='';renderPicker();renderAnalysisResult();showToast(LANG==='en'?'Filter reset':'已清除篩選','success');});on('btnRunAnalysis','click',renderAnalysisResult);on('btnGenReport','click',generateReport);on('rpSave','click',saveReport);on('rpClose','click',closeReport);on('rpPrint','click',()=>window.print());const arEl=document.getElementById('analysisResult');if(arEl)arEl.addEventListener('click',e=>{const btn=e.target.closest('[data-time]');if(!btn)return;state.comparison.timeFilter=btn.dataset.time;renderAnalysisResult();});}
-function boot(){try{applyTheme(getTheme());applyI18n();bindCriteriaEditor();const sa=safeSessionGet(SESSION_KEY)==='1';if(sa&&state.inspector.name)enterApp();else initLogin();}catch(err){console.error('[MRSC] boot:',err);try{initLogin();}catch(e){alert('系統初始化失敗，請重新整理頁面。\n\n錯誤：'+(err?.message||'未知'));}}}
+const bu=document.getElementById('btnUnlockAnalysis');if(bu)bu.addEventListener('click',()=>{requirePasswordEveryTime(()=>{document.getElementById('analysisLocked').classList.remove('on');document.getElementById('analysisContent').style.display='block';renderAnalysisSection();},LANG==='en'?'Enter password to open Analysis.':'進入對比分析需要密碼驗證。');});const mg=document.getElementById('modeGroup');if(mg)mg.addEventListener('click',e=>{const btn=e.target.closest('.mbtn');if(!btn)return;$$('.mbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');state.comparison.ratio=parseInt(btn.dataset.ratio,10);autoFillPicks();renderPicker();renderAnalysisResult();});on('anBase','change',e=>{state.comparison.base=e.target.value;state.comparison.picks=state.comparison.picks.filter(id=>id!==state.comparison.base);autoFillPicks();renderPicker();renderAnalysisResult();});on('filterDept','change',e=>{state.comparison.departmentFilter=e.target.value;renderPicker();renderAnalysisResult();});on('filterFrom','change',e=>{state.comparison.dateFrom=e.target.value;renderPicker();renderAnalysisResult();});on('filterTo','change',e=>{state.comparison.dateTo=e.target.value;renderPicker();renderAnalysisResult();});on('btnResetFilter','click',()=>{state.comparison.departmentFilter='';state.comparison.dateFrom='';state.comparison.dateTo='';const fd=document.getElementById('filterDept');if(fd)fd.value='';const ff=document.getElementById('filterFrom');if(ff)ff.value='';const ft=document.getElementById('filterTo');if(ft)ft.value='';renderPicker();renderAnalysisResult();showToast(LANG==='en'?'Filter reset':'已清除篩選','success');});on('btnRunAnalysis','click',renderAnalysisResult);on('btnGenReport','click',generateReport);on('rpSave','click',saveReport);on('rpClose','click',closeReport);on('rpPrint','click',()=>window.print());const arEl=document.getElementById('analysisResult');if(arEl)arEl.addEventListener('click',e=>{const btn=e.target.closest('[data-time]');if(!btn)return;state.comparison.timeFilter=btn.dataset.time;renderAnalysisResult();});}
+function boot(){
+  try{
+    try{localStorage.removeItem('mrsc_export_password');}catch(e){}
+    applyTheme(getTheme());
+    applyI18n();
+    bindCriteriaEditor();
+    const sa=safeSessionGet(SESSION_KEY)==='1';
+    if(sa&&state.inspector.name)enterApp();else initLogin();
+  }catch(err){
+    console.error('[MRSC] boot:',err);
+    try{initLogin();}catch(e){alert('系統初始化失敗，請重新整理頁面。\n\n錯誤：'+(err?.message||'未知'));}
+  }
+}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 </script></body></html>
