@@ -1709,7 +1709,7 @@ function buildDeptCrossComparison(sorted){
   return html;
 }
 function chartTitle(zh,en){return LANG==='en'?`${escapeHTML(en)} / ${escapeHTML(zh)}`:`${escapeHTML(zh)} / ${escapeHTML(en)}`;}
-  /* ===== 報告主體（重構版） ===== */
+  /* ===== 報告主體（重構版 + 圖表標題中英對照 + 限紅固定配色修復） ===== */
 function buildReportHtml(sorted){
   const now=new Date();
   const generatedAt=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
@@ -1825,7 +1825,7 @@ function buildReportHtml(sorted){
       const cfg=getDeptConfig(dept);
       const coRecs=sorted.map(r=>({company:getCompany(r.id),recs:filterRecs(state.records.filter(rec=>rec.companyId===r.id&&(rec.department||'').trim()===dept))}));
       if(!coRecs.some(x=>x.recs.length>0))return;
-      html+=`<h3 style="font-size:16px;font-weight:800;color:#1a1f2e;margin:26px 0 12px;padding-bottom:8px;border-bottom:1px dashed #d5dae2">${cfg.icon||'📝'} ${escapeHTML(WrLang(dept,LANG))}</h3>`;
+      html+=`<h3 style="font-size:16px;font-weight:800;color:#1a1f2e;margin:26px 0 12px;padding-bottom:8px;border-bottom:1px dashed #d5dae2">${cfg.icon||'📝'} ${escapeHTML(dept)} / ${escapeHTML(WrLang(dept,'en'))}</h3>`;
       html+=narrativeDeptData(dept,coRecs,cfg,sorted,'zh')+narrativeDeptData(dept,coRecs,cfg,sorted,'en');
       if(dept.includes('賭檯運作')){
         const quotaRows=sorted.map(r=>{
@@ -1841,6 +1841,8 @@ function buildReportHtml(sorted){
           html+=`<div class="rp-chart"><div class="rp-chart-title">賭檯使用率對比 / Table Utilization</div>`+svgHBars(quotaRows,{maxVal:100,unit:'%'})+`</div>`;
         }
       }
+
+      /* ===== 【修復 1】數字欄位：圖表標題中英對照 ===== */
       (cfg.fields||[]).filter(f=>f.type==='number').forEach(field=>{
         if(dept.includes('賭檯運作')&&(field.key==='minBet'||field.key==='maxBet')){
           const gameSet=new Set();
@@ -1855,7 +1857,10 @@ function buildReportHtml(sorted){
             });
             if(!items.length)return;
             items.sort((a,b)=>b.value-a.value);
-            html+=`<div class="rp-chart"><div class="rp-chart-title">${escapeHTML(WrLang(field.label,LANG))} · ${escapeHTML(WrLang(game,LANG))}</div>`+svgHBars(items)+`</div>`;
+            const titleZh=`${field.label} · ${game}`;
+            const titleEn=`${WrLang(field.label,'en')} · ${WrLang(game,'en')}`;
+            const title=LANG==='en'?`${titleEn} / ${titleZh}`:`${titleZh} / ${titleEn}`;
+            html+=`<div class="rp-chart"><div class="rp-chart-title">${escapeHTML(title)}</div>`+svgHBars(items)+`</div>`;
           });
         }else{
           const items=[];
@@ -1866,20 +1871,34 @@ function buildReportHtml(sorted){
           });
           if(!items.length)return;
           items.sort((a,b)=>b.value-a.value);
-          html+=`<div class="rp-chart"><div class="rp-chart-title">${escapeHTML(WrLang(field.label,LANG))}（${LANG==='en'?'Average':'平均'}）</div>`+svgHBars(items)+`</div>`;
+          const titleZh=`${field.label}（平均）`;
+          const titleEn=`${WrLang(field.label,'en')} (Average)`;
+          const title=LANG==='en'?`${titleEn} / ${titleZh}`:`${titleZh} / ${titleEn}`;
+          html+=`<div class="rp-chart"><div class="rp-chart-title">${escapeHTML(title)}</div>`+svgHBars(items)+`</div>`;
         }
       });
+
+      /* ===== 【修復 2】下拉欄位：中英對照 + 限紅固定配色 ===== */
       (cfg.fields||[]).filter(f=>f.type==='select').forEach(field=>{
         const options=field.options||[];
         const rows=[];
+        const pickColor=o=>{
+          if(field.key==='tier')return tierColor(o.v);
+          if(field.key==='position')return o.v==='inside'?'#4a90d9':'#e08a2e';
+          if(field.key==='maintainOrder'||field.key==='wifi'||field.key==='water')return o.v==='yes'?'#2ea87a':'#e05252';
+          return hashColor(o.v);
+        };
         coRecs.forEach(cr=>{
           const counts={};
           cr.recs.forEach(rec=>{(rec.venue&&rec.venue.items||[]).forEach(it=>{const v=it[field.key];if(v)counts[v]=(counts[v]||0)+1;});});
-          const segments=options.map(o=>({name:WrLang(o.l,LANG),value:counts[o.v]||0,color:hashColor(o.v)})).filter(s=>s.value>0);
+          const segments=options.map(o=>({name:WrLang(o.l,LANG),value:counts[o.v]||0,color:pickColor(o)})).filter(s=>s.value>0);
           if(segments.length)rows.push({label:coName(cr.company),segments});
         });
         if(!rows.length)return;
-        html+=`<div class="rp-chart"><div class="rp-chart-title">${escapeHTML(WrLang(field.label,LANG))}（${LANG==='en'?'Distribution':'分佈'}）</div>`+svgStackedBars(rows)+`</div>`;
+        const titleZh=`${field.label}（分佈）`;
+        const titleEn=`${WrLang(field.label,'en')} (Distribution)`;
+        const title=LANG==='en'?`${titleEn} / ${titleZh}`:`${titleZh} / ${titleEn}`;
+        html+=`<div class="rp-chart"><div class="rp-chart-title">${escapeHTML(title)}</div>`+svgStackedBars(rows)+`</div>`;
       });
     });
   }
