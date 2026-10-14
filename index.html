@@ -377,9 +377,16 @@ tbody tr.editing td{background:rgba(74,144,217,.08)}
 .rp-insight.good strong{color:#158052}
 .rp-section{page-break-inside:avoid;margin-bottom:30px}
 .rp-page-break{page-break-before:always;height:0}
+.sys-footer{max-width:1500px;margin:0 auto;padding:20px 24px calc(28px + env(safe-area-inset-bottom));border-top:1px solid var(--lineS);display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--muted2);letter-spacing:.4px}
+.sys-footer .sf-l,.sys-footer .sf-r{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sys-footer .sf-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:var(--goldS);border:1px solid var(--goldB2);border-radius:20px;color:var(--gold);font-weight:700;font-size:11px}
+.sys-footer .sf-badge b{color:var(--gold);font-weight:800;letter-spacing:.6px}
+.sys-footer .sf-dev{display:inline-flex;align-items:center;gap:6px;color:var(--muted)}
+.sys-footer .sf-dev b{color:var(--gold);font-weight:700;letter-spacing:.6px}
+.sys-footer .sf-dot{width:4px;height:4px;border-radius:50%;background:var(--ph);opacity:.6;flex-shrink:0}
 @media print{
 body{background:#fff!important}
-.top,.tabs,.tb,.fa,.ra,.btn,#fr,.mbg,.eb,.errbox,#btnAddItem,.gdel,.mg,.welcome,.sg,.db,.menu-wrap,.rec-expand-icon,.crit-editor,.rp-toolbar,.toast,.mo,.tp-overlay{display:none!important}
+.top,.tabs,.tb,.fa,.ra,.btn,#fr,.mbg,.eb,.errbox,#btnAddItem,.gdel,.mg,.welcome,.sg,.db,.menu-wrap,.rec-expand-icon,.crit-editor,.rp-toolbar,.toast,.mo,.tp-overlay,.sys-footer{display:none!important}
 main{display:none!important}
 #app{display:none!important}
 .report-overlay{position:static!important;display:block!important;background:#fff!important;padding:0!important;overflow:visible!important}
@@ -470,6 +477,8 @@ main{padding:14px 16px 50px}.panel{border-radius:14px;margin-bottom:12px}
 .ce-map-row{gap:8px}
 .ce-map-item{flex:1;min-width:calc(33.33% - 6px)}
 .ce-map-item input{width:100%}
+.sys-footer{padding:16px 16px calc(24px + env(safe-area-inset-bottom));flex-direction:column;align-items:flex-start;gap:10px}
+.sys-footer .sf-l,.sys-footer .sf-r{width:100%}
 }
 @media (max-width:400px){
 .br h1{font-size:13px}
@@ -482,6 +491,8 @@ main{padding:12px 12px 50px}.pbody{padding:14px}
 .cp{grid-template-columns:1fr}.mbtn{min-width:calc(50% - 4px)}
 .lc{padding:32px 24px 28px}.mcard-modal{padding:24px 20px 18px}
 .ce-grid{grid-template-columns:1fr}
+.sys-footer{padding:14px 12px calc(22px + env(safe-area-inset-bottom));font-size:11px}
+.sys-footer .sf-badge{font-size:10.5px;padding:4px 10px}
 }
 </style></head>
 <body>
@@ -616,8 +627,18 @@ main{padding:12px 12px 50px}.pbody{padding:14px}
 <div id="analysisResult"></div>
 </div>
 </section>
-</main></div>
-
+</main>
+<footer class="sys-footer" id="sysFooter">
+<div class="sf-l">
+<span class="sf-badge">🚀 <span data-i18n="sysVersion">系統版本</span> <b>v<span data-ver>6.0</span></b></span>
+<span class="sf-dot"></span>
+<span data-i18n="sysBuildLabel">建置於 2026 · MRSC 神秘顧客評核平台</span>
+</div>
+<div class="sf-r">
+<span class="sf-dev">💻 <span data-i18n="sysDeveloper">開發者</span>：<b data-dev>PID (Alex)</b></span>
+</div>
+</footer>
+</div>
 <div class="mo" id="mo"><div class="mcard-modal">
 <div class="mi2" id="mi">🔒</div><h3 id="mt">標題</h3><p class="md2" id="md">說明</p>
 <div class="mf" id="mf"></div><div class="me" id="me"></div>
@@ -680,6 +701,9 @@ const recordsCol=collection(db,'records');
 const criteriaDoc=doc(db,'config','criteria');
 const pwdDoc=doc(db,'config','password');
 
+const APP_VERSION='6.0';
+const APP_DEVELOPER='PID (Alex)';
+const APP_BUILD_YEAR='2026';
 const LANG_KEY='mrsc_lang';
 const getLang=()=>{try{return localStorage.getItem(LANG_KEY)==='en'?'en':'zh';}catch(e){return'zh';}};
 const setLangStorage=l=>{try{localStorage.setItem(LANG_KEY,l);}catch(e){}};
@@ -790,7 +814,10 @@ const T={
   critReset:['↺ 還原預設','↺ Reset Default'],
   critSave:['💾 儲存並套用','💾 Save & Apply'],
   critClose:['✕ 關閉','✕ Close'],
-  critEditorNote:['在此新增、刪除或修改 MRSC 核心評分維度。每個維度可設定圖示、名稱、描述、參考值、滿分，以及 1–5 分對應的 MRSC 分數。變更後請點擊「儲存並套用」，系統會即時同步至雲端。','Add, remove, or edit MRSC core scoring dimensions here. Click "Save & Apply" to sync to cloud.']
+  critEditorNote:['在此新增、刪除或修改 MRSC 核心評分維度。每個維度可設定圖示、名稱、描述、參考值、滿分，以及 1–5 分對應的 MRSC 分數。變更後請點擊「儲存並套用」，系統會即時同步至雲端。','Add, remove, or edit MRSC core scoring dimensions here. Click "Save & Apply" to sync to cloud.'],
+  sysVersion:['系統版本','System Version'],
+  sysBuildLabel:['建置於 2026 · MRSC 神秘顧客評核平台','Built 2026 · MRSC Mystery Customer Assessment Platform'],
+  sysDeveloper:['開發者','Developer']
 };
 const W={
   '賭檯運作（中場）':'Table Ops (Mass)','賭檯運作（高投）':'Table Ops (Premium)','角子機':'Slot Machines','籌碼兌換':'Chip Exchange','保安':'Security','會籍服務':'Membership','穿梭巴士':'Shuttle Bus','衣帽間':'Cloakroom',
@@ -840,6 +867,14 @@ const W={
   '正在編輯':'Editing'
 };
 const Wr=s=>{const str=String(s??'');if(LANG!=='en')return str;return W[str]!==undefined?W[str]:str;};
+function renderSysFooter(){
+  const f=document.getElementById('sysFooter');
+  if(!f)return;
+  const verEl=f.querySelector('[data-ver]');
+  if(verEl)verEl.textContent=APP_VERSION;
+  const devEl=f.querySelector('[data-dev]');
+  if(devEl)devEl.textContent=APP_DEVELOPER;
+}
 function applyI18n(){
   document.querySelectorAll('[data-i18n]').forEach(el=>{const entry=T[el.dataset.i18n];if(!entry)return;el.innerHTML=LANG==='en'?entry[1]:entry[0];});
   document.querySelectorAll('[data-i18n-ph]').forEach(el=>{const entry=T[el.dataset.i18nPh];if(!entry)return;el.placeholder=LANG==='en'?entry[1]:entry[0];});
@@ -847,6 +882,7 @@ function applyI18n(){
   document.documentElement.setAttribute('lang',LANG==='en'?'en':'zh-Hant');
   const fLoc=document.getElementById('fLocation');
   if(fLoc&&fLoc.options.length>=4){const keepVal=fLoc.value;fLoc.options[0].textContent=LANG==='en'?'Please select':'請選擇';fLoc.options[1].textContent=LANG==='en'?'Macau Peninsula':'澳門半島';fLoc.options[2].textContent=LANG==='en'?'Taipa':'氹仔';fLoc.options[3].textContent=LANG==='en'?'Cotai':'路氹城';fLoc.value=keepVal;}
+  renderSysFooter();
 }
 function setLang(l){
   LANG=l;setLangStorage(l);applyI18n();
@@ -929,7 +965,6 @@ async function refreshPasswordCache(){
       const p=String(snap.data().password||'').trim();
       if(p){_pwdCache=p;return true;}
     }
-    /* 雲端文件不存在或密碼為空 → 使用預設（首次設定前） */
     _pwdCache=DEFAULT_PWD;
     return true;
   }catch(e){
@@ -966,7 +1001,6 @@ function closeModal(){const o=document.getElementById('mo');if(o)o.classList.rem
 function modalErr(msg){const e=document.getElementById('me');if(!e)return;e.textContent=msg;e.classList.add('on');e.style.animation='none';void e.offsetWidth;e.style.animation='';}
 function submitModal(){if(!_modalCtx)return;const vals={};_modalCtx.fields.forEach(f=>{const el=document.getElementById(f.id);vals[f.id]=el?el.value:'';});const r=_modalCtx.onSubmit(vals);if(r&&typeof r==='object'&&r.error){modalErr(r.error);return;}if(r===false)return;closeModal();}
 
-/* ===== 密碼驗證函數（雲端必須可讀） ===== */
 async function requirePasswordThen(fn,label){
   const ok=await refreshPasswordCache();
   if(!ok){showToast(LANG==='en'?'Cannot verify: cloud unreachable':'無法驗證：無法連接雲端','error');return;}
@@ -1004,15 +1038,12 @@ function subscribeRecords(){
 async function fetchRecordsFromCloud(){subscribeRecords();showToast(LANG==='en'?'Re-syncing records...':'正在重新同步記錄...','');}
 async function migrateLocalDataToCloud(){const LEGACY=['mrsc_records_v6','mrsc_records_v5','mrsc_records_v4','mrsc_records_v3','mrsc_records_v2','mrsc_records_v1','gsi_records_v3','gsi_records_v2'];let localRecords=null;for(const key of LEGACY){const raw=localStorage.getItem(key);if(raw){try{const d=JSON.parse(raw);if(d&&Array.isArray(d.records)){localRecords=d.records;break;}}catch(e){}}}if(!localRecords||localRecords.length===0)return;if(!confirm(LANG==='en'?`Found ${localRecords.length} local records. Upload to cloud?`:`偵測到本機有 ${localRecords.length} 筆舊記錄，是否要上傳到雲端？`))return;let n=0;for(const rec of localRecords){try{const{id,...data}=rec;const docId=id||('MRSC-LEGACY-'+Date.now()+'-'+Math.random().toString(36).slice(2,8));await setDoc(doc(db,'records',docId),{...data,_legacyId:id,serverTime:serverTimestamp()});n++;}catch(e){}}showToast(LANG==='en'?`Uploaded ${n} records`:`已成功上傳 ${n} 筆記錄`,'success');LEGACY.forEach(k=>localStorage.removeItem(k));}
 
-/* ===== 行業基準線引擎 ===== */
 const _benchCache={};
 const BENCH_TTL=30000;
 const HALF_LIFE_DAYS=90;
 const MIN_COMPANIES=3;
 const MIN_SAMPLES=5;
-
 function invalidateBenchmark(){Object.keys(_benchCache).forEach(k=>delete _benchCache[k]);}
-
 function timeWeight(recordDate){
   if(!recordDate)return 1;
   const d=new Date(recordDate+'T00:00:00');
@@ -1021,7 +1052,6 @@ function timeWeight(recordDate){
   if(days<=0)return 1;
   return Math.pow(0.5,days/HALF_LIFE_DAYS);
 }
-
 function percentile(sorted,p){
   if(!sorted.length)return 0;
   const idx=(sorted.length-1)*p;
@@ -1029,7 +1059,6 @@ function percentile(sorted,p){
   if(lo===hi)return sorted[lo];
   return sorted[lo]+(sorted[hi]-sorted[lo])*(idx-lo);
 }
-
 function computeIndustryBenchmark(force){
   const cacheKey='__all__';
   if(!force&&_benchCache[cacheKey]&&Date.now()-_benchCache[cacheKey]._t<BENCH_TTL)
@@ -1074,18 +1103,7 @@ function computeIndustryBenchmark(force){
     const mean=values.reduce((a,b)=>a+b,0)/n;
     const variance=values.reduce((s,v)=>s+Math.pow(v-mean,2),0)/n;
     const sd=Math.sqrt(variance);
-    return {
-      n,totalSamples,
-      p25:Math.round(percentile(values,0.25)),
-      p50:Math.round(percentile(values,0.50)),
-      p75:Math.round(percentile(values,0.75)),
-      p90:Math.round(percentile(values,0.90)),
-      min:Math.round(values[0]),
-      max:Math.round(values[n-1]),
-      mean:Math.round(mean),
-      sd:Number(sd.toFixed(1)),
-      cv:mean>0?Number((sd/mean).toFixed(3)):0
-    };
+    return {n,totalSamples,p25:Math.round(percentile(values,0.25)),p50:Math.round(percentile(values,0.50)),p75:Math.round(percentile(values,0.75)),p90:Math.round(percentile(values,0.90)),min:Math.round(values[0]),max:Math.round(values[n-1]),mean:Math.round(mean),sd:Number(sd.toFixed(1)),cv:mean>0?Number((sd/mean).toFixed(3)):0};
   };
   const allCompanies={};
   Object.entries(companyScores).forEach(([dept,crits])=>{
@@ -1094,19 +1112,8 @@ function computeIndustryBenchmark(force){
       arr.forEach(x=>allCompanies[critId].push(x));
     });
   });
-  CRITERIA.forEach(c=>{
-    const arr=allCompanies[c.id];
-    if(!arr||!arr.length)return;
-    result.global[c.id]=calcBench(arr);
-  });
-  Object.entries(companyScores).forEach(([dept,crits])=>{
-    result.byDept[dept]={};
-    CRITERIA.forEach(c=>{
-      const arr=crits[c.id];
-      if(!arr||!arr.length)return;
-      result.byDept[dept][c.id]=calcBench(arr);
-    });
-  });
+  CRITERIA.forEach(c=>{const arr=allCompanies[c.id];if(!arr||!arr.length)return;result.global[c.id]=calcBench(arr);});
+  Object.entries(companyScores).forEach(([dept,crits])=>{result.byDept[dept]={};CRITERIA.forEach(c=>{const arr=crits[c.id];if(!arr||!arr.length)return;result.byDept[dept][c.id]=calcBench(arr);});});
   Object.entries(companyScores).forEach(([dept,crits])=>{
     Object.entries(crits).forEach(([critId,arr])=>{
       arr.forEach(item=>{
@@ -1114,34 +1121,24 @@ function computeIndustryBenchmark(force){
         if(!result.byCompanyDept[cid])result.byCompanyDept[cid]={};
         if(!result.byCompanyDept[cid][dept])result.byCompanyDept[cid][dept]={};
         const others=arr.filter(x=>x.companyId!==cid);
-        if(others.length>=2){
-          result.byCompanyDept[cid][dept][critId]=calcBench(others);
-        }
+        if(others.length>=2){result.byCompanyDept[cid][dept][critId]=calcBench(others);}
       });
     });
   });
   _benchCache[cacheKey]=result;
   return result;
 }
-
 function getBenchmark(critId,dept,excludeCompanyId){
   const c=findCrit(critId);
   if(!c)return null;
-  /* 若手動 ref > 0（舊值殘留），自動忽略，改用動態計算 */
   const bm=computeIndustryBenchmark();
   let b=null;
   if(dept&&excludeCompanyId&&bm.byCompanyDept[excludeCompanyId]?.[dept]?.[critId]){
-    b={...bm.byCompanyDept[excludeCompanyId][dept][critId]};
-    b.source='auto-exclusive';
-    b.label='全澳同業基準（排除自身）';
+    b={...bm.byCompanyDept[excludeCompanyId][dept][critId]};b.source='auto-exclusive';b.label='全澳同業基準（排除自身）';
   }else if(dept&&bm.byDept[dept]?.[critId]){
-    b={...bm.byDept[dept][critId]};
-    b.source='auto-dept';
-    b.label='部門基準';
+    b={...bm.byDept[dept][critId]};b.source='auto-dept';b.label='部門基準';
   }else if(bm.global[critId]){
-    b={...bm.global[critId]};
-    b.source='auto-global';
-    b.label='全澳基準';
+    b={...bm.global[critId]};b.source='auto-global';b.label='全澳基準';
   }
   if(!b)return null;
   if(b.n<MIN_COMPANIES||b.totalSamples<MIN_SAMPLES){
@@ -1150,7 +1147,6 @@ function getBenchmark(critId,dept,excludeCompanyId){
   b.value=b.p50;
   return b;
 }
-
 function getRatingLevel(score,bench){
   if(!bench||!bench.p50)return {level:'none',label:'無基準',color:'#888'};
   if(score>=bench.p90)return {level:'excellent',label:'卓越（前 10%）',color:'#2ea87a'};
@@ -1159,7 +1155,6 @@ function getRatingLevel(score,bench){
   if(score>=bench.p25)return {level:'below',label:'一般（中後段）',color:'#d97c28'};
   return {level:'poor',label:'待改善（後段）',color:'#c94141'};
 }
-
 function renderDashboard(){const nEl=document.getElementById('dashName');const iEl=document.getElementById('dashId');const tEl=document.getElementById('dashToday');if(nEl)nEl.textContent=state.inspector.name||(LANG==='en'?'Inspector':'考察人員');if(iEl)iEl.textContent=state.inspector.id||'—';if(tEl){const d=new Date();const w=LANG==='en'?['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()]:['日','一','二','三','四','五','六'][d.getDay()];tEl.textContent=LANG==='en'?`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} (${w})`:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}（週${w}）`;}const total=state.records.length;const unit=LANG==='en'?' rec':'筆';const totEl=document.getElementById('statTotal');if(totEl)totEl.innerHTML=`${total}<small>${unit}</small>`;const totSub=document.getElementById('statTotalSub');if(totSub)totSub.textContent=total===0?(LANG==='en'?'No records yet':'尚未提交記錄'):(LANG==='en'?'Last updated: ':'最後更新：')+getLastUpdatedLabel();const now=new Date();const weekAgo=new Date(now.getTime()-7*24*3600*1000);const wc=state.records.filter(r=>{if(!r.date)return false;const d=new Date(r.date+'T00:00:00');return d>=weekAgo&&d<=now;}).length;const wEl=document.getElementById('statWeek');if(wEl)wEl.innerHTML=`${wc}<small>${unit}</small>`;const cc=new Set(state.records.map(r=>r.companyId)).size;const cEl=document.getElementById('statCompanies');if(cEl)cEl.innerHTML=`${cc}<small>/ ${COMPANIES.length}</small>`;const cSub=document.getElementById('statCompaniesSub');if(cSub){if(cc===0)cSub.textContent=LANG==='en'?'None covered yet':'尚未涵蓋任何休企';else if(cc===COMPANIES.length)cSub.textContent=LANG==='en'?'All companies covered':'已涵蓋全部休企';else cSub.textContent=LANG==='en'?`${COMPANIES.length-cc} remaining`:`尚餘 ${COMPANIES.length-cc} 間未考察`;}const aEl=document.getElementById('statAvg');const aSub=document.getElementById('statAvgSub');if(total===0){if(aEl)aEl.textContent='—';if(aSub)aSub.textContent=LANG==='en'?'No data':'尚無資料';}else{const avg=state.records.reduce((s,r)=>s+calcOverall(r.ratings),0)/total;if(aEl)aEl.innerHTML=`${avg.toFixed(1)}<small>/ 200</small>`;if(aSub)aSub.textContent=LANG==='en'?`Based on ${total} records`:`基於 ${total} 筆記錄`;}renderRecentList();}
 function getLastUpdatedLabel(){if(state.records.length===0)return'—';const sorted=[...state.records].sort((a,b)=>(b.updatedAt||b.submittedAt||'').localeCompare(a.updatedAt||a.submittedAt||''));const ts=sorted[0].updatedAt||sorted[0].submittedAt;if(!ts)return'—';const d=new Date(ts);const diff=Date.now()-d.getTime();const min=Math.floor(diff/60000);if(LANG==='en'){if(min<1)return'just now';if(min<60)return`${min} min ago`;const hr=Math.floor(min/60);if(hr<24)return`${hr} hr ago`;const day=Math.floor(hr/24);if(day<7)return`${day} d ago`;}else{if(min<1)return'剛剛';if(min<60)return`${min} 分鐘前`;const hr=Math.floor(min/60);if(hr<24)return`${hr} 小時前`;const day=Math.floor(hr/24);if(day<7)return`${day} 天前`;}return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
 function renderRecentList(){const w=document.getElementById('recentList');const h=document.getElementById('recentHint');if(!w)return;if(state.records.length===0){w.innerHTML=`<div class="es" style="padding:30px 20px"><div class="ei">📋</div><p>${LANG==='en'?'No records yet.':'尚無考察記錄。'}</p></div>`;if(h)h.textContent=LANG==='en'?'Latest 5':'最新 5 筆';return;}const sorted=[...state.records].sort((a,b)=>(b.updatedAt||b.submittedAt||'').localeCompare(a.updatedAt||a.submittedAt||'')).slice(0,5);if(h)h.textContent=LANG==='en'?`Latest ${sorted.length}`:`最新 ${sorted.length} 筆`;w.innerHTML=sorted.map(r=>{const c=getCompany(r.companyId);const ov=calcOverall(r.ratings);return`<div class="recent-item"><span class="rec-dot" style="background:${c?.color||'#888'}"></span><div class="rec-main"><strong>${escapeHTML(coName(c))} · ${escapeHTML(Wr(r.venueName)||'—')}</strong><span>${escapeHTML(r.date)} ${escapeHTML(r.time)} · ${escapeHTML(Wr(r.department)||'—')} · ${escapeHTML(r.inspectorName||'')}</span></div><span class="rec-score">${ov}</span></div>`;}).join('');}
@@ -1171,7 +1166,7 @@ async function enterApp(){
   const ta=document.getElementById('topAvatar');const fi=document.getElementById('fInspector');
   if(tn)tn.textContent=state.inspector.name;if(ti)ti.textContent=state.inspector.id;
   if(ta)ta.textContent=(state.inspector.name||'考').charAt(0);if(fi)fi.value=state.inspector.name;
-  applyI18n();fillCompanyOptions();fillDepartmentOptions();
+  applyI18n();renderSysFooter();fillCompanyOptions();fillDepartmentOptions();
   showToast(LANG==='en'?'Syncing from cloud...':'正在從雲端同步...','');
   try{await refreshPasswordCache();}catch(e){}
   try{await loadCriteriaFromCloud();}catch(e){}
@@ -1298,10 +1293,7 @@ function renderAnalysisResult(){
   html+='<th>'+(en?'Overall MRSC':'綜合 MRSC')+'</th></tr></thead><tbody>';
   const mx={};CRITERIA.forEach(c=>{mx[c.id]=Math.max(...sorted.map(r=>r.mrsc[c.id]||0));});
   sorted.forEach(r=>{const c=getCompany(r.id);const isB=r.id===baseId;html+=`<tr${isB?' style="background:rgba(212,175,55,.06)"':''}><td><span class="rc"><span class="cdot" style="background:${c.color}"></span>${coName(c)}${isB?' <b style="color:var(--gold);font-size:10px">A</b>':''}</span></td>`;CRITERIA.forEach(cr=>{const v=r.mrsc[cr.id]||0;const raw=r.raw[cr.id]||0;const isMax=v===mx[cr.id]&&sorted.length>1;html+=`<td class="dc ${isMax?'win':''}">${v}<span class="draw">${en?'Raw avg':'原始平均'} ${raw.toFixed(2)}</span>${isMax?'<span style="font-size:10px;color:var(--gold)">▲</span>':''}</td>`;});html+=`<td class="dc" style="color:var(--gold);font-size:14px">${r.overall}</td></tr>`;});
-  const anyRef=CRITERIA.some(c=>{
-    const bm2=getBenchmark(c.id);
-    return bm2&&bm2.p50>0&&bm2.source!=='insufficient';
-  });
+  const anyRef=CRITERIA.some(c=>{const bm2=getBenchmark(c.id);return bm2&&bm2.p50>0&&bm2.source!=='insufficient';});
   if(anyRef){
     html+=`<tr style="border-top:1px solid var(--line)"><td class="dref">${en?'P50 (Median)':'P50 中位'}</td>`;
     CRITERIA.forEach(c=>{const bm2=getBenchmark(c.id);if(bm2&&bm2.p50>0&&bm2.source!=='insufficient')html+=`<td class="dc dref">${bm2.p50}</td>`;else html+=`<td class="dc dref">—</td>`;});
@@ -1346,7 +1338,7 @@ function svgGroupedBars(categories,series,opts={}){const width=720,height=380;co
 function svgRadarMulti(axes,series,opts={}){const size=420,cx=size/2,cy=size/2+8,R=size/2-70;const n=axes.length;const angles=axes.map((a,i)=>-Math.PI/2+i*(2*Math.PI/n));const pt=(angle,r)=>({x:cx+Math.cos(angle)*R*r,y:cy+Math.sin(angle)*R*r});let svg=`<svg viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">`;for(let l=1;l<=4;l++){const pts=angles.map(a=>pt(a,l/4)).map(p=>`${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');svg+=`<polygon points="${pts}" fill="none" stroke="#d5dae2"/>`;}angles.forEach((a,i)=>{const e=pt(a,1);svg+=`<line x1="${cx}" y1="${cy}" x2="${e.x.toFixed(1)}" y2="${e.y.toFixed(1)}" stroke="#d5dae2"/>`;const lb=pt(a,1.16);svg+=`<text x="${lb.x.toFixed(1)}" y="${lb.y.toFixed(1)}" text-anchor="middle" dominant-baseline="middle" fill="#555" font-size="12" font-weight="700">${escapeHTML(axes[i].label)}</text>`;if(axes[i].ref!=null&&axes[i].ref>0){const rr=Math.max(0.02,Math.min(1,(axes[i].ref/(axes[i].max||100))));const rp=pt(a,rr);svg+=`<circle cx="${rp.x.toFixed(1)}" cy="${rp.y.toFixed(1)}" r="3" fill="#d97706" stroke="#fff" stroke-width="1"/>`;}});series.forEach(s=>{const pts=angles.map((a,i)=>pt(a,Math.max(0.02,Math.min(1,(s.values[i]||0)/(axes[i].max||100)))));const ps=pts.map(p=>`${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');svg+=`<polygon points="${ps}" fill="${hexA(s.color,0.15)}" stroke="${s.color}" stroke-width="2" stroke-linejoin="round"/>`;pts.forEach(p=>{svg+=`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.5" fill="${s.color}" stroke="#fff"/>`;});});svg+='</svg>';return svg;}
 function svgStackedBars(rows,opts={}){const width=720,rowH=42,padding={top:20,right:60,bottom:44,left:140};const height=padding.top+padding.bottom+rowH*rows.length;const chartW=width-padding.left-padding.right;let svg=`<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">`;rows.forEach((row,i)=>{const y=padding.top+i*rowH;const total=row.segments.reduce((s,x)=>s+x.value,0)||1;svg+=`<text x="${padding.left-10}" y="${y+rowH/2+5}" text-anchor="end" font-size="12.5" fill="#333" font-weight="600">${escapeHTML(row.label)}</text>`;let x=padding.left;row.segments.forEach(seg=>{const w=(seg.value/total)*chartW;svg+=`<rect x="${x.toFixed(1)}" y="${y+9}" width="${w.toFixed(1)}" height="${rowH-18}" fill="${seg.color}"/>`;if(w>28)svg+=`<text x="${(x+w/2).toFixed(1)}" y="${y+rowH/2+5}" text-anchor="middle" font-size="11" fill="#fff" font-weight="700">${seg.value}</text>`;x+=w;});svg+=`<text x="${width-8}" y="${y+rowH/2+5}" text-anchor="end" font-size="11" fill="#888">${total}</text>`;});const allSegs=[...new Map(rows.flatMap(r=>r.segments.map(s=>[s.name,s]))).values()];const legendY=height-padding.bottom+22;let lx=padding.left;allSegs.forEach(s=>{svg+=`<rect x="${lx}" y="${legendY-10}" width="12" height="12" fill="${s.color}" rx="2"/>`;svg+=`<text x="${lx+17}" y="${legendY+1}" font-size="11" fill="#555">${escapeHTML(s.name)}</text>`;lx+=s.name.length*12+36;});svg+='</svg>';return svg;}
 
-/* ===== 報告文字生成（只描述數據 + 基準） ===== */
+/* ===== 報告文字生成 ===== */
 function pctCalc(a,b){return Math.max(0,Math.min(100,((a-Math.max(b,0.001))/Math.max(b,0.001)*100))).toFixed(0);}
 function getEnvDistForCompany(companyId){const rs=filterRecs(state.records.filter(r=>r.companyId===companyId));const out={};ENV_KEYS.forEach(k=>{const counts={};let total=0;rs.forEach(r=>{const v=r.venue&&r.venue.env&&r.venue.env[k];if(v){counts[v]=(counts[v]||0)+1;total++;}});out[k]={counts,total};});return out;}
 function deptAggByCompany(sorted,dept){return sorted.map(r=>{const rs=state.records.filter(x=>x.companyId===r.id&&(x.department||'').trim()===dept);const rs2=filterRecs(rs);if(!rs2.length)return{company:getCompany(r.id),count:0,overall:0,dims:{}};const dims={};CRITERIA.forEach(c=>{const vals=rs2.map(x=>x.ratings?x.ratings[c.id]:null).filter(v=>v);dims[c.id]=vals.length?Math.round(vals.reduce((s,v)=>s+toMRSC(c.id,v),0)/vals.length):0;});const norm=CRITERIA.map(c=>{const vals=rs2.map(x=>x.ratings?x.ratings[c.id]:null).filter(v=>v);return vals.length?vals.reduce((s,v)=>s+normMRSC(c.id,toMRSC(c.id,v)),0)/vals.length:0;});const overall=norm.length?Math.round((norm.reduce((a,b)=>a+b,0)/norm.length)*2):0;return{company:getCompany(r.id),count:rs2.length,overall,dims};}).filter(x=>x.count>0);}
@@ -1390,10 +1382,7 @@ function narrativeEnvAnalysis(k,sorted){
   html+=`<ul class="rp-list" style="font-size:13px">`;
   rowsSorted.forEach(r=>{
     const entries=Object.entries(r.d.counts).sort((a,b)=>b[1]-a[1]);
-    const parts=entries.map(([v,cnt])=>{
-      const o=ed.options.find(x=>x.v===v);
-      return `${o?Wr(o.l):v} × ${cnt}`;
-    });
+    const parts=entries.map(([v,cnt])=>{const o=ed.options.find(x=>x.v===v);return `${o?Wr(o.l):v} × ${cnt}`;});
     html+=`<li><b>${escapeHTML(r.name)}</b>（共 ${r.d.total} 次）：${parts.join('、')}</li>`;
   });
   html+=`</ul>`;
@@ -1418,11 +1407,7 @@ function narrativeDeptData(dept,coRecs,cfg,sorted){
     const minItem=items.reduce((a,b)=>a.avg<b.avg?a:b);
     const overallAvg=items.reduce((s,x)=>s+x.avg,0)/items.length;
     html+=`<p class="rp-para">「<b>${escapeHTML(Wr(fd.label))}</b>」：全組平均 <b>${overallAvg.toFixed(1)}</b>（涵蓋 ${items.reduce((s,x)=>s+x.count,0)} 個樣本）。最高為 <b>${escapeHTML(coName(maxItem.company))}</b>（平均 ${maxItem.avg.toFixed(1)}，範圍 ${maxItem.min}–${maxItem.max}）；最低為 <b>${escapeHTML(coName(minItem.company))}</b>（平均 ${minItem.avg.toFixed(1)}）。`;
-    if(maxItem.avg>minItem.avg){
-      const gap=maxItem.avg-minItem.avg;
-      const ratio=pctCalc(maxItem.avg,minItem.avg);
-      html+=`兩者差距 ${gap.toFixed(1)}（相對差距 ${ratio}%）。`;
-    }
+    if(maxItem.avg>minItem.avg){const gap=maxItem.avg-minItem.avg;const ratio=pctCalc(maxItem.avg,minItem.avg);html+=`兩者差距 ${gap.toFixed(1)}（相對差距 ${ratio}%）。`;}
     html+=`</p>`;
   });
   return html;
@@ -1447,13 +1432,139 @@ function narrativeMethodology(){
     +`<p class="rp-para">當樣本不足（&lt; ${MIN_COMPANIES} 間企業或 &lt; ${MIN_SAMPLES} 筆樣本）時，基準標示為「樣本不足」，報告不對比。環境觀察數據以選項分佈方式呈現；數字型運營數據以平均數計算；選項型運營數據以分佈圖對比；文字型運營數據列出出現類別。</p>`;
 }
 
-/* ===== 整體結論：以基準企業（A 方）為中心 ===== */
+/* ===== 建設性改善行動知識庫（與部門專屬項目結合） ===== */
+const ACTION_LIBRARY=[
+  {
+    keys:['產品','資訊','知識','product','information','knowledge'],
+    tag:'核心業務',
+    diagnosis:'前線員工對企業最新產品資訊（餐飲、演出、酒店優惠、會員權益等）掌握不足，面對客人查詢時無法即時回應或主動推介，導致資訊傳遞出現斷層，錯失交叉銷售機會。',
+    actions:[
+      {title:'建立每日資訊更新機制',detail:'由市場部每日彙整最新產品資訊，於各部門早會由主管進行 5 分鐘重點宣達，確保前線人員同步掌握當日主推項目。此為所有改善行動的基礎，須優先落實。'},
+      {title:'於服務流程中增設主動推介環節',detail:'要求員工在完成基礎服務後，主動針對客人屬性推介一項相關產品。{deptHook}客人完成主要需求後正是最佳推介時機，應將此環節正式納入服務流程標準作業程序。',deptHooks:['籌碼兌換','會籍服務','衣帽間']},
+      {title:'編製隨身話術卡',detail:'針對常見查詢（如「有咩好食？」「邊度有表演？」）製作標準回應範本，供{deptHook}等前線崗位隨身攜帶，確保回應一致性。',deptHooks:['賭檯運作','角子機','保安','穿梭巴士']},
+      {title:'每週知識測驗',detail:'以線上形式進行產品知識測驗，未達標者由主管安排一對一輔導，直至補考通過。此機制旨在持續維持前線人員的產品熟悉度。'}
+    ]
+  },
+  {
+    keys:['主動','招徠','proactive','initiative'],
+    tag:'服務意識',
+    diagnosis:'員工多處於被動等待狀態，缺乏在客流高峰期主動觀察客人需求並上前引導的意識。客人徘徊、神情迷茫時未能及時獲得協助，直接影響整體服務體驗。',
+    actions:[
+      {title:'於客流高峰時段增設主動引導崗',detail:'在{deptHook}等區域安排專責「主動引導大使」，觀察客人動線（徘徊、神情迷茫），主動上前提供指引——包括介紹服務項目、指引相關位置、說明流程。',deptHooks:['賭檯運作','角子機']},
+      {title:'優化崗位職責說明',detail:'於{deptHook}等崗位的職責說明中，明確加入「主動問候與引導」要求，將被動等待轉為主動出擊。',deptHooks:['保安','穿梭巴士']},
+      {title:'導入「破冰三步驟」培訓',detail:'教導員工：①觀察客人肢體語言 → ②保持適當距離靠近 → ③以開放式問題問候（如「先生，搵緊邊款遊戲？」）。透過情境演練確保熟練運用，並定期抽查落實情況。'},
+      {title:'優化現場人力配置',detail:'重新檢視客流高峰期的人力安排，確保有足夠人手進行外場引導，避免因人力不足而被迫採取被動模式。'}
+    ]
+  },
+  {
+    keys:['耐心','情緒','patience','emotion','calm'],
+    tag:'服務品質',
+    diagnosis:'員工在面對查詢、特殊要求或語言障礙時，情緒穩定性與耐心有待提升。在需排隊等候的崗位尤為明顯，長時間服務壓力下容易影響服務品質與整體體驗。',
+    actions:[
+      {title:'加強耐心與情緒管理培訓',detail:'針對{deptHook}等需處理複雜查詢或面對排隊壓力的崗位，提供「困難對話情境演練」，教導員工在面對情緒激動或不滿的客人時保持穩定情緒。',deptHooks:['籌碼兌換','會籍服務','衣帽間']},
+      {title:'優化排隊管理機制',detail:'重新檢視{deptHook}等崗位的排隊動線與人力配置，減少客人等候時間與員工服務壓力，從根源降低衝突發生機率。',deptHooks:['籌碼兌換','會籍服務','衣帽間']},
+      {title:'加強跨語言溝通基礎培訓',detail:'針對前線崗位提供普通話及英語常用服務用語培訓，減少因語言障礙導致的溝通誤會與耐心消耗。'},
+      {title:'建立服務案例分享機制',detail:'每週由各部門主管選出一則優質服務案例，於早會分享並記錄存檔，作為內部學習素材。'}
+    ]
+  },
+  {
+    keys:['笑容','禮儀','親切','smile','courtesy','friendliness'],
+    tag:'服務形象',
+    diagnosis:'員工基本服務禮儀已達標，但笑容、眼神接觸等細節仍有提升空間，缺乏差異化、有溫度的服務體驗，未能形成深刻的服務印象。',
+    actions:[
+      {title:'制定前線服務禮儀標準作業程序',detail:'明確規範微笑、眼神接觸、問候語及送別語，並於各部門張貼可視化提示。特別針對{deptHook}等直接面對客人的崗位，要求員工在每次服務開始與結束時均需保持眼神接觸與基本問候。',deptHooks:['籌碼兌換','會籍服務','衣帽間','賭檯運作']},
+      {title:'推行微笑與眼神接觸專項行動',detail:'由各部門主管每日進行現場觀察與即時回饋，持續強化服務形象，逐步形成團隊氛圍。'},
+      {title:'建立服務案例分享機制',detail:'每週由各部門主管選出一則優質服務案例，於早會分享並記錄存檔，作為內部學習素材。'},
+      {title:'將服務禮儀納入日常管理',detail:'將服務禮儀落實情況納入日常管理考核，透過持續督導確保標準得以維持。'}
+    ]
+  },
+  {
+    keys:['安全','秩序','保安','security','order','safety'],
+    tag:'基礎保障',
+    diagnosis:'保安與秩序維持是服務體驗的基礎保障。此維度若出現落後，將直接影響整體服務形象及客人信心。',
+    actions:[
+      {title:'強化崗位標準化作業',detail:'針對{deptHook}等崗位，明確規範制服整潔、站姿、禮貌用語等基本要求，並透過每日點名進行檢查。',deptHooks:['保安']},
+      {title:'優化進場流程',detail:'檢視進場用時與流程順暢度，減少客人等候時間，提升第一印象。'},
+      {title:'加強跨語言溝通基礎培訓',detail:'針對保安崗位提供普通話及英語常用服務用語培訓，確保能有效應對不同語言背景的客人。'},
+      {title:'建立應急處理標準程序',detail:'針對突發事件建立標準處理程序，確保員工在壓力情境下仍能維持專業表現。'}
+    ]
+  },
+  {
+    keys:['溝通','態度','communication','attitude','manner'],
+    tag:'服務基礎',
+    diagnosis:'溝通與態度是服務品質的核心基礎，涵蓋語言表達、應對進退及整體服務態度，直接影響客人對企業的整體印象。',
+    actions:[
+      {title:'制定溝通標準作業程序',detail:'明確規範問候語、應對用語及送別語，並於各部門落實執行。{deptHook}等直接面對客人的崗位尤須嚴格遵守。',deptHooks:['籌碼兌換','會籍服務','衣帽間','保安']},
+      {title:'加強跨語言溝通基礎培訓',detail:'提供普通話及英語常用服務用語培訓，減少因語言障礙導致的溝通誤會。'},
+      {title:'建立服務案例分享機制',detail:'每週由各部門主管選出一則優質溝通案例，於早會分享並記錄存檔，作為內部學習素材。'},
+      {title:'將溝通表現納入日常管理',detail:'透過主管日常觀察與即時回饋，持續強化溝通品質，逐步建立標準化服務文化。'}
+    ]
+  },
+  {
+    keys:['效率','速度','流程','efficiency','speed','flow'],
+    tag:'運營效率',
+    diagnosis:'服務流程效率直接影響客人體驗，等候時間過長或流程不順暢將顯著降低整體滿意度。',
+    actions:[
+      {title:'優化服務流程',detail:'檢視{deptHook}等崗位的服務流程，識別瓶頸環節並進行優化，縮短客人等候時間。',deptHooks:['籌碼兌換','會籍服務','衣帽間']},
+      {title:'優化排隊管理機制',detail:'重新檢視排隊動線與人力配置，於高峰時段靈活調配人手，減少擁塞情況。'},
+      {title:'評估引入數位化輔助工具',detail:'評估引入數位化工具輔助服務流程的可行性，減少人手操作時間，提升整體效率。'},
+      {title:'建立效率監測指標',detail:'針對等候時間、處理速度等建立監測指標，定期檢視並持續改善。'}
+    ]
+  }
+];
+function matchActionTemplate(critName){
+  if(!critName)return null;
+  const name=String(critName).toLowerCase();
+  for(const tpl of ACTION_LIBRARY){
+    if(tpl.keys.some(k=>name.includes(String(k).toLowerCase())))return tpl;
+  }
+  return null;
+}
+function getReportDepts(sorted){
+  const filterDept=state.comparison.departmentFilter||'';
+  const depts=new Set();
+  sorted.forEach(r=>{
+    state.records.filter(rec=>rec.companyId===r.id).forEach(rec=>{
+      const d=(rec.department||'').trim();
+      if(d&&(!filterDept||d===filterDept))depts.add(d);
+    });
+  });
+  return [...depts];
+}
+function fillDeptHook(text,depts,deptHooks){
+  if(!text)return text;
+  if(!/\{deptHook\}/.test(text))return text;
+  let use=[];
+  if(deptHooks&&deptHooks.length){use=depts.filter(d=>deptHooks.some(h=>d.includes(h)));}
+  if(!use.length)use=depts.slice(0,3);
+  if(!use.length)return text.replace(/\{deptHook\}/g,'前線');
+  const label='【'+use.slice(0,3).join('】、【')+'】';
+  return text.replace(/\{deptHook\}/g,label);
+}
+function buildConstructiveActions(dimName,depts,isHighest){
+  const tpl=matchActionTemplate(dimName);
+  if(!tpl){
+    return {
+      tag:isHighest?'重點關注':'持續優化',
+      diagnosis:'此維度於本次對比中呈現落後，建議深入檢視前線執行情況，找出瓶頸環節並制定針對性改善措施。',
+      actions:[
+        {title:'深入檢視執行現況',detail:'由部門主管進行現場觀察，記錄服務流程中的具體痛點與瓶頸，作為制定改善方案的依據。'},
+        {title:'制定針對性改善方案',detail:'根據現場觀察結果，制定具體可行的改善措施，明確負責人及時間節點。'},
+        {title:'建立追蹤機制',detail:'設立月度檢視機制，持續追蹤改善措施的落實情況及成效。'}
+      ]
+    };
+  }
+  return tpl;
+}
+
+/* ===== 整體結論（建設性改善，以基準企業為中心） ===== */
 function narrativeConclusion(sorted,avgAllDim,modeTxt){
   const baseId=state.comparison.base;
   const baseRow=sorted.find(r=>r.id===baseId)||sorted[0];
   const baseC=getCompany(baseRow.id);
   const others=sorted.filter(r=>r.id!==baseRow.id);
   const isBaseMissing=baseRow.id!==baseId;
+  const depts=getReportDepts(sorted);
 
   const dimCompare=CRITERIA.map(cr=>{
     const bm=getBenchmark(cr.id);
@@ -1480,29 +1591,22 @@ function narrativeConclusion(sorted,avgAllDim,modeTxt){
   html+=`<p class="rp-para">本節以使用者選擇的 <b style="color:#a37800">基準休企（A 方）：${escapeHTML(coName(baseC))}</b> 為分析中心，與 ${others.length} 間對比休企（B 方）逐維度比較，找出基準企業的優勢、劣勢及改善方向。</p>`;
   html+=`<p class="rp-para"><b>基準企業：</b>${escapeHTML(coName(baseC))}（綜合 ${baseRow.overall}/200，樣本 ${baseRow.count} 筆）`;
   html+=`　·　<b>對比企業：</b>${others.map(o=>{const c=getCompany(o.id);return `${escapeHTML(coName(c))}（${o.overall}/200，${o.count} 筆）`;}).join('、')}。</p>`;
-  if(isBaseMissing){
-    html+=`<div class="rp-insight warn"><strong>⚠ 注意：</strong>所選基準企業於本次篩選條件下無有效記錄，已自動以綜合排名首位作替代。</div>`;
-  }
+  if(isBaseMissing){html+=`<div class="rp-insight warn"><strong>⚠ 注意：</strong>所選基準企業於本次篩選條件下無有效記錄，已自動以綜合排名首位作替代。</div>`;}
+  if(depts.length){html+=`<p class="rp-para"><b>本次分析涵蓋部門：</b>${depts.map(d=>escapeHTML(Wr(d))).join('、')}（共 ${depts.length} 個）。</p>`;}
 
   html+=`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">二、綜合表現對比</h4>`;
   const groupRank=1+sorted.filter(r=>r.overall>baseRow.overall&&r.id!==baseRow.id).length;
   const groupTotal=sorted.length;
   html+=`<p class="rp-para">基準企業綜合得分 <b>${baseRow.overall}/200</b>，於本次對比 ${groupTotal} 間企業中排名第 <b>${groupRank}</b>。`;
-  if(groupRank===1){
-    html+=`為本次對比組之<b style="color:#158052">綜合第一</b>。`;
-  }else{
-    const ahead=sorted.filter(r=>r.overall>baseRow.overall&&r.id!==baseRow.id);
-    html+=`領先基準企業的企業為：${ahead.map(r=>{const c=getCompany(r.id);return `<b>${escapeHTML(coName(c))}</b>（+${r.overall-baseRow.overall} 分）`;}).join('、')}。`;
-  }
+  if(groupRank===1){html+=`為本次對比組之<b style="color:#158052">綜合第一</b>。`;}
+  else{const ahead=sorted.filter(r=>r.overall>baseRow.overall&&r.id!==baseRow.id);html+=`領先基準企業的企業為：${ahead.map(r=>{const c=getCompany(r.id);return `<b>${escapeHTML(coName(c))}</b>（+${r.overall-baseRow.overall} 分）`;}).join('、')}。`;}
   html+=`</p>`;
 
   html+=`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">三、逐維度對比（基準 vs 對比組）</h4>`;
   html+=`<p class="rp-para">下表顯示基準企業於各維度的得分、對比組平均、與對比組之差距，以及基準企業在組內的排名。</p>`;
-
   html+=`<table class="rp-table" style="margin:10px 0"><thead><tr>`;
   html+=`<th>維度</th><th>基準企業</th><th>對比組平均</th><th>差距</th><th>組內排名</th><th>評語</th>`;
   html+=`</tr></thead><tbody>`;
-
   dimCompare.forEach(d=>{
     const gapColor=d.gap>0?'#158052':d.gap<0?'#c93636':'#888';
     const gapSign=d.gap>0?'+':'';
@@ -1533,9 +1637,7 @@ function narrativeConclusion(sorted,avgAllDim,modeTxt){
       html+=`<li><b>${escapeHTML(d.crit.name)}</b>：基準 ${d.baseVal} 分，對比組平均 ${d.othersAvg} 分（<b style="color:#158052">領先 ${d.gap} 分</b>）。${d.leadAll?'<b>領先所有對比企業</b>。':`最接近的對手為 ${escapeHTML(bestOther)}（${d.best.value} 分）。`}</li>`;
     });
     html+=`</ul>`;
-  }else{
-    html+=`<p class="rp-para" style="color:#888">基準企業於各維度均未明顯領先對比組平均（差距 &lt;3 分）。</p>`;
-  }
+  }else{html+=`<p class="rp-para" style="color:#888">基準企業於各維度均未明顯領先對比組平均（差距 &lt;3 分）。</p>`;}
 
   html+=`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">五、基準企業劣勢維度</h4>`;
   if(lags.length){
@@ -1543,12 +1645,10 @@ function narrativeConclusion(sorted,avgAllDim,modeTxt){
     html+=`<ul class="rp-list">`;
     lags.forEach(d=>{
       const bestOther=d.best?coName(d.best.company):'—';
-      html+=`<li><b>${escapeHTML(d.crit.name)}</b>：基準 ${d.baseVal} 分，對比組平均 ${d.othersAvg} 分（<b style="color:#c93636">落後 ${Math.abs(d.gap)} 分</b>）。${d.loseAll?`<b>落後所有對比企業</b>，建議列為首要改善項目。`:`對比組最高為 ${escapeHTML(bestOther)}（${d.best.value} 分），可作為學習標竿。`}</li>`;
+      html+=`<li><b>${escapeHTML(d.crit.name)}</b>：基準 ${d.baseVal} 分，對比組平均 ${d.othersAvg} 分（<b style="color:#c93636">落後 ${Math.abs(d.gap)} 分</b>）。${d.loseAll?`<b>落後所有對比企業</b>，建議列為首要改善項目。`:`對比組最高為 ${escapeHTML(bestOther)}（${d.best.value} 分），可作為參考標竿。`}</li>`;
     });
     html+=`</ul>`;
-  }else{
-    html+=`<p class="rp-para" style="color:#888">基準企業於各維度均未明顯落後對比組平均（差距 &lt;3 分）。</p>`;
-  }
+  }else{html+=`<p class="rp-para" style="color:#888">基準企業於各維度均未明顯落後對比組平均（差距 &lt;3 分）。</p>`;}
 
   if(onPar.length){
     html+=`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">六、持平維度</h4>`;
@@ -1560,26 +1660,43 @@ function narrativeConclusion(sorted,avgAllDim,modeTxt){
   html+=`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">七、改善優先次序建議</h4>`;
 
   if(lags.length>0){
-    html+=`<p class="rp-para">根據差距大小，建議基準企業按以下優先次序規劃改善方案：</p>`;
-    html+=`<ol class="rp-list" style="padding-left:24px">`;
+    html+=`<p class="rp-para">根據各維度落後對比組的差距，結合本次報告涵蓋的部門運營數據，建議基準企業按以下優先次序規劃改善方案。所有行動方案均與系統內對應的部門專屬項目掛鉤，確保可落地、可追蹤、可評估。</p>`;
     const lagsSorted=[...lags].sort((a,b)=>a.gap-b.gap);
     lagsSorted.forEach((d,i)=>{
       const priority=i===0?'【最高優先】':i===1?'【次高優先】':'【持續改善】';
-      const bestOther=d.best?coName(d.best.company):'—';
-      html+=`<li><b>${priority}${escapeHTML(d.crit.name)}</b>：落後對比組平均 ${Math.abs(d.gap)} 分${d.loseAll?'（落後全組）':''}。`;
-      html+=`建議參考對比組最佳做法（${escapeHTML(bestOther)}：${d.best.value} 分）進行改善。</li>`;
+      const gapAbs=Math.abs(d.gap);
+      const tpl=buildConstructiveActions(d.crit.name,depts,i===0);
+      const rankText=`${priority}${escapeHTML(d.crit.name)}（落後對比組 ${gapAbs} 分）`;
+      const borderColor=i===0?'#c93636':i===1?'#d97706':'#a37800';
+      html+=`<div style="margin:18px 0 14px;padding:16px 20px;background:#fbf8ec;border-left:4px solid ${borderColor};border-radius:8px">`;
+      html+=`<div style="font-size:14px;font-weight:800;color:#1a1f2e;margin-bottom:10px">${rankText}</div>`;
+      html+=`<div style="font-size:12.5px;color:#555;margin-bottom:10px;line-height:1.7"><b style="color:#a37800">問題診斷：</b>${escapeHTML(tpl.diagnosis)}</div>`;
+      html+=`<div style="font-size:12.5px;color:#333;margin-bottom:8px;font-weight:700">具體行動方案：</div>`;
+      html+=`<ol class="rp-list" style="padding-left:24px;margin:0">`;
+      tpl.actions.forEach(a=>{
+        const filled=fillDeptHook(a.detail,depts,a.deptHooks);
+        html+=`<li style="margin-bottom:8px"><b>${escapeHTML(a.title)}</b>：${filled}</li>`;
+      });
+      html+=`</ol>`;
+      const bestScore=d.best?d.best.value:0;
+      const targetScore=Math.min(Math.round((d.baseVal+bestScore)/2)+10,200);
+      const timeFrame=i===0?'3 個月內':i===1?'3–6 個月':'6 個月內';
+      html+=`<div style="margin-top:12px;padding-top:10px;border-top:1px dashed #d5dae2;font-size:12.5px;color:#333;line-height:1.7"><b style="color:#a37800">預期成效：</b>目標於${timeFrame}將該維度得分由 ${d.baseVal} 分提升至 <b>${targetScore} 分</b> 以上，逐步收窄與對比組最佳表現（${escapeHTML(d.best?coName(d.best.company):'—')}：${bestScore} 分）的差距。建議將此目標納入相關部門的季度營運指標，並於下次評核週期檢視達成情況。</div>`;
+      html+=`</div>`;
     });
-    html+=`</ol>`;
   }else{
-    html+=`<p class="rp-para">基準企業於各維度均未明顯落後對比組，無迫切改善項目。建議持續保持現有水平，並從「持平」維度中尋找進一步優化空間。</p>`;
+    html+=`<p class="rp-para">基準企業於各維度均未明顯落後對比組平均（差距 &lt;3 分），暫無迫切改善項目。建議持續保持現有水平，並從「持平」維度中尋找進一步優化空間。</p>`;
   }
 
   if(leads.length>0){
-    html+=`<p class="rp-para"><b>優勢鞏固建議：</b>基準企業於 ${leads.map(d=>escapeHTML(d.crit.name)).join('、')} 已明顯領先對比組，建議將此優勢列為服務標準，並向內部推廣成功經驗，維持領先地位。</p>`;
+    html+=`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">八、優勢鞏固建議</h4>`;
+    const deptLabel=depts.length?`【${depts.slice(0,3).map(d=>escapeHTML(Wr(d))).join('】、【')}】`:'其他服務前線';
+    html+=`<p class="rp-para">基準企業於 <b>${leads.map(d=>escapeHTML(d.crit.name)).join('、')}</b> 已明顯領先對比組，建議將此優勢編寫為《內部服務標準作業程序（SOP）》，作為新員工培訓教材，並安排領先維度的優秀員工進行跨部門經驗分享，將成功模式複製至${deptLabel}，實現整體服務水平的均衡提升。</p>`;
   }
 
-  html+=`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">八、數據說明</h4>`;
-  html+=`<p class="rp-para">本報告數據來自 MRSC 神秘顧客評核系統雲端記錄。「對比組平均」為所有 B 方企業於該維度的加權平均。所有差距以「基準企業得分 − 對比組平均」計算，正值表示基準領先，負值表示落後。報告所有分析僅基於上述數據，不含任何推測性結論。</p>`;
+  const conclusionIdx=leads.length>0?'九':'八';
+  html+=`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">${conclusionIdx}、數據說明</h4>`;
+  html+=`<p class="rp-para">本報告數據來自 MRSC 神秘顧客評核系統雲端記錄。「對比組平均」為所有 B 方企業於該維度的加權平均。所有差距以「基準企業得分 − 對比組平均」計算，正值表示基準領先，負值表示落後。改善建議均與系統內對應的部門專屬項目掛鉤（如籌碼兌換、會籍服務、賭檯運作、保安、穿梭巴士等），並以可執行、可追蹤為原則制定。報告所有分析僅基於上述數據，不含任何推測性結論。</p>`;
 
   return html;
 }
@@ -1600,10 +1717,7 @@ function buildReportHtml(sorted){
   const avgAllDim={};CRITERIA.forEach(cr=>{avgAllDim[cr.id]=Math.round(sorted.reduce((s,r)=>s+(r.mrsc[cr.id]||0),0)/sorted.length);});
   const allDepts=new Set();sorted.forEach(r=>{state.records.filter(rec=>rec.companyId===r.id).forEach(rec=>{const d=(rec.department||'').trim();if(d&&(!f.departmentFilter||d===f.departmentFilter))allDepts.add(d);});});
   const depts=[...allDepts].sort();
-  const anyRef=CRITERIA.some(c=>{
-    const bm=getBenchmark(c.id);
-    return bm&&bm.p50>0&&bm.source!=='insufficient';
-  });
+  const anyRef=CRITERIA.some(c=>{const bm=getBenchmark(c.id);return bm&&bm.p50>0&&bm.source!=='insufficient';});
   let html='';
   html+=`<div class="rp-cover"><div class="logo">澳</div><h1>MRSC 神秘顧客評核分析報告</h1><div class="sub">Macau Six IRs Service Assessment Report</div><div class="info"><div><b>生成時間：</b>${generatedAt}</div><div><b>基準企業：</b>${escapeHTML(coName(baseC))}</div><div><b>對比模式：</b>${modeTxt}</div><div><b>參與企業：</b>${sorted.length} 間</div><div><b>有效樣本：</b>${totalSamples} 筆</div><div><b>篩選條件：</b>${filterTxt}</div><div><b>行業基準：</b>${anyRef?'統計百分位法（P25/P50/P75/P90）':'樣本不足'}</div></div></div>`;
   html+=`<div class="rp-section"><h2>一、執行摘要</h2>`;
@@ -1624,8 +1738,7 @@ function buildReportHtml(sorted){
   CRITERIA.forEach(c=>{
     const bm=getBenchmark(c.id);
     let refLabel='';
-    if(bm&&bm.p50>0&&bm.source!=='insufficient'){refLabel=`P50 ${bm.p50}`;}
-    else{refLabel='無基準';}
+    if(bm&&bm.p50>0&&bm.source!=='insufficient'){refLabel=`P50 ${bm.p50}`;}else{refLabel='無基準';}
     html+=`<th>${escapeHTML(c.name)}<br><small style="font-weight:400;color:#888">(${refLabel})</small></th>`;
   });
   html+=`<th>綜合 MRSC</th></tr></thead><tbody>`;
@@ -1633,10 +1746,7 @@ function buildReportHtml(sorted){
   sorted.forEach(r=>{const c=getCompany(r.id);const isB=r.id===baseRow.id;html+=`<tr${isB?' style="background:#fbf8ec"':''}><td><span class="rp-dot" style="display:inline-block;background:${c.color};margin-right:6px"></span>${escapeHTML(coName(c))}${isB?' ⭐':''}</td><td>${r.count}</td>`;CRITERIA.forEach(cr=>{const v=r.mrsc[cr.id]||0;const isMax=v===maxDim[cr.id]&&sorted.length>1;html+=`<td class="${isMax?'cell-win':''}">${v}</td>`;});html+=`<td style="color:#a37800;font-weight:700">${r.overall}</td></tr>`;});
   html+=`</tbody></table>`;
   CRITERIA.forEach(cr=>{html+=narrativeDimAnalysis(cr.id,sorted,avgAllDim,modeTxt);});
-  const benchList=CRITERIA.map(c=>{
-    const bm=getBenchmark(c.id);
-    return {crit:c,bm:bm,avg:avgAllDim[c.id]};
-  }).filter(x=>x.bm&&x.bm.p50>0&&x.bm.source!=='insufficient');
+  const benchList=CRITERIA.map(c=>{const bm=getBenchmark(c.id);return {crit:c,bm:bm,avg:avgAllDim[c.id]};}).filter(x=>x.bm&&x.bm.p50>0&&x.bm.source!=='insufficient');
   const ratings=benchList.map(x=>({...x,level:getRatingLevel(x.avg,x.bm)}));
   const goodOnes=ratings.filter(x=>x.level.level==='excellent'||x.level.level==='good');
   const badOnes=ratings.filter(x=>x.level.level==='poor'||x.level.level==='below');
