@@ -323,10 +323,13 @@ tbody tr.editing td{background:rgba(74,144,217,.08)}
 .bi-fld input:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--goldS)}
 .bi-fld-full{grid-column:1/-1}
 .bi-shuttle-wrap{overflow-x:auto;border-radius:9px;border:1px solid var(--line)}
-.bi-shuttle-table{width:100%;min-width:900px;border-collapse:collapse;font-size:12px}
+.bi-shuttle-table{width:100%;min-width:1120px;border-collapse:collapse;font-size:12px}
 .bi-shuttle-table th{background:var(--th);color:var(--muted);font-weight:700;padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap;font-size:11.5px}
 .bi-shuttle-table td{padding:6px 8px;border-bottom:1px solid var(--lineS);vertical-align:middle}
 .bi-shuttle-table input,.bi-shuttle-table select{background:var(--in);border:1px solid var(--line);color:var(--text);padding:6px 8px;border-radius:6px;font-family:inherit;font-size:12.5px;outline:none;width:100%;min-height:34px;box-sizing:border-box}
+.bi-shuttle-table input[type="time"]{font-family:inherit;font-variant-numeric:tabular-nums;min-width:0}
+.bi-shuttle-table input[type="time"]::-webkit-calendar-picker-indicator{filter:invert(.6);cursor:pointer}
+[data-theme="light"] .bi-shuttle-table input[type="time"]::-webkit-calendar-picker-indicator{filter:invert(.3)}
 .bi-del{width:30px;height:30px;border-radius:7px;background:transparent;border:1px solid var(--line);color:var(--muted2);cursor:pointer;font-size:12px;display:grid;place-items:center;flex-shrink:0}
 .bi-del:hover{color:var(--danger);border-color:rgba(224,82,82,.4);background:rgba(224,82,82,.06)}
 .bi-add-row{margin-top:10px;padding:8px 14px;background:var(--goldS);border:1px dashed var(--goldB);color:var(--gold);border-radius:8px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit}
@@ -410,7 +413,39 @@ tbody tr.editing td{background:rgba(74,144,217,.08)}
 .sys-footer .sf-badge b{color:var(--gold);font-weight:800;letter-spacing:.6px}
 .sys-footer .sf-dev b{color:var(--gold);font-weight:700}
 .sys-footer .sf-dot{width:4px;height:4px;border-radius:50%;background:var(--ph);opacity:.6}
-@media print{body{background:#fff!important}.top,.tabs,.tb,.fa,.ra,.btn,#fr,.mbg,.eb,.errbox,#btnAddItem,.gdel,.mg,.welcome,.sg,.db,.menu-wrap,.rec-expand-icon,.crit-editor,.bi-editor,.rp-toolbar,.toast,.mo,.tp-overlay,.sys-footer{display:none!important}main,#app{display:none!important}.report-overlay{position:static!important;display:block!important;background:#fff!important;padding:0!important;overflow:visible!important}.rp-page{padding:20px 30px 40px!important;max-width:100%!important}@page{margin:16mm}}
+/* ===== 列印專用樣式（完整修復） ===== */
+@media print{
+  /* 隱藏所有螢幕 UI */
+  body{background:#fff!important;padding:0!important;margin:0!important}
+  .top,.tabs,.tb,.fa,.ra,.btn,#fr,.mbg,.eb,.errbox,#btnAddItem,.gdel,.mg,.welcome,.sg,.db,.menu-wrap,.rec-expand-icon,.crit-editor,.bi-editor,.rp-toolbar,.toast,.mo,.tp-overlay,.sys-footer,.lo,#fileImport{display:none!important}
+  main,#app{display:none!important}
+  /* 報告容器 */
+  .report-overlay{position:static!important;display:block!important;background:#fff!important;padding:0!important;margin:0!important;overflow:visible!important;inset:auto!important}
+  .rp-page{padding:0!important;max-width:100%!important;width:100%!important;box-shadow:none!important;border-radius:0!important;margin:0!important;font-size:10.5pt!important}
+  /* 表格：列印時縮小字體與內距 */
+  .rp-page .rp-table{font-size:9pt!important;table-layout:auto!important;width:100%!important}
+  .rp-page .rp-table th,
+  .rp-page .rp-table td{padding:4px 5px!important;white-space:normal!important;word-break:break-word!important;line-height:1.3!important}
+  .rp-page .rp-table th:first-child,
+  .rp-page .rp-table td:first-child{white-space:nowrap!important;word-break:keep-all!important}
+  /* 表格滾動容器列印時不裁切 */
+  .rp-page .rp-table-wrapper,
+  .rp-page div[style*="overflow-x"],
+  .rp-page,.rp-section,.rp-company,.rp-dep,.rp-chart{overflow:visible!important}
+  /* 圖表縮小高度 */
+  .rp-page .rp-chart svg{max-height:280px!important}
+  /* 移除強制換頁，避免空白頁 */
+  .rp-page-break{display:none!important;height:0!important;page-break-before:auto!important}
+  .rp-section{page-break-inside:auto!important;page-break-after:auto!important}
+  /* 只有小卡片才強制不換頁 */
+  .rp-company,.rp-dep,.rp-kpi{page-break-inside:avoid!important}
+  .rp-chart,.rp-insight{page-break-inside:auto!important}
+  h2,h3,h4{page-break-after:avoid!important}
+  /* 封面獨立一頁 */
+  .rp-cover{page-break-after:always!important}
+  /* 頁面設定 */
+  @page{size:A4 portrait;margin:12mm 10mm}
+}
 @media (max-width:700px){.rp-page{padding:24px 20px 60px}.rp-kpi-grid{grid-template-columns:1fr 1fr}.rp-table{font-size:11px}}
 @media (max-width:900px){.top{padding:10px 16px;padding-top:calc(10px + env(safe-area-inset-top));gap:10px}.br p{display:none}.br h1{font-size:14px}.ua{padding-left:10px;margin-left:auto}.ui{display:none}.menu-drop{right:0;min-width:190px}.menu-item{font-size:15px;padding:12px 14px}.tabs{padding:0 16px}.tab{padding:15px 14px;font-size:14.5px}main{padding:14px 16px 50px}.pbody{padding:16px}.fg{grid-template-columns:1fr;gap:12px}.fld input,.fld select,.fld textarea{font-size:17px;min-height:50px}.grow{display:flex!important;flex-direction:column!important;padding:14px;padding-top:52px;gap:12px}.gdel{position:absolute;top:10px;right:10px;width:40px;height:40px}.rr{flex-direction:column;align-items:stretch}.rbtns{width:100%;gap:8px}.rbtn{height:56px;font-size:20px}.rlbl{min-width:auto;text-align:left}#rt{min-width:0!important;width:100%;display:block}#rt thead{display:none}#rt tbody{display:block}#rt tbody tr.rec-row{display:block;margin:12px;padding:14px 16px;background:var(--panel2);border:1px solid var(--line);border-radius:12px}#rt tbody tr.rec-row td{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--lineS);text-align:left!important}#rt tbody tr.rec-row td::before{content:attr(data-label);flex-shrink:0;width:100px;font-size:12.5px;color:var(--muted);font-weight:700}#rt tbody tr.rec-detail-row{display:none;margin:0 12px;background:var(--panel2);border:1px solid var(--line);border-top:none;border-bottom-left-radius:12px;border-bottom-right-radius:12px}#rt tbody tr.rec-detail-row.on{display:block}#rt tbody tr.rec-detail-row td{display:block;padding:0}.rec-detail-inner{padding:14px;grid-template-columns:1fr}.fa .btn{flex:1;padding:14px 12px;font-size:15px;min-height:50px}.ce-head-actions .btn,.bi-head-actions .btn{flex:1;min-width:calc(50% - 4px)}.ce-grid{grid-template-columns:1fr 1fr}.bi-quota-grid,.bi-quota-row{grid-template-columns:1fr}.sys-footer{padding:16px 16px calc(24px + env(safe-area-inset-bottom));flex-direction:column;align-items:flex-start}.score-card{min-width:calc(50% - 4px);max-width:none}}
 @media (max-width:400px){.br h1{font-size:13px}.tab{padding:14px 12px;font-size:13.5px}main{padding:12px 12px 50px}.pbody{padding:14px}.sg{grid-template-columns:1fr}.cp{grid-template-columns:1fr}.ce-grid{grid-template-columns:1fr}}
@@ -833,7 +868,6 @@ function toggleLang(){setLang(LANG==='en'?'zh':'en');}
 const COMPANIES=[{id:'galaxy',name:'銀河娛樂',nameEn:'Galaxy Entertainment',color:'#d4af37'},{id:'sands',name:'金沙中國',nameEn:'Sands China',color:'#e05252'},{id:'wynn',name:'永利澳門',nameEn:'Wynn Macau',color:'#e08a2e'},{id:'melco',name:'新濠博亞',nameEn:'Melco Resorts',color:'#4a90d9'},{id:'mgm',name:'美高梅中國',nameEn:'MGM China',color:'#8b5cf6'},{id:'sjm',name:'澳娛綜合',nameEn:'SJM Resorts',color:'#2ea87a'}];
 const coName=c=>c?(LANG==='en'?(c.nameEn||c.name):c.name):'—';
 const coNameLang=(c,lang)=>{const L=lang||LANG;return c?(L==='en'?(c.nameEn||c.name):c.name):'—';};
-/* ===== critName — 用於取得評分維度的雙語名稱 ===== */
 const critName=(c,lang)=>{const L=lang||LANG;if(!c)return'';return L==='en'?(c.nameEn||c.name):(c.name||'');};
 
 const VENUE_BY_LOCATION={'澳門半島':[{group:'銀河娛樂',venues:['星際']},{group:'金沙中國',venues:['金沙']},{group:'永利澳門',venues:['永利澳門']},{group:'美高梅中國',venues:['澳門美高梅']},{group:'澳娛綜合',venues:['新葡京','葡京','回力海立方','凱旋門']}],'氹仔':[{group:'新濠博亞',venues:['新濠鋒']}],'路氹城':[{group:'銀河娛樂',venues:['澳門銀河','百老匯']},{group:'金沙中國',venues:['威尼斯人','倫敦人','巴黎人','百利宮']},{group:'永利澳門',venues:['永利皇宮']},{group:'新濠博亞',venues:['新濠天地','新濠影匯']},{group:'美高梅中國',venues:['美獅美高梅']},{group:'澳娛綜合',venues:['上葡京']}]};
@@ -915,20 +949,50 @@ const SHUTTLE_ROUTES=['關閘','氹仔碼頭','港澳碼頭','港珠澳大橋','
 const DEFAULT_BASIC_INFO={
   tableQuota:{galaxy:{tables:1000,machines:2000,source:'DICJ／2023年新批給合同',updated:'2023-01-01'},sands:{tables:1680,machines:3700,source:'DICJ／2023年新批給合同',updated:'2023-01-01'},wynn:{tables:570,machines:1200,source:'DICJ／2023年新批給合同',updated:'2023-01-01'},melco:{tables:750,machines:2100,source:'2026年第17號公報',updated:'2026-01-01'},mgm:{tables:750,machines:1800,source:'DICJ／2023年新批給合同',updated:'2023-01-01'},sjm:{tables:1250,machines:2100,source:'DICJ／2023年新批給合同',updated:'2023-01-01'}},
   shuttle:{
-    galaxy:[{route:'關閘',interval:15,pickup:'關閘廣場東側',dropoff:'澳門銀河東翼',source:'官網'},{route:'氹仔碼頭',interval:20,pickup:'氹仔客運碼頭',dropoff:'澳門銀河東翼',source:'官網'},{route:'港澳碼頭',interval:20,pickup:'港澳碼頭',dropoff:'澳門銀河東翼',source:'官網'},{route:'港珠澳大橋',interval:30,pickup:'港珠澳大橋邊檢大樓',dropoff:'澳門銀河東翼',source:'官網'},{route:'橫琴口岸',interval:20,pickup:'橫琴口岸',dropoff:'澳門銀河東翼',source:'官網'},{route:'澳門國際機場',interval:30,pickup:'機場客運大樓',dropoff:'澳門銀河東翼',source:'官網'}],
-    sands:[{route:'關閘',interval:15,pickup:'關閘廣場',dropoff:'威尼斯人／倫敦人',source:'官網'},{route:'氹仔碼頭',interval:20,pickup:'氹仔客運碼頭',dropoff:'威尼斯人／倫敦人',source:'官網'},{route:'港澳碼頭',interval:20,pickup:'港澳碼頭',dropoff:'威尼斯人／倫敦人',source:'官網'},{route:'港珠澳大橋',interval:30,pickup:'港珠澳大橋邊檢大樓',dropoff:'威尼斯人／倫敦人',source:'官網'},{route:'橫琴口岸',interval:20,pickup:'橫琴口岸',dropoff:'威尼斯人／倫敦人',source:'官網'},{route:'澳門國際機場',interval:30,pickup:'機場客運大樓',dropoff:'威尼斯人／倫敦人',source:'官網'}],
-    wynn:[{route:'關閘',interval:20,pickup:'關閘廣場',dropoff:'永利澳門／永利皇宮',source:'官網'},{route:'氹仔碼頭',interval:25,pickup:'氹仔客運碼頭',dropoff:'永利澳門／永利皇宮',source:'官網'},{route:'港澳碼頭',interval:20,pickup:'港澳碼頭',dropoff:'永利澳門／永利皇宮',source:'官網'},{route:'港珠澳大橋',interval:30,pickup:'港珠澳大橋邊檢大樓',dropoff:'永利澳門／永利皇宮',source:'官網'},{route:'橫琴口岸',interval:30,pickup:'橫琴口岸',dropoff:'永利澳門／永利皇宮',source:'官網'},{route:'澳門國際機場',interval:30,pickup:'機場客運大樓',dropoff:'永利澳門／永利皇宮',source:'官網'}],
-    melco:[{route:'關閘',interval:20,pickup:'關閘廣場',dropoff:'新濠天地／新濠影匯',source:'官網'},{route:'氹仔碼頭',interval:20,pickup:'氹仔客運碼頭',dropoff:'新濠天地／新濠影匯',source:'官網'},{route:'港澳碼頭',interval:25,pickup:'港澳碼頭',dropoff:'新濠天地／新濠影匯',source:'官網'},{route:'港珠澳大橋',interval:30,pickup:'港珠澳大橋邊檢大樓',dropoff:'新濠天地／新濠影匯',source:'官網'},{route:'橫琴口岸',interval:30,pickup:'橫琴口岸',dropoff:'新濠天地／新濠影匯',source:'官網'},{route:'澳門國際機場',interval:30,pickup:'機場客運大樓',dropoff:'新濠天地／新濠影匯',source:'官網'}],
-    mgm:[{route:'關閘',interval:20,pickup:'關閘廣場',dropoff:'澳門美高梅／美獅美高梅',source:'官網'},{route:'氹仔碼頭',interval:25,pickup:'氹仔客運碼頭',dropoff:'澳門美高梅／美獅美高梅',source:'官網'},{route:'港澳碼頭',interval:20,pickup:'港澳碼頭',dropoff:'澳門美高梅／美獅美高梅',source:'官網'},{route:'港珠澳大橋',interval:30,pickup:'港珠澳大橋邊檢大樓',dropoff:'澳門美高梅／美獅美高梅',source:'官網'},{route:'橫琴口岸',interval:30,pickup:'橫琴口岸',dropoff:'澳門美高梅／美獅美高梅',source:'官網'},{route:'澳門國際機場',interval:30,pickup:'機場客運大樓',dropoff:'澳門美高梅／美獅美高梅',source:'官網'}],
-    sjm:[{route:'關閘',interval:15,pickup:'關閘廣場',dropoff:'新葡京／上葡京',source:'官網'},{route:'氹仔碼頭',interval:25,pickup:'氹仔客運碼頭',dropoff:'新葡京／上葡京',source:'官網'},{route:'港澳碼頭',interval:15,pickup:'港澳碼頭',dropoff:'新葡京／上葡京',source:'官網'},{route:'港珠澳大橋',interval:30,pickup:'港珠澳大橋邊檢大樓',dropoff:'新葡京／上葡京',source:'官網'},{route:'橫琴口岸',interval:25,pickup:'橫琴口岸',dropoff:'新葡京／上葡京',source:'官網'},{route:'澳門國際機場',interval:30,pickup:'機場客運大樓',dropoff:'新葡京／上葡京',source:'官網'}]
+    galaxy:[{route:'關閘',interval:15,pickup:'關閘廣場東側',dropoff:'澳門銀河東翼',firstBus:'06:00',lastBus:'23:59',source:'官網'},{route:'氹仔碼頭',interval:20,pickup:'氹仔客運碼頭',dropoff:'澳門銀河東翼',firstBus:'06:30',lastBus:'23:30',source:'官網'},{route:'港澳碼頭',interval:20,pickup:'港澳碼頭',dropoff:'澳門銀河東翼',firstBus:'06:30',lastBus:'23:30',source:'官網'},{route:'港珠澳大橋',interval:30,pickup:'港珠澳大橋邊檢大樓',dropoff:'澳門銀河東翼',firstBus:'08:00',lastBus:'22:00',source:'官網'},{route:'橫琴口岸',interval:20,pickup:'橫琴口岸',dropoff:'澳門銀河東翼',firstBus:'07:00',lastBus:'22:30',source:'官網'},{route:'澳門國際機場',interval:30,pickup:'機場客運大樓',dropoff:'澳門銀河東翼',firstBus:'09:00',lastBus:'21:00',source:'官網'}],
+    sands:[{route:'關閘',interval:15,pickup:'關閘廣場',dropoff:'威尼斯人／倫敦人',firstBus:'06:00',lastBus:'23:59',source:'官網'},{route:'氹仔碼頭',interval:20,pickup:'氹仔客運碼頭',dropoff:'威尼斯人／倫敦人',firstBus:'06:30',lastBus:'23:30',source:'官網'},{route:'港澳碼頭',interval:20,pickup:'港澳碼頭',dropoff:'威尼斯人／倫敦人',firstBus:'06:30',lastBus:'23:30',source:'官網'},{route:'港珠澳大橋',interval:30,pickup:'港珠澳大橋邊檢大樓',dropoff:'威尼斯人／倫敦人',firstBus:'08:00',lastBus:'22:00',source:'官網'},{route:'橫琴口岸',interval:20,pickup:'橫琴口岸',dropoff:'威尼斯人／倫敦人',firstBus:'07:00',lastBus:'22:30',source:'官網'},{route:'澳門國際機場',interval:30,pickup:'機場客運大樓',dropoff:'威尼斯人／倫敦人',firstBus:'09:00',lastBus:'21:00',source:'官網'}],
+    wynn:[{route:'關閘',interval:20,pickup:'關閘廣場',dropoff:'永利澳門／永利皇宮',firstBus:'06:30',lastBus:'23:30',source:'官網'},{route:'氹仔碼頭',interval:25,pickup:'氹仔客運碼頭',dropoff:'永利澳門／永利皇宮',firstBus:'07:00',lastBus:'23:00',source:'官網'},{route:'港澳碼頭',interval:20,pickup:'港澳碼頭',dropoff:'永利澳門／永利皇宮',firstBus:'06:30',lastBus:'23:30',source:'官網'},{route:'港珠澳大橋',interval:30,pickup:'港珠澳大橋邊檢大樓',dropoff:'永利澳門／永利皇宮',firstBus:'08:00',lastBus:'22:00',source:'官網'},{route:'橫琴口岸',interval:30,pickup:'橫琴口岸',dropoff:'永利澳門／永利皇宮',firstBus:'08:00',lastBus:'22:00',source:'官網'},{route:'澳門國際機場',interval:30,pickup:'機場客運大樓',dropoff:'永利澳門／永利皇宮',firstBus:'09:00',lastBus:'21:00',source:'官網'}],
+    melco:[{route:'關閘',interval:20,pickup:'關閘廣場',dropoff:'新濠天地／新濠影匯',firstBus:'06:30',lastBus:'23:30',source:'官網'},{route:'氹仔碼頭',interval:20,pickup:'氹仔客運碼頭',dropoff:'新濠天地／新濠影匯',firstBus:'06:30',lastBus:'23:30',source:'官網'},{route:'港澳碼頭',interval:25,pickup:'港澳碼頭',dropoff:'新濠天地／新濠影匯',firstBus:'07:00',lastBus:'23:00',source:'官網'},{route:'港珠澳大橋',interval:30,pickup:'港珠澳大橋邊檢大樓',dropoff:'新濠天地／新濠影匯',firstBus:'08:00',lastBus:'22:00',source:'官網'},{route:'橫琴口岸',interval:30,pickup:'橫琴口岸',dropoff:'新濠天地／新濠影匯',firstBus:'08:00',lastBus:'22:00',source:'官網'},{route:'澳門國際機場',interval:30,pickup:'機場客運大樓',dropoff:'新濠天地／新濠影匯',firstBus:'09:00',lastBus:'21:00',source:'官網'}],
+    mgm:[{route:'關閘',interval:20,pickup:'關閘廣場',dropoff:'澳門美高梅／美獅美高梅',firstBus:'06:30',lastBus:'23:30',source:'官網'},{route:'氹仔碼頭',interval:25,pickup:'氹仔客運碼頭',dropoff:'澳門美高梅／美獅美高梅',firstBus:'07:00',lastBus:'23:00',source:'官網'},{route:'港澳碼頭',interval:20,pickup:'港澳碼頭',dropoff:'澳門美高梅／美獅美高梅',firstBus:'06:30',lastBus:'23:30',source:'官網'},{route:'港珠澳大橋',interval:30,pickup:'港珠澳大橋邊檢大樓',dropoff:'澳門美高梅／美獅美高梅',firstBus:'08:00',lastBus:'22:00',source:'官網'},{route:'橫琴口岸',interval:30,pickup:'橫琴口岸',dropoff:'澳門美高梅／美獅美高梅',firstBus:'08:00',lastBus:'22:00',source:'官網'},{route:'澳門國際機場',interval:30,pickup:'機場客運大樓',dropoff:'澳門美高梅／美獅美高梅',firstBus:'09:00',lastBus:'21:00',source:'官網'}],
+    sjm:[{route:'關閘',interval:15,pickup:'關閘廣場',dropoff:'新葡京／上葡京',firstBus:'06:00',lastBus:'23:59',source:'官網'},{route:'氹仔碼頭',interval:25,pickup:'氹仔客運碼頭',dropoff:'新葡京／上葡京',firstBus:'06:30',lastBus:'23:30',source:'官網'},{route:'港澳碼頭',interval:15,pickup:'港澳碼頭',dropoff:'新葡京／上葡京',firstBus:'06:00',lastBus:'23:59',source:'官網'},{route:'港珠澳大橋',interval:30,pickup:'港珠澳大橋邊檢大樓',dropoff:'新葡京／上葡京',firstBus:'08:00',lastBus:'22:00',source:'官網'},{route:'橫琴口岸',interval:25,pickup:'橫琴口岸',dropoff:'新葡京／上葡京',firstBus:'07:00',lastBus:'22:30',source:'官網'},{route:'澳門國際機場',interval:30,pickup:'機場客運大樓',dropoff:'新葡京／上葡京',firstBus:'09:00',lastBus:'21:00',source:'官網'}]
   }
 };
-function loadBasicInfoFromLocal(){try{const raw=localStorage.getItem(BASIC_INFO_KEY);if(raw){const d=JSON.parse(raw);if(d&&typeof d==='object')return{tableQuota:d.tableQuota||DEFAULT_BASIC_INFO.tableQuota,shuttle:d.shuttle||DEFAULT_BASIC_INFO.shuttle};}}catch(e){}return JSON.parse(JSON.stringify(DEFAULT_BASIC_INFO));}
+function loadBasicInfoFromLocal(){
+  try{
+    const raw=localStorage.getItem(BASIC_INFO_KEY);
+    if(raw){
+      const d=JSON.parse(raw);
+      if(d&&typeof d==='object'){
+        const shuttle={};
+        const defShut=DEFAULT_BASIC_INFO.shuttle;
+        COMPANIES.forEach(c=>{
+          const arr=Array.isArray(d.shuttle?.[c.id])?d.shuttle[c.id]:null;
+          const defArr=defShut[c.id]||[];
+          if(arr&&arr.length){
+            shuttle[c.id]=arr.map((row,i)=>({
+              route:row.route||defArr[i]?.route||'關閘',
+              interval:Number(row.interval)||defArr[i]?.interval||20,
+              pickup:row.pickup||'',
+              dropoff:row.dropoff||'',
+              firstBus:row.firstBus||defArr[i]?.firstBus||'06:00',
+              lastBus:row.lastBus||defArr[i]?.lastBus||'23:59',
+              source:row.source||'官網'
+            }));
+          }else{
+            shuttle[c.id]=JSON.parse(JSON.stringify(defArr));
+          }
+        });
+        return{tableQuota:d.tableQuota||DEFAULT_BASIC_INFO.tableQuota,shuttle};
+      }
+    }
+  }catch(e){}
+  return JSON.parse(JSON.stringify(DEFAULT_BASIC_INFO));
+}
 let BASIC_INFO=loadBasicInfoFromLocal();
 async function loadBasicInfoFromCloud(){try{const snap=await getDoc(basicInfoDoc);if(snap.exists()){const d=snap.data();if(d&&d.tableQuota&&d.shuttle){BASIC_INFO={tableQuota:d.tableQuota,shuttle:d.shuttle};try{localStorage.setItem(BASIC_INFO_KEY,JSON.stringify(BASIC_INFO));}catch(e){}return true;}}}catch(e){console.warn('[MRSC] load basic info failed',e);}return false;}
 async function saveBasicInfoToCloud(){try{await setDoc(basicInfoDoc,{tableQuota:BASIC_INFO.tableQuota,shuttle:BASIC_INFO.shuttle,updatedAt:serverTimestamp()});try{localStorage.setItem(BASIC_INFO_KEY,JSON.stringify(BASIC_INFO));}catch(e){}return true;}catch(e){console.warn('[MRSC] save basic info failed',e);return false;}}
 const getTableQuota=cid=>(BASIC_INFO.tableQuota[cid]||null);
-const DEV_KEY='mrsc_dev_verified';const THEME_KEY='mrsc_theme';const DEFAULT_PWD='123456';const SESSION_KEY='mrsc_session';
+  const DEV_KEY='mrsc_dev_verified';const THEME_KEY='mrsc_theme';const DEFAULT_PWD='123456';const SESSION_KEY='mrsc_session';
 let _pwdCache=null;
 async function refreshPasswordCache(){try{const snap=await getDoc(pwdDoc);if(snap.exists()){const p=String(snap.data().password||'').trim();if(p){_pwdCache=p;return true;}}_pwdCache=DEFAULT_PWD;return true;}catch(e){console.warn('[MRSC] pwd failed',e);_pwdCache=null;return false;}}
 const getStoredPassword=()=>_pwdCache;
@@ -974,34 +1038,18 @@ function invalidateBenchmark(){Object.keys(_benchCache).forEach(k=>delete _bench
 function timeWeight(d){if(!d)return 1;const dt=new Date(d+'T00:00:00');if(isNaN(dt))return 1;const days=(Date.now()-dt.getTime())/(1000*60*60*24);if(days<=0)return 1;return Math.pow(0.5,days/HALF_LIFE_DAYS);}
 function percentile(sorted,p){if(!sorted.length)return 0;const idx=(sorted.length-1)*p;const lo=Math.floor(idx),hi=Math.ceil(idx);if(lo===hi)return sorted[lo];return sorted[lo]+(sorted[hi]-sorted[lo])*(idx-lo);}
 function computeIndustryBenchmark(force){const key='__all__';if(!force&&_benchCache[key]&&Date.now()-_benchCache[key]._t<BENCH_TTL)return _benchCache[key];const result={global:{},byDept:{},byCompanyDept:{},_t:Date.now()};const agg={};state.records.forEach(r=>{if(!r.ratings)return;const dept=(r.department||'').trim()||'(未分類)';const cid=r.companyId||'(未知)';const w=timeWeight(r.date);if(!agg[dept])agg[dept]={};if(!agg[dept][cid])agg[dept][cid]={};CRITERIA.forEach(c=>{const v=r.ratings[c.id];if(!v)return;const m=toMRSC(c.id,v);if(!agg[dept][cid][c.id])agg[dept][cid][c.id]={sum:0,wsum:0,count:0};agg[dept][cid][c.id].sum+=m*w;agg[dept][cid][c.id].wsum+=w;agg[dept][cid][c.id].count++;});});const cs={};Object.entries(agg).forEach(([dept,cos])=>{if(!cs[dept])cs[dept]={};Object.entries(cos).forEach(([cid,byC])=>{Object.entries(byC).forEach(([ci,d])=>{if(d.wsum===0)return;const value=d.sum/d.wsum;if(!cs[dept][ci])cs[dept][ci]=[];cs[dept][ci].push({companyId:cid,value,count:d.count});});});});const cb=(arr,ex)=>{const f=ex?arr.filter(x=>x.companyId!==ex):arr;const vs=f.map(x=>x.value).sort((a,b)=>a-b);const n=vs.length;if(n===0)return null;const ts=f.reduce((s,x)=>s+x.count,0);const mn=vs.reduce((a,b)=>a+b,0)/n;const va=vs.reduce((s,v)=>s+Math.pow(v-mn,2),0)/n;const sd=Math.sqrt(va);return{n,totalSamples:ts,p25:Math.round(percentile(vs,0.25)),p50:Math.round(percentile(vs,0.50)),p75:Math.round(percentile(vs,0.75)),p90:Math.round(percentile(vs,0.90)),min:Math.round(vs[0]),max:Math.round(vs[n-1]),mean:Math.round(mn),sd:Number(sd.toFixed(1))};};const allC={};Object.entries(cs).forEach(([dept,cr])=>{Object.entries(cr).forEach(([ci,arr])=>{if(!allC[ci])allC[ci]=[];arr.forEach(x=>allC[ci].push(x));});});CRITERIA.forEach(c=>{const arr=allC[c.id];if(arr&&arr.length)result.global[c.id]=cb(arr);});Object.entries(cs).forEach(([dept,cr])=>{result.byDept[dept]={};CRITERIA.forEach(c=>{const arr=cr[c.id];if(arr&&arr.length)result.byDept[dept][c.id]=cb(arr);});});Object.entries(cs).forEach(([dept,cr])=>{Object.entries(cr).forEach(([ci,arr])=>{arr.forEach(item=>{const cid=item.companyId;if(!result.byCompanyDept[cid])result.byCompanyDept[cid]={};if(!result.byCompanyDept[cid][dept])result.byCompanyDept[cid][dept]={};const others=arr.filter(x=>x.companyId!==cid);if(others.length>=2)result.byCompanyDept[cid][dept][ci]=cb(others);});});});_benchCache[key]=result;return result;}
-
-/* ===== 【修復】getBenchmark 支援 lang 參數 ===== */
 function getBenchmark(cid,dept,ex,lang){
   const L=lang||LANG;
   const c=findCrit(cid);if(!c)return null;
   const bm=computeIndustryBenchmark();
   let b=null;
-  if(dept&&ex&&bm.byCompanyDept[ex]?.[dept]?.[cid]){
-    b={...bm.byCompanyDept[ex][dept][cid]};
-    b.source='auto-exclusive';
-    b.label=L==='en'?'All-industry (excl. self)':'全澳同業基準（排除自身）';
-  }else if(dept&&bm.byDept[dept]?.[cid]){
-    b={...bm.byDept[dept][cid]};
-    b.source='auto-dept';
-    b.label=L==='en'?'Dept Benchmark':'部門基準';
-  }else if(bm.global[cid]){
-    b={...bm.global[cid]};
-    b.source='auto-global';
-    b.label=L==='en'?'Global Benchmark':'全澳基準';
-  }
+  if(dept&&ex&&bm.byCompanyDept[ex]?.[dept]?.[cid]){b={...bm.byCompanyDept[ex][dept][cid]};b.source='auto-exclusive';b.label=L==='en'?'All-industry (excl. self)':'全澳同業基準（排除自身）';}
+  else if(dept&&bm.byDept[dept]?.[cid]){b={...bm.byDept[dept][cid]};b.source='auto-dept';b.label=L==='en'?'Dept Benchmark':'部門基準';}
+  else if(bm.global[cid]){b={...bm.global[cid]};b.source='auto-global';b.label=L==='en'?'Global Benchmark':'全澳基準';}
   if(!b)return null;
-  if(b.n<MIN_COMPANIES||b.totalSamples<MIN_SAMPLES){
-    return{...b,label:L==='en'?`Insufficient (${b.n}c/${b.totalSamples}s)`:`樣本不足（${b.n}企業/${b.totalSamples}樣本）`,value:b.p50,source:'insufficient'};
-  }
-  b.value=b.p50;
-  return b;
+  if(b.n<MIN_COMPANIES||b.totalSamples<MIN_SAMPLES)return{...b,label:L==='en'?`Insufficient (${b.n}c/${b.totalSamples}s)`:`樣本不足（${b.n}企業/${b.totalSamples}樣本）`,value:b.p50,source:'insufficient'};
+  b.value=b.p50;return b;
 }
-/* ===== 【修復】getRatingLevel 支援 lang 參數 ===== */
 function getRatingLevel(score,bench,lang){
   const L=lang||LANG;
   if(!bench||!bench.p50)return{level:'none',label:L==='en'?'No benchmark':'無基準',color:'#888'};
@@ -1052,7 +1100,6 @@ function buildVenueDetailHtml(record){
   const cfg=getDeptConfig(dept);
   const fields=cfg.fields||[];
   const rows=items.length>0?items:[{}];
-  const firstIt=rows[0]||{};
   const visibleFields=fields.filter(f=>rows.some(it=>isFieldVisible(f,it)));
   let th='<div class="venue-table-wrapper"><table class="venue-table"><thead><tr>';
   visibleFields.forEach(f=>{th+=`<th>${escapeHTML(Wr(f.label))}</th>`;});
@@ -1063,30 +1110,15 @@ function buildVenueDetailHtml(record){
     visibleFields.forEach(f=>{
       const val=safeStr(it[f.key]);
       let display='—';
-      if(f.type==='select'&&f.options){
-        const o=f.options.find(x=>x.v===val);
-        display=o?escapeHTML(Wr(o.l)):(val?escapeHTML(val):'—');
-      }else if(f.key==='name'&&it.name==='其他'&&it.nameOther){
-        display=escapeHTML(it.nameOther);
-      }else if(f.type==='time'){
-        display=val?escapeHTML(val):'—';
-      }else if(f.type==='number'){
-        display=(val===''||val===null||val===undefined)?'—':escapeHTML(val);
-      }else{
-        display=val?escapeHTML(val):'—';
-      }
+      if(f.type==='select'&&f.options){const o=f.options.find(x=>x.v===val);display=o?escapeHTML(Wr(o.l)):(val?escapeHTML(val):'—');}
+      else if(f.key==='name'&&it.name==='其他'&&it.nameOther){display=escapeHTML(it.nameOther);}
+      else if(f.type==='time'){display=val?escapeHTML(val):'—';}
+      else if(f.type==='number'){display=(val===''||val===null||val===undefined)?'—':escapeHTML(val);}
+      else{display=val?escapeHTML(val):'—';}
       th+=`<td>${display}</td>`;
     });
-    if(i===0){
-      ENV_KEYS.forEach(k=>{
-        const ed=ENV_FIELDS[k];
-        const val=env[k];
-        if(val&&ed){const o=ed.options.find(o=>o.v===val);th+=`<td>${o?Wr(o.l):escapeHTML(val)}</td>`;}
-        else th+='<td>—</td>';
-      });
-    }else{
-      th+=`<td colspan="${ENV_KEYS.length}"></td>`;
-    }
+    if(i===0){ENV_KEYS.forEach(k=>{const ed=ENV_FIELDS[k];const val=env[k];if(val&&ed){const o=ed.options.find(o=>o.v===val);th+=`<td>${o?Wr(o.l):escapeHTML(val)}</td>`;}else th+='<td>—</td>';});}
+    else{th+=`<td colspan="${ENV_KEYS.length}"></td>`;}
     th+='</tr>';
   });
   th+='</tbody></table></div>';
@@ -1101,7 +1133,7 @@ function dlBlob(b,name){const u=URL.createObjectURL(b);const a=document.createEl
 function doExportJSON(){if(!state.records.length){showToast(LANG==='en'?'No records':'沒有記錄','error');return;}const d={version:6,exportedAt:new Date().toISOString(),inspector:state.inspector,criteria:CRITERIA,basicInfo:BASIC_INFO,records:state.records};dlBlob(new Blob([JSON.stringify(d,null,2)],{type:'application/json'}),`mrsc-backup-${todayISO()}.json`);showToast(LANG==='en'?`Exported ${state.records.length} (JSON)`:`已匯出 ${state.records.length} 筆（JSON）`,'success');}
 function doExportCSV(){if(!state.records.length){showToast(LANG==='en'?'No records':'沒有記錄','error');return;}const bh=['記錄編號','考察人員','人員編號','日期','時間','地點','休企','場館名稱','部門',...CRITERIA.map(c=>c.name+'(1-5)'),'綜合MRSC','GPS緯度','GPS經度','GPS精度(m)'];const ifm=new Map();state.records.forEach(r=>{const cfg=getDeptConfig(r.department);cfg.fields.forEach(f=>{if(!ifm.has(f.key))ifm.set(f.key,f);});});const ifs=[...ifm.values()];const ih=ifs.map(f=>f.label);const eh=ENV_KEYS.map(k=>ENV_FIELDS[k].label);const th=['備註','提交時間','更新時間'];const headers=[...bh,...ih,...eh,...th];const rows=[];state.records.forEach(r=>{const c=getCompany(r.companyId);const ov=calcOverall(r.ratings);const v=r.venue||{};const items=Array.isArray(v.items)?v.items:[];const env=v.env||{};const g=r.gps||{};const br=[r.id,r.inspectorName,r.inspectorId,r.date,r.time,r.location,coName(c),r.venueName||'',r.department||'',...CRITERIA.map(cr=>r.ratings?r.ratings[cr.id]:''),ov,(g.lat!=null?g.lat:''),(g.lng!=null?g.lng:''),(g.accuracy!=null?g.accuracy:'')];const er=ENV_KEYS.map(k=>{if(!env[k])return'';const o=ENV_FIELDS[k].options.find(o=>o.v===env[k]);return o?o.l:env[k];});const tr=[r.notes||'',r.submittedAt||'',r.updatedAt||''];const bi=it=>ifs.map(f=>{const val=it?it[f.key]:'';if(val===''||val===null||val===undefined)return'';if(f.type==='select'&&f.options){const o=f.options.find(o=>o.v===val);return o?o.l:val;}return val;});if(items.length===0)rows.push([...br,...bi(null),...er,...tr]);else items.forEach(it=>rows.push([...br,...bi(it),...er,...tr]));});const csv=[headers,...rows].map(row=>row.map(v=>{const s=String(v??'');return/[",\n\r]/.test(s)?`"${s.replace(/"/g,'""')}"`:s;}).join(',')).join('\r\n');dlBlob(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}),`mrsc-records-${todayISO()}.csv`);showToast(LANG==='en'?`Exported ${rows.length} rows`:`已匯出 ${rows.length} 行`,'success');}
 function importJSON(file){const rd=new FileReader();rd.onload=async e=>{try{const d=JSON.parse(e.target.result);if(!Array.isArray(d.records))throw new Error(LANG==='en'?'Bad format':'檔案格式錯誤');if(!confirm(LANG==='en'?`Source: ${d.inspector?.name||'Unknown'}\nRecords: ${d.records.length}\n\nMerge into cloud?`:`來源：${d.inspector?.name||'未知'}\n記錄筆數：${d.records.length}\n\n確定合併至雲端？`))return;const ids=new Set(state.records.map(r=>r.id));const inc=d.records.filter(r=>r&&r.id&&!ids.has(r.id));let n=0;for(const rec of inc){try{const{id,...data}=rec;const docId=id||('MRSC-IMPORT-'+Date.now()+'-'+Math.random().toString(36).slice(2,8));await setDoc(doc(db,'records',docId),{...data,venue:normalizeVenue(data.venue),serverTime:serverTimestamp()});n++;}catch(err){}}showToast(LANG==='en'?`Imported ${n}`:`已匯入 ${n} 筆`,'success');}catch(err){showToast((LANG==='en'?'Import failed: ':'匯入失敗：')+err.message,'error');}};rd.onerror=()=>showToast(LANG==='en'?'Failed to read file':'讀取檔案失敗','error');rd.readAsText(file);}
-/* ===== 分析區塊 ===== */
+  /* ===== 分析區塊 ===== */
 function renderAnalysisSection(){const s=document.getElementById('anBase');if(!s)return;const cb=s.value||state.comparison.base;s.innerHTML=COMPANIES.map(c=>`<option value="${c.id}" ${c.id===cb?'selected':''}>${coName(c)}</option>`).join('');state.comparison.base=s.value||cb;renderDeptFilter();if(!state.comparison.picks.length)autoFillPicks();renderPicker();renderAnalysisResult();}
 function renderDeptFilter(){const s=document.getElementById('filterDept');if(!s)return;const cur=s.value;const ds=[...new Set(state.records.map(r=>(r.department||'').trim()).filter(Boolean))].sort();const en=LANG==='en';s.innerHTML=`<option value="">${en?'All Departments':'全部部門'}</option>`+ds.map(d=>`<option value="${escapeHTML(d)}">${escapeHTML(Wr(d))}</option>`).join('');if(cur&&ds.includes(cur))s.value=cur;else state.comparison.departmentFilter='';}
 const maxPick=()=>Math.min(state.comparison.ratio,COMPANIES.length-1);
@@ -1121,159 +1153,11 @@ function pctCalc(a,b){return Math.max(0,Math.min(100,((a-Math.max(b,0.001))/Math
 function getEnvDistForCompany(companyId){const rs=filterRecs(state.records.filter(r=>r.companyId===companyId));const out={};ENV_KEYS.forEach(k=>{const counts={};let total=0;rs.forEach(r=>{const v=r.venue&&r.venue.env&&r.venue.env[k];if(v){counts[v]=(counts[v]||0)+1;total++;}});out[k]={counts,total};});return out;}
 function deptAggByCompany(sorted,dept){return sorted.map(r=>{const rs=state.records.filter(x=>x.companyId===r.id&&(x.department||'').trim()===dept);const rs2=filterRecs(rs);if(!rs2.length)return{company:getCompany(r.id),count:0,overall:0,dims:{}};const dims={};CRITERIA.forEach(c=>{const vals=rs2.map(x=>x.ratings?x.ratings[c.id]:null).filter(v=>v);dims[c.id]=vals.length?Math.round(vals.reduce((s,v)=>s+toMRSC(c.id,v),0)/vals.length):0;});const norm=CRITERIA.map(c=>{const vals=rs2.map(x=>x.ratings?x.ratings[c.id]:null).filter(v=>v);return vals.length?vals.reduce((s,v)=>s+normMRSC(c.id,toMRSC(c.id,v)),0)/vals.length:0;});const overall=norm.length?Math.round((norm.reduce((a,b)=>a+b,0)/norm.length)*2):0;return{company:getCompany(r.id),count:rs2.length,overall,dims};}).filter(x=>x.count>0);}
 
-/* ===== narrativeDimAnalysis 支援 lang 參數 ===== */
-function narrativeDimAnalysis(critId,sorted,avgAllDim,modeTxt,lang){
-  const L=lang||LANG;const en=L==='en';
-  const c=findCrit(critId);
-  const bm=getBenchmark(critId,null,null,L);
-  const avg=avgAllDim[critId];
-  const values=sorted.map(r=>r.mrsc[critId]||0);
-  const max=Math.max(...values),min=Math.min(...values);
-  const topC=sorted.find(r=>(r.mrsc[critId]||0)===max);
-  const lowC=sorted.find(r=>(r.mrsc[critId]||0)===min);
-  const topName=coNameLang(getCompany(topC.id),L);
-  const lowName=coNameLang(getCompany(lowC.id),L);
-  const gap=max-min;
-  const gapPct=pctCalc(max,min);
-  const cName=critName(c,L);
-  let html='';
-  html+=`<h4 style="font-size:14px;color:#a37800;margin:20px 0 8px">▍ ${escapeHTML(cName)}${en?' Dimension Data':'維度數據'}</h4>`;
-  if(en){
-    html+=`<p class="rp-para">The ${sorted.length} companies scored an average of <b>${avg}</b> (out of ${c.max}) in the "${escapeHTML(cName)}" dimension.</p>`;
-    if(bm&&bm.p50>0&&bm.source!=='insufficient'){
-      const level=getRatingLevel(avg,bm,L);
-      html+=`<p class="rp-para"><b>Industry benchmark (${escapeHTML(bm.label)}, based on ${bm.n} companies / ${bm.totalSamples} samples):</b> P25 ${bm.p25} | P50 (median) ${bm.p50} | P75 ${bm.p75} | P90 ${bm.p90}. The group average falls in "<b style="color:${level.color}">${escapeHTML(level.label)}</b>".</p>`;
-    }else if(bm&&bm.source==='insufficient'){
-      html+=`<p class="rp-para">Insufficient benchmark samples (${bm.n} companies); industry comparison unavailable.</p>`;
-    }
-    html+=`<p class="rp-para">Highest: <b>${escapeHTML(topName)}</b> (${max}); Lowest: <b>${escapeHTML(lowName)}</b> (${min}); Gap: <b>${gap} points</b> (~${gapPct}%).</p>`;
-    html+=`<p class="rp-para">Scoring: max ${c.max}. 1–5 map to ${[1,2,3,4,5].map(n=>`${n}★→${c.map[n]||0}`).join(', ')}. Comparison mode ${modeTxt}.</p>`;
-  }else{
-    html+=`<p class="rp-para">本次參與評核的 ${sorted.length} 間企業於「${escapeHTML(cName)}」維度平均得分 <b>${avg}</b> 分（滿分 ${c.max} 分）。</p>`;
-    if(bm&&bm.p50>0&&bm.source!=='insufficient'){
-      const level=getRatingLevel(avg,bm,L);
-      html+=`<p class="rp-para"><b>行業基準（${escapeHTML(bm.label)}，基於 ${bm.n} 間企業 / ${bm.totalSamples} 筆樣本）：</b>P25 ${bm.p25}｜P50（中位）${bm.p50}｜P75 ${bm.p75}｜P90 ${bm.p90}。全組平均落在「<b style="color:${level.color}">${escapeHTML(level.label)}</b>」。</p>`;
-    }else if(bm&&bm.source==='insufficient'){
-      html+=`<p class="rp-para">該維度基準樣本不足（${bm.n} 間企業），無法進行行業對比。</p>`;
-    }
-    html+=`<p class="rp-para">該維度中，最高為 <b>${escapeHTML(topName)}</b>（${max} 分），最低為 <b>${escapeHTML(lowName)}</b>（${min} 分），分差 <b>${gap} 分</b>（相對差距約 ${gapPct}%）。</p>`;
-    html+=`<p class="rp-para">評分標準：滿分 ${c.max} 分，1–5 分對應分值為 ${[1,2,3,4,5].map(n=>`${n}★→${c.map[n]||0}`).join('、')}。對比模式 ${modeTxt}。</p>`;
-  }
-  return html;
-}
+function narrativeDimAnalysis(critId,sorted,avgAllDim,modeTxt,lang){const L=lang||LANG;const en=L==='en';const c=findCrit(critId);const bm=getBenchmark(critId,null,null,L);const avg=avgAllDim[critId];const values=sorted.map(r=>r.mrsc[critId]||0);const max=Math.max(...values),min=Math.min(...values);const topC=sorted.find(r=>(r.mrsc[critId]||0)===max);const lowC=sorted.find(r=>(r.mrsc[critId]||0)===min);const topName=coNameLang(getCompany(topC.id),L);const lowName=coNameLang(getCompany(lowC.id),L);const gap=max-min;const gapPct=pctCalc(max,min);const cName=critName(c,L);let html='';html+=`<h4 style="font-size:14px;color:#a37800;margin:20px 0 8px">▍ ${escapeHTML(cName)}${en?' Dimension Data':'維度數據'}</h4>`;if(en){html+=`<p class="rp-para">The ${sorted.length} companies scored an average of <b>${avg}</b> (out of ${c.max}) in the "${escapeHTML(cName)}" dimension.</p>`;if(bm&&bm.p50>0&&bm.source!=='insufficient'){const level=getRatingLevel(avg,bm,L);html+=`<p class="rp-para"><b>Industry benchmark (${escapeHTML(bm.label)}, based on ${bm.n} companies / ${bm.totalSamples} samples):</b> P25 ${bm.p25} | P50 (median) ${bm.p50} | P75 ${bm.p75} | P90 ${bm.p90}. The group average falls in "<b style="color:${level.color}">${escapeHTML(level.label)}</b>".</p>`;}else if(bm&&bm.source==='insufficient'){html+=`<p class="rp-para">Insufficient benchmark samples (${bm.n} companies); industry comparison unavailable.</p>`;}html+=`<p class="rp-para">Highest: <b>${escapeHTML(topName)}</b> (${max}); Lowest: <b>${escapeHTML(lowName)}</b> (${min}); Gap: <b>${gap} points</b> (~${gapPct}%).</p>`;html+=`<p class="rp-para">Scoring: max ${c.max}. 1–5 map to ${[1,2,3,4,5].map(n=>`${n}★→${c.map[n]||0}`).join(', ')}. Comparison mode ${modeTxt}.</p>`;}else{html+=`<p class="rp-para">本次參與評核的 ${sorted.length} 間企業於「${escapeHTML(cName)}」維度平均得分 <b>${avg}</b> 分（滿分 ${c.max} 分）。</p>`;if(bm&&bm.p50>0&&bm.source!=='insufficient'){const level=getRatingLevel(avg,bm,L);html+=`<p class="rp-para"><b>行業基準（${escapeHTML(bm.label)}，基於 ${bm.n} 間企業 / ${bm.totalSamples} 筆樣本）：</b>P25 ${bm.p25}｜P50（中位）${bm.p50}｜P75 ${bm.p75}｜P90 ${bm.p90}。全組平均落在「<b style="color:${level.color}">${escapeHTML(level.label)}</b>」。</p>`;}else if(bm&&bm.source==='insufficient'){html+=`<p class="rp-para">該維度基準樣本不足（${bm.n} 間企業），無法進行行業對比。</p>`;}html+=`<p class="rp-para">該維度中，最高為 <b>${escapeHTML(topName)}</b>（${max} 分），最低為 <b>${escapeHTML(lowName)}</b>（${min} 分），分差 <b>${gap} 分</b>（相對差距約 ${gapPct}%）。</p>`;html+=`<p class="rp-para">評分標準：滿分 ${c.max} 分，1–5 分對應分值為 ${[1,2,3,4,5].map(n=>`${n}★→${c.map[n]||0}`).join('、')}。對比模式 ${modeTxt}。</p>`;}return html;}
 function narrativeEnvAnalysis(k,sorted,lang){const L=lang||LANG;const en=L==='en';const ed=ENV_FIELDS[k];if(!ed)return'';const rows=sorted.map(r=>{const d=getEnvDistForCompany(r.id)[k];return{name:coNameLang(getCompany(r.id),L),d};}).filter(x=>x.d&&x.d.total);if(!rows.length)return'';const overallCounts={};let overallTotal=0;rows.forEach(r=>{Object.entries(r.d.counts).forEach(([k,v])=>{overallCounts[k]=(overallCounts[k]||0)+v;overallTotal+=v;});});const overallTop=Object.entries(overallCounts).sort((a,b)=>b[1]-a[1])[0];const overallTopLabel=overallTop?ed.options.find(o=>o.v===overallTop[0]):null;const rowsSorted=[...rows].sort((a,b)=>b.d.total-a.d.total);let html='';if(en){html+=`<p class="rp-para">Total ${overallTotal} observations collected. Most common: "<b>${overallTopLabel?escapeHTML(WrLang(overallTopLabel.l,L)):'—'}</b>" (${overallTop?overallTop[1]:0} times, ${overallTotal?Math.round(overallTop[1]/overallTotal*100):0}%).</p>`;}else{html+=`<p class="rp-para">全組共收集 ${overallTotal} 次觀察。整體最常見選項為「<b>${overallTopLabel?escapeHTML(WrLang(overallTopLabel.l,L)):'—'}</b>」（${overallTop?overallTop[1]:0} 次，佔 ${overallTotal?Math.round(overallTop[1]/overallTotal*100):0}%）。</p>`;}html+=`<ul class="rp-list" style="font-size:13px">`;rowsSorted.forEach(r=>{const entries=Object.entries(r.d.counts).sort((a,b)=>b[1]-a[1]);const parts=entries.map(([v,cnt])=>{const o=ed.options.find(x=>x.v===v);return `${o?WrLang(o.l,L):v} × ${cnt}`;});html+=en?`<li><b>${escapeHTML(r.name)}</b> (total ${r.d.total}): ${parts.join(', ')}</li>`:`<li><b>${escapeHTML(r.name)}</b>（共 ${r.d.total} 次）：${parts.join('、')}</li>`;});html+=`</ul>`;return html;}
-
-/* ===== narrativeDeptData — 標點、公司名英文化 ===== */
-function narrativeDeptData(dept,coRecs,cfg,sorted,lang){
-  const L=lang||LANG;const en=L==='en';
-  const totalRecs=coRecs.reduce((s,x)=>s+x.recs.length,0);
-  if(!totalRecs)return'';
-  let html='';
-  if(en){
-    html+=`<p class="rp-para">This section analyses the "${escapeHTML(WrLang(dept,L))}" department: ${totalRecs} samples across ${coRecs.filter(x=>x.recs.length).length} companies.</p>`;
-  }else{
-    html+=`<p class="rp-para">本節分析「<b>${escapeHTML(WrLang(dept,L))}</b>」部門，共 ${totalRecs} 筆樣本，涵蓋 ${coRecs.filter(x=>x.recs.length).length} 間企業。</p>`;
-  }
-  if(dept.includes('賭檯運作')){
-    const quotaData=coRecs.map(cr=>{
-      const cid=cr.company?cr.company.id:null;
-      const q=getTableQuota(cid);
-      const nums=[];
-      cr.recs.forEach(rec=>{(rec.venue&&rec.venue.items||[]).forEach(it=>{const n=parseFloat(it.open);if(!isNaN(n))nums.push(n);});});
-      if(!nums.length||!q||!q.tables)return null;
-      const avgOpen=nums.reduce((a,b)=>a+b,0)/nums.length;
-      return{company:cr.company,avgOpen,quota:q.tables,util:(avgOpen/q.tables)*100,count:nums.length};
-    }).filter(Boolean);
-    if(quotaData.length){
-      const sortedQ=[...quotaData].sort((a,b)=>b.util-a.util);
-      const top=sortedQ[0],low=sortedQ[sortedQ.length-1];
-      const avgUtil=(quotaData.reduce((s,x)=>s+x.util,0)/quotaData.length).toFixed(1);
-      if(en){
-        html+=`<p class="rp-para"><b>📊 Table Utilization (based on government quota):</b> DICJ and concession contract quotas used as denominator. Group average utilization <b>${avgUtil}%</b>.</p>`;
-        html+=`<p class="rp-para">Highest: <b>${escapeHTML(coNameLang(top.company,L))}</b> (<b>${top.util.toFixed(1)}%</b>, avg ${top.avgOpen.toFixed(1)} / quota ${top.quota}); Lowest: <b>${escapeHTML(coNameLang(low.company,L))}</b> (<b>${low.util.toFixed(1)}%</b>, avg ${low.avgOpen.toFixed(1)} / quota ${low.quota}). Gap ${(top.util-low.util).toFixed(1)} pp.</p>`;
-        html+=`<p class="rp-para" style="font-size:12.5px;color:#888">Note: Utilization reflects how efficiently a company uses its approved gaming tables.</p>`;
-      }else{
-        html+=`<p class="rp-para"><b>📊 賭檯使用率（政府批給量基準）：</b>本次以 DICJ 及各企業批給合同的賭桌配額為分母，計算各企業實際開檯的使用率。全組平均使用率為 <b>${avgUtil}%</b>。</p>`;
-        html+=`<p class="rp-para">使用率最高為 <b>${escapeHTML(coNameLang(top.company,L))}</b>（<b>${top.util.toFixed(1)}%</b>，平均開檯 ${top.avgOpen.toFixed(1)} 張 / 批給 ${top.quota} 張）；最低為 <b>${escapeHTML(coNameLang(low.company,L))}</b>（<b>${low.util.toFixed(1)}%</b>，平均開檯 ${low.avgOpen.toFixed(1)} 張 / 批給 ${low.quota} 張）。兩者使用率差距 ${(top.util-low.util).toFixed(1)} 個百分點。</p>`;
-        html+=`<p class="rp-para" style="font-size:12.5px;color:#888">說明：使用率反映企業對獲批賭桌資源的運用效率。</p>`;
-      }
-    }
-  }
-  const numFields=(cfg.fields||[]).filter(f=>f.type==='number');
-  const isTableDept=dept.includes('賭檯運作');
-  numFields.forEach(fd=>{
-    const fdLabel=WrLang(fd.label,L);
-    if(isTableDept&&(fd.key==='minBet'||fd.key==='maxBet')){
-      const gameMap={};
-      coRecs.forEach(cr=>{
-        cr.recs.forEach(rec=>{
-          (rec.venue&&rec.venue.items||[]).forEach(it=>{
-            const gameName=it.name||(en?'Unclassified':'未分類');
-            const n=parseFloat(it[fd.key]);
-            if(isNaN(n))return;
-            if(!gameMap[gameName])gameMap[gameName]={sum:0,count:0,min:Infinity,max:-Infinity,companies:{}};
-            gameMap[gameName].sum+=n;gameMap[gameName].count++;
-            gameMap[gameName].min=Math.min(gameMap[gameName].min,n);
-            gameMap[gameName].max=Math.max(gameMap[gameName].max,n);
-            const coKey=cr.company.id;
-            if(!gameMap[gameName].companies[coKey])gameMap[gameName].companies[coKey]={sum:0,count:0,company:cr.company};
-            gameMap[gameName].companies[coKey].sum+=n;
-            gameMap[gameName].companies[coKey].count++;
-          });
-        });
-      });
-      const gameKeys=Object.keys(gameMap).sort();
-      if(!gameKeys.length)return;
-      html+=en
-        ?`<p class="rp-para"><b>"${escapeHTML(fdLabel)}" by game type:</b></p>`
-        :`<p class="rp-para"><b>「${escapeHTML(fdLabel)}」按遊戲種類分析：</b></p>`;
-      html+=`<ul class="rp-list">`;
-      gameKeys.forEach(g=>{
-        const d=gameMap[g];
-        const avg=d.sum/d.count;
-        const compAvgs=Object.entries(d.companies).map(([_,data])=>({company:data.company,avg:data.sum/data.count})).sort((a,b)=>b.avg-a.avg);
-        const topComp=compAvgs[0];
-        const lowComp=compAvgs[compAvgs.length-1];
-        const gName=WrLang(g,L);
-        const topLabel=coNameLang(topComp.company,L);
-        const lowLabel=coNameLang(lowComp.company,L);
-        if(en){
-          html+=`<li><b>${escapeHTML(gName)}</b>: avg <b>${avg.toFixed(0)}</b> (range ${d.min}–${d.max}, ${d.count} samples).`;
-          if(compAvgs.length>1)html+=` Highest: <b>${escapeHTML(topLabel)}</b> (avg ${topComp.avg.toFixed(0)}); Lowest: <b>${escapeHTML(lowLabel)}</b> (avg ${lowComp.avg.toFixed(0)}).`;
-          html+=`</li>`;
-        }else{
-          html+=`<li><b>${escapeHTML(gName)}</b>：全組平均 <b>${avg.toFixed(0)}</b> 元（範圍 ${d.min}–${d.max} 元，共 ${d.count} 筆）。`;
-          if(compAvgs.length>1)html+=`最高為 <b>${escapeHTML(topLabel)}</b>（平均 ${topComp.avg.toFixed(0)} 元），最低為 <b>${escapeHTML(lowLabel)}</b>（平均 ${lowComp.avg.toFixed(0)} 元）。`;
-          html+=`</li>`;
-        }
-      });
-      html+=`</ul>`;
-    }else{
-      const items=[];
-      coRecs.forEach(cr=>{
-        const nums=[];
-        cr.recs.forEach(rec=>{(rec.venue&&rec.venue.items||[]).forEach(it=>{const n=parseFloat(it[fd.key]);if(!isNaN(n))nums.push(n);});});
-        if(nums.length)items.push({company:cr.company,avg:nums.reduce((a,b)=>a+b,0)/nums.length,count:nums.length,min:Math.min(...nums),max:Math.max(...nums)});
-      });
-      if(!items.length)return;
-      const maxItem=items.reduce((a,b)=>a.avg>b.avg?a:b);
-      const minItem=items.reduce((a,b)=>a.avg<b.avg?a:b);
-      const overallAvg=items.reduce((s,x)=>s+x.avg,0)/items.length;
-      if(en){
-        html+=`<p class="rp-para">"<b>${escapeHTML(fdLabel)}</b>": group average <b>${overallAvg.toFixed(1)}</b> (${items.reduce((s,x)=>s+x.count,0)} samples). Highest: <b>${escapeHTML(coNameLang(maxItem.company,L))}</b> (avg ${maxItem.avg.toFixed(1)}, range ${maxItem.min}–${maxItem.max}); Lowest: <b>${escapeHTML(coNameLang(minItem.company,L))}</b> (avg ${minItem.avg.toFixed(1)}).`;
-        if(maxItem.avg>minItem.avg){const gap=maxItem.avg-minItem.avg;const ratio=pctCalc(maxItem.avg,minItem.avg);html+=` Gap ${gap.toFixed(1)} (relative ${ratio}%).`;}
-        html+=`</p>`;
-      }else{
-        html+=`<p class="rp-para">「<b>${escapeHTML(fdLabel)}</b>」：全組平均 <b>${overallAvg.toFixed(1)}</b>（涵蓋 ${items.reduce((s,x)=>s+x.count,0)} 個樣本）。最高為 <b>${escapeHTML(coNameLang(maxItem.company,L))}</b>（平均 ${maxItem.avg.toFixed(1)}，範圍 ${maxItem.min}–${maxItem.max}）；最低為 <b>${escapeHTML(coNameLang(minItem.company,L))}</b>（平均 ${minItem.avg.toFixed(1)}）。`;
-        if(maxItem.avg>minItem.avg){const gap=maxItem.avg-minItem.avg;const ratio=pctCalc(maxItem.avg,minItem.avg);html+=`兩者差距 ${gap.toFixed(1)}（相對差距 ${ratio}%）。`;}
-        html+=`</p>`;
-      }
-    }
-  });
-  return html;
-}
+function narrativeDeptData(dept,coRecs,cfg,sorted,lang){const L=lang||LANG;const en=L==='en';const totalRecs=coRecs.reduce((s,x)=>s+x.recs.length,0);if(!totalRecs)return'';let html='';if(en){html+=`<p class="rp-para">This section analyses the "${escapeHTML(WrLang(dept,L))}" department: ${totalRecs} samples across ${coRecs.filter(x=>x.recs.length).length} companies.</p>`;}else{html+=`<p class="rp-para">本節分析「<b>${escapeHTML(WrLang(dept,L))}</b>」部門，共 ${totalRecs} 筆樣本，涵蓋 ${coRecs.filter(x=>x.recs.length).length} 間企業。</p>`;}if(dept.includes('賭檯運作')){const quotaData=coRecs.map(cr=>{const cid=cr.company?cr.company.id:null;const q=getTableQuota(cid);const nums=[];cr.recs.forEach(rec=>{(rec.venue&&rec.venue.items||[]).forEach(it=>{const n=parseFloat(it.open);if(!isNaN(n))nums.push(n);});});if(!nums.length||!q||!q.tables)return null;const avgOpen=nums.reduce((a,b)=>a+b,0)/nums.length;return{company:cr.company,avgOpen,quota:q.tables,util:(avgOpen/q.tables)*100,count:nums.length};}).filter(Boolean);if(quotaData.length){const sortedQ=[...quotaData].sort((a,b)=>b.util-a.util);const top=sortedQ[0],low=sortedQ[sortedQ.length-1];const avgUtil=(quotaData.reduce((s,x)=>s+x.util,0)/quotaData.length).toFixed(1);if(en){html+=`<p class="rp-para"><b>📊 Table Utilization (based on government quota):</b> DICJ and concession contract quotas used as denominator. Group average utilization <b>${avgUtil}%</b>.</p>`;html+=`<p class="rp-para">Highest: <b>${escapeHTML(coNameLang(top.company,L))}</b> (<b>${top.util.toFixed(1)}%</b>, avg ${top.avgOpen.toFixed(1)} / quota ${top.quota}); Lowest: <b>${escapeHTML(coNameLang(low.company,L))}</b> (<b>${low.util.toFixed(1)}%</b>, avg ${low.avgOpen.toFixed(1)} / quota ${low.quota}). Gap ${(top.util-low.util).toFixed(1)} pp.</p>`;html+=`<p class="rp-para" style="font-size:12.5px;color:#888">Note: Utilization reflects how efficiently a company uses its approved gaming tables.</p>`;}else{html+=`<p class="rp-para"><b>📊 賭檯使用率（政府批給量基準）：</b>本次以 DICJ 及各企業批給合同的賭桌配額為分母，計算各企業實際開檯的使用率。全組平均使用率為 <b>${avgUtil}%</b>。</p>`;html+=`<p class="rp-para">使用率最高為 <b>${escapeHTML(coNameLang(top.company,L))}</b>（<b>${top.util.toFixed(1)}%</b>，平均開檯 ${top.avgOpen.toFixed(1)} 張 / 批給 ${top.quota} 張）；最低為 <b>${escapeHTML(coNameLang(low.company,L))}</b>（<b>${low.util.toFixed(1)}%</b>，平均開檯 ${low.avgOpen.toFixed(1)} 張 / 批給 ${low.quota} 張）。兩者使用率差距 ${(top.util-low.util).toFixed(1)} 個百分點。</p>`;html+=`<p class="rp-para" style="font-size:12.5px;color:#888">說明：使用率反映企業對獲批賭桌資源的運用效率。</p>`;}}}const numFields=(cfg.fields||[]).filter(f=>f.type==='number');const isTableDept=dept.includes('賭檯運作');numFields.forEach(fd=>{const fdLabel=WrLang(fd.label,L);if(isTableDept&&(fd.key==='minBet'||fd.key==='maxBet')){const gameMap={};coRecs.forEach(cr=>{cr.recs.forEach(rec=>{(rec.venue&&rec.venue.items||[]).forEach(it=>{const gameName=it.name||(en?'Unclassified':'未分類');const n=parseFloat(it[fd.key]);if(isNaN(n))return;if(!gameMap[gameName])gameMap[gameName]={sum:0,count:0,min:Infinity,max:-Infinity,companies:{}};gameMap[gameName].sum+=n;gameMap[gameName].count++;gameMap[gameName].min=Math.min(gameMap[gameName].min,n);gameMap[gameName].max=Math.max(gameMap[gameName].max,n);const coKey=cr.company.id;if(!gameMap[gameName].companies[coKey])gameMap[gameName].companies[coKey]={sum:0,count:0,company:cr.company};gameMap[gameName].companies[coKey].sum+=n;gameMap[gameName].companies[coKey].count++;});});});const gameKeys=Object.keys(gameMap).sort();if(!gameKeys.length)return;html+=en?`<p class="rp-para"><b>"${escapeHTML(fdLabel)}" by game type:</b></p>`:`<p class="rp-para"><b>「${escapeHTML(fdLabel)}」按遊戲種類分析：</b></p>`;html+=`<ul class="rp-list">`;gameKeys.forEach(g=>{const d=gameMap[g];const avg=d.sum/d.count;const compAvgs=Object.entries(d.companies).map(([_,data])=>({company:data.company,avg:data.sum/data.count})).sort((a,b)=>b.avg-a.avg);const topComp=compAvgs[0];const lowComp=compAvgs[compAvgs.length-1];const gName=WrLang(g,L);const topLabel=coNameLang(topComp.company,L);const lowLabel=coNameLang(lowComp.company,L);if(en){html+=`<li><b>${escapeHTML(gName)}</b>: avg <b>${avg.toFixed(0)}</b> (range ${d.min}–${d.max}, ${d.count} samples).`;if(compAvgs.length>1)html+=` Highest: <b>${escapeHTML(topLabel)}</b> (avg ${topComp.avg.toFixed(0)}); Lowest: <b>${escapeHTML(lowLabel)}</b> (avg ${lowComp.avg.toFixed(0)}).`;html+=`</li>`;}else{html+=`<li><b>${escapeHTML(gName)}</b>：全組平均 <b>${avg.toFixed(0)}</b> 元（範圍 ${d.min}–${d.max} 元，共 ${d.count} 筆）。`;if(compAvgs.length>1)html+=`最高為 <b>${escapeHTML(topLabel)}</b>（平均 ${topComp.avg.toFixed(0)} 元），最低為 <b>${escapeHTML(lowLabel)}</b>（平均 ${lowComp.avg.toFixed(0)} 元）。`;html+=`</li>`;}});html+=`</ul>`;}else{const items=[];coRecs.forEach(cr=>{const nums=[];cr.recs.forEach(rec=>{(rec.venue&&rec.venue.items||[]).forEach(it=>{const n=parseFloat(it[fd.key]);if(!isNaN(n))nums.push(n);});});if(nums.length)items.push({company:cr.company,avg:nums.reduce((a,b)=>a+b,0)/nums.length,count:nums.length,min:Math.min(...nums),max:Math.max(...nums)});});if(!items.length)return;const maxItem=items.reduce((a,b)=>a.avg>b.avg?a:b);const minItem=items.reduce((a,b)=>a.avg<b.avg?a:b);const overallAvg=items.reduce((s,x)=>s+x.avg,0)/items.length;if(en){html+=`<p class="rp-para">"<b>${escapeHTML(fdLabel)}</b>": group average <b>${overallAvg.toFixed(1)}</b> (${items.reduce((s,x)=>s+x.count,0)} samples). Highest: <b>${escapeHTML(coNameLang(maxItem.company,L))}</b> (avg ${maxItem.avg.toFixed(1)}, range ${maxItem.min}–${maxItem.max}); Lowest: <b>${escapeHTML(coNameLang(minItem.company,L))}</b> (avg ${minItem.avg.toFixed(1)}).`;if(maxItem.avg>minItem.avg){const gap=maxItem.avg-minItem.avg;const ratio=pctCalc(maxItem.avg,minItem.avg);html+=` Gap ${gap.toFixed(1)} (relative ${ratio}%).`;}html+=`</p>`;}else{html+=`<p class="rp-para">「<b>${escapeHTML(fdLabel)}</b>」：全組平均 <b>${overallAvg.toFixed(1)}</b>（涵蓋 ${items.reduce((s,x)=>s+x.count,0)} 個樣本）。最高為 <b>${escapeHTML(coNameLang(maxItem.company,L))}</b>（平均 ${maxItem.avg.toFixed(1)}，範圍 ${maxItem.min}–${maxItem.max}）；最低為 <b>${escapeHTML(coNameLang(minItem.company,L))}</b>（平均 ${minItem.avg.toFixed(1)}）。`;if(maxItem.avg>minItem.avg){const gap=maxItem.avg-minItem.avg;const ratio=pctCalc(maxItem.avg,minItem.avg);html+=`兩者差距 ${gap.toFixed(1)}（相對差距 ${ratio}%）。`;}html+=`</p>`;}}});return html;}
 function narrativeOverview(sorted,avgAllDim,modeTxt,filterTxt,lang){const L=lang||LANG;const en=L==='en';const top=sorted[0],last=sorted[sorted.length-1];const topC=getCompany(top.id),lastC=getCompany(last.id);const avgScore=Math.round(sorted.reduce((s,r)=>s+r.overall,0)/sorted.length);const gap=top.overall-last.overall;const totalSamples=sorted.reduce((s,r)=>s+r.count,0);let html='';if(en){html+=`<p class="rp-para">This report is based on MRSC 2026 mystery customer assessment data, comparing ${sorted.length} participating companies (covering ${totalSamples} valid samples). Comparison mode ${modeTxt}, filter: ${filterTxt}. Coverage includes: core scoring dimension analysis, environmental observation analysis, and department operational data analysis.</p>`;html+=`<p class="rp-para">Result: <b>${escapeHTML(coNameLang(topC,'en'))}</b> ranked first with <b>${top.overall}/200</b>; <b>${escapeHTML(coNameLang(lastC,'en'))}</b> ranked last with <b>${last.overall}/200</b>. Gap between first and last is ${gap} points (about ${pctCalc(top.overall,last.overall)}%). Group average ${avgScore}/200.</p>`;}else{html+=`<p class="rp-para">本報告依據 MRSC 2026 神秘顧客評核數據，就 ${sorted.length} 間參與企業（涵蓋 ${totalSamples} 筆有效樣本）進行數據對比。對比模式 ${modeTxt}，篩選條件為 ${filterTxt}。內容涵蓋：核心評分維度分析、環境觀察分析、部門運營數據分析。</p>`;html+=`<p class="rp-para">本次結果：<b>${escapeHTML(coNameLang(topC,'zh'))}</b> 以 <b>${top.overall}/200</b> 分居首；<b>${escapeHTML(coNameLang(lastC,'zh'))}</b> 以 <b>${last.overall}/200</b> 分排末位。首位與末位相差 ${gap} 分（約 ${pctCalc(top.overall,last.overall)}%）。全組平均 ${avgScore}/200。</p>`;}return html;}
-function narrativeMethodology(lang){const L=lang||LANG;const en=L==='en';if(en){return `<p class="rp-para">Data source: MRSC assessment forms filled in on-site by mystery customers. All records are archived with submission time, inspector ID, and GPS location. Overall MRSC calculation: each dimension's raw score is divided by its maximum to yield a normalized score (0–100); the average across all dimensions is multiplied by 2 to yield a 200-point score.</p>`+`<p class="rp-para"><b>Industry Benchmark Calculation:</b> The report uses statistical percentile method, computed per department and per dimension. Process: ① aggregate by company (weighted average per company per department per dimension); ② time-decay weighting (90-day half-life); ③ sort weighted averages and derive P25 / P50 / P75 / P90 percentiles.</p>`+`<p class="rp-para"><b>Five-level rating:</b> Score ≥ P90 = <b style="color:#2ea87a">Excellent (Top 10%)</b>; ≥ P75 = <b style="color:#4a9e4a">Good (Top 25%)</b>; ≥ P50 = <b style="color:#c9a527">Above Median</b>; ≥ P25 = <b style="color:#d97c28">Below Median</b>; &lt; P25 = <b style="color:#c94141">Needs Improvement</b>.</p>`+`<p class="rp-para">When samples are insufficient (&lt; ${MIN_COMPANIES} companies or &lt; ${MIN_SAMPLES} samples), the benchmark is marked as "insufficient" and no comparison is performed. For gaming table operations, government quota is used as the denominator to compute table utilization rate; min/max bet amounts are grouped by game type.</p>`;}return `<p class="rp-para">數據來源為神秘顧客於現場填寫的 MRSC 評核表單，所有記錄提交時均附有提交時間、考察人員身份及 GPS 位置。綜合 MRSC 計算方式：先將各維度原始分數除以該維度滿分得出標準化分數（0–100），取所有維度平均後乘以 2，得出 200 分制分數。</p>`+`<p class="rp-para"><b>行業基準計算方式：</b>報告內的行業基準採用統計學百分位法（Percentile），依部門、維度分別計算。流程如下：① 按企業聚合（每個企業在該部門該維度的加權平均，確保企業等權）；② 時間衰減加權（90 天半衰期）；③ 對所有企業的加權平均值排序，求 P25 / P50 / P75 / P90 四個百分位。</p>`+`<p class="rp-para"><b>五級評等對應：</b>得分 ≥ P90 = <b style="color:#2ea87a">卓越（行業前 10%）</b>；≥ P75 = <b style="color:#4a9e4a">優秀（前 25%）</b>；≥ P50 = <b style="color:#c9a527">良好（優於中位）</b>；≥ P25 = <b style="color:#d97c28">一般（中後段）</b>；&lt; P25 = <b style="color:#c94141">待改善（行業後段）</b>。</p>`+`<p class="rp-para">當樣本不足（&lt; ${MIN_COMPANIES} 間企業或 &lt; ${MIN_SAMPLES} 筆樣本）時，基準標示為「樣本不足」，報告不對比。賭檯運作部門的分析納入政府批給量作為分母，計算賭檯使用率；最低及最高投注額按遊戲種類分組分析。</p>`;}
+function narrativeMethodology(lang){const L=lang||LANG;const en=L==='en';if(en){return `<p class="rp-para">Data source: MRSC assessment forms filled in on-site by mystery customers. All records are archived with submission time, inspector ID, and GPS location. Overall MRSC calculation: each dimension's raw score is divided by its maximum to yield a normalized score (0–100); the average across all dimensions is multiplied by 2 to yield a 200-point score.</p>`+`<p class="rp-para"><b>Industry Benchmark Calculation:</b> The report uses statistical percentile method, computed per department and per dimension. Process: ① aggregate by company (weighted average per company per department per dimension); ② time-decay weighting (90-day half-life); ③ sort weighted averages and derive P25 / P50 / P75 / P90 percentiles.</p>`+`<p class="rp-para"><b>Five-level rating:</b> Score ≥ P90 = <b style="color:#2ea87a">Excellent (Top 10%)</b>; ≥ P75 = <b style="color:#4a9e4a">Good (Top 25%)</b>; ≥ P50 = <b style="color:#c9a527">Above Median</b>; ≥ P25 = <b style="color:#d97c28">Below Median</b>; &lt; P25 = <b style="color:#c94141">Needs Improvement</b>.</p>`+`<p class="rp-para">When samples are insufficient (&lt; ${MIN_COMPANIES} companies or &lt; ${MIN_SAMPLES} samples), the benchmark is marked as "insufficient" and no comparison is performed. For gaming table operations, government quota is used as the denominator to compute table utilization rate; min/max bets are grouped by game type.</p>`;}return `<p class="rp-para">數據來源為神秘顧客於現場填寫的 MRSC 評核表單，所有記錄提交時均附有提交時間、考察人員身份及 GPS 位置。綜合 MRSC 計算方式：先將各維度原始分數除以該維度滿分得出標準化分數（0–100），取所有維度平均後乘以 2，得出 200 分制分數。</p>`+`<p class="rp-para"><b>行業基準計算方式：</b>報告內的行業基準採用統計學百分位法（Percentile），依部門、維度分別計算。流程如下：① 按企業聚合（每個企業在該部門該維度的加權平均，確保企業等權）；② 時間衰減加權（90 天半衰期）；③ 對所有企業的加權平均值排序，求 P25 / P50 / P75 / P90 四個百分位。</p>`+`<p class="rp-para"><b>五級評等對應：</b>得分 ≥ P90 = <b style="color:#2ea87a">卓越（行業前 10%）</b>；≥ P75 = <b style="color:#4a9e4a">優秀（前 25%）</b>；≥ P50 = <b style="color:#c9a527">良好（優於中位）</b>；≥ P25 = <b style="color:#d97c28">一般（中後段）</b>；&lt; P25 = <b style="color:#c94141">待改善（行業後段）</b>。</p>`+`<p class="rp-para">當樣本不足（&lt; ${MIN_COMPANIES} 間企業或 &lt; ${MIN_SAMPLES} 筆樣本）時，基準標示為「樣本不足」，報告不對比。賭檯運作部門的分析納入政府批給量作為分母，計算賭檯使用率；最低及最高投注額按遊戲種類分組分析。</p>`;}
 
 /* ===== 建設性改善行動知識庫 ===== */
 const ACTION_LIBRARY=[
@@ -1318,302 +1202,65 @@ function _ccShared(sorted){
     groupRank:1+sorted.filter(r=>r.overall>baseRow.overall&&r.id!==baseRow.id).length
   };
 }
-
-/* ===== 結論 01~09 ===== */
-function narrativeConclusion01(sorted,avgAllDim,modeTxt,lang){
-  const L=lang||LANG;const en=L==='en';
-  const {baseRow,baseC,others,isBaseMissing,depts}=_ccShared(sorted);
-  let html='';
-  html+=en?`<h4 style="font-size:14px;color:#a37800;margin:18px 0 8px">1. Base Company &amp; Comparison Group</h4>`:`<h4 style="font-size:14px;color:#a37800;margin:18px 0 8px">一、基準企業與對比組</h4>`;
-  if(en){
-    html+=`<p class="rp-para">This section analyses using the selected <b style="color:#a37800">Base Company (A): ${escapeHTML(coNameLang(baseC,L))}</b> as the centre, comparing dimension-by-dimension with ${others.length} comparison companies.</p>`;
-    html+=`<p class="rp-para"><b>Base:</b> ${escapeHTML(coNameLang(baseC,L))} (overall ${baseRow.overall}/200, ${baseRow.count} samples) · <b>Comparison:</b> ${others.map(o=>{const c=getCompany(o.id);return `${escapeHTML(coNameLang(c,L))} (${o.overall}/200, ${o.count} samples)`;}).join(', ')}.</p>`;
-  }else{
-    html+=`<p class="rp-para">本節以使用者選擇的 <b style="color:#a37800">基準休企（A 方）：${escapeHTML(coNameLang(baseC,L))}</b> 為分析中心，與 ${others.length} 間對比休企（B 方）逐維度比較。</p>`;
-    html+=`<p class="rp-para"><b>基準企業：</b>${escapeHTML(coNameLang(baseC,L))}（綜合 ${baseRow.overall}/200，樣本 ${baseRow.count} 筆） · <b>對比企業：</b>${others.map(o=>{const c=getCompany(o.id);return `${escapeHTML(coNameLang(c,L))}（${o.overall}/200，${o.count} 筆）`;}).join('、')}。</p>`;
-  }
-  if(isBaseMissing){html+=`<div class="rp-insight warn"><strong>⚠ ${en?'Note':'注意'}：</strong>${en?'The selected base company has no valid records under current filter; the top-ranked company is used as substitute.':'所選基準企業於本次篩選條件下無有效記錄，已自動以綜合排名首位作替代。'}</div>`;}
-  if(depts.length){
-    html+=en?`<p class="rp-para"><b>Departments covered:</b> ${depts.map(d=>escapeHTML(WrLang(d,L))).join(', ')} (${depts.length}).</p>`:`<p class="rp-para"><b>本次分析涵蓋部門：</b>${depts.map(d=>escapeHTML(WrLang(d,L))).join('、')}（共 ${depts.length} 個）。</p>`;
-  }
-  return html;
-}
-function narrativeConclusion02(sorted,avgAllDim,modeTxt,lang){
-  const L=lang||LANG;const en=L==='en';
-  const {baseRow,groupRank}=_ccShared(sorted);
-  let html='';
-  html+=en?`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">2. Overall Performance</h4>`:`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">二、綜合表現對比</h4>`;
-  if(en){
-    html+=`<p class="rp-para">Base company scored <b>${baseRow.overall}/200</b>, ranked <b>${groupRank}</b> of ${sorted.length}.`;
-    if(groupRank===1){html+=` <b style="color:#158052">Ranked #1 overall</b>.`;}
-    else{const ahead=sorted.filter(r=>r.overall>baseRow.overall&&r.id!==baseRow.id);html+=` Ahead: ${ahead.map(r=>`<b>${escapeHTML(coNameLang(getCompany(r.id),L))}</b> (+${r.overall-baseRow.overall})`).join(', ')}.`;}
-    html+=`</p>`;
-  }else{
-    html+=`<p class="rp-para">基準企業綜合得分 <b>${baseRow.overall}/200</b>，於本次對比 ${sorted.length} 間企業中排名第 <b>${groupRank}</b>。`;
-    if(groupRank===1){html+=`為本次對比組之<b style="color:#158052">綜合第一</b>。`;}
-    else{const ahead=sorted.filter(r=>r.overall>baseRow.overall&&r.id!==baseRow.id);html+=`領先基準企業的企業為：${ahead.map(r=>`<b>${escapeHTML(coNameLang(getCompany(r.id),L))}</b>（+${r.overall-baseRow.overall} 分）`).join('、')}。`;}
-    html+=`</p>`;
-  }
-  return html;
-}
-function narrativeConclusion03(sorted,avgAllDim,modeTxt,lang){
-  const L=lang||LANG;const en=L==='en';
-  const {dimCompare}=_ccShared(sorted);
-  let html='';
-  html+=en?`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">3. Dimension-by-Dimension Comparison</h4>`:`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">三、逐維度對比（基準 vs 對比組）</h4>`;
-  html+=`<table class="rp-table" style="margin:10px 0"><thead><tr>`;
-  html+=en?`<th>Dimension</th><th>Base</th><th>Compare Avg</th><th>Gap</th><th>Rank</th><th>Verdict</th>`:`<th>維度</th><th>基準企業</th><th>對比組平均</th><th>差距</th><th>組內排名</th><th>評語</th>`;
-  html+=`</tr></thead><tbody>`;
-  dimCompare.forEach(d=>{
-    const gapColor=d.gap>0?'#158052':d.gap<0?'#c93636':'#888';
-    const gapText=d.gap===0?(en?'Tie':'持平'):`${d.gap>0?'+':''}${d.gap}`;
-    let verdict='';
-    if(d.leadAll)verdict=en?'<b style="color:#158052">Leads all</b>':'<b style="color:#158052">領先全組</b>';
-    else if(d.loseAll)verdict=en?'<b style="color:#c93636">Trails all</b>':'<b style="color:#c93636">落後全組</b>';
-    else if(d.gap>=3)verdict=en?'<span style="color:#158052">Above avg</span>':'<span style="color:#158052">優於平均</span>';
-    else if(d.gap<=-3)verdict=en?'<span style="color:#c93636">Below avg</span>':'<span style="color:#c93636">低於平均</span>';
-    else verdict=en?'<span style="color:#888">On par</span>':'<span style="color:#888">與平均持平</span>';
-    html+=`<tr><td>${escapeHTML(critName(d.crit,L))}</td><td style="font-weight:700">${d.baseVal}</td><td>${d.othersAvg||'—'}</td><td style="color:${gapColor};font-weight:700">${gapText}</td><td>${d.othersVals.length?`${d.rankInGroup} / ${d.othersVals.length+1}`:'—'}</td><td>${verdict}</td></tr>`;
-  });
-  html+='</tbody></table>';
-  return html;
-}
-function narrativeConclusion04(sorted,avgAllDim,modeTxt,lang){
-  const L=lang||LANG;const en=L==='en';
-  const {leads}=_ccShared(sorted);
-  let html='';
-  html+=en?`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">4. Strengths</h4>`:`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">四、基準企業優勢維度</h4>`;
-  if(leads.length){
-    html+=en?`<p class="rp-para">Dimensions where the base company <b style="color:#158052">clearly outperforms</b> the comparison group (gap ≥3):</p>`:`<p class="rp-para">以下維度基準企業<b style="color:#158052">明顯優於對比組平均</b>（差距 ≥3 分）：</p>`;
-    html+=`<ul class="rp-list">`;
-    leads.forEach(d=>{
-      const bestOther=d.best?coNameLang(d.best.company,L):'—';
-      if(en){html+=`<li><b>${escapeHTML(critName(d.crit,L))}</b>: base ${d.baseVal}, group avg ${d.othersAvg} (<b style="color:#158052">leads ${d.gap}</b>). ${d.leadAll?'<b>Leads all.</b>':`Closest: ${escapeHTML(bestOther)} (${d.best.value}).`}</li>`;}
-      else{html+=`<li><b>${escapeHTML(critName(d.crit,L))}</b>：基準 ${d.baseVal} 分，對比組平均 ${d.othersAvg} 分（<b style="color:#158052">領先 ${d.gap} 分</b>）。${d.leadAll?'<b>領先所有對比企業</b>。':`最接近的對手為 ${escapeHTML(bestOther)}（${d.best.value} 分）。`}</li>`;}
-    });
-    html+=`</ul>`;
-  }else{
-    html+=en?`<p class="rp-para" style="color:#888">No dimensions show clear leadership (gap &lt;3).</p>`:`<p class="rp-para" style="color:#888">基準企業於各維度均未明顯領先對比組平均（差距 &lt;3 分）。</p>`;
-  }
-  return html;
-}
-function narrativeConclusion05(sorted,avgAllDim,modeTxt,lang){
-  const L=lang||LANG;const en=L==='en';
-  const {lags}=_ccShared(sorted);
-  let html='';
-  html+=en?`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">5. Weaknesses</h4>`:`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">五、基準企業劣勢維度</h4>`;
-  if(lags.length){
-    html+=en?`<p class="rp-para">Dimensions where the base company <b style="color:#c93636">clearly underperforms</b> the comparison group (gap ≥3):</p>`:`<p class="rp-para">以下維度基準企業<b style="color:#c93636">明顯低於對比組平均</b>（差距 ≥3 分）：</p>`;
-    html+=`<ul class="rp-list">`;
-    const lagsSorted=[...lags].sort((a,b)=>a.gap-b.gap);
-    lagsSorted.forEach(d=>{
-      const topOther=d.best?coNameLang(d.best.company,L):'—';
-      if(en){html+=`<li><b>${escapeHTML(critName(d.crit,L))}</b>: base ${d.baseVal}, group avg ${d.othersAvg} (<b style="color:#c93636">trails ${Math.abs(d.gap)}</b>). ${d.loseAll?'<b>Trails all.</b>':`Furthest ahead: ${escapeHTML(topOther)} (${d.best.value}).`}</li>`;}
-      else{html+=`<li><b>${escapeHTML(critName(d.crit,L))}</b>：基準 ${d.baseVal} 分，對比組平均 ${d.othersAvg} 分（<b style="color:#c93636">落後 ${Math.abs(d.gap)} 分</b>）。${d.loseAll?'<b>落後所有對比企業</b>。':`領先最多者為 ${escapeHTML(topOther)}（${d.best.value} 分）。`}</li>`;}
-    });
-    html+=`</ul>`;
-  }else{
-    html+=en?`<p class="rp-para" style="color:#888">No dimensions show clear lag (gap &lt;3).</p>`:`<p class="rp-para" style="color:#888">基準企業於各維度均未明顯落後對比組平均（差距 &lt;3 分）。</p>`;
-  }
-  return html;
-}
-function narrativeConclusion06(sorted,avgAllDim,modeTxt,lang){
-  const L=lang||LANG;const en=L==='en';
-  const {onPar}=_ccShared(sorted);
-  let html='';
-  html+=en?`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">6. On-par Dimensions</h4>`:`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">六、持平維度</h4>`;
-  if(onPar.length){
-    html+=en?`<p class="rp-para">Dimensions with gap &lt;3 (on par): `:`<p class="rp-para">以下維度基準企業與對比組平均差距在 3 分以內，屬「持平」狀態：`;
-    html+=onPar.map(d=>`<b>${escapeHTML(critName(d.crit,L))}</b> (${en?'base':'基準'} ${d.baseVal}, ${en?'avg':'平均'} ${d.othersAvg})`).join(en?', ':'、');
-    html+=en?`.</p>`:`。</p>`;
-  }else{
-    html+=en?`<p class="rp-para" style="color:#888">No on-par dimensions.</p>`:`<p class="rp-para" style="color:#888">本次對比中，基準企業於各維度均呈現明顯領先或落後（差距 ≥3 分），暫無「持平」狀態的維度。</p>`;
-  }
-  return html;
-}
-function narrativeConclusion07(sorted,avgAllDim,modeTxt,lang){
-  const L=lang||LANG;const en=L==='en';
-  const {lags,baseRow,depts}=_ccShared(sorted);
-  let html='';
-  html+=en?`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">7. Improvement Priorities</h4>`:`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">七、改善優先次序建議</h4>`;
-  if(lags.length>0){
-    html+=en?`<p class="rp-para">Based on the gaps and department operational data covered in this report, we recommend planning improvements in priority order.</p>`:`<p class="rp-para">根據各維度落後對比組的差距，結合本次報告涵蓋的部門運營數據，建議基準企業按以下優先次序規劃改善方案。所有行動方案均與系統內對應的部門專屬項目掛鉤。</p>`;
-    const lagsSorted=[...lags].sort((a,b)=>a.gap-b.gap);
-    lagsSorted.forEach((d,i)=>{
-      const priority=i===0?(en?'[TOP PRIORITY] ':'【最高優先】'):i===1?(en?'[HIGH PRIORITY] ':'【次高優先】'):(en?'[CONTINUOUS] ':'【持續改善】');
-      const gapAbs=Math.abs(d.gap);
-      const tpl=buildConstructiveActions(d.crit.name,depts,i===0);
-      const dimName=critName(d.crit,L);
-      const rankText=en?`${priority}${escapeHTML(dimName)} (trails by ${gapAbs})`:`${priority}${escapeHTML(dimName)}（落後對比組 ${gapAbs} 分）`;
-      const borderColor=i===0?'#c93636':i===1?'#d97706':'#a37800';
-      html+=`<div style="margin:18px 0 14px;padding:16px 20px;background:#fbf8ec;border-left:4px solid ${borderColor};border-radius:8px">`;
-      html+=`<div style="font-size:14px;font-weight:800;color:#1a1f2e;margin-bottom:10px">${rankText}</div>`;
-      const diag=en?(tpl.diagnosisEn||tpl.diagnosis):tpl.diagnosis;
-      html+=`<div style="font-size:12.5px;color:#555;margin-bottom:10px;line-height:1.7"><b style="color:#a37800">${en?'Diagnosis':'問題診斷'}：</b>${escapeHTML(diag)}</div>`;
-      html+=`<div style="font-size:12.5px;color:#333;margin-bottom:8px;font-weight:700">${en?'Actions':'具體行動方案'}：</div>`;
-      html+=`<ol class="rp-list" style="padding-left:24px;margin:0">`;
-      tpl.actions.forEach(a=>{
-        const title=en?(a.titleEn||a.title):a.title;
-        const det=en?(a.detailEn||a.detail):a.detail;
-        const filled=fillDeptHook(det,depts,a.deptHooks,L);
-        html+=`<li style="margin-bottom:8px"><b>${escapeHTML(title)}</b>：${filled}</li>`;
-      });
-      html+=`</ol>`;
-      const bestScore=d.best?d.best.value:0;
-      const targetScore=Math.min(Math.round((d.baseVal+bestScore)/2)+10,200);
-      const timeFrame=i===0?(en?'within 3 months':'3 個月內'):i===1?(en?'3–6 months':'3–6 個月'):(en?'within 6 months':'6 個月內');
-      let effectExtra='';
-      if(d.crit.name&&d.crit.name.includes('賭檯')){
-        const q=getTableQuota(baseRow.id);
-        if(q&&q.tables){
-          const baseOpenVals=[];
-          filterRecs(state.records.filter(r=>r.companyId===baseRow.id&&(r.department||'').includes('賭檯'))).forEach(rec=>{(rec.venue&&rec.venue.items||[]).forEach(it=>{const n=parseFloat(it.open);if(!isNaN(n))baseOpenVals.push(n);});});
-          if(baseOpenVals.length){
-            const avgOpen=baseOpenVals.reduce((a,b)=>a+b,0)/baseOpenVals.length;
-            const util=(avgOpen/q.tables)*100;
-            const targetUtil=Math.min(util+8,95);
-            effectExtra=en?` Also, table utilization should rise from about <b>${util.toFixed(1)}%</b> to <b>${targetUtil.toFixed(1)}%</b>.`:`　·　同時，賭檯使用率建議由現時約 <b>${util.toFixed(1)}%</b> 提升至 <b>${targetUtil.toFixed(1)}%</b>（以批給 ${q.tables} 張為基準）。`;
-          }
-        }
-      }
-      if(en){html+=`<div style="margin-top:12px;padding-top:10px;border-top:1px dashed #d5dae2;font-size:12.5px;color:#333;line-height:1.7"><b style="color:#a37800">Expected outcome:</b> Target raising this dimension from ${d.baseVal} to <b>${targetScore}</b> ${timeFrame}, narrowing the gap to the top performer (${escapeHTML(d.best?coNameLang(d.best.company,L):'—')}: ${bestScore}).${effectExtra}</div>`;}
-      else{html+=`<div style="margin-top:12px;padding-top:10px;border-top:1px dashed #d5dae2;font-size:12.5px;color:#333;line-height:1.7"><b style="color:#a37800">預期成效：</b>目標於${timeFrame}將該維度得分由 ${d.baseVal} 分提升至 <b>${targetScore} 分</b> 以上，逐步收窄與對比組最佳表現（${escapeHTML(d.best?coNameLang(d.best.company,L):'—')}：${bestScore} 分）的差距。${effectExtra}建議將此目標納入相關部門的季度營運指標。</div>`;}
-      html+=`</div>`;
-    });
-  }else{
-    html+=en?`<p class="rp-para">No dimensions show clear lag; no urgent improvement items.</p>`:`<p class="rp-para">基準企業於各維度均未明顯落後對比組平均（差距 &lt;3 分），暫無迫切改善項目。</p>`;
-  }
-  return html;
-}
-function narrativeConclusion08(sorted,avgAllDim,modeTxt,lang){
-  const L=lang||LANG;const en=L==='en';
-  const {leads,depts}=_ccShared(sorted);
-  let html='';
-  html+=en?`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">8. Strength Consolidation</h4>`:`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">八、優勢鞏固建議</h4>`;
-  if(leads.length>0){
-    const deptLabel=depts.length?(en?depts.slice(0,3).map(d=>escapeHTML(WrLang(d,L))).join(', '):`【${depts.slice(0,3).map(d=>escapeHTML(WrLang(d,L))).join('】、【')}】`):(en?'other front-line units':'其他服務前線');
-    if(en){html+=`<p class="rp-para">The base company clearly leads in <b>${leads.map(d=>escapeHTML(critName(d.crit,L))).join(', ')}</b>. We recommend documenting these as internal SOPs for new staff training, and having top performers share experience with ${deptLabel}.</p>`;}
-    else{html+=`<p class="rp-para">基準企業於 <b>${leads.map(d=>escapeHTML(critName(d.crit,L))).join('、')}</b> 已明顯領先對比組，建議將此優勢編寫為《內部服務標準作業程序（SOP）》，作為新員工培訓教材，並安排領先維度的優秀員工進行跨部門經驗分享，將成功模式複製至${deptLabel}。</p>`;}
-  }else{
-    html+=en?`<p class="rp-para" style="color:#888">No dimensions show clear leadership; no consolidation items.</p>`:`<p class="rp-para" style="color:#888">基準企業於各維度均未明顯領先對比組平均，暫無優勢鞏固項目。</p>`;
-  }
-  return html;
-}
-function narrativeConclusion09(sorted,avgAllDim,modeTxt,lang){
-  const L=lang||LANG;const en=L==='en';
-  const {leads}=_ccShared(sorted);
-  const idx=leads.length>0?9:8;
-  let html='';
-  html+=en?`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">${idx}. Data Notes</h4>`:`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">${idx==9?'九':'八'}、數據說明</h4>`;
-  if(en){html+=`<p class="rp-para">Data comes from MRSC cloud records. Gaps are "base − group average", positive = base leads. Gaming table analysis uses government quotas as denominator to compute utilization; min/max bets are grouped by game type.</p>`;}
-  else{html+=`<p class="rp-para">本報告數據來自 MRSC 神秘顧客評核系統雲端記錄。「對比組平均」為所有 B 方企業於該維度的加權平均。所有差距以「基準企業得分 − 對比組平均」計算。改善建議均與系統內對應的部門專屬項目掛鉤，並以可執行、可追蹤為原則制定。賭檯運作部門的分析納入政府批給量作為分母，計算賭檯使用率；最低及最高投注額按遊戲種類分組分析。</p>`;}
-  return html;
-}
+function narrativeConclusion01(sorted,avgAllDim,modeTxt,lang){const L=lang||LANG;const en=L==='en';const {baseRow,baseC,others,isBaseMissing,depts}=_ccShared(sorted);let html='';html+=en?`<h4 style="font-size:14px;color:#a37800;margin:18px 0 8px">1. Base Company &amp; Comparison Group</h4>`:`<h4 style="font-size:14px;color:#a37800;margin:18px 0 8px">一、基準企業與對比組</h4>`;if(en){html+=`<p class="rp-para">This section analyses using the selected <b style="color:#a37800">Base Company (A): ${escapeHTML(coNameLang(baseC,L))}</b> as the centre, comparing dimension-by-dimension with ${others.length} comparison companies.</p>`;html+=`<p class="rp-para"><b>Base:</b> ${escapeHTML(coNameLang(baseC,L))} (overall ${baseRow.overall}/200, ${baseRow.count} samples) · <b>Comparison:</b> ${others.map(o=>{const c=getCompany(o.id);return `${escapeHTML(coNameLang(c,L))} (${o.overall}/200, ${o.count} samples)`;}).join(', ')}.</p>`;}else{html+=`<p class="rp-para">本節以使用者選擇的 <b style="color:#a37800">基準休企（A 方）：${escapeHTML(coNameLang(baseC,L))}</b> 為分析中心，與 ${others.length} 間對比休企（B 方）逐維度比較。</p>`;html+=`<p class="rp-para"><b>基準企業：</b>${escapeHTML(coNameLang(baseC,L))}（綜合 ${baseRow.overall}/200，樣本 ${baseRow.count} 筆） · <b>對比企業：</b>${others.map(o=>{const c=getCompany(o.id);return `${escapeHTML(coNameLang(c,L))}（${o.overall}/200，${o.count} 筆）`;}).join('、')}。</p>`;}if(isBaseMissing){html+=`<div class="rp-insight warn"><strong>⚠ ${en?'Note':'注意'}：</strong>${en?'The selected base company has no valid records under current filter; the top-ranked company is used as substitute.':'所選基準企業於本次篩選條件下無有效記錄，已自動以綜合排名首位作替代。'}</div>`;}if(depts.length){html+=en?`<p class="rp-para"><b>Departments covered:</b> ${depts.map(d=>escapeHTML(WrLang(d,L))).join(', ')} (${depts.length}).</p>`:`<p class="rp-para"><b>本次分析涵蓋部門：</b>${depts.map(d=>escapeHTML(WrLang(d,L))).join('、')}（共 ${depts.length} 個）。</p>`;}return html;}
+function narrativeConclusion02(sorted,avgAllDim,modeTxt,lang){const L=lang||LANG;const en=L==='en';const {baseRow,groupRank}=_ccShared(sorted);let html='';html+=en?`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">2. Overall Performance</h4>`:`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">二、綜合表現對比</h4>`;if(en){html+=`<p class="rp-para">Base company scored <b>${baseRow.overall}/200</b>, ranked <b>${groupRank}</b> of ${sorted.length}.`;if(groupRank===1){html+=` <b style="color:#158052">Ranked #1 overall</b>.`;}else{const ahead=sorted.filter(r=>r.overall>baseRow.overall&&r.id!==baseRow.id);html+=` Ahead: ${ahead.map(r=>`<b>${escapeHTML(coNameLang(getCompany(r.id),L))}</b> (+${r.overall-baseRow.overall})`).join(', ')}.`;}html+=`</p>`;}else{html+=`<p class="rp-para">基準企業綜合得分 <b>${baseRow.overall}/200</b>，於本次對比 ${sorted.length} 間企業中排名第 <b>${groupRank}</b>。`;if(groupRank===1){html+=`為本次對比組之<b style="color:#158052">綜合第一</b>。`;}else{const ahead=sorted.filter(r=>r.overall>baseRow.overall&&r.id!==baseRow.id);html+=`領先基準企業的企業為：${ahead.map(r=>`<b>${escapeHTML(coNameLang(getCompany(r.id),L))}</b>（+${r.overall-baseRow.overall} 分）`).join('、')}。`;}html+=`</p>`;}return html;}
+function narrativeConclusion03(sorted,avgAllDim,modeTxt,lang){const L=lang||LANG;const en=L==='en';const {dimCompare}=_ccShared(sorted);let html='';html+=en?`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">3. Dimension-by-Dimension Comparison</h4>`:`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">三、逐維度對比（基準 vs 對比組）</h4>`;html+=`<div style="overflow-x:auto;-webkit-overflow-scrolling:touch"><table class="rp-table" style="margin:10px 0;min-width:100%"><thead><tr>`;html+=en?`<th>Dimension</th><th>Base</th><th>Compare Avg</th><th>Gap</th><th>Rank</th><th>Verdict</th>`:`<th>維度</th><th>基準企業</th><th>對比組平均</th><th>差距</th><th>組內排名</th><th>評語</th>`;html+=`</tr></thead><tbody>`;dimCompare.forEach(d=>{const gapColor=d.gap>0?'#158052':d.gap<0?'#c93636':'#888';const gapText=d.gap===0?(en?'Tie':'持平'):`${d.gap>0?'+':''}${d.gap}`;let verdict='';if(d.leadAll)verdict=en?'<b style="color:#158052">Leads all</b>':'<b style="color:#158052">領先全組</b>';else if(d.loseAll)verdict=en?'<b style="color:#c93636">Trails all</b>':'<b style="color:#c93636">落後全組</b>';else if(d.gap>=3)verdict=en?'<span style="color:#158052">Above avg</span>':'<span style="color:#158052">優於平均</span>';else if(d.gap<=-3)verdict=en?'<span style="color:#c93636">Below avg</span>':'<span style="color:#c93636">低於平均</span>';else verdict=en?'<span style="color:#888">On par</span>':'<span style="color:#888">與平均持平</span>';html+=`<tr><td>${escapeHTML(critName(d.crit,L))}</td><td style="font-weight:700">${d.baseVal}</td><td>${d.othersAvg||'—'}</td><td style="color:${gapColor};font-weight:700">${gapText}</td><td>${d.othersVals.length?`${d.rankInGroup} / ${d.othersVals.length+1}`:'—'}</td><td>${verdict}</td></tr>`;});html+='</tbody></table></div>';return html;}
+function narrativeConclusion04(sorted,avgAllDim,modeTxt,lang){const L=lang||LANG;const en=L==='en';const {leads}=_ccShared(sorted);let html='';html+=en?`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">4. Strengths</h4>`:`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">四、基準企業優勢維度</h4>`;if(leads.length){html+=en?`<p class="rp-para">Dimensions where the base company <b style="color:#158052">clearly outperforms</b> the comparison group (gap ≥3):</p>`:`<p class="rp-para">以下維度基準企業<b style="color:#158052">明顯優於對比組平均</b>（差距 ≥3 分）：</p>`;html+=`<ul class="rp-list">`;leads.forEach(d=>{const bestOther=d.best?coNameLang(d.best.company,L):'—';if(en){html+=`<li><b>${escapeHTML(critName(d.crit,L))}</b>: base ${d.baseVal}, group avg ${d.othersAvg} (<b style="color:#158052">leads ${d.gap}</b>). ${d.leadAll?'<b>Leads all.</b>':`Closest: ${escapeHTML(bestOther)} (${d.best.value}).`}</li>`;}else{html+=`<li><b>${escapeHTML(critName(d.crit,L))}</b>：基準 ${d.baseVal} 分，對比組平均 ${d.othersAvg} 分（<b style="color:#158052">領先 ${d.gap} 分</b>）。${d.leadAll?'<b>領先所有對比企業</b>。':`最接近的對手為 ${escapeHTML(bestOther)}（${d.best.value} 分）。`}</li>`;}});html+=`</ul>`;}else{html+=en?`<p class="rp-para" style="color:#888">No dimensions show clear leadership (gap &lt;3).</p>`:`<p class="rp-para" style="color:#888">基準企業於各維度均未明顯領先對比組平均（差距 &lt;3 分）。</p>`;}return html;}
+function narrativeConclusion05(sorted,avgAllDim,modeTxt,lang){const L=lang||LANG;const en=L==='en';const {lags}=_ccShared(sorted);let html='';html+=en?`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">5. Weaknesses</h4>`:`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">五、基準企業劣勢維度</h4>`;if(lags.length){html+=en?`<p class="rp-para">Dimensions where the base company <b style="color:#c93636">clearly underperforms</b> the comparison group (gap ≥3):</p>`:`<p class="rp-para">以下維度基準企業<b style="color:#c93636">明顯低於對比組平均</b>（差距 ≥3 分）：</p>`;html+=`<ul class="rp-list">`;const lagsSorted=[...lags].sort((a,b)=>a.gap-b.gap);lagsSorted.forEach(d=>{const topOther=d.best?coNameLang(d.best.company,L):'—';if(en){html+=`<li><b>${escapeHTML(critName(d.crit,L))}</b>: base ${d.baseVal}, group avg ${d.othersAvg} (<b style="color:#c93636">trails ${Math.abs(d.gap)}</b>). ${d.loseAll?'<b>Trails all.</b>':`Furthest ahead: ${escapeHTML(topOther)} (${d.best.value}).`}</li>`;}else{html+=`<li><b>${escapeHTML(critName(d.crit,L))}</b>：基準 ${d.baseVal} 分，對比組平均 ${d.othersAvg} 分（<b style="color:#c93636">落後 ${Math.abs(d.gap)} 分</b>）。${d.loseAll?'<b>落後所有對比企業</b>。':`領先最多者為 ${escapeHTML(topOther)}（${d.best.value} 分）。`}</li>`;}});html+=`</ul>`;}else{html+=en?`<p class="rp-para" style="color:#888">No dimensions show clear lag (gap &lt;3).</p>`:`<p class="rp-para" style="color:#888">基準企業於各維度均未明顯落後對比組平均（差距 &lt;3 分）。</p>`;}return html;}
+function narrativeConclusion06(sorted,avgAllDim,modeTxt,lang){const L=lang||LANG;const en=L==='en';const {onPar}=_ccShared(sorted);let html='';html+=en?`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">6. On-par Dimensions</h4>`:`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">六、持平維度</h4>`;if(onPar.length){html+=en?`<p class="rp-para">Dimensions with gap &lt;3 (on par): `:`<p class="rp-para">以下維度基準企業與對比組平均差距在 3 分以內，屬「持平」狀態：`;html+=onPar.map(d=>`<b>${escapeHTML(critName(d.crit,L))}</b> (${en?'base':'基準'} ${d.baseVal}, ${en?'avg':'平均'} ${d.othersAvg})`).join(en?', ':'、');html+=en?`.</p>`:`。</p>`;}else{html+=en?`<p class="rp-para" style="color:#888">No on-par dimensions.</p>`:`<p class="rp-para" style="color:#888">本次對比中，基準企業於各維度均呈現明顯領先或落後（差距 ≥3 分），暫無「持平」狀態的維度。</p>`;}return html;}
+function narrativeConclusion07(sorted,avgAllDim,modeTxt,lang){const L=lang||LANG;const en=L==='en';const {lags,baseRow,depts}=_ccShared(sorted);let html='';html+=en?`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">7. Improvement Priorities</h4>`:`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">七、改善優先次序建議</h4>`;if(lags.length>0){html+=en?`<p class="rp-para">Based on the gaps and department operational data covered in this report, we recommend planning improvements in priority order.</p>`:`<p class="rp-para">根據各維度落後對比組的差距，結合本次報告涵蓋的部門運營數據，建議基準企業按以下優先次序規劃改善方案。所有行動方案均與系統內對應的部門專屬項目掛鉤。</p>`;const lagsSorted=[...lags].sort((a,b)=>a.gap-b.gap);lagsSorted.forEach((d,i)=>{const priority=i===0?(en?'[TOP PRIORITY] ':'【最高優先】'):i===1?(en?'[HIGH PRIORITY] ':'【次高優先】'):(en?'[CONTINUOUS] ':'【持續改善】');const gapAbs=Math.abs(d.gap);const tpl=buildConstructiveActions(d.crit.name,depts,i===0);const dimName=critName(d.crit,L);const rankText=en?`${priority}${escapeHTML(dimName)} (trails by ${gapAbs})`:`${priority}${escapeHTML(dimName)}（落後對比組 ${gapAbs} 分）`;const borderColor=i===0?'#c93636':i===1?'#d97706':'#a37800';html+=`<div style="margin:18px 0 14px;padding:16px 20px;background:#fbf8ec;border-left:4px solid ${borderColor};border-radius:8px;page-break-inside:avoid">`;html+=`<div style="font-size:14px;font-weight:800;color:#1a1f2e;margin-bottom:10px">${rankText}</div>`;const diag=en?(tpl.diagnosisEn||tpl.diagnosis):tpl.diagnosis;html+=`<div style="font-size:12.5px;color:#555;margin-bottom:10px;line-height:1.7"><b style="color:#a37800">${en?'Diagnosis':'問題診斷'}：</b>${escapeHTML(diag)}</div>`;html+=`<div style="font-size:12.5px;color:#333;margin-bottom:8px;font-weight:700">${en?'Actions':'具體行動方案'}：</div>`;html+=`<ol class="rp-list" style="padding-left:24px;margin:0">`;tpl.actions.forEach(a=>{const title=en?(a.titleEn||a.title):a.title;const det=en?(a.detailEn||a.detail):a.detail;const filled=fillDeptHook(det,depts,a.deptHooks,L);html+=`<li style="margin-bottom:8px"><b>${escapeHTML(title)}</b>：${filled}</li>`;});html+=`</ol>`;const bestScore=d.best?d.best.value:0;const targetScore=Math.min(Math.round((d.baseVal+bestScore)/2)+10,200);const timeFrame=i===0?(en?'within 3 months':'3 個月內'):i===1?(en?'3–6 months':'3–6 個月'):(en?'within 6 months':'6 個月內');let effectExtra='';if(d.crit.name&&d.crit.name.includes('賭檯')){const q=getTableQuota(baseRow.id);if(q&&q.tables){const baseOpenVals=[];filterRecs(state.records.filter(r=>r.companyId===baseRow.id&&(r.department||'').includes('賭檯'))).forEach(rec=>{(rec.venue&&rec.venue.items||[]).forEach(it=>{const n=parseFloat(it.open);if(!isNaN(n))baseOpenVals.push(n);});});if(baseOpenVals.length){const avgOpen=baseOpenVals.reduce((a,b)=>a+b,0)/baseOpenVals.length;const util=(avgOpen/q.tables)*100;const targetUtil=Math.min(util+8,95);effectExtra=en?` Also, table utilization should rise from about <b>${util.toFixed(1)}%</b> to <b>${targetUtil.toFixed(1)}%</b>.`:`　·　同時，賭檯使用率建議由現時約 <b>${util.toFixed(1)}%</b> 提升至 <b>${targetUtil.toFixed(1)}%</b>（以批給 ${q.tables} 張為基準）。`;}}}if(en){html+=`<div style="margin-top:12px;padding-top:10px;border-top:1px dashed #d5dae2;font-size:12.5px;color:#333;line-height:1.7"><b style="color:#a37800">Expected outcome:</b> Target raising this dimension from ${d.baseVal} to <b>${targetScore}</b> ${timeFrame}, narrowing the gap to the top performer (${escapeHTML(d.best?coNameLang(d.best.company,L):'—')}: ${bestScore}).${effectExtra}</div>`;}else{html+=`<div style="margin-top:12px;padding-top:10px;border-top:1px dashed #d5dae2;font-size:12.5px;color:#333;line-height:1.7"><b style="color:#a37800">預期成效：</b>目標於${timeFrame}將該維度得分由 ${d.baseVal} 分提升至 <b>${targetScore} 分</b> 以上，逐步收窄與對比組最佳表現（${escapeHTML(d.best?coNameLang(d.best.company,L):'—')}：${bestScore} 分）的差距。${effectExtra}建議將此目標納入相關部門的季度營運指標。</div>`;}html+=`</div>`;});}else{html+=en?`<p class="rp-para">No dimensions show clear lag; no urgent improvement items.</p>`:`<p class="rp-para">基準企業於各維度均未明顯落後對比組平均（差距 &lt;3 分），暫無迫切改善項目。</p>`;}return html;}
+function narrativeConclusion08(sorted,avgAllDim,modeTxt,lang){const L=lang||LANG;const en=L==='en';const {leads,depts}=_ccShared(sorted);let html='';html+=en?`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">8. Strength Consolidation</h4>`:`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">八、優勢鞏固建議</h4>`;if(leads.length>0){const deptLabel=depts.length?(en?depts.slice(0,3).map(d=>escapeHTML(WrLang(d,L))).join(', '):`【${depts.slice(0,3).map(d=>escapeHTML(WrLang(d,L))).join('】、【')}】`):(en?'other front-line units':'其他服務前線');if(en){html+=`<p class="rp-para">The base company clearly leads in <b>${leads.map(d=>escapeHTML(critName(d.crit,L))).join(', ')}</b>. We recommend documenting these as internal SOPs for new staff training, and having top performers share experience with ${deptLabel}.</p>`;}else{html+=`<p class="rp-para">基準企業於 <b>${leads.map(d=>escapeHTML(critName(d.crit,L))).join('、')}</b> 已明顯領先對比組，建議將此優勢編寫為《內部服務標準作業程序（SOP）》，作為新員工培訓教材，並安排領先維度的優秀員工進行跨部門經驗分享，將成功模式複製至${deptLabel}。</p>`;}}else{html+=en?`<p class="rp-para" style="color:#888">No dimensions show clear leadership; no consolidation items.</p>`:`<p class="rp-para" style="color:#888">基準企業於各維度均未明顯領先對比組平均，暫無優勢鞏固項目。</p>`;}return html;}
+function narrativeConclusion09(sorted,avgAllDim,modeTxt,lang){const L=lang||LANG;const en=L==='en';const {leads}=_ccShared(sorted);const idx=leads.length>0?9:8;let html='';html+=en?`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">${idx}. Data Notes</h4>`:`<h4 style="font-size:14px;color:#a37800;margin:22px 0 8px">${idx==9?'九':'八'}、數據說明</h4>`;if(en){html+=`<p class="rp-para">Data comes from MRSC cloud records. Gaps are "base − group average", positive = base leads. Gaming table analysis uses government quotas as denominator to compute utilization; min/max bets are grouped by game type.</p>`;}else{html+=`<p class="rp-para">本報告數據來自 MRSC 神秘顧客評核系統雲端記錄。「對比組平均」為所有 B 方企業於該維度的加權平均。所有差距以「基準企業得分 − 對比組平均」計算。改善建議均與系統內對應的部門專屬項目掛鉤，並以可執行、可追蹤為原則制定。賭檯運作部門的分析納入政府批給量作為分母，計算賭檯使用率；最低及最高投注額按遊戲種類分組分析。</p>`;}return html;}
 
 /* ===== 報告輔助：平均與公司畫像 ===== */
-function avgAllDimOf(companyId,critId){
-  const ids=[state.comparison.base,...state.comparison.picks].filter((v,i,a)=>a.indexOf(v)===i);
-  const rows=ids.map(id=>aggCo(id)).filter(Boolean);
-  if(!rows.length)return 0;
-  return Math.round(rows.reduce((s,r)=>s+(r.mrsc[critId]||0),0)/rows.length);
-}
-
-/* ===== 【修復】第五章：企業數據畫像（新增 lang 參數） ===== */
+function avgAllDimOf(companyId,critId){const ids=[state.comparison.base,...state.comparison.picks].filter((v,i,a)=>a.indexOf(v)===i);const rows=ids.map(id=>aggCo(id)).filter(Boolean);if(!rows.length)return 0;return Math.round(rows.reduce((s,r)=>s+(r.mrsc[critId]||0),0)/rows.length);}
 function buildCompanyProfiles(sorted,lang){
-  const L=lang||'zh';
-  const en=L==='en';
-  let html='';
+  const L=lang||'zh';const en=L==='en';let html='';
   sorted.forEach((r,i)=>{
-    const c=getCompany(r.id);
-    const rank=i+1;
-    const isB=r.id===state.comparison.base;
+    const c=getCompany(r.id);const rank=i+1;const isB=r.id===state.comparison.base;
     const strengths=[],weaknesses=[];
-    CRITERIA.forEach(cr=>{
-      const v=r.mrsc[cr.id]||0;
-      const a=avgAllDimOf(r.id,cr.id);
-      if(v>=a*1.04)strengths.push({crit:cr,value:v,avg:a});
-      else if(v<=a*0.96)weaknesses.push({crit:cr,value:v,avg:a});
-    });
+    CRITERIA.forEach(cr=>{const v=r.mrsc[cr.id]||0;const a=avgAllDimOf(r.id,cr.id);if(v>=a*1.04)strengths.push({crit:cr,value:v,avg:a});else if(v<=a*0.96)weaknesses.push({crit:cr,value:v,avg:a});});
     html+=`<div class="rp-company" style="page-break-inside:avoid${isB?';border-color:#a37800;border-width:2px':''}">`;
-    const coLabel=coNameLang(c,L);
-    const rankLabel=en?`Rank ${rank}`:`第 ${rank} 名`;
-    const baseLabel=isB?(en?' ⭐ (Base A)':' ⭐（基準 A 方）'):'';
+    const coLabel=coNameLang(c,L);const rankLabel=en?`Rank ${rank}`:`第 ${rank} 名`;const baseLabel=isB?(en?' ⭐ (Base A)':' ⭐（基準 A 方）'):'';
     html+=`<div class="rp-company-head"><span class="rp-dot" style="background:${c.color};width:14px;height:14px"></span><span class="rp-company-name">${escapeHTML(rankLabel)} · ${escapeHTML(coLabel)}${baseLabel}</span><span class="rp-company-score">${r.overall}<small>/200 (${r.count} ${en?'samples':'筆'})</small></span></div>`;
-    html+=`<div class="rp-block"><div class="rp-block-title">${en?'📈 MRSC Core Dimensions':'📈 MRSC 核心維度'}</div><table class="rp-table" style="margin:6px 0 10px"><thead><tr>`;
+    html+=`<div class="rp-block"><div class="rp-block-title">${en?'📈 MRSC Core Dimensions':'📈 MRSC 核心維度'}</div><div style="overflow-x:auto"><table class="rp-table" style="margin:6px 0 10px;min-width:100%"><thead><tr>`;
     CRITERIA.forEach(cr=>{html+=`<th>${escapeHTML(critName(cr,L))}</th>`;});
     html+=`<th>${en?'Overall':'綜合'}</th></tr></thead><tbody><tr>`;
     CRITERIA.forEach(cr=>{html+=`<td>${r.mrsc[cr.id]||0}</td>`;});
-    html+=`<td style="color:#a37800;font-weight:700">${r.overall}</td></tr></tbody></table></div>`;
+    html+=`<td style="color:#a37800;font-weight:700">${r.overall}</td></tr></tbody></table></div></div>`;
     const envDist=getEnvDistForCompany(r.id);
     html+=`<div class="rp-block"><div class="rp-block-title">${en?'🌐 Environmental Snapshot':'🌐 環境觀察概況'}</div><ul class="rp-list" style="font-size:12.5px">`;
-    ENV_KEYS.forEach(k=>{
-      const d=envDist[k];
-      if(!d||!d.total)return;
-      const topOpt=Object.entries(d.counts).sort((a,b)=>b[1]-a[1])[0];
-      if(!topOpt)return;
-      const ed=ENV_FIELDS[k];
-      const optDef=ed.options.find(o=>o.v===topOpt[0]);
-      if(optDef){
-        if(en){html+=`<li><b>${escapeHTML(envName(k))}:</b> mainly "<b>${escapeHTML(WrLang(optDef.l,L))}</b>" (${topOpt[1]}/${d.total}).</li>`;}
-        else{html+=`<li><b>${escapeHTML(envName(k))}：</b>主要為「${escapeHTML(WrLang(optDef.l,L))}」（${topOpt[1]}/${d.total} 次）</li>`;}
-      }
-    });
+    ENV_KEYS.forEach(k=>{const d=envDist[k];if(!d||!d.total)return;const topOpt=Object.entries(d.counts).sort((a,b)=>b[1]-a[1])[0];if(!topOpt)return;const ed=ENV_FIELDS[k];const optDef=ed.options.find(o=>o.v===topOpt[0]);if(optDef){if(en){html+=`<li><b>${escapeHTML(envName(k))}:</b> mainly "<b>${escapeHTML(WrLang(optDef.l,L))}</b>" (${topOpt[1]}/${d.total}).</li>`;}else{html+=`<li><b>${escapeHTML(envName(k))}：</b>主要為「${escapeHTML(WrLang(optDef.l,L))}」（${topOpt[1]}/${d.total} 次）</li>`;}}});
     html+=`</ul></div>`;
-    if(strengths.length){
-      html+=`<div class="rp-block"><div class="rp-block-title">${en?'✅ Above Group Average':'✅ 高於同組平均的維度'}</div><ul class="rp-list">`;
-      strengths.forEach(s=>{
-        if(en)html+=`<li><span class="rp-good">${escapeHTML(critName(s.crit,L))}</span>: ${s.value} (group avg ${s.avg})</li>`;
-        else html+=`<li><span class="rp-good">${escapeHTML(critName(s.crit,L))}</span>：${s.value} 分（同組平均 ${s.avg} 分）</li>`;
-      });
-      html+=`</ul></div>`;
-    }
-    if(weaknesses.length){
-      html+=`<div class="rp-block"><div class="rp-block-title">${en?'⚠ Below Group Average':'⚠ 低於同組平均的維度'}</div><ul class="rp-list">`;
-      weaknesses.forEach(s=>{
-        if(en)html+=`<li><span class="rp-bad">${escapeHTML(critName(s.crit,L))}</span>: ${s.value} (group avg ${s.avg})</li>`;
-        else html+=`<li><span class="rp-bad">${escapeHTML(critName(s.crit,L))}</span>：${s.value} 分（同組平均 ${s.avg} 分）</li>`;
-      });
-      html+=`</ul></div>`;
-    }
+    if(strengths.length){html+=`<div class="rp-block"><div class="rp-block-title">${en?'✅ Above Group Average':'✅ 高於同組平均的維度'}</div><ul class="rp-list">`;strengths.forEach(s=>{if(en)html+=`<li><span class="rp-good">${escapeHTML(critName(s.crit,L))}</span>: ${s.value} (group avg ${s.avg})</li>`;else html+=`<li><span class="rp-good">${escapeHTML(critName(s.crit,L))}</span>：${s.value} 分（同組平均 ${s.avg} 分）</li>`;});html+=`</ul></div>`;}
+    if(weaknesses.length){html+=`<div class="rp-block"><div class="rp-block-title">${en?'⚠ Below Group Average':'⚠ 低於同組平均的維度'}</div><ul class="rp-list">`;weaknesses.forEach(s=>{if(en)html+=`<li><span class="rp-bad">${escapeHTML(critName(s.crit,L))}</span>: ${s.value} (group avg ${s.avg})</li>`;else html+=`<li><span class="rp-bad">${escapeHTML(critName(s.crit,L))}</span>：${s.value} 分（同組平均 ${s.avg} 分）</li>`;});html+=`</ul></div>`;}
     html+=`</div>`;
   });
   return html;
 }
-
-/* ===== 【修復】第六章：部門綜合橫向對比（新增 lang 參數，移除自身包裹） ===== */
 function buildDeptCrossComparison(sorted,lang){
-  const L=lang||'zh';
-  const depts=getReportDepts(sorted);
-  if(!depts.length)return'';
+  const L=lang||'zh';const en=L==='en';
+  const depts=getReportDepts(sorted);if(!depts.length)return'';
   let html='';
   depts.forEach(dept=>{
-    const stats=deptAggByCompany(sorted,dept);
-    if(!stats.length)return;
-    const cfg=getDeptConfig(dept);
-    const sortedDept=[...stats].sort((a,b)=>b.overall-a.overall);
-    const topD=sortedDept[0],lowD=sortedDept[sortedDept.length-1];
-    const gapD=topD.overall-lowD.overall;
-    const en=L==='en';
-    html+=`<div class="rp-dep"><div class="rp-dep-title">${cfg.icon||''} ${escapeHTML(WrLang(dept,L))}</div>`;
+    const stats=deptAggByCompany(sorted,dept);if(!stats.length)return;
+    const cfg=getDeptConfig(dept);const sortedDept=[...stats].sort((a,b)=>b.overall-a.overall);
+    const topD=sortedDept[0],lowD=sortedDept[sortedDept.length-1];const gapD=topD.overall-lowD.overall;
+    html+=`<div class="rp-dep" style="page-break-inside:avoid"><div class="rp-dep-title">${cfg.icon||''} ${escapeHTML(WrLang(dept,L))}</div>`;
     html+=`<div class="rp-chart" style="margin:10px 0"><div class="rp-chart-title">${en?'Overall MRSC Ranking (within dept) / 部門內綜合 MRSC 排名':'部門內綜合 MRSC 排名 / Overall MRSC Ranking'}</div>`;
     html+=svgHBars(sortedDept.map(x=>({label:coNameLang(x.company,L),value:x.overall,color:x.company.color,sub:`${x.count} ${en?'rec':'筆'}`})),{maxVal:200,unit:'/200'});
     html+=`</div>`;
-    html+=`<table class="rp-table" style="margin:10px 0"><thead><tr>`;
+    html+=`<div style="overflow-x:auto;-webkit-overflow-scrolling:touch"><table class="rp-table" style="margin:10px 0;min-width:100%"><thead><tr>`;
     html+=`<th>${en?'Company':'企業'}</th><th>${en?'Samples':'樣本'}</th>`;
     CRITERIA.forEach(cr=>{html+=`<th>${escapeHTML(critName(cr,L))}</th>`;});
     html+=`<th>${en?'Overall':'綜合'}</th></tr></thead><tbody>`;
-    const maxD={};
-    CRITERIA.forEach(cr=>{maxD[cr.id]=Math.max(...sortedDept.map(x=>x.dims[cr.id]||0));});
+    const maxD={};CRITERIA.forEach(cr=>{maxD[cr.id]=Math.max(...sortedDept.map(x=>x.dims[cr.id]||0));});
     sortedDept.forEach(x=>{
       html+=`<tr><td><span class="rp-dot" style="display:inline-block;background:${x.company.color};margin-right:6px"></span>${escapeHTML(coNameLang(x.company,L))}</td><td>${x.count}</td>`;
-      CRITERIA.forEach(cr=>{
-        const v=x.dims[cr.id]||0;
-        const isMax=v===maxD[cr.id]&&sortedDept.length>1;
-        html+=`<td class="${isMax?'cell-win':''}">${v}</td>`;
-      });
+      CRITERIA.forEach(cr=>{const v=x.dims[cr.id]||0;const isMax=v===maxD[cr.id]&&sortedDept.length>1;html+=`<td class="${isMax?'cell-win':''}">${v}</td>`;});
       html+=`<td style="color:#a37800;font-weight:700">${x.overall}</td></tr>`;
     });
-    html+=`</tbody></table>`;
+    html+=`</tbody></table></div>`;
     const deptLabel=WrLang(dept,L);
     if(en){html+=`<div class="rp-insight ${gapD>=20?'warn':'good'}"><strong>Department data:</strong> In "${escapeHTML(deptLabel)}", highest is <b>${escapeHTML(coNameLang(topD.company,L))}</b> (${topD.overall}/200), lowest is <b>${escapeHTML(coNameLang(lowD.company,L))}</b> (${lowD.overall}/200). Gap ${gapD}.</div>`;}
     else{html+=`<div class="rp-insight ${gapD>=20?'warn':'good'}"><strong>部門數據：</strong>「${escapeHTML(deptLabel)}」部門中，最高為 <b>${escapeHTML(coNameLang(topD.company,L))}</b>（${topD.overall}/200），最低為 <b>${escapeHTML(coNameLang(lowD.company,L))}</b>（${lowD.overall}/200），分差 ${gapD} 分。</div>`;}
@@ -1622,41 +1269,23 @@ function buildDeptCrossComparison(sorted,lang){
   return html;
 }
 function chartTitle(zh,en){return LANG==='en'?`${escapeHTML(en)} / ${escapeHTML(zh)}`:`${escapeHTML(zh)} / ${escapeHTML(en)}`;}
-/* ===== 報告主體（重構版 + 圖表標題中英對照 + 限紅固定配色 + 五/六章中英對照） ===== */
+
+/* ===== 報告主體 ===== */
 function buildReportHtml(sorted){
   const now=new Date();
   const generatedAt=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
   const f=state.comparison;const modeTxt=`1 : ${f.ratio}`;
-  const filterParts=[];
-  if(f.departmentFilter)filterParts.push(`部門：${f.departmentFilter}`);
-  if(f.dateFrom)filterParts.push(`起：${f.dateFrom}`);
-  if(f.dateTo)filterParts.push(`訖：${f.dateTo}`);
+  const filterParts=[];if(f.departmentFilter)filterParts.push(`部門：${f.departmentFilter}`);if(f.dateFrom)filterParts.push(`起：${f.dateFrom}`);if(f.dateTo)filterParts.push(`訖：${f.dateTo}`);
   const filterTxt=filterParts.length?filterParts.join('　·　'):'(未套用篩選)';
   const totalSamples=sorted.reduce((s,r)=>s+r.count,0);
-  const top=sorted[0],last=sorted[sorted.length-1];
-  const topC=getCompany(top.id),lastC=getCompany(last.id);
-  const gap=top.overall-last.overall;
-  const baseId=state.comparison.base;
-  const baseRow=sorted.find(r=>r.id===baseId)||sorted[0];
-  const baseC=getCompany(baseRow.id);
-  const avgAllDim={};
-  CRITERIA.forEach(cr=>{avgAllDim[cr.id]=Math.round(sorted.reduce((s,r)=>s+(r.mrsc[cr.id]||0),0)/sorted.length);});
-  const allDepts=new Set();
-  sorted.forEach(r=>{
-    state.records.filter(rec=>rec.companyId===r.id).forEach(rec=>{
-      const d=(rec.department||'').trim();
-      if(d&&(!f.departmentFilter||d===f.departmentFilter))allDepts.add(d);
-    });
-  });
+  const top=sorted[0],last=sorted[sorted.length-1];const topC=getCompany(top.id),lastC=getCompany(last.id);const gap=top.overall-last.overall;
+  const baseId=state.comparison.base;const baseRow=sorted.find(r=>r.id===baseId)||sorted[0];const baseC=getCompany(baseRow.id);
+  const avgAllDim={};CRITERIA.forEach(cr=>{avgAllDim[cr.id]=Math.round(sorted.reduce((s,r)=>s+(r.mrsc[cr.id]||0),0)/sorted.length);});
+  const allDepts=new Set();sorted.forEach(r=>{state.records.filter(rec=>rec.companyId===r.id).forEach(rec=>{const d=(rec.department||'').trim();if(d&&(!f.departmentFilter||d===f.departmentFilter))allDepts.add(d);});});
   const depts=[...allDepts].sort();
   const anyRef=CRITERIA.some(c=>{const bm=getBenchmark(c.id);return bm&&bm.p50>0&&bm.source!=='insufficient';});
-
   let html='';
-
-  /* ===== 封面 ===== */
   html+=`<div class="rp-cover"><div class="logo">澳</div><h1>MRSC 神秘顧客評核分析報告</h1><div class="sub">Macau Six IRs Service Assessment Report</div><div class="info"><div><b>生成時間 / Generated:</b>${generatedAt}</div><div><b>基準企業 / Base:</b>${escapeHTML(coName(baseC))}</div><div><b>對比模式 / Mode:</b>${modeTxt}</div><div><b>參與企業 / Companies:</b>${sorted.length}</div><div><b>有效樣本 / Samples:</b>${totalSamples}</div><div><b>篩選條件 / Filter:</b>${filterTxt}</div><div><b>行業基準 / Benchmark:</b>${anyRef?'統計百分位法（P25/P50/P75/P90）':'樣本不足'}</div></div></div>`;
-
-  /* ===== 一、執行摘要 ===== */
   html+=`<div class="rp-section"><h2>一、執行摘要 / 1. Executive Summary</h2>`;
   html+=`<div class="rp-kpi-grid"><div class="rp-kpi"><div class="kpi-label">⭐ 基準企業</div><div class="kpi-value">${escapeHTML(coName(baseC))}</div><div class="kpi-sub">${baseRow.overall}/200 · ${baseRow.count} 筆</div></div><div class="rp-kpi"><div class="kpi-label">🏆 綜合第一</div><div class="kpi-value">${escapeHTML(coName(topC))}</div><div class="kpi-sub">${top.overall}/200 · ${top.count} 筆</div></div><div class="rp-kpi"><div class="kpi-label">📉 排名末位</div><div class="kpi-value">${escapeHTML(coName(lastC))}</div><div class="kpi-sub">${last.overall}/200 · ${last.count} 筆</div></div><div class="rp-kpi"><div class="kpi-label">📏 首末分差</div><div class="kpi-value">${gap}<small>分</small></div><div class="kpi-sub">${gap>=30?'差距懸殊':gap>=15?'中等差距':'差距較小'}</div></div></div>`;
   html+=narrativeOverview(sorted,avgAllDim,modeTxt,filterTxt,'zh');
@@ -1668,37 +1297,19 @@ function buildReportHtml(sorted){
   html+=`</div>`;
   html+=`<div class="rp-page-break"></div>`;
 
-  /* ===== 二、MRSC 核心維度分析 ===== */
   html+=`<div class="rp-section"><h2>二、MRSC 核心維度分析 / 2. MRSC Core Dimension Analysis</h2>`;
   html+=`<p class="rp-para">MRSC 評核涵蓋 ${CRITERIA.length} 個核心維度：${CRITERIA.map(c=>`<b>${critName(c)}</b>（滿分 ${c.max} 分）`).join('、')}。</p>`;
   html+=`<p class="rp-para">The MRSC assessment covers ${CRITERIA.length} core dimensions: ${CRITERIA.map(c=>`<b>${escapeHTML(critName(c,'en'))}</b> (max ${c.max})`).join(', ')}.</p>`;
   html+=`<div class="rp-chart"><div class="rp-chart-title">各企業維度表現雷達圖 / Dimension Radar</div>`+svgRadarMulti(CRITERIA.map(c=>{const bm=getBenchmark(c.id);return{label:c.name,max:c.max,ref:bm&&bm.p50>0?bm.p50:0};}),sorted.map(r=>{const c=getCompany(r.id);return{name:coName(c),color:c.color,values:CRITERIA.map(cr=>r.mrsc[cr.id]||0)};}))+`</div>`;
   html+=`<p class="rp-para">雷達圖橙色圓點代表行業基準（P50 中位數）；若該維度樣本不足則不顯示。 / Orange dots represent the industry benchmark (P50 median); not shown when samples are insufficient.</p>`;
   html+=`<div class="rp-chart"><div class="rp-chart-title">維度得分橫向對比 / Dimension Score Comparison</div>`+svgGroupedBars(CRITERIA.map(c=>c.name),sorted.map(r=>{const c=getCompany(r.id);return{name:coName(c),color:c.color,values:CRITERIA.map(cr=>r.mrsc[cr.id]||0)};}))+`</div>`;
-  html+=`<table class="rp-table"><thead><tr><th>企業 / Company</th><th>樣本 / Samples</th>`;
-  CRITERIA.forEach(c=>{
-    const bm=getBenchmark(c.id);let refLabel='';
-    if(bm&&bm.p50>0&&bm.source!=='insufficient')refLabel=`P50 ${bm.p50}`;else refLabel='—';
-    html+=`<th>${escapeHTML(critName(c))}<br><small style="font-weight:400;color:#888">(${refLabel})</small></th>`;
-  });
+  html+=`<div style="overflow-x:auto"><table class="rp-table" style="min-width:100%"><thead><tr><th>企業 / Company</th><th>樣本 / Samples</th>`;
+  CRITERIA.forEach(c=>{const bm=getBenchmark(c.id);let refLabel='';if(bm&&bm.p50>0&&bm.source!=='insufficient')refLabel=`P50 ${bm.p50}`;else refLabel='—';html+=`<th>${escapeHTML(critName(c))}<br><small style="font-weight:400;color:#888">(${refLabel})</small></th>`;});
   html+=`<th>綜合 MRSC</th></tr></thead><tbody>`;
-  const maxDim={};
-  CRITERIA.forEach(c=>{maxDim[c.id]=Math.max(...sorted.map(r=>r.mrsc[c.id]||0));});
-  sorted.forEach(r=>{
-    const c=getCompany(r.id);const isB=r.id===baseRow.id;
-    html+=`<tr${isB?' style="background:#fbf8ec"':''}><td><span class="rp-dot" style="display:inline-block;background:${c.color};margin-right:6px"></span>${escapeHTML(coName(c))}${isB?' ⭐':''}</td><td>${r.count}</td>`;
-    CRITERIA.forEach(cr=>{
-      const v=r.mrsc[cr.id]||0;
-      const isMax=v===maxDim[cr.id]&&sorted.length>1;
-      html+=`<td class="${isMax?'cell-win':''}">${v}</td>`;
-    });
-    html+=`<td style="color:#a37800;font-weight:700">${r.overall}</td></tr>`;
-  });
-  html+=`</tbody></table>`;
-  CRITERIA.forEach(cr=>{
-    html+=narrativeDimAnalysis(cr.id,sorted,avgAllDim,modeTxt,'zh');
-    html+=narrativeDimAnalysis(cr.id,sorted,avgAllDim,modeTxt,'en');
-  });
+  const maxDim={};CRITERIA.forEach(c=>{maxDim[c.id]=Math.max(...sorted.map(r=>r.mrsc[c.id]||0));});
+  sorted.forEach(r=>{const c=getCompany(r.id);const isB=r.id===baseRow.id;html+=`<tr${isB?' style="background:#fbf8ec"':''}><td><span class="rp-dot" style="display:inline-block;background:${c.color};margin-right:6px"></span>${escapeHTML(coName(c))}${isB?' ⭐':''}</td><td>${r.count}</td>`;CRITERIA.forEach(cr=>{const v=r.mrsc[cr.id]||0;const isMax=v===maxDim[cr.id]&&sorted.length>1;html+=`<td class="${isMax?'cell-win':''}">${v}</td>`;});html+=`<td style="color:#a37800;font-weight:700">${r.overall}</td></tr>`;});
+  html+=`</tbody></table></div>`;
+  CRITERIA.forEach(cr=>{html+=narrativeDimAnalysis(cr.id,sorted,avgAllDim,modeTxt,'zh');html+=narrativeDimAnalysis(cr.id,sorted,avgAllDim,modeTxt,'en');});
   const benchList=CRITERIA.map(c=>{const bm=getBenchmark(c.id);return{crit:c,bm:bm,avg:avgAllDim[c.id]};}).filter(x=>x.bm&&x.bm.p50>0&&x.bm.source!=='insufficient');
   const ratings=benchList.map(x=>({...x,level:getRatingLevel(x.avg,x.bm)}));
   const goodOnes=ratings.filter(x=>x.level.level==='excellent'||x.level.level==='good');
@@ -1709,123 +1320,50 @@ function buildReportHtml(sorted){
   html+=`</div>`;
   html+=`<div class="rp-page-break"></div>`;
 
-  /* ===== 三、環境觀察分析 ===== */
   html+=`<div class="rp-section"><h2>三、環境觀察分析 / 3. Environmental Observation Analysis</h2>`;
   html+=`<p class="rp-para">環境觀察為評核員在現場記錄的六項指標，反映場所的人流、氛圍、顧客狀態與空氣質素等。 / Six on-site indicators recorded by inspectors, covering traffic, atmosphere, customer status, and air quality.</p>`;
   const envPalette={'very-low':'#b8e5d1','low':'#8fd4b4','medium':'#f5d67a','high':'#f0a25b','very-high':'#e05252','quiet':'#b8c5e5','calm':'#8faed4','lively':'#f5d67a','exciting':'#f0a25b','crowded':'#e05252','senior':'#c8b8e5','middle':'#a8a0d4','young':'#8fb4d4','mixed':'#f5d67a','family':'#f0a25b','negative':'#e05252','neutral':'#d4d4d4','positive':'#8fd4b4','excited':'#f5a25b','very-poor':'#e05252','poor':'#f0a25b','fair':'#f5d67a','good':'#8fd4b4','excellent':'#3ec28a','unpopular':'#e05252','normal':'#f5d67a','popular':'#8fd4b4','very-popular':'#3ec28a'};
-  ENV_KEYS.forEach(k=>{
-    const ed=ENV_FIELDS[k];if(!ed)return;
-    const rows=sorted.map(r=>{
-      const c=getCompany(r.id);
-      const dist=getEnvDistForCompany(r.id)[k];
-      const segments=ed.options.map(o=>({name:Wr(o.l),value:dist.counts[o.v]||0,color:envPalette[o.v]||'#999'})).filter(s=>s.value>0);
-      return{label:coName(c),segments};
-    }).filter(row=>row.segments.length>0);
-    if(!rows.length)return;
-    html+=`<div class="rp-chart"><div class="rp-chart-title">${ed.icon} ${escapeHTML(envName(k))} / ${escapeHTML(WrLang(ed.label,'en'))}</div>`+svgStackedBars(rows)+`</div>`;
-    html+=narrativeEnvAnalysis(k,sorted,'zh')+narrativeEnvAnalysis(k,sorted,'en');
-  });
+  ENV_KEYS.forEach(k=>{const ed=ENV_FIELDS[k];if(!ed)return;const rows=sorted.map(r=>{const c=getCompany(r.id);const dist=getEnvDistForCompany(r.id)[k];const segments=ed.options.map(o=>({name:Wr(o.l),value:dist.counts[o.v]||0,color:envPalette[o.v]||'#999'})).filter(s=>s.value>0);return{label:coName(c),segments};}).filter(row=>row.segments.length>0);if(!rows.length)return;html+=`<div class="rp-chart"><div class="rp-chart-title">${ed.icon} ${escapeHTML(envName(k))} / ${escapeHTML(WrLang(ed.label,'en'))}</div>`+svgStackedBars(rows)+`</div>`;html+=narrativeEnvAnalysis(k,sorted,'zh')+narrativeEnvAnalysis(k,sorted,'en');});
   html+=`</div>`;
   html+=`<div class="rp-page-break"></div>`;
 
-  /* ===== 四、部門運營數據分析 ===== */
   html+=`<div class="rp-section"><h2>四、部門運營數據分析 / 4. Department Operational Data</h2>`;
   html+=`<p class="rp-para">以下按部門列出各企業運營數據的平均值。賭檯運作部門的分析以政府批給量為基準，計算賭檯使用率；最低及最高投注額按遊戲種類分組分析。 / Averages by department. Table Ops uses government quotas to compute table utilization; min/max bets are grouped by game type.</p>`;
-  if(!depts.length){
-    html+=`<div class="rp-insight warn">所選企業於本報告範圍內尚無部門數據。 / No department data for selected companies in this report.</div>`;
-  }else{
-    depts.forEach(dept=>{
-      const cfg=getDeptConfig(dept);
-      const coRecs=sorted.map(r=>({company:getCompany(r.id),recs:filterRecs(state.records.filter(rec=>rec.companyId===r.id&&(rec.department||'').trim()===dept))}));
-      if(!coRecs.some(x=>x.recs.length>0))return;
-      html+=`<h3 style="font-size:16px;font-weight:800;color:#1a1f2e;margin:26px 0 12px;padding-bottom:8px;border-bottom:1px dashed #d5dae2">${cfg.icon||'📝'} ${escapeHTML(dept)} / ${escapeHTML(WrLang(dept,'en'))}</h3>`;
-      html+=narrativeDeptData(dept,coRecs,cfg,sorted,'zh')+narrativeDeptData(dept,coRecs,cfg,sorted,'en');
-      if(dept.includes('賭檯運作')){
-        const quotaRows=sorted.map(r=>{
-          const q=getTableQuota(r.id);const nums=[];
-          state.records.filter(rec=>rec.companyId===r.id&&(rec.department||'').trim()===dept).forEach(rec=>{
-            (rec.venue&&rec.venue.items||[]).forEach(it=>{const n=parseFloat(it.open);if(!isNaN(n))nums.push(n);});
-          });
-          if(!nums.length||!q||!q.tables)return null;
-          const avgOpen=nums.reduce((a,b)=>a+b,0)/nums.length;
-          return{label:coName(getCompany(r.id)),value:Number(((avgOpen/q.tables)*100).toFixed(1)),color:getCompany(r.id).color,sub:`${avgOpen.toFixed(1)}/${q.tables}`,avgOpen,quota:q.tables,count:nums.length};
-        }).filter(Boolean);
-        if(quotaRows.length){
-          html+=`<div class="rp-chart"><div class="rp-chart-title">賭檯使用率對比 / Table Utilization</div>`+svgHBars(quotaRows,{maxVal:100,unit:'%'})+`</div>`;
-        }
+  if(!depts.length){html+=`<div class="rp-insight warn">所選企業於本報告範圍內尚無部門數據。 / No department data for selected companies in this report.</div>`;}
+  else{depts.forEach(dept=>{
+    const cfg=getDeptConfig(dept);const coRecs=sorted.map(r=>({company:getCompany(r.id),recs:filterRecs(state.records.filter(rec=>rec.companyId===r.id&&(rec.department||'').trim()===dept))}));
+    if(!coRecs.some(x=>x.recs.length>0))return;
+    html+=`<h3 style="font-size:16px;font-weight:800;color:#1a1f2e;margin:26px 0 12px;padding-bottom:8px;border-bottom:1px dashed #d5dae2">${cfg.icon||'📝'} ${escapeHTML(dept)} / ${escapeHTML(WrLang(dept,'en'))}</h3>`;
+    html+=narrativeDeptData(dept,coRecs,cfg,sorted,'zh')+narrativeDeptData(dept,coRecs,cfg,sorted,'en');
+    if(dept.includes('賭檯運作')){const quotaRows=sorted.map(r=>{const q=getTableQuota(r.id);const nums=[];state.records.filter(rec=>rec.companyId===r.id&&(rec.department||'').trim()===dept).forEach(rec=>{(rec.venue&&rec.venue.items||[]).forEach(it=>{const n=parseFloat(it.open);if(!isNaN(n))nums.push(n);});});if(!nums.length||!q||!q.tables)return null;const avgOpen=nums.reduce((a,b)=>a+b,0)/nums.length;return{label:coName(getCompany(r.id)),value:Number(((avgOpen/q.tables)*100).toFixed(1)),color:getCompany(r.id).color,sub:`${avgOpen.toFixed(1)}/${q.tables}`,avgOpen,quota:q.tables,count:nums.length};}).filter(Boolean);if(quotaRows.length){html+=`<div class="rp-chart"><div class="rp-chart-title">賭檯使用率對比 / Table Utilization</div>`+svgHBars(quotaRows,{maxVal:100,unit:'%'})+`</div>`;}}
+    (cfg.fields||[]).filter(f=>f.type==='number').forEach(field=>{
+      if(dept.includes('賭檯運作')&&(field.key==='minBet'||field.key==='maxBet')){
+        const gameSet=new Set();coRecs.forEach(cr=>{cr.recs.forEach(rec=>{(rec.venue&&rec.venue.items||[]).forEach(it=>{if(it.name)gameSet.add(it.name);});});});
+        const games=[...gameSet].sort();
+        games.forEach(game=>{const items=[];coRecs.forEach(cr=>{const nums=[];cr.recs.forEach(rec=>{(rec.venue&&rec.venue.items||[]).forEach(it=>{if(it.name===game){const n=parseFloat(it[field.key]);if(!isNaN(n))nums.push(n);}});});if(nums.length)items.push({label:coName(cr.company),value:Number((nums.reduce((a,b)=>a+b,0)/nums.length).toFixed(0)),color:cr.company.color,sub:`${nums.length} 筆`});});if(!items.length)return;items.sort((a,b)=>b.value-a.value);const titleZh=`${field.label} · ${game}`;const titleEn=`${WrLang(field.label,'en')} · ${WrLang(game,'en')}`;const title=LANG==='en'?`${titleEn} / ${titleZh}`:`${titleZh} / ${titleEn}`;html+=`<div class="rp-chart"><div class="rp-chart-title">${escapeHTML(title)}</div>`+svgHBars(items)+`</div>`;});
+      }else{
+        const items=[];coRecs.forEach(cr=>{const nums=[];cr.recs.forEach(rec=>{(rec.venue&&rec.venue.items||[]).forEach(it=>{const n=parseFloat(it[field.key]);if(!isNaN(n))nums.push(n);});});if(nums.length)items.push({label:coName(cr.company),value:Number((nums.reduce((a,b)=>a+b,0)/nums.length).toFixed(1)),color:cr.company.color,sub:`${nums.length} 筆`});});
+        if(!items.length)return;items.sort((a,b)=>b.value-a.value);const titleZh=`${field.label}（平均）`;const titleEn=`${WrLang(field.label,'en')} (Average)`;const title=LANG==='en'?`${titleEn} / ${titleZh}`:`${titleZh} / ${titleEn}`;html+=`<div class="rp-chart"><div class="rp-chart-title">${escapeHTML(title)}</div>`+svgHBars(items)+`</div>`;
       }
-
-      /* ===== 數字欄位：圖表標題中英對照 ===== */
-      (cfg.fields||[]).filter(f=>f.type==='number').forEach(field=>{
-        if(dept.includes('賭檯運作')&&(field.key==='minBet'||field.key==='maxBet')){
-          const gameSet=new Set();
-          coRecs.forEach(cr=>{cr.recs.forEach(rec=>{(rec.venue&&rec.venue.items||[]).forEach(it=>{if(it.name)gameSet.add(it.name);});});});
-          const games=[...gameSet].sort();
-          games.forEach(game=>{
-            const items=[];
-            coRecs.forEach(cr=>{
-              const nums=[];
-              cr.recs.forEach(rec=>{(rec.venue&&rec.venue.items||[]).forEach(it=>{if(it.name===game){const n=parseFloat(it[field.key]);if(!isNaN(n))nums.push(n);}});});
-              if(nums.length)items.push({label:coName(cr.company),value:Number((nums.reduce((a,b)=>a+b,0)/nums.length).toFixed(0)),color:cr.company.color,sub:`${nums.length} 筆`});
-            });
-            if(!items.length)return;
-            items.sort((a,b)=>b.value-a.value);
-            const titleZh=`${field.label} · ${game}`;
-            const titleEn=`${WrLang(field.label,'en')} · ${WrLang(game,'en')}`;
-            const title=LANG==='en'?`${titleEn} / ${titleZh}`:`${titleZh} / ${titleEn}`;
-            html+=`<div class="rp-chart"><div class="rp-chart-title">${escapeHTML(title)}</div>`+svgHBars(items)+`</div>`;
-          });
-        }else{
-          const items=[];
-          coRecs.forEach(cr=>{
-            const nums=[];
-            cr.recs.forEach(rec=>{(rec.venue&&rec.venue.items||[]).forEach(it=>{const n=parseFloat(it[field.key]);if(!isNaN(n))nums.push(n);});});
-            if(nums.length)items.push({label:coName(cr.company),value:Number((nums.reduce((a,b)=>a+b,0)/nums.length).toFixed(1)),color:cr.company.color,sub:`${nums.length} 筆`});
-          });
-          if(!items.length)return;
-          items.sort((a,b)=>b.value-a.value);
-          const titleZh=`${field.label}（平均）`;
-          const titleEn=`${WrLang(field.label,'en')} (Average)`;
-          const title=LANG==='en'?`${titleEn} / ${titleZh}`:`${titleZh} / ${titleEn}`;
-          html+=`<div class="rp-chart"><div class="rp-chart-title">${escapeHTML(title)}</div>`+svgHBars(items)+`</div>`;
-        }
-      });
-
-      /* ===== 下拉欄位：中英對照 + 限紅固定配色 ===== */
-      (cfg.fields||[]).filter(f=>f.type==='select').forEach(field=>{
-        const options=field.options||[];
-        const rows=[];
-        const pickColor=o=>{
-          if(field.key==='tier')return tierColor(o.v);
-          if(field.key==='position')return o.v==='inside'?'#4a90d9':'#e08a2e';
-          if(field.key==='maintainOrder'||field.key==='wifi'||field.key==='water')return o.v==='yes'?'#2ea87a':'#e05252';
-          return hashColor(o.v);
-        };
-        coRecs.forEach(cr=>{
-          const counts={};
-          cr.recs.forEach(rec=>{(rec.venue&&rec.venue.items||[]).forEach(it=>{const v=it[field.key];if(v)counts[v]=(counts[v]||0)+1;});});
-          const segments=options.map(o=>({name:WrLang(o.l,LANG),value:counts[o.v]||0,color:pickColor(o)})).filter(s=>s.value>0);
-          if(segments.length)rows.push({label:coName(cr.company),segments});
-        });
-        if(!rows.length)return;
-        const titleZh=`${field.label}（分佈）`;
-        const titleEn=`${WrLang(field.label,'en')} (Distribution)`;
-        const title=LANG==='en'?`${titleEn} / ${titleZh}`:`${titleZh} / ${titleEn}`;
-        html+=`<div class="rp-chart"><div class="rp-chart-title">${escapeHTML(title)}</div>`+svgStackedBars(rows)+`</div>`;
-      });
     });
-  }
+    (cfg.fields||[]).filter(f=>f.type==='select').forEach(field=>{
+      const options=field.options||[];const rows=[];
+      const pickColor=o=>{if(field.key==='tier')return tierColor(o.v);if(field.key==='position')return o.v==='inside'?'#4a90d9':'#e08a2e';if(field.key==='maintainOrder'||field.key==='wifi'||field.key==='water')return o.v==='yes'?'#2ea87a':'#e05252';return hashColor(o.v);};
+      coRecs.forEach(cr=>{const counts={};cr.recs.forEach(rec=>{(rec.venue&&rec.venue.items||[]).forEach(it=>{const v=it[field.key];if(v)counts[v]=(counts[v]||0)+1;});});const segments=options.map(o=>({name:WrLang(o.l,LANG),value:counts[o.v]||0,color:pickColor(o)})).filter(s=>s.value>0);if(segments.length)rows.push({label:coName(cr.company),segments});});
+      if(!rows.length)return;
+      const titleZh=`${field.label}（分佈）`;const titleEn=`${WrLang(field.label,'en')} (Distribution)`;const title=LANG==='en'?`${titleEn} / ${titleZh}`:`${titleZh} / ${titleEn}`;
+      html+=`<div class="rp-chart"><div class="rp-chart-title">${escapeHTML(title)}</div>`+svgStackedBars(rows)+`</div>`;
+    });
+  });}
   html+=`</div>`;
   html+=`<div class="rp-page-break"></div>`;
 
-  /* ===== 五、企業數據畫像（中英各呼叫一次） ===== */
   html+=`<div class="rp-section"><h2>五、企業數據畫像 / 5. Company Profiles</h2>`;
   html+=buildCompanyProfiles(sorted,'zh');
   html+=buildCompanyProfiles(sorted,'en');
   html+=`</div>`;
   html+=`<div class="rp-page-break"></div>`;
 
-  /* ===== 六、部門綜合橫向對比（中英各呼叫一次） ===== */
   if(depts.length){
     const deptContentZh=buildDeptCrossComparison(sorted,'zh');
     const deptContentEn=buildDeptCrossComparison(sorted,'en');
@@ -1838,7 +1376,6 @@ function buildReportHtml(sorted){
     }
   }
 
-  /* ===== 七、整體結論（9 個子函數 × 中英各呼叫一次） ===== */
   html+=`<div class="rp-section"><h2>七、整體結論 / 7. Conclusion</h2>`;
   html+=narrativeConclusion01(sorted,avgAllDim,modeTxt,'zh');
   html+=narrativeConclusion01(sorted,avgAllDim,modeTxt,'en');
@@ -1860,7 +1397,6 @@ function buildReportHtml(sorted){
   html+=narrativeConclusion09(sorted,avgAllDim,modeTxt,'en');
   html+=`<div class="rp-footer">本報告由 MRSC 2026 神秘顧客評核系統自動生成 / Auto-generated by MRSC 2026<br>生成時間 / Generated: ${generatedAt}<br>開發者 / Developer: ${APP_DEVELOPER}</div>`;
   html+=`</div>`;
-
   return html;
 }
 function generateReport(){doGenerateReport();}
@@ -1932,7 +1468,24 @@ body{margin:0;background:#eef1f6;padding:20px;font-family:"PingFang TC","Microso
 .rp-insight.good{background:#f0fbf6;border-left-color:#158052}
 .rp-section{margin-bottom:30px}
 .rp-page-break{height:0}
-@media print{body{background:#fff;padding:0}.rp-page{box-shadow:none;padding:20px 30px}}
+@media print{
+  body{background:#fff;padding:0;margin:0}
+  .rp-page{box-shadow:none;border-radius:0;padding:0;max-width:100%;width:100%;font-size:10.5pt}
+  .rp-page .rp-table{font-size:9pt;table-layout:auto;width:100%}
+  .rp-page .rp-table th,
+  .rp-page .rp-table td{padding:4px 5px;white-space:normal;word-break:break-word;line-height:1.3}
+  .rp-page .rp-table th:first-child,
+  .rp-page .rp-table td:first-child{white-space:nowrap;word-break:keep-all}
+  .rp-page div[style*="overflow-x"]{overflow:visible}
+  .rp-page .rp-chart svg{max-height:280px}
+  .rp-page-break{display:none;height:0;page-break-before:auto}
+  .rp-section{page-break-inside:auto;page-break-after:auto}
+  .rp-company,.rp-dep,.rp-kpi{page-break-inside:avoid}
+  .rp-chart,.rp-insight{page-break-inside:auto}
+  h2,h3,h4{page-break-after:avoid}
+  .rp-cover{page-break-after:always}
+  @page{size:A4 portrait;margin:12mm 10mm}
+}
 @media(max-width:700px){.rp-page{padding:24px 20px 60px}.rp-kpi-grid{grid-template-columns:1fr 1fr}.rp-table{font-size:11px}}
 </style></head><body><div class="rp-page">${page.innerHTML}</div></body></html>`;
   const blob=new Blob([fullHtml],{type:'text/html;charset=utf-8'});
@@ -1950,9 +1503,55 @@ function closeBasicInfoEditor(){const el=document.getElementById('biEditor');if(
 function renderBasicInfoEditor(){if(!_biDraft)return;renderBIQuota();renderBIShuttleTabs();renderBIShuttleContent();}
 function renderBIQuota(){const w=document.getElementById('biQuotaGrid');if(!w)return;const en=LANG==='en';w.innerHTML=COMPANIES.map(c=>{const q=_biDraft.tableQuota[c.id]||{tables:0,machines:0,source:'',updated:''};return`<div class="bi-quota-card"><div class="bi-quota-head"><span class="bi-quota-dot" style="background:${c.color}"></span><span class="bi-quota-name">${escapeHTML(coName(c))}</span></div><div class="bi-quota-row"><label class="bi-fld"><span>${en?'Tables':'賭桌批給量'}</span><input type="number" data-cid="${c.id}" data-key="tables" value="${Number(q.tables)||0}" min="0" max="9999"></label><label class="bi-fld"><span>${en?'Machines':'博彩機批給量'}</span><input type="number" data-cid="${c.id}" data-key="machines" value="${Number(q.machines)||0}" min="0" max="99999"></label></div><label class="bi-fld bi-fld-full"><span>${en?'Data Source':'數據來源'}</span><input type="text" data-cid="${c.id}" data-key="source" value="${escapeHTML(q.source||'')}" maxlength="80"></label><label class="bi-fld bi-fld-full" style="margin-top:8px"><span>${en?'Updated':'更新日期'}</span><input type="date" data-cid="${c.id}" data-key="updated" value="${escapeHTML(q.updated||'')}"></label></div>`;}).join('');}
 function renderBIShuttleTabs(){const w=document.getElementById('biShuttleTabs');if(!w)return;w.innerHTML=COMPANIES.map(c=>{const cnt=(_biDraft.shuttle[c.id]||[]).length;return`<button class="bi-co-tab ${_biActiveCo===c.id?'on':''}" data-cid="${c.id}" type="button"><span class="dot" style="background:${c.color}"></span>${escapeHTML(coName(c))}<span style="font-size:10.5px;color:var(--muted);margin-left:2px">${cnt}</span></button>`;}).join('');}
-function renderBIShuttleContent(){const w=document.getElementById('biShuttleContent');if(!w)return;const en=LANG==='en';const list=_biDraft.shuttle[_biActiveCo]||[];let html='<div class="bi-shuttle-wrap"><table class="bi-shuttle-table"><thead><tr>';html+=`<th style="min-width:110px">${en?'Route':'路線'}</th><th style="min-width:100px">${en?'Interval (min)':'班次間隔（分鐘）'}</th><th style="min-width:180px">${en?'Pick-up':'上車地點'}</th><th style="min-width:180px">${en?'Drop-off':'落車地點'}</th><th style="min-width:120px">${en?'Source':'來源'}</th><th style="width:44px"></th></tr></thead><tbody>`;list.forEach((row,i)=>{html+=`<tr><td><select class="bi-shu" data-idx="${i}" data-key="route">${SHUTTLE_ROUTES.map(r=>`<option value="${escapeHTML(r)}" ${row.route===r?'selected':''}>${escapeHTML(Wr(r))}</option>`).join('')}<option value="其他" ${row.route==='其他'?'selected':''}>${en?'Other':'其他'}</option></select></td><td><input type="number" class="bi-shu" data-idx="${i}" data-key="interval" value="${Number(row.interval)||0}" min="1" max="240"></td><td><input type="text" class="bi-shu" data-idx="${i}" data-key="pickup" value="${escapeHTML(row.pickup||'')}" maxlength="60"></td><td><input type="text" class="bi-shu" data-idx="${i}" data-key="dropoff" value="${escapeHTML(row.dropoff||'')}" maxlength="60"></td><td><input type="text" class="bi-shu" data-idx="${i}" data-key="source" value="${escapeHTML(row.source||'')}" maxlength="60"></td><td><button class="bi-del" data-del="${i}" type="button">✕</button></td></tr>`;});html+='</tbody></table></div>';html+=`<button class="bi-add-row" id="biAddShuttle" type="button">${en?'＋ Add Route':'＋ 新增路線'}</button>`;w.innerHTML=html;}
-function syncBIDraft(el){if(!_biDraft)return;if(el.classList.contains('bi-shu')){const idx=parseInt(el.dataset.idx,10);const key=el.dataset.key;if(isNaN(idx)||!key)return;if(!_biDraft.shuttle[_biActiveCo])_biDraft.shuttle[_biActiveCo]=[];const row=_biDraft.shuttle[_biActiveCo][idx];if(!row)return;row[key]=(key==='interval')?(Number(el.value)||0):el.value;return;}const cid=el.dataset.cid;const key=el.dataset.key;if(!cid||!key)return;if(!_biDraft.tableQuota[cid])_biDraft.tableQuota[cid]={tables:0,machines:0,source:'',updated:''};if(key==='tables'||key==='machines')_biDraft.tableQuota[cid][key]=Number(el.value)||0;else _biDraft.tableQuota[cid][key]=el.value;}
-function bindBasicInfoEditor(){const el=document.getElementById('biEditor');if(!el||el._bound)return;el._bound=true;el.addEventListener('input',e=>{const t=e.target;if(t.dataset&&(t.dataset.cid||t.classList.contains('bi-shu')))syncBIDraft(t);});el.addEventListener('change',e=>{const t=e.target;if(t.dataset&&(t.dataset.cid||t.classList.contains('bi-shu')))syncBIDraft(t);});el.addEventListener('click',e=>{const tab=e.target.closest('.bi-co-tab');if(tab){_biActiveCo=tab.dataset.cid;renderBIShuttleTabs();renderBIShuttleContent();return;}const del=e.target.closest('[data-del]');if(del){const idx=parseInt(del.dataset.del,10);if(!isNaN(idx)){_biDraft.shuttle[_biActiveCo].splice(idx,1);renderBIShuttleContent();renderBIShuttleTabs();}return;}if(e.target.closest('#biAddShuttle')){if(!_biDraft.shuttle[_biActiveCo])_biDraft.shuttle[_biActiveCo]=[];_biDraft.shuttle[_biActiveCo].push({route:SHUTTLE_ROUTES[0],interval:20,pickup:'',dropoff:'',source:''});renderBIShuttleContent();renderBIShuttleTabs();return;}if(e.target.closest('#biReset')){if(confirm(LANG==='en'?'Reset to defaults?':'確定還原為預設？')){_biDraft=JSON.parse(JSON.stringify(DEFAULT_BASIC_INFO));renderBasicInfoEditor();}return;}if(e.target.closest('#biSave')){saveBasicInfoFromDraft();return;}if(e.target.closest('#biClose')){closeBasicInfoEditor();return;}});}
+function renderBIShuttleContent(){
+  const w=document.getElementById('biShuttleContent');if(!w)return;
+  const en=LANG==='en';
+  const list=_biDraft.shuttle[_biActiveCo]||[];
+  let html='<div class="bi-shuttle-wrap"><table class="bi-shuttle-table"><thead><tr>';
+  html+=`<th style="min-width:110px">${en?'Route':'路線'}</th>`;
+  html+=`<th style="min-width:90px">${en?'Interval (min)':'班次間隔（分鐘）'}</th>`;
+  html+=`<th style="min-width:90px">${en?'First Bus':'首班車'}</th>`;
+  html+=`<th style="min-width:90px">${en?'Last Bus':'末班車'}</th>`;
+  html+=`<th style="min-width:170px">${en?'Pick-up':'上車地點'}</th>`;
+  html+=`<th style="min-width:170px">${en?'Drop-off':'落車地點'}</th>`;
+  html+=`<th style="min-width:110px">${en?'Source':'來源'}</th>`;
+  html+=`<th style="width:44px"></th></tr></thead><tbody>`;
+  list.forEach((row,i)=>{
+    html+=`<tr>`;
+    html+=`<td><select class="bi-shu" data-idx="${i}" data-key="route">${SHUTTLE_ROUTES.map(r=>`<option value="${escapeHTML(r)}" ${row.route===r?'selected':''}>${escapeHTML(Wr(r))}</option>`).join('')}<option value="其他" ${row.route==='其他'?'selected':''}>${en?'Other':'其他'}</option></select></td>`;
+    html+=`<td><input type="number" class="bi-shu" data-idx="${i}" data-key="interval" value="${Number(row.interval)||0}" min="1" max="240"></td>`;
+    html+=`<td><input type="time" class="bi-shu" data-idx="${i}" data-key="firstBus" value="${escapeHTML(row.firstBus||'')}"></td>`;
+    html+=`<td><input type="time" class="bi-shu" data-idx="${i}" data-key="lastBus" value="${escapeHTML(row.lastBus||'')}"></td>`;
+    html+=`<td><input type="text" class="bi-shu" data-idx="${i}" data-key="pickup" value="${escapeHTML(row.pickup||'')}" maxlength="60"></td>`;
+    html+=`<td><input type="text" class="bi-shu" data-idx="${i}" data-key="dropoff" value="${escapeHTML(row.dropoff||'')}" maxlength="60"></td>`;
+    html+=`<td><input type="text" class="bi-shu" data-idx="${i}" data-key="source" value="${escapeHTML(row.source||'')}" maxlength="60"></td>`;
+    html+=`<td><button class="bi-del" data-del="${i}" type="button">✕</button></td>`;
+    html+=`</tr>`;
+  });
+  html+='</tbody></table></div>';
+  html+=`<button class="bi-add-row" id="biAddShuttle" type="button">${en?'＋ Add Route':'＋ 新增路線'}</button>`;
+  w.innerHTML=html;
+}
+function syncBIDraft(el){
+  if(!_biDraft)return;
+  if(el.classList.contains('bi-shu')){
+    const idx=parseInt(el.dataset.idx,10);const key=el.dataset.key;
+    if(isNaN(idx)||!key)return;
+    if(!_biDraft.shuttle[_biActiveCo])_biDraft.shuttle[_biActiveCo]=[];
+    const row=_biDraft.shuttle[_biActiveCo][idx];
+    if(!row)return;
+    if(key==='interval'){row[key]=Number(el.value)||0;}
+    else if(key==='firstBus'||key==='lastBus'){row[key]=String(el.value||'').trim();}
+    else{row[key]=el.value;}
+    return;
+  }
+  const cid=el.dataset.cid;const key=el.dataset.key;
+  if(!cid||!key)return;
+  if(!_biDraft.tableQuota[cid])_biDraft.tableQuota[cid]={tables:0,machines:0,source:'',updated:''};
+  if(key==='tables'||key==='machines')_biDraft.tableQuota[cid][key]=Number(el.value)||0;
+  else _biDraft.tableQuota[cid][key]=el.value;
+}
+function bindBasicInfoEditor(){const el=document.getElementById('biEditor');if(!el||el._bound)return;el._bound=true;el.addEventListener('input',e=>{const t=e.target;if(t.dataset&&(t.dataset.cid||t.classList.contains('bi-shu')))syncBIDraft(t);});el.addEventListener('change',e=>{const t=e.target;if(t.dataset&&(t.dataset.cid||t.classList.contains('bi-shu')))syncBIDraft(t);});el.addEventListener('click',e=>{const tab=e.target.closest('.bi-co-tab');if(tab){_biActiveCo=tab.dataset.cid;renderBIShuttleTabs();renderBIShuttleContent();return;}const del=e.target.closest('[data-del]');if(del){const idx=parseInt(del.dataset.del,10);if(!isNaN(idx)){_biDraft.shuttle[_biActiveCo].splice(idx,1);renderBIShuttleContent();renderBIShuttleTabs();}return;}if(e.target.closest('#biAddShuttle')){if(!_biDraft.shuttle[_biActiveCo])_biDraft.shuttle[_biActiveCo]=[];_biDraft.shuttle[_biActiveCo].push({route:SHUTTLE_ROUTES[0],interval:20,firstBus:'06:00',lastBus:'23:59',pickup:'',dropoff:'',source:''});renderBIShuttleContent();renderBIShuttleTabs();return;}if(e.target.closest('#biReset')){if(confirm(LANG==='en'?'Reset to defaults?':'確定還原為預設？')){_biDraft=JSON.parse(JSON.stringify(DEFAULT_BASIC_INFO));renderBasicInfoEditor();}return;}if(e.target.closest('#biSave')){saveBasicInfoFromDraft();return;}if(e.target.closest('#biClose')){closeBasicInfoEditor();return;}});}
 async function saveBasicInfoFromDraft(){if(!_biDraft)return;const en=LANG==='en';const today=new Date().toISOString().slice(0,10);COMPANIES.forEach(c=>{const q=_biDraft.tableQuota[c.id];if(q&&!q.updated)q.updated=today;});BASIC_INFO=JSON.parse(JSON.stringify(_biDraft));try{localStorage.setItem(BASIC_INFO_KEY,JSON.stringify(BASIC_INFO));}catch(e){}const ok=await saveBasicInfoToCloud();if(ok){showToast(en?'Basic info saved & synced':'基礎信息已儲存並同步至雲端','success');closeBasicInfoEditor();renderAnalysisResult();}else{showToast(en?'Cloud sync failed, saved locally':'雲端同步失敗，已儲存至本機','error');}}
 
 /* ===== 評分維度編輯器 ===== */
