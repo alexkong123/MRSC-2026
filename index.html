@@ -1051,7 +1051,8 @@ function buildShuttleCoverageMatrix(){
   return matrix;
 }
 function buildShuttleActualWait(companyId,deptFilter){
-  const rs=state.records.filter(r=>r.companyId===companyId&&(r.department||'').includes('穿梭巴士'));
+  let rs=state.records.filter(r=>r.companyId===companyId&&(r.department||'').includes('穿梭巴士'));
+  rs=filterRecs(rs);
   if(deptFilter&&deptFilter!==''&&(rs[0]?.department||'').trim()!==deptFilter)return{};
   const sdMap=computeRecordsSameDayDeptMap(state.records);
   const out={};
@@ -1076,7 +1077,8 @@ function buildShuttleActualWait(companyId,deptFilter){
   return result;
 }
 function buildShuttleAmenityMatrix(companyId){
-  const rs=state.records.filter(r=>r.companyId===companyId&&(r.department||'').includes('穿梭巴士'));
+  let rs=state.records.filter(r=>r.companyId===companyId&&(r.department||'').includes('穿梭巴士'));
+  rs=filterRecs(rs);
   const out={};
   rs.forEach(r=>{
     const items=(r.venue&&r.venue.items)||[];
@@ -1188,7 +1190,7 @@ async function loadAllRecords(){
   },LANG==='en'?'Enter password to load all records.':'載入全部記錄需要密碼驗證。');
 }
 async function migrateLocalDataToCloud(){const LEGACY=['mrsc_records_v6','mrsc_records_v5','mrsc_records_v4','mrsc_records_v3','mrsc_records_v2','mrsc_records_v1','gsi_records_v3','gsi_records_v2'];let localRecords=null;for(const key of LEGACY){const raw=localStorage.getItem(key);if(raw){try{const d=JSON.parse(raw);if(d&&Array.isArray(d.records)){localRecords=d.records;break;}}catch(e){}}}if(!localRecords||localRecords.length===0)return;if(!confirm(LANG==='en'?`Found ${localRecords.length} local records. Upload?`:`偵測到本機有 ${localRecords.length} 筆舊記錄，是否上傳？`))return;let n=0;for(const rec of localRecords){try{const{id,...data}=rec;const docId=id||('MRSC-LEGACY-'+Date.now()+'-'+Math.random().toString(36).slice(2,8));await setDoc(doc(db,'records',docId),{...data,_legacyId:id,serverTime:serverTimestamp()});n++;}catch(e){}}showToast(LANG==='en'?`Uploaded ${n}`:`已上傳 ${n} 筆`,'success');LEGACY.forEach(k=>localStorage.removeItem(k));}
-  /* ===== 行業基準計算（含公平性修正） ===== */
+  /* ===== 行業基準計算（含公平性修正與篩選） ===== */
 const _benchCache={};const BENCH_TTL=30000;const MIN_COMPANIES=3;const MIN_SAMPLES=5;
 function invalidateBenchmark(){Object.keys(_benchCache).forEach(k=>delete _benchCache[k]);}
 function timeWeight(d){if(!d)return 1;const dt=new Date(d+'T00:00:00');if(isNaN(dt))return 1;const days=(Date.now()-dt.getTime())/(1000*60*60*24);if(days<=0)return 1;return Math.pow(0.5,days/HALF_LIFE_DAYS);}
@@ -1199,11 +1201,23 @@ function bayesianShrink(rawWeightedAvg,weightSum,priorMean,k){if(weightSum<=0)re
 function confidenceLevel(weightSum){if(weightSum>=CONF_HIGH_SAMPLES)return{level:'high',label:'高',labelEn:'High',cls:'conf-high'};if(weightSum>=CONF_MED_SAMPLES)return{level:'medium',label:'中',labelEn:'Medium',cls:'conf-medium'};return{level:'low',label:'低',labelEn:'Low',cls:'conf-low'};}
 function confidenceBadge(weightSum){const c=confidenceLevel(weightSum);const txt=LANG==='en'?c.labelEn:c.label;const lbl=LANG==='en'?'Conf':'置信';return`<span class="conf-badge ${c.cls}" title="${LANG==='en'?'Weighted effective samples':'加權有效樣本'} ${weightSum.toFixed(1)}">${lbl}:${txt}</span>`;}
 function percentile(sorted,p){if(!sorted.length)return 0;const idx=(sorted.length-1)*p;const lo=Math.floor(idx),hi=Math.ceil(idx);if(lo===hi)return sorted[lo];return sorted[lo]+(sorted[hi]-sorted[lo])*(idx-lo);}
+
+/* 🔴 深層修正：獲取套用篩選條件後的記錄，供分析與基準計算使用 */
+function getAnalysisRecords(){
+  const f=state.comparison;
+  return state.records.filter(r=>{
+    if(f.departmentFilter&&(r.department||'').trim()!==f.departmentFilter)return false;
+    if(f.dateFrom&&r.date<f.dateFrom)return false;
+    if(f.dateTo&&r.date>f.dateTo)return false;
+    return true;
+  });
+}
+
 /* H1 修正：企業等權的 prior（避免大企業污染） */
-function computeIndustryPrior(){
-  const sdMap=computeRecordsSameDayDeptMap(state.records);
+function computeIndustryPrior(recordsToUse){
+  const sdMap=computeRecordsSameDayDeptMap(recordsToUse);
   const coAgg={};
-  state.records.forEach(r=>{
+  recordsToUse.forEach(r=>{
     if(!r.ratings)return;
     const cid=r.companyId||'(未知)';
     const w=recordWeight(r,sdMap);
@@ -1226,12 +1240,14 @@ function computeIndustryPrior(){
   });
   return prior;
 }
-/* H1 修正：computeCompanyStats 使用企業等權 prior */
+
+/* H1 修正：computeCompanyStats 使用企業等權 prior，且必須套用篩選 */
 function computeCompanyStats(companyId){
-  const rs=state.records.filter(r=>r.companyId===companyId);
+  const recordsToUse=getAnalysisRecords(); // 套用篩選
+  const rs=recordsToUse.filter(r=>r.companyId===companyId);
   if(!rs.length) return null;
-  const sdMap=computeRecordsSameDayDeptMap(state.records);
-  const priorAvg=computeIndustryPrior();
+  const sdMap=computeRecordsSameDayDeptMap(recordsToUse);
+  const priorAvg=computeIndustryPrior(recordsToUse);
   const raw={},mrsc={},norms={};
   let totalW=0,critCnt=0;
   CRITERIA.forEach(c=>{
@@ -1254,6 +1270,7 @@ function computeCompanyStats(companyId){
   const overall=nv.length?Math.round((nv.reduce((a,b)=>a+b,0)/nv.length)*2):0;
   return {count:rs.length,effectiveSamples:Number(effectiveSamples.toFixed(2)),raw,mrsc,norms,overall};
 }
+
 /* H2 新增：找出所有對比企業都「有評分」的共同維度 */
 function computeSharedDimensions(statsList){
   if(!statsList||!statsList.length)return [];
@@ -1269,7 +1286,23 @@ function computeFairOverall(stats,sharedDims){
   const complete=n===sharedDims.length;
   return {score:n>0?Math.round((s/n)*2):0,complete,usedDims:n,totalDims:sharedDims.length};
 }
-function computeIndustryBenchmark(force){const key='__all__';if(!force&&_benchCache[key]&&Date.now()-_benchCache[key]._t<BENCH_TTL)return _benchCache[key];const result={global:{},byDept:{},byCompanyDept:{},_t:Date.now()};const sdMap=computeRecordsSameDayDeptMap(state.records);const agg={};state.records.forEach(r=>{if(!r.ratings)return;const dept=(r.department||'').trim()||'(未分類)';const cid=r.companyId||'(未知)';const w=recordWeight(r,sdMap);if(!agg[dept])agg[dept]={};if(!agg[dept][cid])agg[dept][cid]={};CRITERIA.forEach(c=>{const v=r.ratings[c.id];if(!v)return;const m=toMRSC(c.id,v);if(!agg[dept][cid][c.id])agg[dept][cid][c.id]={sum:0,wsum:0,count:0};agg[dept][cid][c.id].sum+=m*w;agg[dept][cid][c.id].wsum+=w;agg[dept][cid][c.id].count++;});});const cs={};Object.entries(agg).forEach(([dept,cos])=>{if(!cs[dept])cs[dept]={};Object.entries(cos).forEach(([cid,byC])=>{Object.entries(byC).forEach(([ci,d])=>{if(d.wsum===0)return;const value=d.sum/d.wsum;if(!cs[dept][ci])cs[dept][ci]=[];cs[dept][ci].push({companyId:cid,value,count:d.count,wsum:d.wsum});});});});const cb=(arr,ex)=>{const f=ex?arr.filter(x=>x.companyId!==ex):arr;const vs=f.map(x=>x.value).sort((a,b)=>a-b);const n=vs.length;if(n===0)return null;const ts=f.reduce((s,x)=>s+x.count,0);const mn=vs.reduce((a,b)=>a+b,0)/n;const va=vs.reduce((s,v)=>s+Math.pow(v-mn,2),0)/n;const sd=Math.sqrt(va);return{n,totalSamples:ts,p25:Math.round(percentile(vs,0.25)),p50:Math.round(percentile(vs,0.50)),p75:Math.round(percentile(vs,0.75)),p90:Math.round(percentile(vs,0.90)),min:Math.round(vs[0]),max:Math.round(vs[n-1]),mean:Math.round(mn),sd:Number(sd.toFixed(1))};};const allC={};Object.entries(cs).forEach(([dept,cr])=>{Object.entries(cr).forEach(([ci,arr])=>{if(!allC[ci])allC[ci]=[];arr.forEach(x=>allC[ci].push(x));});});CRITERIA.forEach(c=>{const arr=allC[c.id];if(arr&&arr.length)result.global[c.id]=cb(arr);});Object.entries(cs).forEach(([dept,cr])=>{result.byDept[dept]={};CRITERIA.forEach(c=>{const arr=cr[c.id];if(arr&&arr.length)result.byDept[dept][c.id]=cb(arr);});});Object.entries(cs).forEach(([dept,cr])=>{Object.entries(cr).forEach(([ci,arr])=>{arr.forEach(item=>{const cid=item.companyId;if(!result.byCompanyDept[cid])result.byCompanyDept[cid]={};if(!result.byCompanyDept[cid][dept])result.byCompanyDept[cid][dept]={};const others=arr.filter(x=>x.companyId!==cid);if(others.length>=2)result.byCompanyDept[cid][dept][ci]=cb(others);});});});_benchCache[key]=result;return result;}
+
+/* 行業基準：同樣必須套用篩選 */
+function computeIndustryBenchmark(force){
+  const key='__all__';if(!force&&_benchCache[key]&&Date.now()-_benchCache[key]._t<BENCH_TTL)return _benchCache[key];
+  const result={global:{},byDept:{},byCompanyDept:{},_t:Date.now()};
+  const recordsToUse=getAnalysisRecords(); // 套用篩選
+  const sdMap=computeRecordsSameDayDeptMap(recordsToUse);
+  const agg={};
+  recordsToUse.forEach(r=>{if(!r.ratings)return;const dept=(r.department||'').trim()||'(未分類)';const cid=r.companyId||'(未知)';const w=recordWeight(r,sdMap);if(!agg[dept])agg[dept]={};if(!agg[dept][cid])agg[dept][cid]={};CRITERIA.forEach(c=>{const v=r.ratings[c.id];if(!v)return;const m=toMRSC(c.id,v);if(!agg[dept][cid][c.id])agg[dept][cid][c.id]={sum:0,wsum:0,count:0};agg[dept][cid][c.id].sum+=m*w;agg[dept][cid][c.id].wsum+=w;agg[dept][cid][c.id].count++;});});
+  const cs={};Object.entries(agg).forEach(([dept,cos])=>{if(!cs[dept])cs[dept]={};Object.entries(cos).forEach(([cid,byC])=>{Object.entries(byC).forEach(([ci,d])=>{if(d.wsum===0)return;const value=d.sum/d.wsum;if(!cs[dept][ci])cs[dept][ci]=[];cs[dept][ci].push({companyId:cid,value,count:d.count,wsum:d.wsum});});});});
+  const cb=(arr,ex)=>{const f=ex?arr.filter(x=>x.companyId!==ex):arr;const vs=f.map(x=>x.value).sort((a,b)=>a-b);const n=vs.length;if(n===0)return null;const ts=f.reduce((s,x)=>s+x.count,0);const mn=vs.reduce((a,b)=>a+b,0)/n;const va=vs.reduce((s,v)=>s+Math.pow(v-mn,2),0)/n;const sd=Math.sqrt(va);return{n,totalSamples:ts,p25:Math.round(percentile(vs,0.25)),p50:Math.round(percentile(vs,0.50)),p75:Math.round(percentile(vs,0.75)),p90:Math.round(percentile(vs,0.90)),min:Math.round(vs[0]),max:Math.round(vs[n-1]),mean:Math.round(mn),sd:Number(sd.toFixed(1))};};
+  const allC={};Object.entries(cs).forEach(([dept,cr])=>{Object.entries(cr).forEach(([ci,arr])=>{if(!allC[ci])allC[ci]=[];arr.forEach(x=>allC[ci].push(x));});});
+  CRITERIA.forEach(c=>{const arr=allC[c.id];if(arr&&arr.length)result.global[c.id]=cb(arr);});
+  Object.entries(cs).forEach(([dept,cr])=>{result.byDept[dept]={};CRITERIA.forEach(c=>{const arr=cr[c.id];if(arr&&arr.length)result.byDept[dept][c.id]=cb(arr);});});
+  Object.entries(cs).forEach(([dept,cr])=>{Object.entries(cr).forEach(([ci,arr])=>{arr.forEach(item=>{const cid=item.companyId;if(!result.byCompanyDept[cid])result.byCompanyDept[cid]={};if(!result.byCompanyDept[cid][dept])result.byCompanyDept[cid][dept]={};const others=arr.filter(x=>x.companyId!==cid);if(others.length>=2)result.byCompanyDept[cid][dept][ci]=cb(others);});});});
+  _benchCache[key]=result;return result;
+}
 function getBenchmark(cid,dept,ex,lang){const L=lang||LANG;const c=findCrit(cid);if(!c)return null;const bm=computeIndustryBenchmark();let b=null;if(dept&&ex&&bm.byCompanyDept[ex]?.[dept]?.[cid]){b={...bm.byCompanyDept[ex][dept][cid]};b.source='auto-exclusive';b.label=L==='en'?'All-industry (excl. self)':'全澳同業基準（排除自身）';}else if(dept&&bm.byDept[dept]?.[cid]){b={...bm.byDept[dept][cid]};b.source='auto-dept';b.label=L==='en'?'Dept Benchmark':'部門基準';}else if(bm.global[cid]){b={...bm.global[cid]};b.source='auto-global';b.label=L==='en'?'Global Benchmark':'全澳基準';}if(!b)return null;if(b.n<MIN_COMPANIES||b.totalSamples<MIN_SAMPLES)return{...b,label:L==='en'?`Insufficient (${b.n}c/${b.totalSamples}s)`:`樣本不足（${b.n}企業/${b.totalSamples}樣本）`,value:b.p50,source:'insufficient'};b.value=b.p50;return b;}
 function getRatingLevel(score,bench,lang){const L=lang||LANG;if(!bench||!bench.p50)return{level:'none',label:L==='en'?'No benchmark':'無基準',color:'#888'};if(score>=bench.p90)return{level:'excellent',label:L==='en'?'Excellent (Top 10%)':'卓越（前 10%）',color:'#2ea87a'};if(score>=bench.p75)return{level:'good',label:L==='en'?'Good (Top 25%)':'優秀（前 25%）',color:'#4a9e4a'};if(score>=bench.p50)return{level:'above',label:L==='en'?'Above median':'良好（優於中位）',color:'#c9a527'};if(score>=bench.p25)return{level:'below',label:L==='en'?'Below median':'一般（中後段）',color:'#d97c28'};return{level:'poor',label:L==='en'?'Needs improvement':'待改善（後段）',color:'#c94141'};}
 
@@ -1280,7 +1313,6 @@ function evaluateGPSAccuracy(gps){
   if(gps.accuracy<=GPS_ACCURACY_REJECT)return {level:'warn',ok:true,msg:LANG==='en'?`GPS low accuracy (±${gps.accuracy}m), consider retry`:`GPS 精度較低（±${gps.accuracy}m），建議移至開闊位置重試`};
   return {level:'reject',ok:false,msg:LANG==='en'?`GPS accuracy too low (±${gps.accuracy}m), record may be invalid`:`GPS 精度過低（±${gps.accuracy}m），記錄可能無效`};
 }
-
 function gpsErrText(msg){if(!msg)return LANG==='en'?'No GPS':'無 GPS';if(LANG!=='en')return msg;const m={'您已拒絕定位權限':'Location permission denied','無法取得位置資訊':'Location unavailable','定位逾時':'Location timed out','GPS 無法取得':'GPS unavailable','您已拒絕定位權限，請允許定位後重試。':'Location permission denied. Please allow location access and retry.','無法取得位置資訊，請移動到開闊位置後重試。':'Location unavailable. Please move to open area and retry.','定位逾時，請重試。':'Location request timed out. Please retry.','此裝置不支援 GPS 定位功能。':'Geolocation not supported by this device.'};if(m[msg])return m[msg];if(msg.includes('拒絕定位'))return'Location permission denied';if(msg.includes('無法取得位置'))return'Location unavailable';if(msg.includes('定位逾時'))return'Location request timed out';if(msg.includes('不支援 GPS'))return'Geolocation not supported';return msg;}
 
 /* ===== Dashboard ===== */
@@ -1338,6 +1370,7 @@ function validateFormData(){const e=[];const f=state.form;const en=LANG==='en';i
 function showErrors(errs){const b=document.getElementById('errorsBox');const l=document.getElementById('errorsList');if(!b||!l)return;if(!errs.length){b.classList.remove('on');return;}l.innerHTML=errs.map(e=>`<li>${escapeHTML(e)}</li>`).join('');b.classList.add('on');b.scrollIntoView({behavior:'smooth',block:'center'});}
 function buildCleanVenue(){const cfg=getDeptConfig(state.form.department);const items=(state.form.venue.items||[]).map(it=>{const o={};cfg.fields.forEach(f=>{if(isFieldVisible(f,it)){const v=it[f.key];o[f.key]=(v==null)?'':v;}else{o[f.key]='';}});return o;}).filter(it=>Object.values(it).some(v=>v!==''&&v!=null));const env={};ENV_KEYS.forEach(k=>{if(state.form.venue.env[k])env[k]=state.form.venue.env[k];});return{items,env};}
 function captureGPS(){return new Promise((resolve,reject)=>{if(!navigator.geolocation){reject(new Error('此裝置不支援 GPS 定位功能。'));return;}navigator.geolocation.getCurrentPosition(pos=>resolve({lat:Number(pos.coords.latitude.toFixed(7)),lng:Number(pos.coords.longitude.toFixed(7)),accuracy:Number((pos.coords.accuracy||0).toFixed(1)),timestamp:new Date().toISOString()}),err=>{let msg='';switch(err.code){case 1:msg='您已拒絕定位權限，請允許定位後重試。';break;case 2:msg='無法取得位置資訊，請移動到開闊位置後重試。';break;case 3:msg='定位逾時，請重試。';break;default:msg=err.message||'GPS error';}reject(new Error(msg));},{enableHighAccuracy:true,timeout:20000,maximumAge:0});});}
+
 /* M1：草稿自動儲存 */
 let _draftTimer=null;
 function saveDraftToLocal(){
@@ -1380,6 +1413,7 @@ function startDraftTimer(){
   },3000);
 }
 window.addEventListener('beforeunload',()=>{try{saveDraftToLocal();}catch(e){}});
+
 async function submitRecord(){
   const errs=validateFormData();
   if(errs.length){showErrors(errs);showToast(LANG==='en'?`${errs.length} issues`:`表單有 ${errs.length} 項問題`,'error');return;}
@@ -1613,7 +1647,7 @@ function calcTierStats(ids,tf){const result={};ids.forEach(id=>result[id]={low:0
 function renderTierStats(sorted){const en=LANG==='en';const ids=sorted.map(r=>r.id);const tf=state.comparison.timeFilter||'all';const stats=calcTierStats(ids,tf);const hasAny=ids.some(id=>stats[id].total>0);let html='<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">';html+=`<button class="mbtn ${tf==='all'?'on':''}" data-time="all">${en?'All Slots':'全部時段'}</button>`;TIME_SLOTS.forEach(s=>{html+=`<button class="mbtn ${tf===s.id?'on':''}" data-time="${s.id}">${Wr(s.label)} ${s.range}</button>`;});html+='</div>';if(!hasAny){html+=`<div class="es" style="padding:30px 20px"><div class="ei">🎲</div><p>${en?'No tier records.':'尚無限紅記錄。'}</p></div>`;return html;}html+='<div class="tw"><table class="dtab" style="min-width:640px"><thead><tr><th>'+(en?'Company':'休企')+'</th><th style="text-align:center">'+tierTh('low')+'</th><th style="text-align:center">'+tierTh('mid')+'</th><th style="text-align:center">'+tierTh('high')+'</th><th style="text-align:center">'+tierTh('vip')+'</th><th style="text-align:center">'+(en?'Total':'合計')+'</th></tr></thead><tbody>';const totals={low:0,mid:0,high:0,vip:0,total:0};sorted.forEach(r=>{const c=getCompany(r.id);const s=stats[r.id];totals.low+=s.low;totals.mid+=s.mid;totals.high+=s.high;totals.vip+=s.vip;totals.total+=s.total;html+=`<tr><td><span class="rc"><span class="cdot" style="background:${c.color}"></span>${coName(c)}</span></td><td class="dc" style="text-align:center">${tierCell('low',s.low)}</td><td class="dc" style="text-align:center">${tierCell('mid',s.mid)}</td><td class="dc" style="text-align:center">${tierCell('high',s.high)}</td><td class="dc" style="text-align:center">${tierCell('vip',s.vip)}</td><td class="dc" style="color:var(--gold);font-size:14px">${s.total||'—'}</td></tr>`;});html+=`<tr style="border-top:1px solid var(--line);font-weight:700"><td class="dref">${en?'Total':'合計'}</td><td class="dc dref" style="text-align:center">${tierCell('low',totals.low)}</td><td class="dc dref" style="text-align:center">${tierCell('mid',totals.mid)}</td><td class="dc dref" style="text-align:center">${tierCell('high',totals.high)}</td><td class="dc dref" style="text-align:center">${tierCell('vip',totals.vip)}</td><td class="dc dref" style="color:var(--gold)">${totals.total}</td></tr>`;html+='</tbody></table></div>';return html;}
 
 /* ===== 部門數據渲染（智能判斷，含穿梭巴士） ===== */
-function renderDeptBarCharts(sorted){const en=LANG==='en';const df=(state.comparison.departmentFilter||'').trim();let depts=[];if(df)depts=[df];else{const set=new Set();sorted.forEach(r=>{state.records.filter(rec=>rec.companyId===r.id).forEach(rec=>{const d=(rec.department||'').trim();if(d)set.add(d);});});depts=[...set].sort();}if(!depts.length)return`<div class="es" style="padding:30px 20px"><div class="ei">📊</div><p>${en?'No dept data.':'尚無部門專屬數據。'}</p></div>`;let html='';let anyR=false;depts.forEach(dept=>{const cfg=getDeptConfig(dept);const isShuttle=dept.includes('穿梭巴士');const coRecs=sorted.map(r=>({id:r.id,company:getCompany(r.id),recs:state.records.filter(rec=>rec.companyId===r.id&&(rec.department||'').trim()===dept)}));const hasData=coRecs.filter(cr=>cr.recs.length>0).length;if(!hasData)return;anyR=true;const cntTxt=en?`${coRecs.reduce((s,cr)=>s+cr.recs.length,0)} records / ${hasData} companies`:`共 ${coRecs.reduce((s,cr)=>s+cr.recs.length,0)} 筆記錄 / ${hasData} 間企業`;let dHtml=`<div style="margin-bottom:24px"><div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px;padding-bottom:10px;border-bottom:1px solid var(--lineS)"><span>${cfg.icon||'📝'}</span><span>${escapeHTML(Wr(dept))}</span><span style="font-size:11.5px;color:var(--muted);margin-left:auto">${cntTxt}</span></div>`;
+function renderDeptBarCharts(sorted){const en=LANG==='en';const df=(state.comparison.departmentFilter||'').trim();let depts=[];if(df)depts=[df];else{const set=new Set();sorted.forEach(r=>{state.records.filter(rec=>rec.companyId===r.id).forEach(rec=>{const d=(rec.department||'').trim();if(d)set.add(d);});});depts=[...set].sort();}if(!depts.length)return`<div class="es" style="padding:30px 20px"><div class="ei">📊</div><p>${en?'No dept data.':'尚無部門專屬數據。'}</p></div>`;let html='';let anyR=false;depts.forEach(dept=>{const cfg=getDeptConfig(dept);const isShuttle=dept.includes('穿梭巴士');const coRecs=sorted.map(r=>({id:r.id,company:getCompany(r.id),recs:filterRecs(state.records.filter(rec=>rec.companyId===r.id&&(rec.department||'').trim()===dept))}));const hasData=coRecs.filter(cr=>cr.recs.length>0).length;if(!hasData)return;anyR=true;const cntTxt=en?`${coRecs.reduce((s,cr)=>s+cr.recs.length,0)} records / ${hasData} companies`:`共 ${coRecs.reduce((s,cr)=>s+cr.recs.length,0)} 筆記錄 / ${hasData} 間企業`;let dHtml=`<div style="margin-bottom:24px"><div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px;padding-bottom:10px;border-bottom:1px solid var(--lineS)"><span>${cfg.icon||'📝'}</span><span>${escapeHTML(Wr(dept))}</span><span style="font-size:11.5px;color:var(--muted);margin-left:auto">${cntTxt}</span></div>`;
 /* 穿梭巴士專屬：4 子區塊 */
 if(isShuttle){
   dHtml+=renderShuttleCoverage(sorted,en);
